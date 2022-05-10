@@ -7,12 +7,12 @@
   <meta name="baidu-site-verification" content="gBGQPcPwzU" />
   <meta charset="UTF-8">
   
-    <title>将已存在的代码提交到Github管理的方法 | NoOne&#39;s Blog</title>
+    <title>Golang GPM 核心机制 | NoOne&#39;s Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="NoOne">
     
-    <meta name="description" content="本文主要介绍了如何将已存在的代码提交到Github管理。">
+    <meta name="description" content="本文会简要介绍 Golang 里面 GPM 的核心机制。">
     
     
     <meta name="keywords" content="Java;Golang;后台开发">
@@ -73,26 +73,48 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/01/22/git-add-code-to-exists-repo/" title="将已存在的代码提交到Github管理的方法" itemprop="url">将已存在的代码提交到Github管理的方法</a>
+      <a href="/2020/05/10/go-gpm/" title="Golang GPM 核心机制" itemprop="url">Golang GPM 核心机制</a>
   </h1>
   <p class="article-author">By
        
 		<a href="http://example.com/about" title="NoOne" target="_blank" itemprop="author">NoOne</a>
 		
   <p class="article-time">
-    <time datetime="2014-01-22T06:38:17.000Z" itemprop="datePublished"> Published 2014-01-22</time>
+    <time datetime="2020-05-10T12:38:17.000Z" itemprop="datePublished"> Published 2020-05-10</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 
-		<p>本文主要介绍了如何将已存在的代码提交到Github管理。</p>
+		<p>本文会简要介绍 Golang 里面 GPM 的核心机制。</p>
 <span id="more"></span>
 
-<p>1、在github新建对应的仓库</p>
-<p>2、初始化本地目录为git目录并提交到github</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br><span class="line"></span><br><span class="line">git add .</span><br><span class="line"></span><br><span class="line">git commit -m <span class="string">&quot;Initial commit&quot;</span>​</span><br><span class="line"></span><br><span class="line">git remote add origin https://github.com/hunterzhang86/go-demo.git</span><br><span class="line"></span><br><span class="line">git push origin master​</span><br></pre></td></tr></table></figure>
+<h1 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h1><ul>
+<li>G<ul>
+<li>用户发起的协程</li>
+</ul>
+</li>
+<li>P<ul>
+<li>抽象处理器，有了它才能建立G、M的联系</li>
+</ul>
+</li>
+<li>M<ul>
+<li>操作系统的线程</li>
+</ul>
+</li>
+</ul>
+<h1 id="核心机制"><a href="#核心机制" class="headerlink" title="核心机制"></a>核心机制</h1><h2 id="初始轮流分配P"><a href="#初始轮流分配P" class="headerlink" title="初始轮流分配P"></a>初始轮流分配P</h2><ul>
+<li><img src="https://cdn.nlark.com/yuque/0/2022/png/2168021/1651029335503-1d4dc0f3-f873-4af7-99cf-fc3becaa0549.png"><h2 id="P的队列已塞满"><a href="#P的队列已塞满" class="headerlink" title="P的队列已塞满"></a>P的队列已塞满</h2></li>
+<li><img src="https://cdn.nlark.com/yuque/0/2022/png/2168021/1651029425411-2166fe47-84d6-4f8f-8e8d-c1548ac254d4.png"></li>
+</ul>
+<h2 id="M获取G"><a href="#M获取G" class="headerlink" title="M获取G"></a>M获取G</h2><ul>
+<li><img src="https://cdn.nlark.com/yuque/0/2022/png/2168021/1651029482467-aa3fed9f-a656-468c-a7ef-5dd030482745.png"><h2 id="没找到G"><a href="#没找到G" class="headerlink" title="没找到G"></a>没找到G</h2></li>
+<li><img src="https://cdn.nlark.com/yuque/0/2022/png/2168021/1651029506111-7e379ae5-bc52-4d2a-b792-5e0a8dc9cd66.png"><h2 id="G在阻塞状态"><a href="#G在阻塞状态" class="headerlink" title="G在阻塞状态"></a>G在阻塞状态</h2></li>
+<li>转去执行其他的G<img src="https://cdn.nlark.com/yuque/0/2022/png/2168021/1651029548940-e705ff13-e7e6-47bb-80a5-b335f11e9f09.png"><h2 id="G进行系统调用"><a href="#G进行系统调用" class="headerlink" title="G进行系统调用"></a>G进行系统调用</h2></li>
+<li>转去执行其他的G <img src="https://cdn.nlark.com/yuque/0/2022/png/2168021/1651029651074-6e3c8e8d-a2bf-4f7b-9ef0-6b7d8d9cdda4.png"><h2 id="G完成系统调用"><a href="#G完成系统调用" class="headerlink" title="G完成系统调用"></a>G完成系统调用</h2></li>
+<li>G完成系统调用 <img src="https://cdn.nlark.com/yuque/0/2022/png/2168021/1651029726362-899034f5-a5d5-4b9f-9630-900942648ee5.png"></li>
+</ul>
 
 	</div>
 
@@ -109,7 +131,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Git/">Git</a>
+  <span></span> <a href="/tags/Golang/">Golang</a>
   </div>
 
 </div>
@@ -118,7 +140,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://example.com/2014/01/22/git-add-code-to-exists-repo/" data-title="将已存在的代码提交到Github管理的方法 | NoOne&#39;s Blog" data-tsina="" class="share clearfix">
+	  <div data-url="http://example.com/2020/05/10/go-gpm/" data-title="Golang GPM 核心机制 | NoOne&#39;s Blog" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -131,14 +153,14 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2014/09/23/config-hexo-in-windows/" title="Windows下配置Hexo博客的方法">
-  <strong>上一篇：</strong><br/>
-  <span>
-  Windows下配置Hexo博客的方法</span>
+
+<div class="next">
+<a href="/2019/09/21/multi-thread-print-100/"  title="如何实现三个线程轮流输出1-100">
+ <strong>下一篇：</strong><br/> 
+ <span>如何实现三个线程轮流输出1-100
+</span>
 </a>
 </div>
-
 
 </nav>
 
@@ -153,8 +175,8 @@
   <script src="https://billts.site/js/gitment.js"></script>
   <script>
     var gitment = new Gitment({
-      id: "1390372697000",
-      title: '将已存在的代码提交到Github管理的方法',
+      id: "1589114297000",
+      title: 'Golang GPM 核心机制',
       owner: "hunterzhang86",
       repo: "blog_comments",
       oauth: {
@@ -176,7 +198,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text">基础概念</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%9C%BA%E5%88%B6"><span class="toc-number">2.</span> <span class="toc-text">核心机制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E8%BD%AE%E6%B5%81%E5%88%86%E9%85%8DP"><span class="toc-number">2.1.</span> <span class="toc-text">初始轮流分配P</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#P%E7%9A%84%E9%98%9F%E5%88%97%E5%B7%B2%E5%A1%9E%E6%BB%A1"><span class="toc-number">2.2.</span> <span class="toc-text">P的队列已塞满</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#M%E8%8E%B7%E5%8F%96G"><span class="toc-number">2.3.</span> <span class="toc-text">M获取G</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B2%A1%E6%89%BE%E5%88%B0G"><span class="toc-number">2.4.</span> <span class="toc-text">没找到G</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#G%E5%9C%A8%E9%98%BB%E5%A1%9E%E7%8A%B6%E6%80%81"><span class="toc-number">2.5.</span> <span class="toc-text">G在阻塞状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#G%E8%BF%9B%E8%A1%8C%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8"><span class="toc-number">2.6.</span> <span class="toc-text">G进行系统调用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#G%E5%AE%8C%E6%88%90%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8"><span class="toc-number">2.7.</span> <span class="toc-text">G完成系统调用</span></a></li></ol></li></ol>
  
   </div>
 
