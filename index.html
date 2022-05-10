@@ -70,15 +70,38 @@
   
 <section class="post" itemscope itemprop="blogitem">
   
-    <a href="/2020/05/10/go-gpm/" title="Golang GPM 核心机制" itemprop="url">
+    <a href="/2022/05/10/Golang GPM原理介绍/" title="Golang GPM 原理介绍" itemprop="url">
   
-    <h1 itemprop="name">Golang GPM 核心机制</h1>
+    <h1 itemprop="name">Golang GPM 原理介绍</h1>
     
      
-       <p itemprop="description" >本文会简要介绍 Golang 里面 GPM 的核心机制。</p>
-      
+           <p itemprop="description" >基础概念
+G
+用户发起的协程
+
+
+P
+抽象处理器，有了它才能建立G、M的联系
+
+
+M
+操作系统的线程
+
+
+
+核心机制初始轮流分配P
+P的队列已塞满
+
+
+M获取G
+没找到G
+G在阻塞状态
+转去执行其他的GG进行系统调用
+转去执行其他的G G完成系统调用
+G完成系统调用</p>
+        
     
-    <time datetime="2020-05-10T12:38:17.000Z" itemprop="datePublished">2020-05-10</time>
+    <time datetime="2022-05-10T12:38:17.000Z" itemprop="datePublished">2022-05-10</time>
   </a>
 </section>
 
@@ -303,7 +326,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">Archives</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">九月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">九月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a><span class="archive-list-count">1</span></li></ul>
   </div>
 
 
@@ -324,11 +347,13 @@
 		
 			<li><a href="/tags/并发编程/" title="并发编程">并发编程<sup>2</sup></a></li>
 		
+			<li><a href="/tags/Golang/" title="Golang">Golang<sup>1</sup></a></li>
+		
+			<li><a href="/tags/面试/" title="面试">面试<sup>1</sup></a></li>
+		
 			<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>1</sup></a></li>
 		
 			<li><a href="/tags/Git/" title="Git">Git<sup>1</sup></a></li>
-		
-			<li><a href="/tags/Golang/" title="Golang">Golang<sup>1</sup></a></li>
 		
 			<li><a href="/tags/Guava/" title="Guava">Guava<sup>1</sup></a></li>
 		
@@ -349,8 +374,6 @@
 			<li><a href="/tags/配置中心/" title="配置中心">配置中心<sup>1</sup></a></li>
 		
 			<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>1</sup></a></li>
-		
-			<li><a href="/tags/ElasticSearch/" title="ElasticSearch">ElasticSearch<sup>1</sup></a></li>
 		
 		</ul>
 </div>
