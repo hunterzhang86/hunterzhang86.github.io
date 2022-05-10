@@ -100,7 +100,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo init </span><br><span class="line">cnpm install</span><br></pre></td></tr></table></figure>
 <p>3、配置Hexo<br>(1)配置_config.yml文件<br>将_config.yml文件的deploy项修改为类似如下内容：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repository: git@github.com:hunterzhang86/hunterzhang86.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
-<p>(2)配置CNAME文件<br>在source目录下新增CNAME文件，里面的内容填写为自己的域名（如<a target="_blank" rel="noopener" href="http://www.ihunter.me),如果没有域名可跳过该步骤/">www.ihunter.me），如果没有域名可跳过该步骤</a></p>
+<p>_config.yml文件中的title&#x2F;keywords&#x2F;author也根据实际情况逐一修改<br>(2)配置CNAME文件<br>在source目录下新增CNAME文件，里面的内容填写为自己的域名（如<a target="_blank" rel="noopener" href="http://www.ihunter.me),如果没有域名可跳过该步骤/">www.ihunter.me），如果没有域名可跳过该步骤</a></p>
 <p>4、新建md文件生成博客并提交到github<br>(1)在source&#x2F;_posts目录下新建一个md文件</p>
 <p>(2)生成博客</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo c</span><br><span class="line">hexo g</span><br></pre></td></tr></table></figure>
