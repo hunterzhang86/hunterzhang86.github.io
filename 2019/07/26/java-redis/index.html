@@ -1,0 +1,640 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-cn">
+<head>
+  <script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+  <meta name="google-site-verification" content="c2Y5O-ZwA5S4LeCm6TywsxZXS8RspvZv79S5C8LJy0Q" />
+  <meta name="baidu-site-verification" content="gBGQPcPwzU" />
+  <meta charset="UTF-8">
+  
+    <title>Java知识图谱之Redis | NoOne&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="NoOne">
+    
+    <meta name="description" content="本文主要对Redis的应用场景及其内部实现机制进行了总结，并对在使用Redis过程中可能会遇到的坑给出了针对性的规避措施。">
+    
+    
+    <meta name="keywords" content="Java;Golang;后台开发">
+    
+    
+    
+    <link rel="alternative" href="/atom.xml" title="NoOne&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/favicon.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/favicon.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="NoOne&#39;s Blog">NoOne&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:example.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody">
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/07/26/java-redis/" title="Java知识图谱之Redis" itemprop="url">Java知识图谱之Redis</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="http://example.com/about" title="NoOne" target="_blank" itemprop="author">NoOne</a>
+		
+  <p class="article-time">
+    <time datetime="2019-07-26T04:38:17.000Z" itemprop="datePublished"> Published 2019-07-26</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+
+		<p>本文主要对Redis的应用场景及其内部实现机制进行了总结，并对在使用Redis过程中可能会遇到的坑给出了针对性的规避措施。</p>
+<span id="more"></span>
+
+<p><img src="https://raw.githubusercontent.com/hunterzhang86/blog_markdown_files/master/images/java-redis/java-redis.png" alt="Redis思维导图"></p>
+<h4 id="1-背景"><a href="#1-背景" class="headerlink" title="1.	背景"></a>1.	背景</h4><p>关系数据库访问数据较慢</p>
+<h4 id="2-目标"><a href="#2-目标" class="headerlink" title="2.	目标"></a>2.	目标</h4><p>提高数据的访问速度</p>
+<h4 id="3-优势"><a href="#3-优势" class="headerlink" title="3.	优势"></a>3.	优势</h4><p>数据访问速度较快</p>
+<h4 id="4-劣势"><a href="#4-劣势" class="headerlink" title="4.	劣势"></a>4.	劣势</h4><p>数据存放在内存中，容量存在限制</p>
+<h4 id="5-底层原理"><a href="#5-底层原理" class="headerlink" title="5.	底层原理"></a>5.	底层原理</h4><p>5.1.	内存数据库</p>
+<p>5.2.	持久化方式</p>
+<p>5.2.1.	RDB</p>
+<ul>
+<li><p>介绍<br>在指定的时间间隔内将内存中的数据集快照写入磁盘，实际操作过程是fork一个子进程，先将数据集写入临时文件，写入成功后，在替换之前的文件，用二进制压缩存储</p>
+</li>
+<li><p>优势<br>适合进行备份<br>适合进行灾备<br>对Redis的性能压力比较小<br>RDB在恢复大数据集的速度比AOF恢复速度要快</p>
+</li>
+<li><p>劣势<br>RDB有可能会丢失分钟级的数据<br>如果数据集比较大，且CPU紧张的情况下，Redis停止服务的时间可能会比较长</p>
+</li>
+</ul>
+<p>5.2.2.	AOF</p>
+<ul>
+<li><p>介绍<br>以日志的形式记录服务器所处理的每一个写、删除操作，查询操作不会记录，以文本的方式记录，可以打开文件看到详细的操作记录。</p>
+</li>
+<li><p>优势<br>AOF只会丢失秒级的数据<br>AOF只进行追加<br>AOF文件的可读性较好</p>
+</li>
+<li><p>劣势<br>对于相同的数据集来说，AOF文件的体积通常要大于RDB文件的体积<br>AOF的速度可能会比RDB慢<br>AOF可能会拖慢Redis的访问速度</p>
+</li>
+</ul>
+<p>5.3.	部署架构</p>
+<ul>
+<li>主从复制</li>
+<li>哨兵</li>
+<li>集群<br>Master之间分配slots，一共16384个slot<br>slot不完整，集群失效<br>每个Master都会有Slave<br>扩缩容需要手动重新分片<br>先到其中任何一台执行，没执行成功会将客户端转向正确的节点执行命令<br>redis提供了命令供管理员自动迁移slots<br>使用CRC16(KEY) mod 16384的值，决定将key放到哪个槽中<br>去中心化设计，每个节点都是对等的，保存全量的元数据信息</li>
+</ul>
+<h4 id="6-应用场景"><a href="#6-应用场景" class="headerlink" title="6.	应用场景"></a>6.	应用场景</h4><p>查多写少<br>热点数据<br>不适合存储持久化数据</p>
+<h4 id="7-底层原理"><a href="#7-底层原理" class="headerlink" title="7.	底层原理"></a>7.	底层原理</h4><p>7.1.	底层数据结构</p>
+<ul>
+<li><p>String<br>embstr<br>SDS<br>len，free<br>redisObject</p>
+</li>
+<li><p>HMap<br>1、hashtable<br>元素比较多时<br>2、ziplist<br>适用于元素较小时<br>key和value都被推到队尾</p>
+</li>
+<li><p>List<br>1、ziplist<br>使用连续空间，节省空间，但只能保存小整数或者小字符串<br>ziplist如何压缩空间<br>小数字和大数字不一样，小数子只用一个字节存储<br>不需要前后指针<br>2、linkedlist<br>双端链表</p>
+</li>
+<li><p>Set<br>1、inset<br>inset编码的集合对象使用整数集合作底层实现，集合对象包含所有元素都会被保存在整数集合里面<br>2、hashtable</p>
+</li>
+<li><p>SortedSet<br>1、skiplist<br>使用ZRANGE和ZREVERANGE比较多<br>内存占用不多<br>实现比较简单<br><img src="https://raw.githubusercontent.com/hunterzhang86/blog_markdown_files/master/images/java-redis/redis-skiplist.png" alt="跳表示意图"><br>2、ziplist</p>
+</li>
+<li><p>HyperLogLog<br>统计元素数量</p>
+</li>
+<li><p>GEO<br>地理位置</p>
+</li>
+</ul>
+<p>7.2.	一致性Hash</p>
+<ul>
+<li><p>背景<br>取模的方式扩缩容的时候对缓存命中率的影响比较大</p>
+</li>
+<li><p>原理<br>将整个hash值空间组织成一个虚拟的圆环<br>1、扩容<br>只影响添加节点后面的节点（顺时针）<br>2、缩容<br>只影响删除节点后面的数据（顺时针）</p>
+</li>
+<li><p>问题1<br>描述<br>当节点较少的时候，容易因为节点分布不均匀，产生缓存热点的问题<br>1、解决方法<br>使用虚拟节点，改善一致性Hash的问题<br>2、具体实现<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/snowwhite/p/9672185.html">https://www.cnblogs.com/snowwhite/p/9672185.html</a></p>
+</li>
+</ul>
+<p>7.3.	过期策略</p>
+<ul>
+<li><p>定期删除<br>默认是每隔100ms就随机抽取一些一些设置了过期的key<br>如果此时key已经过期，就删除，不会返回任何东西</p>
+</li>
+<li><p>惰性删除<br>放任键过期不管，但是每次从键空间中获取键时，都检查取得的键是否过期，如果过期的话，就删除该键，如果没有过期，就返回该键</p>
+</li>
+<li><p>定时删除<br>从设置key的过期时间开始，就启动一个定时器，到时间就删除该key<br>对内存比较友好，但浪费CPU资源</p>
+</li>
+</ul>
+<p>7.4.	复制原理<br>slave第一次连接或者重连，会触发一次全量同步<br>主节点做一个bgsave，同时将后续修改操作记录到内存buffer，如果buffer超过限定的值，则复制失败。待完成后将rdb文件全量同步到复制节点，复制节点接受完成后将rdb镜像加载到内存，加载完成后，再通知主节点将期间修改的操作记录同步到复制节点进行重放就完成了同步过程<br>后续Master手机到的写命令都会通过之前建立的连接，增量发送给slave端<br>slave执行buffer中的命令<br>slave异步方式执行同步</p>
+<p>7.5.	复制时机</p>
+<ul>
+<li><p>全量复制<br>slave首次启动或重启<br>slave不满足部分复制的条件</p>
+</li>
+<li><p>部分复制<br>主从的redis版本 &gt;&#x3D; 2.8<br>slave只是掉线<br>slave保存的run id与master当前run id一致<br>slave掉线期间，master保存在内存的offset可用</p>
+</li>
+</ul>
+<p>7.6.	数据丢失</p>
+<ul>
+<li><p>异步复制导致的数据丢失<br>Master突然宕机，Slave有些数据还没有同步过来</p>
+</li>
+<li><p>脑裂导致的数据丢失<br>发生主从切换，但是客户端还在往Master写入数据</p>
+</li>
+</ul>
+<p>7.7.	事务</p>
+<ul>
+<li><p>ACID<br>1、原子性<br>2、持久性<br>AOF在总是SYNC的模式下，因为主线程不会阻塞到写入完成，所以不能保证持久性<br>RDB的情况下，事务执行完成后，服务器可能在RDB未更新之前失败，所以也不可能保证持久性<br>3、隔离性<br>4、一致性</p>
+</li>
+<li><p>使用方法<br>WATCH<br>MULTI<br>EXEC</p>
+</li>
+</ul>
+<p>7.8.	过期算法<br>ttl<br>lru<br>random</p>
+<h4 id="8-对比"><a href="#8-对比" class="headerlink" title="8.	对比"></a>8.	对比</h4><ul>
+<li><p>MongoDB<br>非关系数据库<br>非内存数据库</p>
+</li>
+<li><p>Memcached<br>内存数据库<br>支持的数据结构较少<br>不能持久化</p>
+</li>
+</ul>
+<h4 id="9-客户端驱动"><a href="#9-客户端驱动" class="headerlink" title="9.	客户端驱动"></a>9.	客户端驱动</h4><ul>
+<li><p>Jedis<br>偏数据库驱动，API提供了比较全面的Redis命令的支持<br>高性能，分布式特性和丰富的结构，让使用者能够将精力更集中地放在处理业务逻辑上</p>
+</li>
+<li><p>Redisson<br>底层原理<br>使用Netty作为通信组件<br>将一些操作组合成Script实现特定的功能</p>
+</li>
+<li><p>问题<br>MapCache有内存溢出风险<br>在编解码失败的时候可能会造成某些命令执行时间过长</p>
+</li>
+</ul>
+<h4 id="10-相关问题"><a href="#10-相关问题" class="headerlink" title="10.	相关问题"></a>10.	相关问题</h4><ul>
+<li><p>缓存命中率</p>
+</li>
+<li><p>缓存穿透<br>解决方法<br>缓存预热</p>
+</li>
+<li><p>缓存雪崩<br>解决方法<br>使用高可用架构<br>服务降级，使用本地缓存</p>
+</li>
+<li><p>缓存击穿<br>解决方法<br>让key不在一个时间段集中失效，加或减一个随机值</p>
+</li>
+<li><p>为什么使用单线程<br>CPU不是瓶颈点，IO是瓶颈点，单线程够用也简单</p>
+</li>
+<li><p>redis集群做迁移的时候怎么查找数据？<br>单个key迁移的过程中会阻塞，所以如果没找到key会重新ask一遍</p>
+</li>
+<li><p>常用命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scan 176 MATCH *11* COUNT 1000</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="11-常见优化"><a href="#11-常见优化" class="headerlink" title="11.	常见优化"></a>11.	常见优化</h4><p>Master最好不要做任何持久化工作，如RDB内存快照和AOF日志文件<br>如果数据比较重要，某个Slave开启AOF备份数据，策略设置为每秒同步一次<br>为了主从复制的速度和连接的稳定性，Master和Slave最好在同一个局域网内<br>尽量避免在压力很大的主库增加从库<br>主从复制不要用图状结构，用单向链表结构更为稳定，即：Master &lt; Slave1 &lt; Slave2 …</p>
+
+	</div>
+
+	
+
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Java%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/">Java知识图谱</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Redis/">Redis</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://example.com/2019/07/26/java-redis/" data-title="Java知识图谱之Redis | NoOne&#39;s Blog" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+
+
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2019/07/27/ali-interview/" title="常见Java面试题总结">
+  <strong>上一篇：</strong><br/>
+  <span>
+  常见Java面试题总结</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2019/07/25/java-mysql/"  title="Java知识图谱之MySQL数据库">
+ <strong>下一篇：</strong><br/> 
+ <span>Java知识图谱之MySQL数据库
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+	<div id="article-comment">
+			
+
+
+<section id="comments" class="comment">
+  <div id="container"></div>
+  <link rel="stylesheet" href="https://billts.site/extra_css/gitment.css">
+  <script src="https://billts.site/js/gitment.js"></script>
+  <script>
+    var gitment = new Gitment({
+      id: "1564115897000",
+      title: 'Java知识图谱之Redis',
+      owner: "hunterzhang86",
+      repo: "blog_comments",
+      oauth: {
+        client_id: "2ed150022550c514e13e",
+        client_secret: "6706d4e3c610e155f152d370f93d3a736d60a2af"
+      }
+    });
+
+    gitment.render('article-comment');
+  </script>
+</section>
+
+	</div>
+	
+	</article>
+</div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E8%83%8C%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">1.	背景</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E7%9B%AE%E6%A0%87"><span class="toc-number">2.</span> <span class="toc-text">2.	目标</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E4%BC%98%E5%8A%BF"><span class="toc-number">3.</span> <span class="toc-text">3.	优势</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E5%8A%A3%E5%8A%BF"><span class="toc-number">4.</span> <span class="toc-text">4.	劣势</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86"><span class="toc-number">5.</span> <span class="toc-text">5.	底层原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">6.</span> <span class="toc-text">6.	应用场景</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86"><span class="toc-number">7.</span> <span class="toc-text">7.	底层原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-%E5%AF%B9%E6%AF%94"><span class="toc-number">8.</span> <span class="toc-text">8.	对比</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%A9%B1%E5%8A%A8"><span class="toc-number">9.</span> <span class="toc-text">9.	客户端驱动</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98"><span class="toc-number">10.</span> <span class="toc-text">10.	相关问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#11-%E5%B8%B8%E8%A7%81%E4%BC%98%E5%8C%96"><span class="toc-number">11.</span> <span class="toc-text">11.	常见优化</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+  <iframe width="100%" height="120" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=120&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1837936962&verifier=09f6bcc5&dpc=1"></iframe>
+</div>
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+			<li><a href="/categories/Java知识图谱/" title="Java知识图谱">Java知识图谱<sup>19</sup></a></li>
+		
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		
+			<li><a href="/categories/总结/" title="总结">总结<sup>14</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">Archives</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">九月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a><span class="archive-list-count">1</span></li></ul>
+  </div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/微服务/" title="微服务">微服务<sup>4</sup></a></li>
+		
+			<li><a href="/tags/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		
+			<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
+		
+			<li><a href="/tags/xsxsx/" title="xsxsx">xsxsx<sup>2</sup></a></li>
+		
+			<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
+		
+			<li><a href="/tags/并发编程/" title="并发编程">并发编程<sup>2</sup></a></li>
+		
+			<li><a href="/tags/面试/" title="面试">面试<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Git/" title="Git">Git<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Guava/" title="Guava">Guava<sup>1</sup></a></li>
+		
+			<li><a href="/tags/HBase/" title="HBase">HBase<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>1</sup></a></li>
+		
+			<li><a href="/tags/FTP/" title="FTP">FTP<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Docker/" title="Docker">Docker<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Ngrok/" title="Ngrok">Ngrok<sup>1</sup></a></li>
+		
+			<li><a href="/tags/动态代理/" title="动态代理">动态代理<sup>1</sup></a></li>
+		
+			<li><a href="/tags/JVM类加载机制/" title="JVM类加载机制">JVM类加载机制<sup>1</sup></a></li>
+		
+			<li><a href="/tags/配置中心/" title="配置中心">配置中心<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>1</sup></a></li>
+		
+			<li><a href="/tags/ElasticSearch/" title="ElasticSearch">ElasticSearch<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">RecentPost</p>
+</div>
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+          <li>
+            <a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a>
+          </li>
+        
+          <li>
+            <a href="http://www.ihunter.me" target="_blank" title="NoOne&#39;s Blog">NoOne&#39;s Blog</a>
+          </li>
+        
+          <li>
+            <a href="http://www.ifb.me" target="_blank" title="我的个人博客">我的个人博客</a>
+          </li>
+        
+          <li>
+            <a href="https://www.digitalocean.com/?refcode=ca6e33dd0964" target="_blank" title="DigitalOcean">DigitalOcean</a>
+          </li>
+        
+          <li>
+            <a href="https://www.linode.com/?r=218734ebc6cd68f661f596d887a106fa038e0b86" target="_blank" title="Linode">Linode</a>
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="linkslist">
+	<p class="asidetitle">Sitemap</p>
+		<ul>
+			<a href="/sitemap.xml" target="_blank" title="sitemap">网站地图</a>
+		</ul>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/http://weibo.com/zzbolg" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="https://hexo.io/" target="_blank" title="hexo">Hexo</a> and Theme by <a href="https://github.com/hunterzhang86/hunter" target="_blank" title="Hunter">Hunter</a> © 2022
+		
+		<a href="http://example.com/about" target="_blank" title="NoOne">NoOne</a>
+		
+
+		<!-- Analytics Begin -->
+		
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fdb3a24ab0a84c659e06db91b64362945' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+		<!-- Analytics End -->
+
+		</p>
+</div></footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize();
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+      
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+
+
+  <script type="text/javascript">
+  $(document).ready(function () {
+    var $this = $('.share');
+    var html = [
+      '<div class="bdsharebuttonbox">',
+      '<a href="#" class="bds_weixin" data-cmd="weixin"></a>',
+      '<a href="#" class="bds_qzone" data-cmd="qzone"></a>',
+      '<a href="#" class="bds_tsina" data-cmd="tsina"></a>',
+      '<a href="#" class="bds_more" data-cmd="more"></a>',
+      '</div>'
+    ].join('');
+    $this.append(html);
+  });
+</script>
+
+<script>
+    window._bd_share_config = {
+        "common": {
+            "bdSnsKey": {},
+            "bdText": "",
+            "bdMini": "2",
+            "bdPic": "",
+            "bdStyle": "0",
+            "bdSize": "16"
+        },
+        "share": {},
+        "image": {
+            "viewList": ["weixin", "qzone", "tsina"],
+            "viewText": "分享到：",
+            "viewSize": "16"
+        },
+        "selectShare": {
+            "bdContainerClass": null,
+            "bdSelectMiniList": ["qzone", "tsina", "tqq", "renren", "weixin"]
+        }
+    };
+    with(document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+});
+</script>
+
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+  </body>
+</html>

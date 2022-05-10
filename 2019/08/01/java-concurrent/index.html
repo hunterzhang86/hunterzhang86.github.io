@@ -1,0 +1,563 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-cn">
+<head>
+  <script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+  <meta name="google-site-verification" content="c2Y5O-ZwA5S4LeCm6TywsxZXS8RspvZv79S5C8LJy0Q" />
+  <meta name="baidu-site-verification" content="gBGQPcPwzU" />
+  <meta charset="UTF-8">
+  
+    <title>Java知识图谱之并发编程 | NoOne&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="NoOne">
+    
+    <meta name="description" content="本文主要对Java并发编程里面常用的线程池、线程状态、线程协同、锁进行了总结，这些几乎是Java面试里面必问的内容，特别是线程池的参数，不仅要能讲出具体的参数有哪些和参数的意义，也要对一个新线程submit到线程池后，线程池是如何进行处理的流程了然于胸。">
+    
+    
+    <meta name="keywords" content="Java;Golang;后台开发">
+    
+    
+    
+    <link rel="alternative" href="/atom.xml" title="NoOne&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/favicon.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/favicon.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="NoOne&#39;s Blog">NoOne&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:example.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody">
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/08/01/java-concurrent/" title="Java知识图谱之并发编程" itemprop="url">Java知识图谱之并发编程</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="http://example.com/about" title="NoOne" target="_blank" itemprop="author">NoOne</a>
+		
+  <p class="article-time">
+    <time datetime="2019-08-01T13:22:17.000Z" itemprop="datePublished"> Published 2019-08-01</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+
+		<p>本文主要对Java并发编程里面常用的线程池、线程状态、线程协同、锁进行了总结，这些几乎是Java面试里面必问的内容，特别是线程池的参数，不仅要能讲出具体的参数有哪些和参数的意义，也要对一个新线程submit到线程池后，线程池是如何进行处理的流程了然于胸。</p>
+<span id="more"></span>
+
+<p><img src="https://raw.githubusercontent.com/hunterzhang86/blog_markdown_files/master/images/java-concurrent/java-concurrent.png" alt="Java并发编程"></p>
+<ol>
+<li><pre><code>线程池
+</code></pre>
+1.1.	线程</li>
+</ol>
+<ul>
+<li>创建线程的方法<br>实现Runnable或Callable接口<br>继承Thread类</li>
+</ul>
+<p>1.2.	线程池类型</p>
+<ul>
+<li><p>NewFixedThreadPool<br>固定线程大小，无边界队列</p>
+</li>
+<li><p>NewWorkStealingPool<br>实际的线程数不固定，也不保证线程的执行顺序</p>
+</li>
+<li><p>NewSingleThreadPool<br>单线程，无边界队列</p>
+</li>
+<li><p>NewCachedThreadPool<br>适合执行时间较短的任务，只要线程不够则新建</p>
+</li>
+<li><p>NewScheduledThreadPool<br>定时执行线程</p>
+</li>
+</ul>
+<p>1.3.	ThradPoolExecutor线程池参数</p>
+<ul>
+<li>corePoolSize<br>核心线程数</li>
+<li>maximumPoolSize<br>最大线程数</li>
+<li>keepAliveTime<br>超过核心线程数的线程，最大的存活时间</li>
+<li>unit<br>存活时间单位</li>
+<li>workQueue<br>任务队列</li>
+<li>handler<br>如果已经超过最大线程数，继续有新的线程处理类<br>AbortPolicy<br>直接抛出RejectExecutionException异常<br>CallerRunsPolicy<br>重试添加当前的任务<br>DiscardOldestPolicy<br>抛弃最老的任务<br>DiscardPolicy<br>抛弃当前的任务</li>
+</ul>
+<p>1.4.	BlockingQueue<br>1.4.1.	实现类<br>ArrayBlockingQueue<br>数组实现队列<br>LinkedBlockingQueue<br>链表实现队列<br>PriorityBlockingQueue<br>优先级队列<br>可自定义Comparator<br>DelayQueue<br>延时获取元素队列，队列的元素需要实现Delayed接口<br>SynchronousQueue<br>不存储元素的阻塞队列，只有在消费者试图获取元素的时候生产者才能插入元素<br>LinkedTransferQueue<br>transfer(E e)<br>若存在消费者线程，即立刻移交; 否则插入元素到队尾<br>tryTransfer(E e)<br>若存在消费者线程，即立刻移交; 否则返回fasle<br>tryTransfer(E e, long timeout, TimeUnit unit)<br>若存在消费者线程，即立刻移交; 否则插入元素到队尾，如果指定时间内没有被消费，则返回false并将元素移除<br>LinkedBlockingDeque<br>双向阻塞队列<br>1.4.2.	常用方法<br>add(E)<br>超过容量抛出异常<br>offer(E)<br>超过容量返回false<br>put(E)<br>超过容量阻塞<br>offer(E,long,TimeUnit)<br>超过容量并插入超时返回false<br>take()<br>为空则阻塞<br>poll(long,TimeUnit)<br>为空并获取超时则返回null<br>remove(Object)<br>删除特定元素</p>
+<h4 id="2-线程状态"><a href="#2-线程状态" class="headerlink" title="2.	线程状态"></a>2.	线程状态</h4><p>2.1.	新建<br>2.2.	就绪<br>2.3.	阻塞<br>2.4.	运行<br>2.5.	死亡</p>
+<h4 id="3-线程协同"><a href="#3-线程协同" class="headerlink" title="3.	线程协同"></a>3.	线程协同</h4><p>3.1.	CountDownLatch<br>用于某个线程等待其他线程执行完成之后它才执行，不可重用</p>
+<p>3.2.	CyclicBarrier<br>用于一组线程池互相等待至某个状态，然后这组线程再同时执行，可重用</p>
+<p>3.3.	Semaphore<br>资源使用控制</p>
+<p>3.4.	Exchanger<br>两个线程同时交换数据</p>
+<p>3.5.	Thread.join()<br>等待子线程执行完成，执行完成之后可以执行主线程</p>
+<h4 id="4-锁"><a href="#4-锁" class="headerlink" title="4.	锁"></a>4.	锁</h4><p>4.1.	synchronized<br>4.1.1.	三个阶段<br>偏向锁<br>在对象头上的Mark Word部分设置线程ID<br>轻量级锁<br>轻量级锁依赖CAS操作Mark Word来试图获取锁<br>重量级锁<br>monitorenter和monitorexit<br>4.1.2.	不可重入锁</p>
+<p>4.2.	ReentrantLock<br>4.2.1.	可重入锁<br>基于AQS来实现，首先尝试用CAS(LOCK_IF_MP)来获取锁，如果没有获取到，就加入到FIFO的链表里面，然后锁如果被释放了，通知链表里面的第一个节点获取锁<br>4.2.2.	提供了Condition用于线程间通信<br>4.2.3.	提供了tryAcquire方法，用于超时没有获取到锁的处理</p>
+<p>4.3.	ReentrantReadWriteLock<br>写线程访问时，所有的读和其他写线程都阻塞</p>
+<h4 id="5-容器类"><a href="#5-容器类" class="headerlink" title="5.	容器类"></a>5.	容器类</h4><p>5.1.	ConcurrentHashMap<br>5.2.	CopyOnWriteArrayList<br>5.3.	ConcurrentLinkedQueue<br>5.3.1.	和LinkedQueue相比没有poll操作<br>5.4.	LinkedHashMap<br>5.4.1.	和HashMap相比，遍历Map的时候会根据插入顺序来遍历<br>5.5.	HashMap<br>5.5.1.	如何扩容？<br>节点数大于阈值的时候触发扩容<br>直接扩大两倍，然后需要将老桶的数据迁移到新桶，所以并发的时候会有问题</p>
+<h4 id="6-happen-before"><a href="#6-happen-before" class="headerlink" title="6.	happen before"></a>6.	happen before</h4><p>线程的启动与停止<br>加锁与解锁<br>volatile变量的读和写<br>读的时候确认方法区的共享变量有没有更新<br>程序顺序原则<br>传递性原则</p>
+<h4 id="7-常见问题"><a href="#7-常见问题" class="headerlink" title="7.	常见问题"></a>7.	常见问题</h4><p>7.1.	如何解决Atomic类CAS操作时产生的ABA问题？<br>使用AtomicStampedReference给对象加上版本号</p>
+
+	</div>
+
+	
+
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Java%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/">Java知识图谱</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/并发编程/">并发编程</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://example.com/2019/08/01/java-concurrent/" data-title="Java知识图谱之并发编程 | NoOne&#39;s Blog" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+
+
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2019/08/02/java-io/" title="Java知识图谱之网络编程">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Java知识图谱之网络编程</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2019/07/31/java-lock/"  title="Java知识图谱之分布式锁">
+ <strong>下一篇：</strong><br/> 
+ <span>Java知识图谱之分布式锁
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+	<div id="article-comment">
+			
+
+
+<section id="comments" class="comment">
+  <div id="container"></div>
+  <link rel="stylesheet" href="https://billts.site/extra_css/gitment.css">
+  <script src="https://billts.site/js/gitment.js"></script>
+  <script>
+    var gitment = new Gitment({
+      id: "1564665737000",
+      title: 'Java知识图谱之并发编程',
+      owner: "hunterzhang86",
+      repo: "blog_comments",
+      oauth: {
+        client_id: "2ed150022550c514e13e",
+        client_secret: "6706d4e3c610e155f152d370f93d3a736d60a2af"
+      }
+    });
+
+    gitment.render('article-comment');
+  </script>
+</section>
+
+	</div>
+	
+	</article>
+</div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81"><span class="toc-number">1.</span> <span class="toc-text">2.	线程状态</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E7%BA%BF%E7%A8%8B%E5%8D%8F%E5%90%8C"><span class="toc-number">2.</span> <span class="toc-text">3.	线程协同</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E9%94%81"><span class="toc-number">3.</span> <span class="toc-text">4.	锁</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E5%AE%B9%E5%99%A8%E7%B1%BB"><span class="toc-number">4.</span> <span class="toc-text">5.	容器类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-happen-before"><span class="toc-number">5.</span> <span class="toc-text">6.	happen before</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-number">6.</span> <span class="toc-text">7.	常见问题</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+  <iframe width="100%" height="120" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=120&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1837936962&verifier=09f6bcc5&dpc=1"></iframe>
+</div>
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+			<li><a href="/categories/Java知识图谱/" title="Java知识图谱">Java知识图谱<sup>19</sup></a></li>
+		
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		
+			<li><a href="/categories/总结/" title="总结">总结<sup>14</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">Archives</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">九月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a><span class="archive-list-count">1</span></li></ul>
+  </div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/微服务/" title="微服务">微服务<sup>4</sup></a></li>
+		
+			<li><a href="/tags/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		
+			<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
+		
+			<li><a href="/tags/xsxsx/" title="xsxsx">xsxsx<sup>2</sup></a></li>
+		
+			<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
+		
+			<li><a href="/tags/并发编程/" title="并发编程">并发编程<sup>2</sup></a></li>
+		
+			<li><a href="/tags/面试/" title="面试">面试<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Git/" title="Git">Git<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Guava/" title="Guava">Guava<sup>1</sup></a></li>
+		
+			<li><a href="/tags/HBase/" title="HBase">HBase<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>1</sup></a></li>
+		
+			<li><a href="/tags/FTP/" title="FTP">FTP<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Docker/" title="Docker">Docker<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Ngrok/" title="Ngrok">Ngrok<sup>1</sup></a></li>
+		
+			<li><a href="/tags/动态代理/" title="动态代理">动态代理<sup>1</sup></a></li>
+		
+			<li><a href="/tags/JVM类加载机制/" title="JVM类加载机制">JVM类加载机制<sup>1</sup></a></li>
+		
+			<li><a href="/tags/配置中心/" title="配置中心">配置中心<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>1</sup></a></li>
+		
+			<li><a href="/tags/ElasticSearch/" title="ElasticSearch">ElasticSearch<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">RecentPost</p>
+</div>
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+          <li>
+            <a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a>
+          </li>
+        
+          <li>
+            <a href="http://www.ihunter.me" target="_blank" title="NoOne&#39;s Blog">NoOne&#39;s Blog</a>
+          </li>
+        
+          <li>
+            <a href="http://www.ifb.me" target="_blank" title="我的个人博客">我的个人博客</a>
+          </li>
+        
+          <li>
+            <a href="https://www.digitalocean.com/?refcode=ca6e33dd0964" target="_blank" title="DigitalOcean">DigitalOcean</a>
+          </li>
+        
+          <li>
+            <a href="https://www.linode.com/?r=218734ebc6cd68f661f596d887a106fa038e0b86" target="_blank" title="Linode">Linode</a>
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="linkslist">
+	<p class="asidetitle">Sitemap</p>
+		<ul>
+			<a href="/sitemap.xml" target="_blank" title="sitemap">网站地图</a>
+		</ul>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/http://weibo.com/zzbolg" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="https://hexo.io/" target="_blank" title="hexo">Hexo</a> and Theme by <a href="https://github.com/hunterzhang86/hunter" target="_blank" title="Hunter">Hunter</a> © 2022
+		
+		<a href="http://example.com/about" target="_blank" title="NoOne">NoOne</a>
+		
+
+		<!-- Analytics Begin -->
+		
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fdb3a24ab0a84c659e06db91b64362945' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+		<!-- Analytics End -->
+
+		</p>
+</div></footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize();
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+      
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+
+
+  <script type="text/javascript">
+  $(document).ready(function () {
+    var $this = $('.share');
+    var html = [
+      '<div class="bdsharebuttonbox">',
+      '<a href="#" class="bds_weixin" data-cmd="weixin"></a>',
+      '<a href="#" class="bds_qzone" data-cmd="qzone"></a>',
+      '<a href="#" class="bds_tsina" data-cmd="tsina"></a>',
+      '<a href="#" class="bds_more" data-cmd="more"></a>',
+      '</div>'
+    ].join('');
+    $this.append(html);
+  });
+</script>
+
+<script>
+    window._bd_share_config = {
+        "common": {
+            "bdSnsKey": {},
+            "bdText": "",
+            "bdMini": "2",
+            "bdPic": "",
+            "bdStyle": "0",
+            "bdSize": "16"
+        },
+        "share": {},
+        "image": {
+            "viewList": ["weixin", "qzone", "tsina"],
+            "viewText": "分享到：",
+            "viewSize": "16"
+        },
+        "selectShare": {
+            "bdContainerClass": null,
+            "bdSelectMiniList": ["qzone", "tsina", "tqq", "renren", "weixin"]
+        }
+    };
+    with(document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+});
+</script>
+
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+  </body>
+</html>
