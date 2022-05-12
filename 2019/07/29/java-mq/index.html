@@ -7,12 +7,12 @@
   <meta name="baidu-site-verification" content="gBGQPcPwzU" />
   <meta charset="UTF-8">
   
-    <title>Java知识图谱之计算机网络 | NoOne&#39;s Blog</title>
+    <title>Java知识图谱之消息队列MQ | NoOne&#39;s Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="NoOne">
     
-    <meta name="description" content="计算机网络是科班出身的程序员必学的课程之一，这篇文章主要是对TCP&amp;#x2F;IP网络的四层架构和相关协议进行了简要的总结和介绍。">
+    <meta name="description" content="本文主要对几种常见消息队列MQ（ActiveMQ、Kafka、RocketMQ、RabbitMQ）的实现机制和使用场景进行了总结。">
     
     
     <meta name="keywords" content="Java;Golang;后台开发">
@@ -73,33 +73,91 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2019/07/23/java-network/" title="Java知识图谱之计算机网络" itemprop="url">Java知识图谱之计算机网络</a>
+      <a href="/2019/07/29/java-mq/" title="Java知识图谱之消息队列MQ" itemprop="url">Java知识图谱之消息队列MQ</a>
   </h1>
   <p class="article-author">By
        
 		<a href="http://example.com/about" title="NoOne" target="_blank" itemprop="author">NoOne</a>
 		
   <p class="article-time">
-    <time datetime="2019-07-23T12:38:17.000Z" itemprop="datePublished"> Published 2019-07-23</time>
+    <time datetime="2019-07-29T13:38:17.000Z" itemprop="datePublished"> Published 2019-07-29</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 
-		<p>计算机网络是科班出身的程序员必学的课程之一，这篇文章主要是对TCP&#x2F;IP网络的四层架构和相关协议进行了简要的总结和介绍。</p>
+		<p>本文主要对几种常见消息队列MQ（ActiveMQ、Kafka、RocketMQ、RabbitMQ）的实现机制和使用场景进行了总结。</p>
 <span id="more"></span>
 
-<p><img src="https://raw.githubusercontent.com/hunterzhang86/blog_markdown_files/master/images/java-network/java-network.png" alt="计算机网络思维导图"></p>
-<p>我们现在基于TCP&#x2F;IP的网络一般划分为四层：</p>
-<h5 id="1、应用层"><a href="#1、应用层" class="headerlink" title="1、应用层"></a>1、应用层</h5><p>典型的应用层协议包括http&#x2F;https、ftp&#x2F;sftp、ssh协议，作为一个Java程序员，可能更多的需要关注的是我们最常用的http&#x2F;https协议，这个和我们的工作息息相关。</p>
-<p>Http是一个单向的协议，只能由客户端向服务端发送请求，不能由服务端向客户端发送请求，所以如果某些场景下需要服务端向客户端推送消息（比如告警监控页面），现在的Http协议就受到了很大的限制，现在大概有三种方式去实现客户端推送的方式。</p>
-<p>(1)简易轮询<br>这是最简单暴力的方法，客户端定时轮询，这种方法最大的好处是实现简单，但是如果客户端较多，服务端的压力会很大。</p>
-<p>(2)long-polling<br>为了解决定时轮询里面服务端压力比较大的问题，也可以使用long-polling来实现从推送数据，简单来说，就是服务端先hold住客户端发送过来的请求，直到服务端的数据有变化才返回，配置中心Apollo里面就是用的这种方式实现配置的推送。</p>
-<p>(3)websocket<br>区别于简易轮询和long-polling，websocket没有在http协议上做文章，直接实现了一套新的全双工的消息交互协议，客户端既可以向服务端发送消息内容，服务端也可以向服务端发送消息内容，相对简易轮询和long-polling来说实现较为复杂。</p>
-<h5 id="2、传输层"><a href="#2、传输层" class="headerlink" title="2、传输层"></a>2、传输层</h5><p>典型的传输层协议包括TCP、UDP协议，重点要关注的是TCP的三次握手，四次挥手，具体的交互请看思维导图。</p>
-<h5 id="3、网络层"><a href="#3、网络层" class="headerlink" title="3、网络层"></a>3、网络层</h5><p>典型的网络层协议包括IP和ICMP协议。</p>
-<h5 id="4、数据链路层"><a href="#4、数据链路层" class="headerlink" title="4、数据链路层"></a>4、数据链路层</h5><p>典型的数据链路层协议包括ARP和RARP协议。</p>
+<p><img src="https://raw.githubusercontent.com/hunterzhang86/blog_markdown_files/master/images/java-mq/java-mq.png" alt="MQ思维导图"></p>
+<h4 id="1-ActiveMQ"><a href="#1-ActiveMQ" class="headerlink" title="1.	ActiveMQ"></a>1.	ActiveMQ</h4><p>1.1.	常用操作<br>1.1.1.	获取消息方式</p>
+<ul>
+<li><p>推<br>优点<br>可以尽可能快的发送给消费者<br>缺点<br>消费者缓冲区可能溢出</p>
+</li>
+<li><p>拉<br>优点<br>不会造成缓冲区溢出<br>缺点<br>有一点延迟</p>
+</li>
+</ul>
+<p>1.2.	架构<br>主从架构</p>
+<p>1.3.	劣势<br>吞吐量不足</p>
+<h4 id="2-Kafka"><a href="#2-Kafka" class="headerlink" title="2.	Kafka"></a>2.	Kafka</h4><p>2.1.	背景<br>其他中间件消息处理速度较慢，不支持横向扩展</p>
+<p>2.2.	目标</p>
+<p>2.3.	优势<br>高吞吐量<br>便于横向扩容</p>
+<p>2.4.	劣势<br>不支持JMS协议<br>多Topic的时候性能较差<br>如果分区数量过多，会同时对多个分区进行读写，这个时候性能就会不太好<br>一个分区只能有一个消费者</p>
+<p>2.5.	应用场景<br>日志采集<br>实时数据计算</p>
+<p>2.6.	核心组件<br>Broker<br>Producer<br>Consumer<br>ZK</p>
+<p>2.7.	底层原理<br>2.7.1.	高吞吐量<br>Topic换分为多个Partition，提高并发度<br>充分利用了磁盘顺序读写的性能<br>使用Zero-Copy技术<br>直接在内核态进行数据传输，避免拷贝数据导致内核态和用户态的切换<br>数据批量发送<br>数据批量压缩</p>
+<p>2.7.2.	高查找效率<br>根据offset为key建立稀疏索引<br>稀疏索引可以使得索引文档非常小，但是增加了查找消息的时间</p>
+<p>2.8.	对比<br>2.8.1.	MQ<br>不支持JMS协议</p>
+<h4 id="3-RocketMQ"><a href="#3-RocketMQ" class="headerlink" title="3.	RocketMQ"></a>3.	RocketMQ</h4><p>3.1.	背景<br>起源于Kafka，但不是Kafka的一个拷贝<br>Kafka多Topic的时候性能比较差<br>对Kafka可靠性传输、事务性做了优化</p>
+<p>3.2.	核心组件<br>NameServer<br>Broker<br>    Master<br>    Slave<br>Producer<br>Consumer</p>
+<p>3.3.	优势</p>
+<ul>
+<li><p>有线程的管理台界面，便于管理，且可以看到消息的内容</p>
+</li>
+<li><p>支持通过Tag，Message Header，Message Body进行过滤</p>
+</li>
+<li><p>便于横向扩展</p>
+</li>
+<li><p>数据与索引分开存储</p>
+</li>
+<li><p>同时支持推和拉</p>
+</li>
+<li><p>多Topic的时候性能好</p>
+</li>
+<li><p>原因<br>一个Broker共用一个分区，一个分区支持上万队列</p>
+</li>
+<li><p>支持事务发送<br>LocalTransactionExecuter<br>TransactionCheckListener<br>RocketMQ从4.3版本开始支持事务，原理为先预提交消息，然后执行本地事务，执行成功正式commit消息，如果没成功commit，会不断的check，check超时则回退本地事务<br>参考：<a target="_blank" rel="noopener" href="https://www.infoq.cn/article/2018/08/rocketmq-4.3-release">https://www.infoq.cn/article/2018/08/rocketmq-4.3-release</a></p>
+</li>
+</ul>
+<p>3.4.	劣势<br>吞吐量没有kafka高</p>
+<p>3.5.	底层原理<br>3.5.1.	高吞吐量<br>Topic划分为多个分区，提高并发度<br>充分利用磁盘顺序读写的性能<br>使用Zero-Copy技术<br>直接在内核态进行数据传输，避免拷贝数据导致内核态和用户态的切换<br>数据批量发送<br>数据批量压缩</p>
+<p>3.5.2.	主从同步<br>同步双写<br>异步复制</p>
+<p>3.6.	应用场景<br>电商</p>
+<p>3.7.	常用操作</p>
+<p>3.8.	和Kafka的比较<br>3.8.1.	吞吐量<br>kafka &gt; rocketmq<br>3.8.2.	数据可靠性<br>都支持异步&#x2F;同步刷盘，但kafka同步刷盘的情况下，性能急剧下降<br>3.8.3.	顺序消费<br>都支持顺序消费，但kafka在节点宕机的情况下不能保证消息的顺序性</p>
+<ul>
+<li>原因<br>异步复制</li>
+</ul>
+<h4 id="4-RabbitMQ"><a href="#4-RabbitMQ" class="headerlink" title="4.	RabbitMQ"></a>4.	RabbitMQ</h4><p>4.1.	优势<br>时延低<br>社区比较稳定</p>
+<h4 id="5-常识"><a href="#5-常识" class="headerlink" title="5.	常识"></a>5.	常识</h4><p>5.1.	主要作用<br>异步<br>削峰<br>解耦</p>
+<p>5.2.	如何保证消息的可靠性？</p>
+<ul>
+<li>Broker<br>保证多个replica都写入成功了才算写入成功</li>
+<li>生产者<br>开启失败不断重试</li>
+<li>消费者<br>不自动提交，消费成功了再自动提交</li>
+</ul>
+<p>5.3.	如何保证消息消费的幂等性？</p>
+<ul>
+<li>数据库upset</li>
+<li>redis set</li>
+<li>记录到redis里面，消费前先查询redis</li>
+</ul>
+<p>5.4.	如何处理消息挤压？</p>
+<ul>
+<li>写一个临时消费者用数据库之类的持久化工具存起来</li>
+<li>消费者扩容，如果分区设置相对比较小，对kafka没有效果</li>
+</ul>
 
 	</div>
 
@@ -116,7 +174,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/网络/">网络</a>
+  <span></span> <a href="/tags/MQ/">MQ</a>
   </div>
 
 </div>
@@ -125,7 +183,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://example.com/2019/07/23/java-network/" data-title="Java知识图谱之计算机网络 | NoOne&#39;s Blog" data-tsina="" class="share clearfix">
+	  <div data-url="http://example.com/2019/07/29/java-mq/" data-title="Java知识图谱之消息队列MQ | NoOne&#39;s Blog" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -139,18 +197,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2019/07/24/java-gc/" title="Java知识图谱之垃圾回收">
+ <a href="/2019/07/30/java-linux/" title="Java知识图谱之Linux">
   <strong>上一篇：</strong><br/>
   <span>
-  Java知识图谱之垃圾回收</span>
+  Java知识图谱之Linux</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2019/07/22/install-ngrok/"  title="通过Ngrok实现内网穿透">
+<a href="/2019/07/29/常用消息队列对比/"  title="常用消息队列对比">
  <strong>下一篇：</strong><br/> 
- <span>通过Ngrok实现内网穿透
+ <span>常用消息队列对比
 </span>
 </a>
 </div>
@@ -168,8 +226,8 @@
   <script src="https://billts.site/js/gitment.js"></script>
   <script>
     var gitment = new Gitment({
-      id: "1563885497000",
-      title: 'Java知识图谱之计算机网络',
+      id: "1564407497000",
+      title: 'Java知识图谱之消息队列MQ',
       owner: "hunterzhang86",
       repo: "blog_comments",
       oauth: {
@@ -191,7 +249,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#1%E3%80%81%E5%BA%94%E7%94%A8%E5%B1%82"><span class="toc-number">1.</span> <span class="toc-text">1、应用层</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2%E3%80%81%E4%BC%A0%E8%BE%93%E5%B1%82"><span class="toc-number">2.</span> <span class="toc-text">2、传输层</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3%E3%80%81%E7%BD%91%E7%BB%9C%E5%B1%82"><span class="toc-number">3.</span> <span class="toc-text">3、网络层</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4%E3%80%81%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82"><span class="toc-number">4.</span> <span class="toc-text">4、数据链路层</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-ActiveMQ"><span class="toc-number">1.</span> <span class="toc-text">1.	ActiveMQ</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Kafka"><span class="toc-number">2.</span> <span class="toc-text">2.	Kafka</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-RocketMQ"><span class="toc-number">3.</span> <span class="toc-text">3.	RocketMQ</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-RabbitMQ"><span class="toc-number">4.</span> <span class="toc-text">4.	RabbitMQ</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E5%B8%B8%E8%AF%86"><span class="toc-number">5.</span> <span class="toc-text">5.	常识</span></a></li></ol>
  
   </div>
 

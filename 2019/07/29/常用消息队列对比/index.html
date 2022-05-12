@@ -137,10 +137,13 @@
 <h1 id="Kafka"><a href="#Kafka" class="headerlink" title="Kafka"></a>Kafka</h1><ul>
 <li><p>背景</p>
 <ul>
-<li>其他中间件消息处理速度较慢，不支持横向扩展</li>
+<li>传统的 ActiveMQ 等消息组件处理消息的吞吐能力较弱</li>
 </ul>
 </li>
 <li><p>目标</p>
+<ul>
+<li>提供高性能、高吞吐量的基础消息组件</li>
+</ul>
 </li>
 <li><p>优势</p>
 <ul>
@@ -151,8 +154,10 @@
 <li><p>劣势</p>
 <ul>
 <li>不支持JMS协议</li>
-<li>多Topic的时候性能较差</li>
+<li>多Topic的时候性能较差<ul>
 <li>如果分区数量过多，会同时对多个分区进行读写，这个时候性能就会不太好</li>
+</ul>
+</li>
 <li>一个分区只能有一个消费者</li>
 </ul>
 </li>
@@ -192,10 +197,18 @@
 </li>
 </ul>
 </li>
+<li><p>常见问题</p>
+<ul>
+<li>如何保证 Exactly-Once？<ul>
+<li>[[配置Kafka Exactly-Once消费的方法]]</li>
+</ul>
+</li>
+</ul>
+</li>
 <li><p>对比</p>
 <ul>
 <li>MQ<ul>
-<li>不支持JMS协议</li>
+<li>不支持 JMS 协议</li>
 </ul>
 </li>
 </ul>
@@ -203,10 +216,27 @@
 </ul>
 <h1 id="Pulsar"><a href="#Pulsar" class="headerlink" title="Pulsar"></a>Pulsar</h1><ul>
 <li>背景</li>
-<li>核心组件</li>
+<li>核心组件<ul>
+<li>BookKeeper<ul>
+<li>存储消息数据</li>
+</ul>
+</li>
+<li>Broker<ul>
+<li>生产者和消费者直接和 Broker 进行连接</li>
+</ul>
+</li>
+<li>参考：<a target="_blank" rel="noopener" href="https://pulsar.apache.org/docs/next/concepts-architecture-overview/"></a></li>
+</ul>
+</li>
 <li>优势<ul>
+<li>支持百万级消息主题</li>
 <li>支持延迟事件</li>
-<li>多样的消费模式</li>
+<li>多样的消费模式<ul>
+<li>Exclusive</li>
+<li>Failover</li>
+<li>Share</li>
+</ul>
+</li>
 <li>多样的消息重试</li>
 <li>支持单条提交</li>
 <li>存算分离<ul>
@@ -221,18 +251,7 @@
 </li>
 <li>劣势</li>
 <li>底层原理<ul>
-<li>pulsar 如何实现单条提交？<ul>
-<li>kafka<ul>
-<li>使用偏移 Offset</li>
-</ul>
-</li>
-<li>pulsar<ul>
-<li>使用专门的 Cursor 管理。累积确认和 Kafka 效果一样；提供单条或选择性确认。Cursor &#x3D; Offset + IndevidualDeletes, Ack 会触发 Cursor 的移动，但是不会删除任何消息</li>
-<li>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/363131525">https://zhuanlan.zhihu.com/p/363131525</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li>[[Pulsar实现单条提交的方法]]</li>
 </ul>
 </li>
 <li>应用场景</li>
@@ -240,9 +259,9 @@
 <h1 id="RocketMQ"><a href="#RocketMQ" class="headerlink" title="RocketMQ"></a>RocketMQ</h1><ul>
 <li><p>背景</p>
 <ul>
-<li>起源于Kafka，但不是Kafka的一个拷贝</li>
-<li>Kafka多Topic的时候性能比较差</li>
-<li>对Kafka可靠性传输、事务性做了优化</li>
+<li>起源于 Kafka ，但不是 Kafka 的一个拷贝</li>
+<li>Kafka 多 Topic 的时候性能比较差</li>
+<li>对 Kafka 可靠性传输、事务性做了优化</li>
 </ul>
 </li>
 <li><p>核心组件</p>
@@ -283,7 +302,7 @@
 <li>LocalTransactionExecuter</li>
 <li>TransactionCheckListener</li>
 <li>RocketMQ从4.3版本开始支持事务，原理为先预提交消息，然后执行本地事务，执行成功正式commit消息，如果没成功commit，会不断的check，check超时则回退本地事务</li>
-<li>参考：<a target="_blank" rel="noopener" href="https://www.infoq.cn/article/2018/08/rocketmq-4.3-release">https://www.infoq.cn/article/2018/08/rocketmq-4.3-release</a></li>
+<li>参考：<a target="_blank" rel="noopener" href="https://www.infoq.cn/article/2018/08/rocketmq-4.3-release"></a></li>
 </ul>
 </li>
 </ul>
@@ -328,11 +347,11 @@
 </ul>
 </li>
 <li>数据可靠性<ul>
-<li>都支持异步&#x2F;同步刷盘，但kafka同步刷盘的情况下，性能急剧下降</li>
+<li>都支持异步&#x2F;同步刷盘，但 kafka 同步刷盘的情况下，性能急剧下降</li>
 </ul>
 </li>
 <li>顺序消费<ul>
-<li>都支持顺序消费，但kafka在节点宕机的情况下不能保证消息的顺序性<ul>
+<li>都支持顺序消费，但 kafka 在节点宕机的情况下不能保证消息的顺序性<ul>
 <li>原因<ul>
 <li>异步复制</li>
 </ul>
@@ -364,7 +383,7 @@
 <li><p>如何保证消息的可靠性？</p>
 <ul>
 <li>Broker<ul>
-<li>保证多个replica都写入成功了才算写入成功</li>
+<li>保证多个 replica 都写入成功了才算写入成功</li>
 </ul>
 </li>
 <li>生产者<ul>
@@ -379,15 +398,15 @@
 </li>
 <li><p>如何保证消息消费的幂等性？</p>
 <ul>
-<li>数据库upset</li>
+<li>数据库 upsert</li>
 <li>redis set</li>
-<li>记录到redis里面，消费前先查询redis</li>
+<li>记录到 redis 里面，消费前先查询 redis</li>
 </ul>
 </li>
 <li><p>如何处理消息挤压？</p>
 <ul>
 <li>写一个临时消费者用数据库之类的持久化工具存起来</li>
-<li>消费者扩容，如果分区设置相对比较小，对kafka没有效果</li>
+<li>消费者扩容，如果分区设置相对比较小，对 kafka 没有效果</li>
 </ul>
 </li>
 </ul>
@@ -430,10 +449,10 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2019/07/30/java-linux/" title="Java知识图谱之Linux">
+ <a href="/2019/07/29/java-mq/" title="Java知识图谱之消息队列MQ">
   <strong>上一篇：</strong><br/>
   <span>
-  Java知识图谱之Linux</span>
+  Java知识图谱之消息队列MQ</span>
 </a>
 </div>
 
@@ -505,7 +524,9 @@
 		
 			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
 		
-			<li><a href="/categories/总结/" title="总结">总结<sup>15</sup></a></li>
+			<li><a href="/categories/后台开发/" title="后台开发">后台开发<sup>1</sup></a></li>
+		
+			<li><a href="/categories/总结/" title="总结">总结<sup>16</sup></a></li>
 		
 		</ul>
 </div>
@@ -514,7 +535,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">Archives</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">九月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">九月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a><span class="archive-list-count">1</span></li></ul>
   </div>
 
 
@@ -527,6 +548,8 @@
 		
 			<li><a href="/tags/Linux/" title="Linux">Linux<sup>3</sup></a></li>
 		
+			<li><a href="/tags/Golang/" title="Golang">Golang<sup>2</sup></a></li>
+		
 			<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
 		
 			<li><a href="/tags/xsxsx/" title="xsxsx">xsxsx<sup>2</sup></a></li>
@@ -535,7 +558,9 @@
 		
 			<li><a href="/tags/并发编程/" title="并发编程">并发编程<sup>2</sup></a></li>
 		
-			<li><a href="/tags/Golang/" title="Golang">Golang<sup>1</sup></a></li>
+			<li><a href="/tags/MQ/" title="MQ">MQ<sup>2</sup></a></li>
+		
+			<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>1</sup></a></li>
 		
 			<li><a href="/tags/面试/" title="面试">面试<sup>1</sup></a></li>
 		
@@ -546,8 +571,6 @@
 			<li><a href="/tags/Guava/" title="Guava">Guava<sup>1</sup></a></li>
 		
 			<li><a href="/tags/HBase/" title="HBase">HBase<sup>1</sup></a></li>
-		
-			<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>1</sup></a></li>
 		
 			<li><a href="/tags/FTP/" title="FTP">FTP<sup>1</sup></a></li>
 		
@@ -560,8 +583,6 @@
 			<li><a href="/tags/JVM类加载机制/" title="JVM类加载机制">JVM类加载机制<sup>1</sup></a></li>
 		
 			<li><a href="/tags/配置中心/" title="配置中心">配置中心<sup>1</sup></a></li>
-		
-			<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>1</sup></a></li>
 		
 		</ul>
 </div>

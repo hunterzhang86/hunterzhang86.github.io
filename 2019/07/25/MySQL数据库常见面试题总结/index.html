@@ -7,12 +7,12 @@
   <meta name="baidu-site-verification" content="gBGQPcPwzU" />
   <meta charset="UTF-8">
   
-    <title>Java知识图谱之MySQL数据库 | NoOne&#39;s Blog</title>
+    <title>MySQL 数据库常见面试题总结 | NoOne&#39;s Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="NoOne">
     
-    <meta name="description" content="MySQL是现阶段最流行的关系型数据库，也是Java开发面试过程中必问的知识点，本文主要对面试中经常出现的MySQL事务、锁和索引进行了总结，基本可以覆盖到面试过程中和MySQL相关的90%以上的知识点。">
+    <meta name="description" content="MySQL是现阶段最流行的关系型数据库，也是后台开发面试过程中必问的知识点，本文主要对面试中经常出现的MySQL事务、锁和索引进行了总结，基本可以覆盖到面试过程中和MySQL相关的90%以上的知识点。">
     
     
     <meta name="keywords" content="Java;Golang;后台开发">
@@ -73,7 +73,7 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2019/07/25/java-mysql/" title="Java知识图谱之MySQL数据库" itemprop="url">Java知识图谱之MySQL数据库</a>
+      <a href="/2019/07/25/MySQL数据库常见面试题总结/" title="MySQL 数据库常见面试题总结" itemprop="url">MySQL 数据库常见面试题总结</a>
   </h1>
   <p class="article-author">By
        
@@ -87,62 +87,288 @@
 	<div class="article-content">
 		
 
-		<p>MySQL是现阶段最流行的关系型数据库，也是Java开发面试过程中必问的知识点，本文主要对面试中经常出现的MySQL事务、锁和索引进行了总结，基本可以覆盖到面试过程中和MySQL相关的90%以上的知识点。</p>
+		<p>MySQL是现阶段最流行的关系型数据库，也是后台开发面试过程中必问的知识点，本文主要对面试中经常出现的MySQL事务、锁和索引进行了总结，基本可以覆盖到面试过程中和MySQL相关的90%以上的知识点。</p>
 <span id="more"></span>
 
 <p><img src="https://raw.githubusercontent.com/hunterzhang86/blog_markdown_files/master/images/java-mysql/java-mysql.png" alt="MySQL"></p>
-<h4 id="1-乐观锁和悲观锁"><a href="#1-乐观锁和悲观锁" class="headerlink" title="1.	乐观锁和悲观锁"></a>1.	乐观锁和悲观锁</h4><p>1.1.	乐观锁</p>
-<p>1.1.1.	出发点<br>认为数据一般情况下不会造成冲突</p>
-<p>1.1.2.	优点<br>并发好效率高</p>
-<p>1.1.3.	缺点<br>ABA问题</p>
+<h1 id="乐观锁和悲观锁"><a href="#乐观锁和悲观锁" class="headerlink" title="乐观锁和悲观锁"></a>乐观锁和悲观锁</h1><ul>
+<li><p>乐观锁</p>
 <ul>
-<li>解决方法<br>版本号<br>时间戳</li>
+<li><p>出发点</p>
+<ul>
+<li>认为数据一般情况下不会造成冲突</li>
 </ul>
-<p>1.1.4.	使用场景<br>读多写少，数据冲突不大的情况，考虑用户积分加减的场景<br>因为如果冲突比较大，事务需要回滚，应用层也会不断重试，这样反倒降低的性能</p>
-<p>1.1.5.	SQL</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">update</span> <span class="keyword">table</span> <span class="keyword">set</span> name <span class="operator">=</span> <span class="string">&#x27;Aron&#x27;</span>, version <span class="operator">=</span> version <span class="operator">+</span> <span class="number">1</span> <span class="keyword">where</span> id <span class="operator">=</span> #&#123;id&#125; <span class="keyword">and</span> version <span class="operator">=</span> #&#123;version&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>1.1.6.	使用方式<br>先不上锁，但如果SQL执行失败应用层需要自己处理，比如重试</p>
-<p>1.2.	悲观锁<br>1.2.1.	出发点<br>认为数据比较大可能会发生冲突<br>1.2.2.	使用场景<br>数据冲突比较大的情况<br>1.2.3.	使用方式<br>每次在拿数据的时候都会上锁，这样别人想拿这个数据就会block直到它拿到锁<br>1.2.4.	SQL</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> ... id<span class="operator">=</span><span class="number">1</span> <span class="keyword">for</span> <span class="keyword">update</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="2-索引"><a href="#2-索引" class="headerlink" title="2.	索引"></a>2.	索引</h4><p>2.1.	类别<br>普通索引<br>唯一索引<br>主键索引<br>全文索引<br>组合索引</p>
-<p>2.2.	实现机制<br>2.2.1.	B+树</p>
-<p><img src="https://raw.githubusercontent.com/hunterzhang86/blog_markdown_files/master/images/java-mysql/mysql-b+.png" alt="B+树结构"></p>
-<p>2.3.	SQL执行计划<br>通过SQL分析工具<br>Explain</p>
-<p>2.4.	什么情况下会失效<br>使用or关键字<br>like的模糊查询以%开头<br>组合索引使用的不是第一部分<br>列类型是字符串，但是查询条件中没有使用””<br>MySQL内部机制认为不使用比使用快的其他情况</p>
-<h4 id="3-SQL"><a href="#3-SQL" class="headerlink" title="3.	SQL"></a>3.	SQL</h4><h4 id="4-架构"><a href="#4-架构" class="headerlink" title="4.	架构"></a>4.	架构</h4><p>4.1.	Server层<br>连接器<br>分析器<br>优化器<br>执行器</p>
-<p>4.2.	存储层</p>
-<h4 id="5-binlog"><a href="#5-binlog" class="headerlink" title="5.	binlog"></a>5.	binlog</h4><p>statment<br>mixed<br>row</p>
-<h4 id="6-分库分表"><a href="#6-分库分表" class="headerlink" title="6.	分库分表"></a>6.	分库分表</h4><p>6.1.	如何在线迁移？<br>双写，批量插入转移，如果有冲突一条一条写入，写入的时候先查询再写入<br>有校验脚本来检查迁移是否成功</p>
-<h4 id="7-常见问题"><a href="#7-常见问题" class="headerlink" title="7.	常见问题"></a>7.	常见问题</h4><p>7.1.	如何优化分页查询？<br>大数据量的时候限制用户只能一页一页的往后翻</p>
-<p>7.2.	可靠性实现？<br>redolog<br>binlog</p>
-<p>7.3.	事务的可重复读是如何实现的？<br>给每行增加两个隐藏字段来实现MVVC(数据多版本并发控制)，两个列都用来存储事务的版本号<br>每开启一个新事务，事务的版本号就会递增<br>如果数据的trx_id落在低水位，可见<br>如果数据的trx_id落在高水位，不可见<br>如果数据在黄色区间，活跃事务ID数组</p>
-<p>trx_id在数组中，说明未提交，不可见<br>trx_id不在数组中，说明已提交，可见</p>
-<p>7.4.	读提交和可重复读实现区别？<br>可重复读在事务开始的时候创建一致性视图<br>读提交在语句执行的时候创建一致性试图</p>
-<p>7.5.	MySQL如何保证数据不丢失？<br>两阶段提交，先prepare，后commit<br>prepare其实做的一件事情就是刷盘<br>如果存在完整的prepare<br>如果binlog完整，则提交<br>可以保证数据和binlog的一致性<br>如果不完整，则回退<br>如果commit已经刷盘，则直接提交</p>
-<p>7.6.	MyISAM和InnoDB的区别？<br>MyISAM不支持事务<br>MyISAM不支持行锁<br>MyISAM支持FULLTEXT全文索引</p>
-<p>7.7.	count(<em>) count(1) count(col)的区别？<br>count(</em>) &#x3D; count(1), 统计行不会忽略NULL<br>count(col), 统计行会忽略col&#x3D;NULL的行</p>
-<p>7.8.	可重复读隔离级别下，MVVC在数据的CRUD层面分别是如何实现的？<br>7.8.1.	SELECT<br>读取创建版本小于或等于当前事务版本号，并且删除版本为空或大于当前事务版本号的记录。这样可以保证在读取之前记录是存在的<br>7.8.2.	INSERT<br>将当前事务的版本号保存至行的创建版本号<br>7.8.3.	UPDATE<br>新插入一行，并以当前事务的版本号作为新行的创建版本号，同时将原记录行的删除版本号设置为当前事务版本号<br>7.8.4.	DELETE<br>将当前事务的版本号保存至行的删除版本号</p>
-<h4 id="8-数据库锁"><a href="#8-数据库锁" class="headerlink" title="8.	数据库锁"></a>8.	数据库锁</h4><p>8.1.	全局锁</p>
+</li>
+<li><p>优点</p>
+<ul>
+<li>并发好效率高</li>
+</ul>
+</li>
+<li><p>缺点</p>
+<ul>
+<li>ABA问题<ul>
+<li>解决方法<ul>
+<li>版本号</li>
+<li>时间戳</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>使用场景</p>
+<ul>
+<li>读多写少，数据冲突不大的情况，考虑用户积分加减的场景</li>
+<li>因为如果冲突比较大，事务需要回滚，应用层也会不断重试，这样反倒降低的性能</li>
+</ul>
+</li>
+<li><p>SQL</p>
+<ul>
+<li><code>update table set name = &#39;Aron&#39;, version = version + 1 where id = #&#123;id&#125; and version = #&#123;version&#125;;</code></li>
+</ul>
+</li>
+<li><p>使用方式</p>
+<ul>
+<li>先不上锁，但如果SQL执行失败应用层需要自己处理，比如重试</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>悲观锁</p>
+<ul>
+<li><p>出发点</p>
+<ul>
+<li>认为数据比较大可能会发生冲突</li>
+</ul>
+</li>
+<li><p>使用场景</p>
+<ul>
+<li>数据冲突比较大的情况</li>
+</ul>
+</li>
+<li><p>使用方式</p>
+<ul>
+<li>每次在拿数据的时候都会上锁，这样别人想拿这个数据就会block直到它拿到锁</li>
+</ul>
+</li>
+<li><p>SQL</p>
+<ul>
+<li><code>select ... id=1 for update</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h1><ul>
+<li><p>类别</p>
+<ul>
+<li>普通索引</li>
+<li>唯一索引</li>
+<li>主键索引</li>
+<li>全文索引</li>
+<li>组合索引</li>
+</ul>
+</li>
+<li><p>实现机制</p>
+<ul>
+<li><p>B+树</p>
+<ul>
+<li><p><img src="https://raw.githubusercontent.com/hunterzhang86/blog_markdown_files/master/images/java-mysql/mysql-b+.png" alt="B+树结构"></p>
+</li>
+<li><p>SQL执行计划</p>
+<ul>
+<li>通过SQL分析工具</li>
+<li>Explain</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>什么情况下会失效</p>
+<ul>
+<li>使用or关键字</li>
+<li>like的模糊查询以%开头</li>
+<li>组合索引使用的不是第一部分</li>
+<li>列类型是字符串，但是查询条件中没有使用””</li>
+<li>MySQL内部机制认为不使用比使用快的其他情况</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="SQL"><a href="#SQL" class="headerlink" title="SQL"></a>SQL</h1><h1 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h1><ul>
+<li><p>Server层</p>
+<ul>
+<li>连接器</li>
+<li>分析器</li>
+<li>优化器</li>
+<li>执行器</li>
+</ul>
+</li>
+<li><p>存储层</p>
+</li>
+</ul>
+<h1 id="binlog"><a href="#binlog" class="headerlink" title="binlog"></a>binlog</h1><ul>
+<li>statment</li>
+<li>mixed</li>
+<li>row</li>
+</ul>
+<h1 id="分库分表"><a href="#分库分表" class="headerlink" title="分库分表"></a>分库分表</h1><ul>
+<li>如何在线迁移？<ul>
+<li>双写，批量插入转移，如果有冲突一条一条写入，写入的时候先查询再写入<br>有校验脚本来检查迁移是否成功</li>
+</ul>
+</li>
+</ul>
+<h1 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h1><ul>
+<li><p>如何优化分页查询？</p>
+<ul>
+<li>大数据量的时候限制用户只能一页一页的往后翻</li>
+</ul>
+</li>
+<li><p>可靠性实现？</p>
+<ul>
+<li>redolog</li>
+<li>binlog</li>
+</ul>
+</li>
+<li><p>事务的可重复读是如何实现的？</p>
+<ul>
+<li><p>给每行增加两个隐藏字段来实现MVVC(数据多版本并发控制)，两个列都用来存储事务的版本号</p>
+</li>
+<li><p>每开启一个新事务，事务的版本号就会递增</p>
+</li>
+<li><p>如果数据的trx_id落在低水位，可见</p>
+</li>
+<li><p>如果数据的trx_id落在高水位，不可见</p>
+</li>
+<li><p>如果数据在黄色区间，活跃事务ID数组</p>
+</li>
+<li><p>trx_id在数组中，说明未提交，不可见</p>
+</li>
+<li><p>trx_id不在数组中，说明已提交，可见</p>
+</li>
+</ul>
+</li>
+<li><p>读提交和可重复读实现区别？</p>
+<ul>
+<li>可重复读在事务开始的时候创建一致性视图</li>
+<li>读提交在语句执行的时候创建一致性试图</li>
+</ul>
+</li>
+<li><p>MySQL如何保证数据不丢失？</p>
+<ul>
+<li>两阶段提交，先prepare，后commit</li>
+<li>prepare其实做的一件事情就是刷盘</li>
+<li>如果存在完整的prepare</li>
+<li>如果binlog完整，则提交</li>
+<li>可以保证数据和binlog的一致性</li>
+<li>如果不完整，则回退</li>
+<li>如果commit已经刷盘，则直接提交</li>
+</ul>
+</li>
+<li><p>MyISAM和InnoDB的区别？</p>
+<ul>
+<li>MyISAM不支持事务</li>
+<li>MyISAM不支持行锁</li>
+<li>MyISAM支持FULLTEXT全文索引</li>
+</ul>
+</li>
+<li><p>count(*) count(1) count(col)的区别？</p>
+<ul>
+<li>count(*) &#x3D; count(1), 统计行不会忽略NULL</li>
+<li>count(col), 统计行会忽略col&#x3D;NULL的行</li>
+</ul>
+</li>
+<li><p>可重复读隔离级别下，MVVC在数据的CRUD层面分别是如何实现的？</p>
+<ul>
+<li>SELECT<ul>
+<li>读取创建版本小于或等于当前事务版本号，并且删除版本为空或大于当前事务版本号的记录。这样可以保证在读取之前记录是存在的</li>
+</ul>
+</li>
+<li>INSERT<ul>
+<li>将当前事务的版本号保存至行的创建版本号</li>
+</ul>
+</li>
+<li>UPDATE<ul>
+<li>新插入一行，并以当前事务的版本号作为新行的创建版本号，同时将原记录行的删除版本号设置为当前事务版本号</li>
+</ul>
+</li>
+<li>DELETE<ul>
+<li>将当前事务的版本号保存至行的删除版本号</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="数据库锁"><a href="#数据库锁" class="headerlink" title="数据库锁"></a>数据库锁</h1><ul>
+<li><p>全局锁</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flush <span class="keyword">table</span> <span class="keyword">with</span> read lock</span><br></pre></td></tr></table></figure>
-
-<p>8.2.	表级锁</p>
+</li>
+<li><p>表级锁</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lock tables ... read<span class="operator">/</span>write</span><br><span class="line">metadata lock</span><br></pre></td></tr></table></figure>
-
-<p>8.3.	行锁<br>8.3.1.	S锁</p>
+</li>
+<li><p>行锁</p>
+</li>
+<li><p>S锁</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> ... <span class="keyword">in</span> share mode</span><br></pre></td></tr></table></figure>
-<p>8.3.2.	X锁</p>
+</li>
+<li><p>X锁</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> ... id<span class="operator">=</span><span class="number">1</span> <span class="keyword">for</span> <span class="keyword">update</span></span><br></pre></td></tr></table></figure>
 <p>都是针对索引加锁，如果索引失效，会升级为表锁<br>如果索引没命中，会退化成间隙锁</p>
-<p>8.4.	间隙锁</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> empid <span class="operator">&gt;</span> <span class="number">100</span> <span class="keyword">for</span> <span class="keyword">update</span>;</span><br></pre></td></tr></table></figure>
-<p>间隙锁之间不会冲突，所以容易造成死锁<br>8.4.3.	原则<br>向左右查找第一个不满足条件的索引<br>当使用唯一索引的时候，如果等值刚好命中，不用向左右遍历找到不满足条件的索引<br>8.4.4.	作用<br>解决幻读的问题</p>
-<p>8.5.	意向锁<br>8.5.1.	作用<br>解决上表锁的时候性能不够的问题，没有意向锁可能会一个一个判断行锁<br>8.5.2.	原则<br>只与表锁可能有互斥，不会与行锁进行比较</p>
-<h4 id="9-分布式事务"><a href="#9-分布式事务" class="headerlink" title="9.	分布式事务"></a>9.	分布式事务</h4><p>9.1.	TCC<br>柔性事务<br>最终一致性<br>作用在服务层</p>
-<p>9.2.	TXC<br>分布式应用里面，多条数据库记录被同时修改带来的一致性问题<br>fascar</p>
-<p>9.3.	XA<br>作用在资源层，依赖于数据库对XA协议的支持</p>
-<h4 id="10-同步机制"><a href="#10-同步机制" class="headerlink" title="10.	同步机制"></a>10.	同步机制</h4><p>备库执行change master命令<br>备库执行start slave命令，会启动两个线程io_thread和sql_thread，其中io_thread负责与主库建立连接<br>主库将备库要读取的binlog发给备库，备库保存为relay log<br>备库读取relay log并执行</p>
+</li>
+<li><p>间隙锁</p>
+<ul>
+<li>select * from emp where empid &gt; 100 for update;</li>
+<li>间隙锁之间不会冲突，所以容易造成死锁</li>
+<li>原则<ul>
+<li>向左右查找第一个不满足条件的索引</li>
+<li>当使用唯一索引的时候，如果等值刚好命中，不用向左右遍历找到不满足条件的索引</li>
+</ul>
+</li>
+<li>作用<ul>
+<li>解决幻读的问题</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>意向锁</p>
+<ul>
+<li>作用<ul>
+<li>解决上表锁的时候性能不够的问题，没有意向锁可能会一个一个判断行锁</li>
+</ul>
+</li>
+<li>原则<ul>
+<li>只与表锁可能有互斥，不会与行锁进行比较</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="分布式事务"><a href="#分布式事务" class="headerlink" title="分布式事务"></a>分布式事务</h1><ul>
+<li><p>TCC</p>
+<ul>
+<li>柔性事务</li>
+<li>最终一致性</li>
+<li>作用在服务层</li>
+</ul>
+</li>
+<li><p>TXC</p>
+<ul>
+<li>分布式应用里面，多条数据库记录被同时修改带来的一致性问题</li>
+<li>fascar</li>
+</ul>
+</li>
+<li><p>XA</p>
+<ul>
+<li>作用在资源层，依赖于数据库对XA协议的支持</li>
+</ul>
+</li>
+</ul>
+<h1 id="同步机制"><a href="#同步机制" class="headerlink" title="同步机制"></a>同步机制</h1><ul>
+<li>备库执行 change master 命令</li>
+<li>备库执行 start slave 命令，会启动两个线程 io_thread 和 sql_thread，其中 io_thread 负责与主-库建立连接</li>
+<li>主库将备库要读取的 binlog 发给备库，备库保存为 relay log</li>
+<li>备库读取 relay log 并执行</li>
+</ul>
 
 	</div>
 
@@ -153,7 +379,7 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Java%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/">Java知识图谱</a>
+  <a class="article-category-link" href="/categories/%E5%90%8E%E5%8F%B0%E5%BC%80%E5%8F%91/">后台开发</a>
 </div>
 
 
@@ -168,7 +394,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://example.com/2019/07/25/java-mysql/" data-title="Java知识图谱之MySQL数据库 | NoOne&#39;s Blog" data-tsina="" class="share clearfix">
+	  <div data-url="http://example.com/2019/07/25/MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93/" data-title="MySQL 数据库常见面试题总结 | NoOne&#39;s Blog" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -212,7 +438,7 @@
   <script>
     var gitment = new Gitment({
       id: "1564058297000",
-      title: 'Java知识图谱之MySQL数据库',
+      title: 'MySQL 数据库常见面试题总结',
       owner: "hunterzhang86",
       repo: "blog_comments",
       oauth: {
@@ -234,7 +460,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81"><span class="toc-number">1.</span> <span class="toc-text">1.	乐观锁和悲观锁</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E7%B4%A2%E5%BC%95"><span class="toc-number">2.</span> <span class="toc-text">2.	索引</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-SQL"><span class="toc-number">3.</span> <span class="toc-text">3.	SQL</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E6%9E%B6%E6%9E%84"><span class="toc-number">4.</span> <span class="toc-text">4.	架构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-binlog"><span class="toc-number">5.</span> <span class="toc-text">5.	binlog</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8"><span class="toc-number">6.</span> <span class="toc-text">6.	分库分表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-number">7.</span> <span class="toc-text">7.	常见问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-%E6%95%B0%E6%8D%AE%E5%BA%93%E9%94%81"><span class="toc-number">8.</span> <span class="toc-text">8.	数据库锁</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1"><span class="toc-number">9.</span> <span class="toc-text">9.	分布式事务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6"><span class="toc-number">10.</span> <span class="toc-text">10.	同步机制</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81"><span class="toc-number">1.</span> <span class="toc-text">乐观锁和悲观锁</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95"><span class="toc-number">2.</span> <span class="toc-text">索引</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SQL"><span class="toc-number">3.</span> <span class="toc-text">SQL</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9E%B6%E6%9E%84"><span class="toc-number">4.</span> <span class="toc-text">架构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#binlog"><span class="toc-number">5.</span> <span class="toc-text">binlog</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8"><span class="toc-number">6.</span> <span class="toc-text">分库分表</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-number">7.</span> <span class="toc-text">常见问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E9%94%81"><span class="toc-number">8.</span> <span class="toc-text">数据库锁</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1"><span class="toc-number">9.</span> <span class="toc-text">分布式事务</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6"><span class="toc-number">10.</span> <span class="toc-text">同步机制</span></a></li></ol>
  
   </div>
 
@@ -257,7 +483,9 @@
 		
 			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
 		
-			<li><a href="/categories/总结/" title="总结">总结<sup>15</sup></a></li>
+			<li><a href="/categories/后台开发/" title="后台开发">后台开发<sup>1</sup></a></li>
+		
+			<li><a href="/categories/总结/" title="总结">总结<sup>16</sup></a></li>
 		
 		</ul>
 </div>
@@ -266,7 +494,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">Archives</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">九月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">九月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a><span class="archive-list-count">1</span></li></ul>
   </div>
 
 
@@ -279,6 +507,8 @@
 		
 			<li><a href="/tags/Linux/" title="Linux">Linux<sup>3</sup></a></li>
 		
+			<li><a href="/tags/Golang/" title="Golang">Golang<sup>2</sup></a></li>
+		
 			<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
 		
 			<li><a href="/tags/xsxsx/" title="xsxsx">xsxsx<sup>2</sup></a></li>
@@ -287,7 +517,9 @@
 		
 			<li><a href="/tags/并发编程/" title="并发编程">并发编程<sup>2</sup></a></li>
 		
-			<li><a href="/tags/Golang/" title="Golang">Golang<sup>1</sup></a></li>
+			<li><a href="/tags/MQ/" title="MQ">MQ<sup>2</sup></a></li>
+		
+			<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>1</sup></a></li>
 		
 			<li><a href="/tags/面试/" title="面试">面试<sup>1</sup></a></li>
 		
@@ -298,8 +530,6 @@
 			<li><a href="/tags/Guava/" title="Guava">Guava<sup>1</sup></a></li>
 		
 			<li><a href="/tags/HBase/" title="HBase">HBase<sup>1</sup></a></li>
-		
-			<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>1</sup></a></li>
 		
 			<li><a href="/tags/FTP/" title="FTP">FTP<sup>1</sup></a></li>
 		
@@ -312,8 +542,6 @@
 			<li><a href="/tags/JVM类加载机制/" title="JVM类加载机制">JVM类加载机制<sup>1</sup></a></li>
 		
 			<li><a href="/tags/配置中心/" title="配置中心">配置中心<sup>1</sup></a></li>
-		
-			<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>1</sup></a></li>
 		
 		</ul>
 </div>

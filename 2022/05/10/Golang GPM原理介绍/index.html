@@ -7,12 +7,35 @@
   <meta name="baidu-site-verification" content="gBGQPcPwzU" />
   <meta charset="UTF-8">
   
-    <title>Java知识图谱之计算机网络 | NoOne&#39;s Blog</title>
+    <title>Golang GPM 原理介绍 | NoOne&#39;s Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="NoOne">
     
-    <meta name="description" content="计算机网络是科班出身的程序员必学的课程之一，这篇文章主要是对TCP&amp;#x2F;IP网络的四层架构和相关协议进行了简要的总结和介绍。">
+    <meta name="description" content="基础概念
+G
+用户发起的协程
+
+
+P
+抽象处理器，有了它才能建立G、M的联系
+
+
+M
+操作系统的线程
+
+
+
+核心机制初始轮流分配P
+P的队列已塞满
+
+
+M获取G
+没找到G
+G在阻塞状态
+转去执行其他的GG进行系统调用
+转去执行其他的G G完成系统调用
+G完成系统调用">
     
     
     <meta name="keywords" content="Java;Golang;后台开发">
@@ -73,33 +96,45 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2019/07/23/java-network/" title="Java知识图谱之计算机网络" itemprop="url">Java知识图谱之计算机网络</a>
+      <a href="/2022/05/10/Golang GPM原理介绍/" title="Golang GPM 原理介绍" itemprop="url">Golang GPM 原理介绍</a>
   </h1>
   <p class="article-author">By
        
 		<a href="http://example.com/about" title="NoOne" target="_blank" itemprop="author">NoOne</a>
 		
   <p class="article-time">
-    <time datetime="2019-07-23T12:38:17.000Z" itemprop="datePublished"> Published 2019-07-23</time>
+    <time datetime="2022-05-10T12:38:17.000Z" itemprop="datePublished"> Published 2022-05-10</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 
-		<p>计算机网络是科班出身的程序员必学的课程之一，这篇文章主要是对TCP&#x2F;IP网络的四层架构和相关协议进行了简要的总结和介绍。</p>
-<span id="more"></span>
-
-<p><img src="https://raw.githubusercontent.com/hunterzhang86/blog_markdown_files/master/images/java-network/java-network.png" alt="计算机网络思维导图"></p>
-<p>我们现在基于TCP&#x2F;IP的网络一般划分为四层：</p>
-<h5 id="1、应用层"><a href="#1、应用层" class="headerlink" title="1、应用层"></a>1、应用层</h5><p>典型的应用层协议包括http&#x2F;https、ftp&#x2F;sftp、ssh协议，作为一个Java程序员，可能更多的需要关注的是我们最常用的http&#x2F;https协议，这个和我们的工作息息相关。</p>
-<p>Http是一个单向的协议，只能由客户端向服务端发送请求，不能由服务端向客户端发送请求，所以如果某些场景下需要服务端向客户端推送消息（比如告警监控页面），现在的Http协议就受到了很大的限制，现在大概有三种方式去实现客户端推送的方式。</p>
-<p>(1)简易轮询<br>这是最简单暴力的方法，客户端定时轮询，这种方法最大的好处是实现简单，但是如果客户端较多，服务端的压力会很大。</p>
-<p>(2)long-polling<br>为了解决定时轮询里面服务端压力比较大的问题，也可以使用long-polling来实现从推送数据，简单来说，就是服务端先hold住客户端发送过来的请求，直到服务端的数据有变化才返回，配置中心Apollo里面就是用的这种方式实现配置的推送。</p>
-<p>(3)websocket<br>区别于简易轮询和long-polling，websocket没有在http协议上做文章，直接实现了一套新的全双工的消息交互协议，客户端既可以向服务端发送消息内容，服务端也可以向服务端发送消息内容，相对简易轮询和long-polling来说实现较为复杂。</p>
-<h5 id="2、传输层"><a href="#2、传输层" class="headerlink" title="2、传输层"></a>2、传输层</h5><p>典型的传输层协议包括TCP、UDP协议，重点要关注的是TCP的三次握手，四次挥手，具体的交互请看思维导图。</p>
-<h5 id="3、网络层"><a href="#3、网络层" class="headerlink" title="3、网络层"></a>3、网络层</h5><p>典型的网络层协议包括IP和ICMP协议。</p>
-<h5 id="4、数据链路层"><a href="#4、数据链路层" class="headerlink" title="4、数据链路层"></a>4、数据链路层</h5><p>典型的数据链路层协议包括ARP和RARP协议。</p>
+		<h1 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h1><ul>
+<li>G<ul>
+<li>用户发起的协程</li>
+</ul>
+</li>
+<li>P<ul>
+<li>抽象处理器，有了它才能建立G、M的联系</li>
+</ul>
+</li>
+<li>M<ul>
+<li>操作系统的线程</li>
+</ul>
+</li>
+</ul>
+<h1 id="核心机制"><a href="#核心机制" class="headerlink" title="核心机制"></a>核心机制</h1><h2 id="初始轮流分配P"><a href="#初始轮流分配P" class="headerlink" title="初始轮流分配P"></a>初始轮流分配P</h2><ul>
+<li><img src="https://raw.githubusercontent.com/hunterzhang86/blog_markdown_files/master/images/go-gpm/%E5%88%9D%E5%A7%8B%E8%BD%AE%E6%B5%81%E5%88%86%E9%85%8DP.png"><h2 id="P的队列已塞满"><a href="#P的队列已塞满" class="headerlink" title="P的队列已塞满"></a>P的队列已塞满</h2></li>
+<li><img src="https://raw.githubusercontent.com/hunterzhang86/blog_markdown_files/master/images/go-gpm/P%E7%9A%84%E9%98%9F%E5%88%97%E5%B7%B2%E5%A1%9E%E6%BB%A1.png"></li>
+</ul>
+<h2 id="M获取G"><a href="#M获取G" class="headerlink" title="M获取G"></a>M获取G</h2><ul>
+<li><img src="https://raw.githubusercontent.com/hunterzhang86/blog_markdown_files/master/images/go-gpm/M%E8%8E%B7%E5%8F%96G.png"><h2 id="没找到G"><a href="#没找到G" class="headerlink" title="没找到G"></a>没找到G</h2></li>
+<li><img src="https://raw.githubusercontent.com/hunterzhang86/blog_markdown_files/master/images/go-gpm/images/go-gpm/%E6%B2%A1%E6%89%BE%E5%88%B0G.png"><h2 id="G在阻塞状态"><a href="#G在阻塞状态" class="headerlink" title="G在阻塞状态"></a>G在阻塞状态</h2></li>
+<li>转去执行其他的G<img src="https://raw.githubusercontent.com/hunterzhang86/blog_markdown_files/master/images/go-gpm/G%E5%9C%A8%E9%98%BB%E5%A1%9E%E7%8A%B6%E6%80%81.png"><h2 id="G进行系统调用"><a href="#G进行系统调用" class="headerlink" title="G进行系统调用"></a>G进行系统调用</h2></li>
+<li>转去执行其他的G <img src="https://raw.githubusercontent.com/hunterzhang86/blog_markdown_files/master/images/go-gpm/G%E8%BF%9B%E8%A1%8C%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8.png"><h2 id="G完成系统调用"><a href="#G完成系统调用" class="headerlink" title="G完成系统调用"></a>G完成系统调用</h2></li>
+<li>G完成系统调用 <img src="https://raw.githubusercontent.com/hunterzhang86/blog_markdown_files/master/images/go-gpm/G%E5%AE%8C%E6%88%90%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8.png"></li>
+</ul>
 
 	</div>
 
@@ -110,13 +145,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Java%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/">Java知识图谱</a>
+  <a class="article-category-link" href="/categories/%E6%80%BB%E7%BB%93/">总结</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/网络/">网络</a>
+  <span></span> <a href="/tags/Golang/">Golang</a>
   </div>
 
 </div>
@@ -125,7 +160,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://example.com/2019/07/23/java-network/" data-title="Java知识图谱之计算机网络 | NoOne&#39;s Blog" data-tsina="" class="share clearfix">
+	  <div data-url="http://example.com/2022/05/10/Golang%20GPM%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/" data-title="Golang GPM 原理介绍 | NoOne&#39;s Blog" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -139,18 +174,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2019/07/24/java-gc/" title="Java知识图谱之垃圾回收">
+ <a href="/2022/05/10/Golang GPM原理/" title="Golang GPM 原理介绍">
   <strong>上一篇：</strong><br/>
   <span>
-  Java知识图谱之垃圾回收</span>
+  Golang GPM 原理介绍</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2019/07/22/install-ngrok/"  title="通过Ngrok实现内网穿透">
+<a href="/2019/09/21/multi-thread-print-100/"  title="如何实现三个线程轮流输出1-100">
  <strong>下一篇：</strong><br/> 
- <span>通过Ngrok实现内网穿透
+ <span>如何实现三个线程轮流输出1-100
 </span>
 </a>
 </div>
@@ -168,8 +203,8 @@
   <script src="https://billts.site/js/gitment.js"></script>
   <script>
     var gitment = new Gitment({
-      id: "1563885497000",
-      title: 'Java知识图谱之计算机网络',
+      id: "1652186297000",
+      title: 'Golang GPM 原理介绍',
       owner: "hunterzhang86",
       repo: "blog_comments",
       oauth: {
@@ -191,7 +226,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#1%E3%80%81%E5%BA%94%E7%94%A8%E5%B1%82"><span class="toc-number">1.</span> <span class="toc-text">1、应用层</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2%E3%80%81%E4%BC%A0%E8%BE%93%E5%B1%82"><span class="toc-number">2.</span> <span class="toc-text">2、传输层</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3%E3%80%81%E7%BD%91%E7%BB%9C%E5%B1%82"><span class="toc-number">3.</span> <span class="toc-text">3、网络层</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4%E3%80%81%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82"><span class="toc-number">4.</span> <span class="toc-text">4、数据链路层</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text">基础概念</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%9C%BA%E5%88%B6"><span class="toc-number">2.</span> <span class="toc-text">核心机制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E8%BD%AE%E6%B5%81%E5%88%86%E9%85%8DP"><span class="toc-number">2.1.</span> <span class="toc-text">初始轮流分配P</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#P%E7%9A%84%E9%98%9F%E5%88%97%E5%B7%B2%E5%A1%9E%E6%BB%A1"><span class="toc-number">2.2.</span> <span class="toc-text">P的队列已塞满</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#M%E8%8E%B7%E5%8F%96G"><span class="toc-number">2.3.</span> <span class="toc-text">M获取G</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B2%A1%E6%89%BE%E5%88%B0G"><span class="toc-number">2.4.</span> <span class="toc-text">没找到G</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#G%E5%9C%A8%E9%98%BB%E5%A1%9E%E7%8A%B6%E6%80%81"><span class="toc-number">2.5.</span> <span class="toc-text">G在阻塞状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#G%E8%BF%9B%E8%A1%8C%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8"><span class="toc-number">2.6.</span> <span class="toc-text">G进行系统调用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#G%E5%AE%8C%E6%88%90%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8"><span class="toc-number">2.7.</span> <span class="toc-text">G完成系统调用</span></a></li></ol></li></ol>
  
   </div>
 

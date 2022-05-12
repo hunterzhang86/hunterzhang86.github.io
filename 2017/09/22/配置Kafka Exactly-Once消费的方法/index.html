@@ -7,7 +7,7 @@
   <meta name="baidu-site-verification" content="gBGQPcPwzU" />
   <meta charset="UTF-8">
   
-    <title>实现Kafka消息刚好传递一次(Exactly-Once)的方法 | NoOne&#39;s Blog</title>
+    <title>配置 Kafka Exactly-Once 消费的方法 | NoOne&#39;s Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="NoOne">
@@ -73,7 +73,7 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/09/22/how-to-implements-kafka-exactly-once/" title="实现Kafka消息刚好传递一次(Exactly-Once)的方法" itemprop="url">实现Kafka消息刚好传递一次(Exactly-Once)的方法</a>
+      <a href="/2017/09/22/配置Kafka Exactly-Once消费的方法/" title="配置 Kafka Exactly-Once 消费的方法" itemprop="url">配置 Kafka Exactly-Once 消费的方法</a>
   </h1>
   <p class="article-author">By
        
@@ -188,7 +188,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://example.com/2017/09/22/how-to-implements-kafka-exactly-once/" data-title="实现Kafka消息刚好传递一次(Exactly-Once)的方法 | NoOne&#39;s Blog" data-tsina="" class="share clearfix">
+	  <div data-url="http://example.com/2017/09/22/%E9%85%8D%E7%BD%AEKafka%20Exactly-Once%E6%B6%88%E8%B4%B9%E7%9A%84%E6%96%B9%E6%B3%95/" data-title="配置 Kafka Exactly-Once 消费的方法 | NoOne&#39;s Blog" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -232,7 +232,7 @@
   <script>
     var gitment = new Gitment({
       id: "1506083897000",
-      title: '实现Kafka消息刚好传递一次(Exactly-Once)的方法',
+      title: '配置 Kafka Exactly-Once 消费的方法',
       owner: "hunterzhang86",
       repo: "blog_comments",
       oauth: {
@@ -277,7 +277,9 @@
 		
 			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
 		
-			<li><a href="/categories/总结/" title="总结">总结<sup>15</sup></a></li>
+			<li><a href="/categories/后台开发/" title="后台开发">后台开发<sup>1</sup></a></li>
+		
+			<li><a href="/categories/总结/" title="总结">总结<sup>16</sup></a></li>
 		
 		</ul>
 </div>
@@ -286,7 +288,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">Archives</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">九月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">九月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a><span class="archive-list-count">1</span></li></ul>
   </div>
 
 
@@ -299,6 +301,8 @@
 		
 			<li><a href="/tags/Linux/" title="Linux">Linux<sup>3</sup></a></li>
 		
+			<li><a href="/tags/Golang/" title="Golang">Golang<sup>2</sup></a></li>
+		
 			<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
 		
 			<li><a href="/tags/xsxsx/" title="xsxsx">xsxsx<sup>2</sup></a></li>
@@ -307,7 +311,9 @@
 		
 			<li><a href="/tags/并发编程/" title="并发编程">并发编程<sup>2</sup></a></li>
 		
-			<li><a href="/tags/Golang/" title="Golang">Golang<sup>1</sup></a></li>
+			<li><a href="/tags/MQ/" title="MQ">MQ<sup>2</sup></a></li>
+		
+			<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>1</sup></a></li>
 		
 			<li><a href="/tags/面试/" title="面试">面试<sup>1</sup></a></li>
 		
@@ -318,8 +324,6 @@
 			<li><a href="/tags/Guava/" title="Guava">Guava<sup>1</sup></a></li>
 		
 			<li><a href="/tags/HBase/" title="HBase">HBase<sup>1</sup></a></li>
-		
-			<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>1</sup></a></li>
 		
 			<li><a href="/tags/FTP/" title="FTP">FTP<sup>1</sup></a></li>
 		
@@ -332,8 +336,6 @@
 			<li><a href="/tags/JVM类加载机制/" title="JVM类加载机制">JVM类加载机制<sup>1</sup></a></li>
 		
 			<li><a href="/tags/配置中心/" title="配置中心">配置中心<sup>1</sup></a></li>
-		
-			<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>1</sup></a></li>
 		
 		</ul>
 </div>

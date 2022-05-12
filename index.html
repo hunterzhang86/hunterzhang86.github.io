@@ -113,6 +113,49 @@ G完成系统调用</p>
   
 <section class="post" itemscope itemprop="blogitem">
   
+    <a href="/2022/05/10/Golang GPM原理介绍/" title="Golang GPM 原理介绍" itemprop="url">
+  
+    <h1 itemprop="name">Golang GPM 原理介绍</h1>
+    
+     
+           <p itemprop="description" >基础概念
+G
+用户发起的协程
+
+
+P
+抽象处理器，有了它才能建立G、M的联系
+
+
+M
+操作系统的线程
+
+
+
+核心机制初始轮流分配P
+P的队列已塞满
+
+
+M获取G
+没找到G
+G在阻塞状态
+转去执行其他的GG进行系统调用
+转去执行其他的G G完成系统调用
+G完成系统调用</p>
+        
+    
+    <time datetime="2022-05-10T12:38:17.000Z" itemprop="datePublished">2022-05-10</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
     <a href="/2019/09/21/multi-thread-print-100/" title="如何实现三个线程轮流输出1-100" itemprop="url">
   
     <h1 itemprop="name">如何实现三个线程轮流输出1-100</h1>
@@ -270,26 +313,6 @@ G完成系统调用</p>
 
 
 
-  
-<section class="post" itemscope itemprop="blogitem">
-  
-    <a href="/2019/08/03/java-classloader/" title="Java知识图谱之JVM类加载机制" itemprop="url">
-  
-    <h1 itemprop="name">Java知识图谱之JVM类加载机制</h1>
-    
-     
-       <p itemprop="description" >本文主要对Java类加载的时机、类加载的过程和几种常见的类加载器进行了总结。</p>
-      
-    
-    <time datetime="2019-08-03T15:22:17.000Z" itemprop="datePublished">2019-08-03</time>
-  </a>
-</section>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix unexpand">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next&lt;span&gt;&lt;&#x2F;span&gt;</a>
@@ -317,7 +340,9 @@ G完成系统调用</p>
 		
 			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
 		
-			<li><a href="/categories/总结/" title="总结">总结<sup>15</sup></a></li>
+			<li><a href="/categories/后台开发/" title="后台开发">后台开发<sup>1</sup></a></li>
+		
+			<li><a href="/categories/总结/" title="总结">总结<sup>16</sup></a></li>
 		
 		</ul>
 </div>
@@ -326,7 +351,7 @@ G完成系统调用</p>
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">Archives</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">九月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">九月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a><span class="archive-list-count">1</span></li></ul>
   </div>
 
 
@@ -339,6 +364,8 @@ G完成系统调用</p>
 		
 			<li><a href="/tags/Linux/" title="Linux">Linux<sup>3</sup></a></li>
 		
+			<li><a href="/tags/Golang/" title="Golang">Golang<sup>2</sup></a></li>
+		
 			<li><a href="/tags/Redis/" title="Redis">Redis<sup>2</sup></a></li>
 		
 			<li><a href="/tags/xsxsx/" title="xsxsx">xsxsx<sup>2</sup></a></li>
@@ -347,7 +374,9 @@ G完成系统调用</p>
 		
 			<li><a href="/tags/并发编程/" title="并发编程">并发编程<sup>2</sup></a></li>
 		
-			<li><a href="/tags/Golang/" title="Golang">Golang<sup>1</sup></a></li>
+			<li><a href="/tags/MQ/" title="MQ">MQ<sup>2</sup></a></li>
+		
+			<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>1</sup></a></li>
 		
 			<li><a href="/tags/面试/" title="面试">面试<sup>1</sup></a></li>
 		
@@ -358,8 +387,6 @@ G完成系统调用</p>
 			<li><a href="/tags/Guava/" title="Guava">Guava<sup>1</sup></a></li>
 		
 			<li><a href="/tags/HBase/" title="HBase">HBase<sup>1</sup></a></li>
-		
-			<li><a href="/tags/Kafka/" title="Kafka">Kafka<sup>1</sup></a></li>
 		
 			<li><a href="/tags/FTP/" title="FTP">FTP<sup>1</sup></a></li>
 		
@@ -372,8 +399,6 @@ G完成系统调用</p>
 			<li><a href="/tags/JVM类加载机制/" title="JVM类加载机制">JVM类加载机制<sup>1</sup></a></li>
 		
 			<li><a href="/tags/配置中心/" title="配置中心">配置中心<sup>1</sup></a></li>
-		
-			<li><a href="/tags/Dubbo/" title="Dubbo">Dubbo<sup>1</sup></a></li>
 		
 		</ul>
 </div>
