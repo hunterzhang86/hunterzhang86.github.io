@@ -1,0 +1,2451 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-CN">
+    <title type="text">FFlow Blog</title>
+    <subtitle type="html">FFlow 的飞流协同平台的博客</subtitle>
+    <updated>2022-10-01T00:04:24&#43;00:00</updated>
+    <id>https://blog.fflow.link/</id>
+    <link rel="alternate" type="text/html" href="https://blog.fflow.link/" />
+    <link rel="self" type="application/atom&#43;xml" href="https://blog.fflow.link/atom.xml" />
+    <author>
+            <name>fflow</name>
+            <uri>https://blog.fflow.link/</uri>
+            
+                <email>hunterzhang86@gmail.com</email>
+            </author>
+    <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights>
+    <generator uri="https://gohugo.io/" version="0.104.2">Hugo</generator>
+        <entry>
+            <title type="text">Spring Cloud Consul 入门指引</title>
+            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/a-quick-guide-to-spring-cloud-consul-baeldung/" />
+            <id>https://blog.fflow.link/posts/a-quick-guide-to-spring-cloud-consul-baeldung/</id>
+            <updated>2022-10-01T00:04:22&#43;00:00</updated>
+            <published>2022-09-30T09:48:04&#43;08:00</published>
+            <author>
+                    <name>fflow</name>
+                    <uri>https://blog.fflow.link/</uri>
+                    <email>hunterzhang86@gmail.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">1 概述 Spring Cloud Consul 项目为 Spring Boot 应用程序提供了与 Consul 的轻松集成。 Consul 是一个工具，它提供组件来解决微……</summary>
+            
+                <content type="html">&lt;h2 id=&#34;1-概述&#34;&gt;&lt;strong&gt;1 概述&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://cloud.spring.io/spring-cloud-consul/&#34;&gt;Spring Cloud Consul&lt;/a&gt; 项目为 Spring Boot 应用程序提供了与 Consul 的轻松集成。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.consul.io/intro/&#34;&gt;Consul&lt;/a&gt; 是一个工具，它提供组件来解决微服务架构中一些最常见的挑战：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;服务发现——自动注册和注销服务实例的网络位置&lt;/li&gt;
+&lt;li&gt;健康检查——检测服务实例何时启动并运行&lt;/li&gt;
+&lt;li&gt;分布式配置——确保所有服务实例使用相同的配置&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;在本文中，我们将了解如何配置 Spring Boot 应用程序以使用这些功能。&lt;/p&gt;
+&lt;h2 id=&#34;2-前提条件&#34;&gt;&lt;strong&gt;2 前提条件&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;首先，建议快速浏览 &lt;a href=&#34;https://www.consul.io/intro/&#34;&gt;Consul&lt;/a&gt; 及其所有功能。&lt;/p&gt;
+&lt;p&gt;在本文中，我们将使用在 &lt;em&gt;localhost:8500&lt;/em&gt; 上运行的 Consul 代理。有关如何安装 Consul 和运行代理的更多详细信息，请参阅此 &lt;a href=&#34;https://learn.hashicorp.com/tutorials/consul/get-started-install&#34;&gt;链接&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;首先，我们需要添加 [spring-cloud-starter-consul-all](&lt;a href=&#34;https://search.maven.org/classic/#search%7Cga%7C1%7Ca%3A%22spring-cloud-starter-&#34;&gt;https://search.maven.org/classic/#search%7Cga%7C1%7Ca%3A%22spring-cloud-starter-&lt;/a&gt; consul-all%22) 的 &lt;em&gt;pom.xml&lt;/em&gt; 的依赖：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;dependency&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;org.springframework.cloud&lt;span class=&#34;nt&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;spring-cloud-starter-consul-all&lt;span class=&#34;nt&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;3.1.1&lt;span class=&#34;nt&#34;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;/dependency&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;3-服务发现&#34;&gt;&lt;strong&gt;3 服务发现&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;让我们编写我们的第一个 Spring Boot 应用程序并连接正在运行的 Consul 代理：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@SpringBootApplication&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;ServiceDiscoveryApplication&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;static&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;[]&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;args&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SpringApplicationBuilder&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ServiceDiscoveryApplication&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;class&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;          &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;web&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;run&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;args&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;默认情况下，Spring Boot 将尝试连接到 &lt;em&gt;localhost:8500&lt;/em&gt; 的 Consul 代理。&lt;/strong&gt; 要使用其他设置，我们需要更新 &lt;em&gt;application.yml&lt;/em&gt; 文件：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;spring:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  cloud:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    consul:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      host: localhost
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      port: 8500
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;然后，如果我们在浏览器中访问 Consul 代理的站点 &lt;em&gt;http://localhost:8500&lt;/em&gt; ，我们将看到我们的应用程序已在 Consul 中正确注册，标识符来自 &lt;em&gt;&amp;quot;${spring.application.name}： ${用逗号分隔的配置文件}:${server.port}&amp;quot;&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;要自定义此标识符，我们需要使用另一个表达式更新属性 &lt;em&gt;spring.cloud.discovery.instanceId&lt;/em&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;spring:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  application:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    name: myApp
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  cloud:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    consul:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      discovery:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        instanceId: ${spring.application.name}:${random.value}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;如果我们再次运行该应用程序，我们将看到它是使用标识符 &lt;em&gt;&amp;quot;MyApp&amp;quot;&lt;/em&gt; 加上一个随机值注册的。我们需要它来在本地机器上运行应用程序的多个实例。&lt;/p&gt;
+&lt;p&gt;最后，&lt;strong&gt;要禁用服务发现，我们需要将属性 &lt;em&gt;spring.cloud.consul.discovery.enabled&lt;/em&gt; 设置为 &lt;em&gt;false&lt;/em&gt;。&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;31-查找服务&#34;&gt;&lt;strong&gt;3.1 查找服务&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;我们已经在 Consul 中注册了我们的应用程序，但是客户端如何找到服务端点？我们需要一个发现客户端服务来从 Consul 获得正在运行且可用的服务。&lt;/p&gt;
+&lt;p&gt;**Spring 为此提供了一个 &lt;em&gt;DiscoveryClient API&lt;/em&gt; **，我们可以使用 &lt;em&gt;@EnableDiscoveryClient&lt;/em&gt; 注释来启用它：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@SpringBootApplication&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@EnableDiscoveryClient&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;DiscoveryClientApplication&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;c1&#34;&gt;// ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;然后，我们可以将 &lt;em&gt;DiscoveryClient&lt;/em&gt; bean 注入我们的控制器并访问实例：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@RestController&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;DiscoveryClientController&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nd&#34;&gt;@Autowired&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kd&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;DiscoveryClient&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;discoveryClient&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Optional&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;URI&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;serviceUrl&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;discoveryClient&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getInstances&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;myApp&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;          &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;stream&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;          &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;findFirst&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;          &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;map&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;si&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;si&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getUri&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;());&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;最后，我们将定义我们的应用程序端点：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@GetMapping&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;/discoveryClient&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;discoveryPing&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;throws&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;RestClientException&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;n&#34;&gt;ServiceUnavailableException&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;URI&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;service&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;serviceUrl&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;map&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;resolve&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;/ping&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;orElseThrow&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ServiceUnavailableException&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;new&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;restTemplate&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getForEntity&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;service&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;String&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;class&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getBody&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@GetMapping&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;/ping&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;ping&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;pong&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;em&gt;&amp;quot;myApp/ping&amp;quot;&lt;/em&gt; 路径是带有服务端点的 Spring 应用程序名称。 Consul 将提供所有可用的名为 &lt;em&gt;&amp;quot;myApp&amp;quot;.&lt;/em&gt; 的应用程序&lt;/p&gt;
+&lt;h2 id=&#34;4-健康检查&#34;&gt;&lt;strong&gt;4 健康检查&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;Consul 会定期检查服务端点的健康状况。&lt;/p&gt;
+&lt;p&gt;默认情况下，**Spring 实现健康端点以在应用程序启动时返回 &lt;em&gt;200 OK&lt;/em&gt; **。如果我们想自定义端点，我们必须更新 &lt;em&gt;application.yml:&lt;/em&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;spring:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  cloud:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    consul:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      discovery:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        healthCheckPath: /my-health-check
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        healthCheckInterval: 20s
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;因此，Consul 将每 20 秒轮询一次 &lt;em&gt;&amp;quot;/my-health-check&amp;quot;&lt;/em&gt; 端点。&lt;/p&gt;
+&lt;p&gt;让我们定义我们的自定义健康检查服务以返回 &lt;em&gt;FORBIDDEN&lt;/em&gt; 状态：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@GetMapping&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;/my-health-check&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ResponseEntity&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;myCustomCheck&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;Testing my healh check function&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ResponseEntity&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&amp;gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;message&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;HttpStatus&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;FORBIDDEN&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;如果我们访问 Consul 代理站点，我们会看到我们的应用程序失败了。要解决此问题，&lt;em&gt;&amp;quot;/my-health-check&amp;quot;&lt;/em&gt; 服务应返回 HTTP &lt;em&gt;200 OK&lt;/em&gt; 状态代码。&lt;/p&gt;
+&lt;h2 id=&#34;5-分布式配置&#34;&gt;&lt;strong&gt;5 分布式配置&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;此功能&lt;strong&gt;允许在所有服务之间同步配置&lt;/strong&gt;。 Consul 将监视任何配置更改，然后触发所有服务的更新。&lt;/p&gt;
+&lt;p&gt;首先，我们需要添加[spring-cloud-starter-consul-config](&lt;a href=&#34;https://search.maven.org/classic/#search%7Cga%7C1%7Ca%3A%22spring-cloud-starter-consul-&#34;&gt;https://search.maven.org/classic/#search%7Cga%7C1%7Ca%3A%22spring-cloud-starter-consul-&lt;/a&gt; config%22) 的 &lt;em&gt;pom.xml&lt;/em&gt; 的依赖：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;dependence&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;org.springframework.cloud&lt;span class=&#34;nt&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;spring-cloud-starter-consul-config&lt;span class=&#34;nt&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;3.1.1&lt;span class=&#34;nt&#34;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;/dependence&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;我们还需要将 Consul 和 Spring 应用程序名称的设置从 &lt;em&gt;application.yml&lt;/em&gt; 文件移动到 Spring 首先加载的 &lt;em&gt;bootstrap.yml&lt;/em&gt; 文件中。&lt;/p&gt;
+&lt;p&gt;然后，我们需要启用 Spring Cloud Consul Config：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-纯文本hljs&#34; data-lang=&#34;纯文本hljs&#34;&gt;spring:
+  application:
+    name: myApp
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      config:
+        enabled: true
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Spring Cloud Consul Config 将在 Consul 中的 &lt;em&gt;&amp;quot;/config/myApp&amp;quot;&lt;/em&gt; 中查找属性。因此，如果我们有一个名为 &lt;em&gt;&amp;quot;my.prop&amp;quot;&lt;/em&gt; 的属性，我们需要在 Consul 代理站点中创建此属性。&lt;/p&gt;
+&lt;p&gt;我们可以通过转到 &lt;em&gt;&amp;quot;KEY/VALUE&amp;quot;&lt;/em&gt; 部分来创建属性，然后在 &lt;em&gt;&amp;quot;Create Key&amp;quot;&lt;/em&gt; 表单中输入 &lt;em&gt;&amp;quot;/config/myApp/my/prop&amp;quot;&lt;/em&gt; 和 &lt;em&gt;&amp;quot;Hello World&amp;quot;&lt;/em&gt; 作为值.最后，单击*“创建”* 按钮。&lt;/p&gt;
+&lt;p&gt;请记住，如果我们使用 Spring 配置文件，我们需要将配置文件附加到 Spring 应用程序名称旁边。例如，如果我们使用 &lt;em&gt;dev&lt;/em&gt; 配置文件，Consul 中的最终路径将是 &lt;em&gt;&amp;quot;/config/myApp,dev&amp;quot;.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;现在，让我们看看带有注入属性的控制器是什么样子的：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@RestController&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;DistributedPropertiesController&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nd&#34;&gt;@Value&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;${my.prop}&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;value&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nd&#34;&gt;@Autowired&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kd&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;MyProperties&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;properties&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nd&#34;&gt;@GetMapping&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;/getConfigFromValue&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;getConfigFromValue&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;value&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nd&#34;&gt;@GetMapping&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;/getConfigFromProperty&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;getConfigFromProperty&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;properties&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getProp&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;和 &lt;em&gt;MyProperties&lt;/em&gt; 类：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@RefreshScope&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@Configuration&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@ConfigurationProperties&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;my&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;MyProperties&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kd&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;prop&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;c1&#34;&gt;// standard getter, setter
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;如果我们运行应用程序，字段 &lt;em&gt;value&lt;/em&gt; 和 &lt;em&gt;properties&lt;/em&gt; 具有来自 Consul 的相同 &lt;em&gt;&amp;quot;Hello World&amp;quot;&lt;/em&gt; 值。&lt;/p&gt;
+&lt;h3 id=&#34;51-更新配置&#34;&gt;&lt;strong&gt;5.1 更新配置&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;在不重启 Spring Boot 应用程序的情况下更新配置怎么办？&lt;/p&gt;
+&lt;p&gt;如果我们回到 Consul 代理站点并用另一个值更新属性 &lt;em&gt;&amp;quot;/config/myApp/my/prop&amp;quot;&lt;/em&gt; ，例如 &lt;em&gt;&amp;quot;New Hello World&amp;quot;&lt;/em&gt; ，那么字段 &lt;em&gt;value&lt;/em&gt; 不会改变并且字段&lt;em&gt;properties&lt;/em&gt; 将按预期更新为 &lt;em&gt;&amp;quot;New Hello World&amp;quot;&lt;/em&gt;。&lt;/p&gt;
+&lt;p&gt;这是因为字段 &lt;em&gt;properties&lt;/em&gt; 是 &lt;em&gt;MyProperties&lt;/em&gt; 类具有 &lt;em&gt;@RefreshScope&lt;/em&gt; 注释。 &lt;strong&gt;所有带有 &lt;em&gt;@RefreshScope&lt;/em&gt; 注释的 bean 都将在配置更改后刷新。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在现实生活中，我们不应该直接在 Consul 中拥有这些属性，而是应该将它们持久地存储在某个地方。我们可以使用 &lt;a href=&#34;https://blog.fflow.link/spring-cloud-configuration&#34;&gt;Config Server&lt;/a&gt; 来做到这一点。&lt;/p&gt;
+&lt;h2 id=&#34;6-结论&#34;&gt;&lt;strong&gt;6 结论&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;在本文中，我们了解了如何设置 Spring Boot 应用程序以与 Consul 一起工作以实现服务发现、自定义健康检查规则并共享分布式配置。&lt;/p&gt;
+&lt;p&gt;我们还为客户端引入了许多方法来调用这些注册的服务。&lt;/p&gt;
+&lt;p&gt;像往常一样，可以&lt;a href=&#34;https://github.com/eugenp/tutorials/tree/master/spring-cloud-modules/spring-cloud-consul&#34;&gt;在 GitHub 上&lt;/a&gt; 找到源代码。&lt;/p&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/categories/java/" term="Java" label="Java" />
+                            
+                        
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/tags/spring-cloud/" term="Spring Cloud" label="Spring Cloud" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
+        <entry>
+            <title type="text">浅谈 Mock Server</title>
+            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E6%B5%85%E8%B0%88-mock-server/" />
+            <id>https://blog.fflow.link/posts/%E6%B5%85%E8%B0%88-mock-server/</id>
+            <updated>2022-10-01T00:04:22&#43;00:00</updated>
+            <published>2022-09-20T09:48:04&#43;08:00</published>
+            <author>
+                    <name>fflow</name>
+                    <uri>https://blog.fflow.link/</uri>
+                    <email>hunterzhang86@gmail.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">What？什么是 Mock Server Mock 是模拟的意思。在测试中，通常表述为：对测试过程中不容易构造或者……</summary>
+            
+                <content type="html">&lt;h1 id=&#34;what什么是-mock-server&#34;&gt;What？什么是 Mock Server&lt;/h1&gt;
+&lt;p&gt;Mock 是模拟的意思。在测试中，通常表述为：对测试过程中不容易构造或者不容易获取的物件，用一个虚拟的物件来进行模拟的一个过程。能够提供 Mock 功能的服务就叫作 Mock Server。 Mock Server 通过模拟真实的服务，提供对来自客户端请求的真实响应。&lt;/p&gt;
+&lt;h1 id=&#34;why为什么要用-mock-server&#34;&gt;Why？为什么要用 Mock Server&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;在开发初期先模拟外部接口，避免直接使用实际外部接口进行开发调试，提高开发效率&lt;/li&gt;
+&lt;li&gt;全面准确的模拟外部接口的返回，提高自身代码的可靠性，提升验证的全面性
+&lt;img src=&#34;https://blog.fflow.link/images/MockServer.png&#34; alt=&#34;&#34;&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1 id=&#34;how怎么用-mock-server&#34;&gt;How？怎么用 Mock Server&lt;/h1&gt;
+&lt;p&gt;主要包括两种使用方式，一种是通过一个现成的 Mock Server 服务，这种的好处是对代码无侵入，只需要将调用的 URL 修改为 Mock Server 提供的 URL 即可。另一种是在代码里面显式的编写相关的规则，这样的好处是不再需要单独启用服务，在代码里面就可以完成 Mock，主要在单测的时候使用。&lt;/p&gt;
+&lt;h2 id=&#34;使用方式一通过现成的服务打桩&#34;&gt;使用方式一：通过现成的服务打桩&lt;/h2&gt;
+&lt;p&gt;可以使用类似 apifox 工具本地/线上打桩，apifox 不仅有基于 Swgger 的 API 管理的能力，同时也具备 API Mock 的功能。具体使用方法可以访问： &lt;a href=&#34;https://www.apifox.cn/&#34;&gt;https://www.apifox.cn/&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;使用方式二通过代码打桩&#34;&gt;使用方式二：通过代码打桩&lt;/h2&gt;
+&lt;p&gt;MockServer 官方文档 &lt;a href=&#34;http://www.mock-server.com&#34;&gt;http://www.mock-server.com&lt;/a&gt;
+Maven 引入&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;dependency&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;groupId&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;org&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;mock&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;groupId&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;artifactId&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;mockserver&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;netty&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;artifactId&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;version&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;version&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;dependency&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;dependency&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;groupId&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;org&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;mock&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;groupId&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;artifactId&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;mockserver&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;client&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;java&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;artifactId&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;version&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;version&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;dependency&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;示例一&#34;&gt;示例一&lt;/h3&gt;
+&lt;p&gt;ClientAndServer 用法&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;30
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;31
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;32
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;33
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;34
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;35
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;36
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;37
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;38
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;package&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;com.yzy.mock&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;org.mockserver.integration.ClientAndServer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;org.mockserver.model.Cookie&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import static&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;org.mockserver.model.HttpRequest.request&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import static&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;org.mockserver.model.HttpResponse.response&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import static&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;org.mockserver.model.Parameter.param&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;MockServer&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;static&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;[]&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;args&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;ClientAndServer&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;server&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ClientAndServer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;1080&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;when&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;n&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                        &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;withMethod&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;GET&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                        &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;withPath&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;/test&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                        &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;withQueryStringParameters&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                &lt;span class=&#34;n&#34;&gt;param&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;p&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;1&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                        &lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;o&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;respond&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                        &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;withCookie&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Cookie&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;cKey&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;cValue&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                        &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;withBody&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;test1&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;when&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;n&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                        &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;withMethod&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;GET&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                        &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;withPath&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;/test&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                        &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;withQueryStringParameters&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                &lt;span class=&#34;n&#34;&gt;param&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;p&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;2&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                        &lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;o&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;respond&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                        &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;withBody&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;test2&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;启动 main 方法，打开浏览器，输入 http://localhost:1080/test?p=1，页面返回test1，并且成功写入cookie。注意写入的cookie 是Session 级别的，会话关闭将消失。输入http://localhost:1080/test?p=2，页面返回 test2，说明 MockServer 同时监听的两个匹配都有效。&lt;/p&gt;
+&lt;h3 id=&#34;示例二&#34;&gt;示例二&lt;/h3&gt;
+&lt;p&gt;MockServerClient 用法&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;30
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;31
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;32
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;33
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;34
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;35
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;36
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;37
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;38
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;39
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;40
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;41
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;42
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;43
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;44
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;45
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;46
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;47
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;48
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;49
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;50
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;51
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;52
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;package&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;mock&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;org.apache.http.client.methods.CloseableHttpResponse&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;org.apache.http.client.methods.HttpGet&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;org.apache.http.impl.client.CloseableHttpClient&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;org.apache.http.impl.client.HttpClients&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;org.junit.Rule&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;org.junit.Test&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;org.mockserver.client.MockServerClient&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;org.mockserver.junit.MockServerRule&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;java.io.BufferedReader&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;java.io.IOException&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;java.io.InputStream&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;java.io.InputStreamReader&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import static&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;org.hamcrest.core.IsEqual.equalTo&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import static&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;org.junit.Assert.assertThat&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import static&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;org.mockserver.model.HttpRequest.request&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import static&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;org.mockserver.model.HttpResponse.response&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;MockServerTest&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nd&#34;&gt;@Rule&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;MockServerRule&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;server&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;MockServerRule&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;1080&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nd&#34;&gt;@Test&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;test&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;throws&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;IOException&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;MockServerClient&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mockClient&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;MockServerClient&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;localhost&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;1080&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;expected&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;hello world&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;mockClient&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;when&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;n&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                        &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;withPath&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;/hello&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                        &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;withMethod&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;GET&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;o&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;respond&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                        &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;withStatusCode&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;200&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                        &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;withBody&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;expected&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;CloseableHttpClient&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;client&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;HttpClients&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;createDefault&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;HttpGet&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;httpGet&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;HttpGet&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;http://localhost:1080/hello&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;CloseableHttpResponse&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;client&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;execute&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;httpGet&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;c1&#34;&gt;//验证
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;        &lt;span class=&#34;n&#34;&gt;InputStream&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;content&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getEntity&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getContent&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;InputStreamReader&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;inputStreamReader&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;InputStreamReader&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;content&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;BufferedReader&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;bufferedReader&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;BufferedReader&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;inputStreamReader&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;responseText&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;bufferedReader&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;readLine&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;assertThat&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;responseText&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;equalTo&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;expected&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;));&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/categories/%E7%AC%94%E8%AE%B0/" term="笔记" label="笔记" />
+                            
+                        
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/tags/%E5%B7%A5%E5%85%B7/" term="工具" label="工具" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
+        <entry>
+            <title type="text">MySQL 和 Redis 事务实现对比</title>
+            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/mysql-%E5%92%8C-redis-%E4%BA%8B%E5%8A%A1%E5%AE%9E%E7%8E%B0%E5%AF%B9%E6%AF%94/" />
+            <id>https://blog.fflow.link/posts/mysql-%E5%92%8C-redis-%E4%BA%8B%E5%8A%A1%E5%AE%9E%E7%8E%B0%E5%AF%B9%E6%AF%94/</id>
+            <updated>2022-10-01T00:04:22&#43;00:00</updated>
+            <published>2022-08-01T09:48:04&#43;08:00</published>
+            <author>
+                    <name>fflow</name>
+                    <uri>https://blog.fflow.link/</uri>
+                    <email>hunterzhang86@gmail.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">我们都知道，如果要实现事务，需要整体保证 ACID(A-原子性|C-持久性|I-隔离性……</summary>
+            
+                <content type="html">&lt;p&gt;我们都知道，如果要实现事务，需要整体保证 ACID(A-原子性|C-持久性|I-隔离性|D-一致性) ，其中一致性是目标，原子性、持久性和隔离性都是手段，所以这里对比一下 MySQL 和 Redis 在事务实现上的区别，当然严格意义上来说，Redis 由于不满足原子性，不能算真正意义上实现了事务。&lt;/p&gt;
+&lt;h1 id=&#34;原子性&#34;&gt;原子性&lt;/h1&gt;
+&lt;h2 id=&#34;mysql---原子性&#34;&gt;MySQL - 原子性&lt;/h2&gt;
+&lt;p&gt;MySQL 的原子性是通过 undolog 保证的，undolog 是 MySQL 的&lt;strong&gt;回滚&lt;/strong&gt;日志，保存的是数据的历史版本，通过历史版本让数据在任何时候都可以回滚到某一个事务开始之前的状态，所以如果事务执行失败了，可以通过 undolog 来保证到原子性。&lt;/p&gt;
+&lt;h2 id=&#34;redis---原子性&#34;&gt;Redis - 原子性&lt;/h2&gt;
+&lt;p&gt;Redis 没有实现原子性，Redis 的官方文档是这么解释的，所以严格意义上来说，Redis 没有实现事务，因为不能回滚。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;It&#39;s important to note that even when a command fails, all the other commands in the queue are processed – Redis will not stop the processing of commands.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;持久性&#34;&gt;持久性&lt;/h1&gt;
+&lt;h2 id=&#34;mysql---持久性&#34;&gt;MySQL - 持久性&lt;/h2&gt;
+&lt;p&gt;MySQL 的持久性是通过 redolog 保证的，redolog 是 MySQL 的&lt;strong&gt;前滚&lt;/strong&gt;日志，记录数据修改的操作日志，通过操作日志可以保证数据库的数据不丢失。&lt;/p&gt;
+&lt;h2 id=&#34;redis---持久性&#34;&gt;Redis - 持久性&lt;/h2&gt;
+&lt;p&gt;Redis 严格意义上来说，也没有保证到持久性，这是因为它的持久化策略中不管是 RDB 还是 AOF 都是异步执行的，这样还是有可能会造成数据丢失。
+不过 MySQL 除非使用&lt;code&gt;双1&lt;/code&gt;的配置，也就是 sync_binlog  和 innodb_flush_log_at_trx_commit 的配置都是 1，否则也是不满足持久性的；因为如果主机发生异常重启/掉电，还是有可能会造成数据丢失。所以这里可以认为 Redis 部分实现了持久性。&lt;/p&gt;
+&lt;h1 id=&#34;隔离性&#34;&gt;隔离性&lt;/h1&gt;
+&lt;h2 id=&#34;mysql---隔离性&#34;&gt;MySQL - 隔离性&lt;/h2&gt;
+&lt;p&gt;MySQL 里面定义了四种标准的隔离级别，通过 MVCC(Multi-Version Concurrency Control，多版本并发控制) 来实现个不同隔离级别的隔离，简单来说，通过数据的版本来控制数据的可见性。&lt;/p&gt;
+&lt;h3 id=&#34;读未提交---read-uncommitted&#34;&gt;读未提交 - Read Uncommitted&lt;/h3&gt;
+&lt;p&gt;可能会读到其他事务未提交的数据，也就是&lt;code&gt;脏读&lt;/code&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;读已提交---read-committed&#34;&gt;读已提交 - Read Committed&lt;/h3&gt;
+&lt;p&gt;读取的数据可能会前后不一致的情况，因为读取的数据可能在事务执行的过程中被修改了。&lt;/p&gt;
+&lt;h3 id=&#34;可重复读---repeatable-read&#34;&gt;可重复读 - Repeatable Read&lt;/h3&gt;
+&lt;p&gt;事务一旦开始，事务过程中读取的数据就不能被修改。
+但是依然可能会发生&lt;code&gt;幻读&lt;/code&gt;，因为可重复读虽然保护了读取的数据，但是其他数据插入后依然可能满足当前的查询条件，造成&lt;code&gt;幻读&lt;/code&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;序列化---serializable&#34;&gt;序列化 - Serializable&lt;/h3&gt;
+&lt;p&gt;系统中的所有事务都串行执行。虽然可以避免所有数据不一致的情况，但是性能下降明显，一般不建议使用。&lt;/p&gt;
+&lt;h2 id=&#34;redis---隔离性&#34;&gt;Redis - 隔离性&lt;/h2&gt;
+&lt;p&gt;Redis 的事务在执行的过程中，就不会处理其它命令，而是等所有命令都执行完后，再处理其它命令。所以只要执行了 multi，就会阻塞其他操作。因此 Redis 事务是满足隔离性的。&lt;/p&gt;
+&lt;h1 id=&#34;总结&#34;&gt;总结&lt;/h1&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;MySQL&lt;/th&gt;
+&lt;th style=&#34;text-align:right&#34;&gt;Redis&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;A - 原子性&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;undo log&lt;/td&gt;
+&lt;td style=&#34;text-align:right&#34;&gt;❌&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;C - 持久性&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;redo log&lt;/td&gt;
+&lt;td style=&#34;text-align:right&#34;&gt;RDB + AOF&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;I - 隔离性&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;MVVC&lt;/td&gt;
+&lt;td style=&#34;text-align:right&#34;&gt;命令单进程+单线程执行&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/categories/%E7%AC%94%E8%AE%B0/" term="笔记" label="笔记" />
+                            
+                        
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/tags/mysql/" term="MySQL" label="MySQL" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
+        <entry>
+            <title type="text">面试八股文-RocketMQ</title>
+            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-rocketmq/" />
+            <id>https://blog.fflow.link/posts/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-rocketmq/</id>
+            <updated>2022-10-01T00:04:22&#43;00:00</updated>
+            <published>2022-07-31T09:20:04&#43;08:00</published>
+            <author>
+                    <name>fflow</name>
+                    <uri>https://blog.fflow.link/</uri>
+                    <email>hunterzhang86@gmail.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">背景 起源于 [[Kafka]] ，但不是 Kafka 的一个拷贝 Kafka 多 Topic 的时候性能比较差 对 Kafka 可靠性传输、事务性做了优化……</summary>
+            
+                <content type="html">&lt;p&gt;&lt;img src=&#34;https://blog.fflow.link/images/RocketMQ%20%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h1 id=&#34;背景&#34;&gt;背景&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;起源于 [[Kafka]] ，但不是 Kafka 的一个拷贝&lt;/li&gt;
+&lt;li&gt;Kafka 多 Topic 的时候性能比较差&lt;/li&gt;
+&lt;li&gt;对 Kafka 可靠性传输、事务性做了优化&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;核心架构&#34;&gt;核心架构&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&#34;https://blog.fflow.link/images/RocketMQ%20%E6%9E%B6%E6%9E%84.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;NameServer&lt;/li&gt;
+&lt;li&gt;Broker
+&lt;ul&gt;
+&lt;li&gt;Master&lt;/li&gt;
+&lt;li&gt;Slave&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Producer&lt;/li&gt;
+&lt;li&gt;Consumer&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;优势&#34;&gt;优势&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;有现成的管理台界面，便于管理，且可以看到消息的内容&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;支持通过 Tag，Message Header，Message Body 进行过滤&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;便于横向扩展&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;数据与索引分开存储&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;同时支持推和拉的方式消费&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;多 Topic 的时候性能相对较好&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;一个 Broker 共用一个分区，一个分区支持上万队列&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Kafka 因为是每个 Topic 单独的分区文件，所以在 Topic 较多的时候，机器的 IO 很容易到达瓶颈&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;支持事务发送&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;RocketMQ 从 &lt;strong&gt;4.3&lt;/strong&gt; 版本开始支持事务，原理为先预提交消息，然后执行本地事务，执行成功正式 commit 消息，如果没成功 commit，会不断的 check，check 超时则回退本地事务&lt;/li&gt;
+&lt;li&gt;LocalTransactionExecuter&lt;/li&gt;
+&lt;li&gt;TransactionCheckListener&lt;/li&gt;
+&lt;li&gt;&lt;img src=&#34;https://blog.fflow.link/images/RocketMQ%20%E4%BA%8B%E5%8A%A1%E6%B5%81%E7%A8%8B.png&#34; alt=&#34;&#34;&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.infoq.cn/article/2018/08/rocketmq-4.3-release&#34;&gt;RocketMQ 4.3 正式发布，支持分布式事务&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;劣势&#34;&gt;劣势&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;吞吐量没有 Kafka 高 - 一个 Broker 共用一个分区&lt;/li&gt;
+&lt;li&gt;一个分区只能对应一个消费者&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;底层原理&#34;&gt;底层原理&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;高吞吐量&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Topic 划分为多个分区，提高并发度&lt;/li&gt;
+&lt;li&gt;充分利用磁盘顺序读写的性能&lt;/li&gt;
+&lt;li&gt;使用 Zero-Copy [[零拷贝]]技术
+&lt;ul&gt;
+&lt;li&gt;直接在内核态进行数据传输，避免拷贝数据导致内核态和用户态的切换&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;数据批量发送&lt;/li&gt;
+&lt;li&gt;数据批量压缩&lt;/li&gt;
+&lt;li&gt;消息预先拉取&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;主从同步&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;同步双写&lt;/li&gt;
+&lt;li&gt;异步复制&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;应用场景&#34;&gt;应用场景&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;电商&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;最新进展&#34;&gt;最新进展&lt;/h1&gt;
+&lt;h2 id=&#34;存算分离&#34;&gt;存算分离&lt;/h2&gt;
+&lt;p&gt;如果是存算融合的方式，无论存储和计算出现问题，都需要迁移机器，但存储扩展通常意味着迁移大量数据。
+存算分离由于与任一给定 Topic 相关的数据都不会与特定存储节点进行捆绑，因此很容易替换存储节点或者扩缩容，集群中最小或最慢的节点也不会成为存储或带宽的瓶颈。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://mp.weixin.qq.com/s?__biz=MzIzOTU0NTQ0MA==&amp;amp;mid=2247508597&amp;amp;idx=1&amp;amp;sn=e18553584ed8796a31c5a9ccbed05263&amp;amp;chksm=e92a9f7ade5d166c40411256a6ee00880dc1d09a361f4b0ea837ad7825dbaa88e515a03a4d7f&amp;amp;mpshare=1&amp;amp;scene=1&amp;amp;srcid=0523uYIVkzYSO0mKV9HS3YcO&amp;amp;sharer_sharetime=1653269879854&amp;amp;sharer_shareid=501ef89633c919d535dedcc1f2858a40&amp;amp;version=4.0.6.90540&amp;amp;platform=mac#rd&#34;&gt;RocketMQ 5.0: 存储计算分离新思路&lt;/a&gt;&lt;/p&gt;
+&lt;h1 id=&#34;对比&#34;&gt;对比&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;和 [[Kafka]] 的比较
+&lt;ul&gt;
+&lt;li&gt;吞吐量
+&lt;ul&gt;
+&lt;li&gt;[[Kafka]] &amp;gt; [[RocketMQ]]&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;数据可靠性
+&lt;ul&gt;
+&lt;li&gt;都支持异步/同步刷盘，但 Kafka 同步刷盘的情况下，性能急剧下降&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;顺序消费
+&lt;ul&gt;
+&lt;li&gt;都支持顺序消费，但 Kafka 在节点宕机的情况下不能保证消息的顺序性 - 异步复制&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/categories/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87/" term="面试八股文" label="面试八股文" />
+                            
+                        
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/tags/mq/" term="MQ" label="MQ" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
+        <entry>
+            <title type="text">浅谈 Golang 插件机制</title>
+            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E6%B5%85%E8%B0%88-golang-%E6%8F%92%E4%BB%B6%E6%9C%BA%E5%88%B6/" />
+            <id>https://blog.fflow.link/posts/%E6%B5%85%E8%B0%88-golang-%E6%8F%92%E4%BB%B6%E6%9C%BA%E5%88%B6/</id>
+            <updated>2022-10-01T00:04:22&#43;00:00</updated>
+            <published>2022-07-30T09:48:04&#43;08:00</published>
+            <author>
+                    <name>fflow</name>
+                    <uri>https://blog.fflow.link/</uri>
+                    <email>hunterzhang86@gmail.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">我们知道类似 Java 等半编译半解释型语言编译生成的都是类似中间态的字节码，所以在 Java 里面我们……</summary>
+            
+                <content type="html">&lt;p&gt;我们知道类似 Java 等半编译半解释型语言编译生成的都是类似中间态的字节码，所以在 Java 里面我们想要实现程序工作的动态扩展，可以通过 Java 的字节码编辑技术([[动态代理#ASM]]/[[动态代理#CGLIB]])，并结合 JVM 的 [[字节码动态加载#^bc6dd8]] 实现动态修改和加载字节码。&lt;/p&gt;
+&lt;p&gt;但是 Golang 是编译型语言，编译后直接生成的是可执行文件，但是如果我们又需要在不发布版本的情况下实现程序功能的动态扩展，我们可以通过什么方式来实现呢？下面主要介绍 Golang 里面实现程序功能动态扩展的两种方式：Golang 原生插件和 go-plugin 插件。&lt;/p&gt;
+&lt;h1 id=&#34;golang-原生插件&#34;&gt;Golang 原生插件&lt;/h1&gt;
+&lt;p&gt;Golang 原生插件使用流程如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://blog.fflow.link/images/Golang%20%E5%8E%9F%E7%94%9F%E6%8F%92%E4%BB%B6%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;将代码编译成 .so 文件&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;package&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;main&lt;/span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;Name&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;PluginName&amp;#34;&lt;/span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;GetName&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;Name&lt;/span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;将以上代码使用 &lt;code&gt;go build -buildmode=plugin&lt;/code&gt; 命令即可编译成插件。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;使用插件示例&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;c1&#34;&gt;// 加载插件
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;nx&#34;&gt;open&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;plugin&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Open&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;~/plg.so&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nb&#34;&gt;panic&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;c1&#34;&gt;// 查找标识符
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;nx&#34;&gt;lookup&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;open&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Lookup&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;GetName&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nb&#34;&gt;panic&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nx&#34;&gt;res&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;lookup&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.(&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)()&lt;/span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nx&#34;&gt;fmt&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;%v&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;res&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;原生插件的弱点&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;编译的 Go 版本必须完全一致 - 事实上这个插件都可以不是由同一个人编写，要求编译的 Go 版本一致显然有点要求太高了&lt;/li&gt;
+&lt;li&gt;双方依赖的公共第三方库版本必须完全一致&lt;/li&gt;
+&lt;li&gt;GOPATH 也得保持一致 - 不过这一点可以在编译时候使用 trimpath 参数解决&lt;/li&gt;
+&lt;li&gt;插件加载之后无法卸载&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1 id=&#34;go-plugin&#34;&gt;go-plugin&lt;/h1&gt;
+&lt;p&gt;鉴于 Golang 原生插件框架的问题，所以包括 Terraform、Grafana 等系统使用的是 go-plugin 这个框架。go-plugin 使用流程如下。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://blog.fflow.link/images/go-plugin%20%E6%8F%92%E4%BB%B6%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;⚠️ 使用的时候注意复用客户端，因为每次初始化实际上是启动了一个子进程，这样会消耗非常多的内存和 CPU 资源。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;我们看 go-plugin 的使用流程，可以发现其实 go-plugin 是通过在应用内部启动一个服务端子进程，应用通过 rpc 的方式和服务端子进程进行交互来实现插件的动态加载。这样其实几乎可以作为一个编译型语言实现动态加载的通用方案，实际上不是对应用本身做了扩展，而是对应用依赖的接口做了相关的扩展。&lt;/p&gt;
+&lt;p&gt;go-plugin 的具体使用可以参考文章最后的链接。&lt;/p&gt;
+&lt;h1 id=&#34;参考&#34;&gt;参考&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://wangbjun.site/2021/coding/golang/go-plugin.html&#34;&gt;使用 Go Plugin 实现插件化编程&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://wangbjun.site/2021/coding/golang/go-rpc-plugin.html&#34;&gt;基于 RPC 实现的 Go 插件机制&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/categories/%E7%AC%94%E8%AE%B0/" term="笔记" label="笔记" />
+                            
+                        
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/tags/go/" term="Go" label="Go" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
+        <entry>
+            <title type="text">稳定性保障的方法论</title>
+            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%BF%9D%E9%9A%9C%E7%9A%84%E6%96%B9%E6%B3%95%E8%AE%BA/" />
+            <id>https://blog.fflow.link/posts/%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%BF%9D%E9%9A%9C%E7%9A%84%E6%96%B9%E6%B3%95%E8%AE%BA/</id>
+            <updated>2022-10-01T00:04:22&#43;00:00</updated>
+            <published>2022-07-29T09:48:04&#43;08:00</published>
+            <author>
+                    <name>fflow</name>
+                    <uri>https://blog.fflow.link/</uri>
+                    <email>hunterzhang86@gmail.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">监控是稳定性的底座，只有具备发现问题的能力，才能有效的解决问题。 究竟什么是最有效的稳……</summary>
+            
+                <content type="html">&lt;p&gt;&lt;img src=&#34;https://blog.fflow.link/images/%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%BF%9D%E9%9A%9C%E7%9A%84%E9%87%91%E5%AD%97%E5%A1%94.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;监控是稳定性的底座，只有具备发现问题的能力，才能有效的解决问题。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://blog.fflow.link/images/%E5%85%A8%E9%93%BE%E8%B7%AF%E4%BD%9C%E6%88%98%E5%9C%B0%E5%9B%BE.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;究竟什么是最有效的稳定性保障方法？
+本质上没有银弹，每个项目都需要根据自身的实际情况来决定需要采用的手段。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;单测是不是最有效的方法？
+单测是保证代码不出现低级问题的有效方式，但覆盖率提升到一定程度以后，能带来的质量上的提升就非常有限了。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;TDD 是不是最佳实践？
+对于 TDD 的作用，业界的争论还非常多，真正想要在实践中落地也非常困难，但是核心代码要有单测，这个是没有疑问的，但至于说是不是要先写好单测，再来写代码有待商榷。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;微软的去测试化究竟有没有成功？
+质量上确实是有在下降，比如说 Windows 10 的质量问题。没有专门测试团队的微软工程师更多的依赖遥测系统，将系统相关的运行数据都进行上报，从而可以全程关注系统的运行情况。不管有没有成功，测试、运维人员都在往更专业的方向发展是不争的事实。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;阿里的去测试化有没有成功？
+没有成功，因为去测试话后，质量的下降比较明显，所以绝大多数团队还是保留了一定数量的测试。但和微软一样，测试也在往更专业的方向发展。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;核心是 ROI
+小作坊和大酒店的做法就不能一样&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;华为 6+1 为什么没有达到效果？
+开发提交代码本地构建时间（6分钟）
+开发每日构建时长（20分钟）
+测试每日构建时间（20分钟）
+测试全量回归时长（2小时）
+解决方案流水线时长（8天）
+需求从提出到上线时长（1天）
+结果：陷入唯指标论，没有实际起到提升研发质量的作用，反而搞了一堆面子工程。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;阿里靠什么达成了双十一的质量和稳定性&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;全链路压测&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;监控分层：业务 - 应用（中间件、JVM、DB）- 系统&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://blog.fflow.link/images/%E7%9B%91%E6%8E%A7%E5%88%86%E5%B1%82.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;对应了分级的告警策略，电话/短信/企微/邮件&lt;/p&gt;
+&lt;p&gt;在 本质上 SRE 也和我们做的运维管理系统类似，管理机器和管理线上设备的思路有时候殊途同归，事前事中事后的整体思路，自动化运维的思路，现在看来都有很多相似之处。&lt;/p&gt;
+&lt;p&gt;系统告警模型列表，需包含以下数据：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;关联监控指标&lt;/li&gt;
+&lt;li&gt;告警关键级别&lt;/li&gt;
+&lt;li&gt;是否上报故障&lt;/li&gt;
+&lt;li&gt;是否产生资损&lt;/li&gt;
+&lt;li&gt;是否关联故障&lt;/li&gt;
+&lt;li&gt;是否关联预案&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://blog.fflow.link/images/%E9%97%AE%E9%A2%98%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;遇到问题先恢复，并保留事发现场。&lt;/p&gt;
+&lt;p&gt;常见止血策略：
+&lt;img src=&#34;https://blog.fflow.link/images/%E5%B8%B8%E8%A7%81%E6%AD%A2%E8%A1%80%E7%AD%96%E7%95%A5.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;入口限流：调低对应 Provider 服务来源限流值
+&lt;ul&gt;
+&lt;li&gt;应对突发流量过高导致自身系统、下游强依赖负载被打满&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;下游降级：降级对应下游服务
+&lt;ul&gt;
+&lt;li&gt;下游弱依赖不可用&lt;/li&gt;
+&lt;li&gt;下游业务强依赖经业务同意后降级（业务部分有损）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;单点失败移除：摘除不可用节点
+&lt;ul&gt;
+&lt;li&gt;单机水位飙高时，先下线不可用单机服务（无需下线机器，保留现场）&lt;/li&gt;
+&lt;li&gt;应对集群单点不可用、性能差&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;切换：单元切流或者切换备份
+&lt;ul&gt;
+&lt;li&gt;应对单库或某单元依赖因为自身原因（宿主机或网络），造成局部流量成功率下跌&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;事故处理方法论：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;明确的职责安排
+&lt;ul&gt;
+&lt;li&gt;总控，决策团队&lt;/li&gt;
+&lt;li&gt;处理团队&lt;/li&gt;
+&lt;li&gt;发言人&lt;/li&gt;
+&lt;li&gt;规划负责人
+&lt;ul&gt;
+&lt;li&gt;对于一个需要比较长时间处理的事故，需要有人对相关处理人进行排班&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;明确的职责交接&lt;/li&gt;
+&lt;li&gt;作战室&lt;/li&gt;
+&lt;li&gt;事故状态实时文档&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a href=&#34;https://developer.aliyun.com/article/782540&#34;&gt;阿里稳定性保障6步走&lt;/a&gt;&lt;/p&gt;
+&lt;h1 id=&#34;错误预算&#34;&gt;错误预算&lt;/h1&gt;
+&lt;p&gt;错误预算可以被用于上线新功能（阿里也是使用的这种方式），只要研发团队没有超过错误预算，研发团队就可以快速迭代，保持稳定性和服务业务之间的平衡。&lt;/p&gt;
+&lt;h1 id=&#34;实例的冗余&#34;&gt;实例的冗余&lt;/h1&gt;
+&lt;p&gt;一般情况下，使用 N + 2的实例冗余来维持可靠性和成本之间的平衡。&lt;/p&gt;
+&lt;h1 id=&#34;拥抱风险&#34;&gt;拥抱风险&lt;/h1&gt;
+&lt;p&gt;用户在一个 99% 可靠性的手机上不能分辨出可靠性 99.9% 和 99.99% 的区别。
+所以核心是寻求快速创新和高效服务业务之间的平衡，而不是简单的考虑将在线事件最大化。&lt;/p&gt;
+&lt;p&gt;可用性=成功请求数/总请求数&lt;/p&gt;
+&lt;h1 id=&#34;各分位延迟情况展示&#34;&gt;各分位延迟情况展示&lt;/h1&gt;
+&lt;p&gt;分段延迟情况可以按照直方图展示&lt;/p&gt;
+&lt;h1 id=&#34;是否采用临时解决方案&#34;&gt;是否采用临时解决方案&lt;/h1&gt;
+&lt;p&gt;临时解决方案可能会影响到真实问题的修复，因为很看团队的领导会不会真的把真实问题的修复在后面放到较高优先级。&lt;/p&gt;
+&lt;h1 id=&#34;谷歌-sre-原则&#34;&gt;谷歌 SRE 原则&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;100% 的可用性是不现实的，需要达到这个目标的成本通常远超于所能获得的价值，所以 Google 会针对每种产品设定一个错误预算（容错率），既能保证用户体验又不影响创新和部署的速度。&lt;/li&gt;
+&lt;li&gt;在设定目标的时候避免绝对值，使用相对值是一个更合理的选择。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;琐事&lt;/code&gt;就是运维服务中手动性的，重复性的，可以被自动化的，战术性，没有持久价值的工作。&lt;/li&gt;
+&lt;li&gt;通过额外努力构建一个平台，而不是仅仅取代现有的手动流程的好处。&lt;/li&gt;
+&lt;li&gt;最小 API 是指，不是在不能添加更多的时候，而是没有什么可以去掉的时候，才能达到完美。&lt;/li&gt;
+&lt;li&gt;在有垃圾回收（GC）机制的编程环境里，内存的压力通常自然而然地变成 CPU 的压力（在内存受限的情况下，GC 会增加）。&lt;/li&gt;
+&lt;li&gt;如果请求没有成功，以指数型延迟重试。&lt;/li&gt;
+&lt;li&gt;一定要使用&lt;code&gt;随机化&lt;/code&gt;的、&lt;code&gt;指数型递增&lt;/code&gt;的重试周期。如果重试不是随机分布在重试窗口里的，那么系统出现的一个小故障（某个网络问题）就可能导致重试请求同时出现，这些请求可能会逐渐放大。&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/categories/%E7%AC%94%E8%AE%B0/" term="笔记" label="笔记" />
+                            
+                        
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/tags/%E7%A8%B3%E5%AE%9A%E6%80%A7/" term="稳定性" label="稳定性" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
+        <entry>
+            <title type="text">架构整洁之道笔记</title>
+            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E6%9E%B6%E6%9E%84%E6%95%B4%E6%B4%81%E4%B9%8B%E9%81%93%E7%AC%94%E8%AE%B0/" />
+            <id>https://blog.fflow.link/posts/%E6%9E%B6%E6%9E%84%E6%95%B4%E6%B4%81%E4%B9%8B%E9%81%93%E7%AC%94%E8%AE%B0/</id>
+            <updated>2022-10-01T00:04:22&#43;00:00</updated>
+            <published>2022-07-28T09:48:04&#43;08:00</published>
+            <author>
+                    <name>fflow</name>
+                    <uri>https://blog.fflow.link/</uri>
+                    <email>hunterzhang86@gmail.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">设计原则 单一职责原则 任何一个软件模块都应该有且仅有一个被修改的原因。 开闭原则 里氏替换……</summary>
+            
+                <content type="html">&lt;h1 id=&#34;设计原则&#34;&gt;设计原则&lt;/h1&gt;
+&lt;h2 id=&#34;单一职责原则&#34;&gt;单一职责原则&lt;/h2&gt;
+&lt;p&gt;任何一个软件模块都应该有且仅有一个被修改的原因。&lt;/p&gt;
+&lt;h2 id=&#34;开闭原则&#34;&gt;开闭原则&lt;/h2&gt;
+&lt;h2 id=&#34;里氏替换原则&#34;&gt;里氏替换原则&lt;/h2&gt;
+&lt;h2 id=&#34;接口隔离原则&#34;&gt;接口隔离原则&lt;/h2&gt;
+&lt;p&gt;在一般情况下，任何层次的软件设计如果依赖于不需要的东西，都会是有害的。从源代码层次来说，这样的依赖关系会导致不必要的重新编译和重新部署，对更高层次的软件架构设计来说，问题也是类似的。&lt;/p&gt;
+&lt;h2 id=&#34;依赖倒置原则&#34;&gt;依赖倒置原则&lt;/h2&gt;
+&lt;h1 id=&#34;编程范式&#34;&gt;编程范式&lt;/h1&gt;
+&lt;h2 id=&#34;结构化编程&#34;&gt;结构化编程&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;结构化编程&lt;/code&gt;是对程序控制权的直接转移的限制 - 限制 goto 语句。
+软件架构师需要定义可以方便地进行证伪（测试）的模块、组件以及服务。为了达到这个目的，他们需要将类似结构化编程的限制方法应用在更高的层面上。&lt;/p&gt;
+&lt;h2 id=&#34;面向对象编程&#34;&gt;面向对象编程&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;面向对象编程&lt;/code&gt;是对程序控制权的间接转移的限制 - 依赖倒置。&lt;/p&gt;
+&lt;h2 id=&#34;函数式编程&#34;&gt;函数式编程&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;函数式编程&lt;/code&gt;是对程序中赋值操作的限制 - 所有的竞争问题、死锁问题、并发更新问题都是由可变变量导致的。&lt;/p&gt;
+&lt;h1 id=&#34;软件构建过程的三个步骤&#34;&gt;软件构建过程的三个步骤&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;&amp;quot;先让代码工作起来&amp;quot;——如果代码不能工作，就不能产生价值。&lt;/li&gt;
+&lt;li&gt;&amp;quot;然后再试图将它变好&amp;quot;——通过对代码进行重构，让我们自己和其他人更好地理解代码，并能按照需求不断地修改代码。&lt;/li&gt;
+&lt;li&gt;&amp;quot;最后再试着让它运行得更快&amp;quot;——按照性能提升的&amp;quot;需求&amp;quot;来重构代码。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;的确，优秀的软件设计师和架构师会花费很大精力来设计接口，以减少未来对其进行改动。毕竟争取在不修改接口的情况下为软件增加新的功能是软件设计的基础常识。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;不要强迫一个组件的用户依赖他们不需要的东西&lt;/strong&gt;。要尽可能的不要依赖的特定的组件，特定的依赖也就意味着如果想迁移到其他地方做私有化部署也非常困难。&lt;/p&gt;
+&lt;p&gt;软件架构师自身需要是程序员，&lt;code&gt;并且必须一直坚持做一线程序员&lt;/code&gt;，绝对不要听从那些说应该让软件架构师从代码中解放出来以专心解决高阶问题的伪建议。&lt;/p&gt;
+&lt;p&gt;在系统的早期开发中，开发人员可能会决定采用某种&amp;quot;微服务架构&amp;quot;。这种架构的组件边界清晰，接口稳定，非常利于开发。但当我们实际部署这种系统时，就会发现其微服务的数量已经大到令人望而生畏，而配置这些微服务之间的连接以及启动时间都会成为系统出错的主要来源。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;数据库选型这个事情应该是要尽量延后的&lt;/strong&gt;，需要根据实际情况做出最有利于自己的选择。&lt;/p&gt;
+&lt;p&gt;优秀的架构师会小心地将软件的高层策略与其底层实现隔离开，让高层策略与实现细节脱钩，使其策略部分完全不需要关心底层细节，当然也不会对这些细节有任何形式的依赖。另外，优秀的架构师所设计的策略应该允许系统尽可能地推迟与实现细节相关的决策，越晚做决策越好。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;康威定律&lt;/code&gt;：任何一个组织在设计系统时，往往都会复制出一个与该组织内沟通结构相同的系统。&lt;/p&gt;
+&lt;p&gt;这个故事的悲剧之处在于，软件架构师通过一个草率的决定无谓地将开发成本放大了数倍之多。&lt;/p&gt;
+&lt;p&gt;本质上，所有的软件系统都是一组策略语句的集合。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;我们一定要带着怀疑的态度审视每一个框架&lt;/strong&gt;。是的，采用框架可能会很有帮助，但采用它们的成本呢？我们一定要懂得权衡如何使用一个框架，如何保护自己。无论如何，我们需要仔细考虑如何能保持对系统用例的关注，避免让框架主导我们的架构设计。&lt;/p&gt;
+&lt;p&gt;总之，&lt;strong&gt;不要投机取巧地直接传递业务实体或数据库记录对象&lt;/strong&gt;。同时，这些传递的数据结构中也不应该存在违反依赖规则的依赖关系。&lt;/p&gt;
+&lt;p&gt;Main 组件中的依赖关系通常应该由依赖注入框架来注入。在该框架将依赖关系注入到 Main 组件之后，Main 组件就应该可以在不依赖于该框架的情况下自行分配这些依赖关系了。&lt;/p&gt;
+&lt;p&gt;虽然软件本身并不会随时间推移而磨损，但硬件及其固件却会随时间推移而过时，随即也需要对软件做相应改动。&lt;/p&gt;
+&lt;p&gt;以 Spring 为例，它作为一个依赖注入框架是不错的，也许我们会需要用 Spring 来自动连接应用程序中的各种依赖关系。这不要紧，但是千万别在业务对象里到处写 @Autowired 注解。业务对象应该对 Spring 完全不知情才对。&lt;/p&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/categories/%E7%AC%94%E8%AE%B0/" term="笔记" label="笔记" />
+                            
+                        
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/tags/%E6%9E%B6%E6%9E%84/" term="架构" label="架构" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
+        <entry>
+            <title type="text">面试八股文-MySQL</title>
+            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-mysql/" />
+            <id>https://blog.fflow.link/posts/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-mysql/</id>
+            <updated>2022-10-01T00:04:22&#43;00:00</updated>
+            <published>2022-07-28T09:48:04&#43;08:00</published>
+            <author>
+                    <name>fflow</name>
+                    <uri>https://blog.fflow.link/</uri>
+                    <email>hunterzhang86@gmail.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">如何优化分页查询？ 大数据量的时候限制用户只能一页一页的往后翻，每次都给出当前页的 ma……</summary>
+            
+                <content type="html">&lt;h1 id=&#34;如何优化分页查询&#34;&gt;如何优化分页查询？&lt;/h1&gt;
+&lt;p&gt;大数据量的时候限制用户只能一页一页的往后翻，每次都给出当前页的 maxid，然后基于这个 maxid 查询特定数量的数据&lt;/p&gt;
+&lt;h1 id=&#34;可靠性实现&#34;&gt;可靠性实现？&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;redolog&lt;/li&gt;
+&lt;li&gt;undolog&lt;/li&gt;
+&lt;li&gt;binlog&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;事务的可重复读是如何实现的&#34;&gt;事务的可重复读是如何实现的？&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;给每行增加两个隐藏字段来实现 MVVC (数据多版本并发控制)，两个列都用来存储事务的版本号&lt;/li&gt;
+&lt;li&gt;每开启一个新事务，事务的版本号就会递增&lt;/li&gt;
+&lt;li&gt;如果数据的 trx_id 落在低水位，可见&lt;/li&gt;
+&lt;li&gt;如果数据的 trx_id 落在高水位，不可见&lt;/li&gt;
+&lt;li&gt;如果数据在黄色区间，活跃事务 ID 数组&lt;/li&gt;
+&lt;li&gt;trx_id 在数组中，说明未提交，不可见&lt;/li&gt;
+&lt;li&gt;trx_id 不在数组中，说明已提交，可见&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;读提交和可重复读实现区别&#34;&gt;读提交和可重复读实现区别？&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;可重复读在事务开始的时候创建一致性视图&lt;/li&gt;
+&lt;li&gt;读提交在语句执行的时候创建一致性视图&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;redolog-和-undolog-的区别&#34;&gt;redolog 和 undolog 的区别？&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;redolog 的前滚日志，undolog 是回滚日志&lt;/li&gt;
+&lt;li&gt;redolog 保证持久性，undolog 保证原子性&lt;/li&gt;
+&lt;li&gt;undolog 是保存的是数据的历史版本，通过历史版本让数据在任何时候都可以回滚到某一个事务开始之前的状态&lt;/li&gt;
+&lt;li&gt;redolog 记录数据修改的操作日志，通过操作日志可以保证数据库的数据不丢失&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://zhuanlan.zhihu.com/p/418919493&#34;&gt;https://zhuanlan.zhihu.com/p/418919493&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://zhuanlan.zhihu.com/p/213770128&#34;&gt;https://zhuanlan.zhihu.com/p/213770128&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;mysql-如何保证数据不丢失&#34;&gt;MySQL 如何保证数据不丢失？&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;两阶段提交，先 prepare，后 commit&lt;/li&gt;
+&lt;li&gt;prepare 其实做的一件事情就是刷盘&lt;/li&gt;
+&lt;li&gt;如果存在完整的 redolog 则 prepare&lt;/li&gt;
+&lt;li&gt;如果 binlog 完整，则提交&lt;/li&gt;
+&lt;li&gt;可以保证数据和 binlog 的一致性&lt;/li&gt;
+&lt;li&gt;如果不完整，则回退&lt;/li&gt;
+&lt;li&gt;如果 commit 已经刷盘，则直接提交&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://blog.fflow.link/images/%E4%B8%A4%E9%98%B6%E6%AE%B5%E6%8F%90%E4%BA%A4.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h1 id=&#34;myisam-和-innodb-的区别&#34;&gt;MyISAM 和 InnoDB 的区别？&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;MyISAM 不支持事务&lt;/li&gt;
+&lt;li&gt;MyISAM 不支持行锁&lt;/li&gt;
+&lt;li&gt;MyISAM 支持 FULLTEXT 全文索引&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;count-count1-countcol的区别&#34;&gt;count(&lt;code&gt;*&lt;/code&gt;) count(1) count(col)的区别？&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;count(&lt;code&gt;*&lt;/code&gt;) = count(1), 统计行不会忽略 NULL&lt;/li&gt;
+&lt;li&gt;count(col), 统计行会忽略 col=NULL 的行&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;可重复读隔离级别下mvvc-在数据的-crud-层面分别是如何实现的&#34;&gt;可重复读隔离级别下，MVVC 在数据的 CRUD 层面分别是如何实现的？&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;SELECT
+&lt;ul&gt;
+&lt;li&gt;读取创建版本小于或等于当前事务版本号，并且删除版本为空或大于当前事务版本号的记录。这样可以保证在读取之前记录是存在的&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;INSERT
+&lt;ul&gt;
+&lt;li&gt;将当前事务的版本号保存至行的创建版本号&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;UPDATE
+&lt;ul&gt;
+&lt;li&gt;新插入一行，并以当前事务的版本号作为新行的创建版本号，同时将原记录行的删除版本号设置为当前事务版本号&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;DELETE
+&lt;ul&gt;
+&lt;li&gt;将当前事务的版本号保存至行的删除版本号&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;索引命名规范&#34;&gt;索引命名规范？&lt;/h1&gt;
+&lt;p&gt;唯一索引 uk 普通索引 idx&lt;/p&gt;
+&lt;h1 id=&#34;select-into-from-和-insert-into-select-from-的区别&#34;&gt;select into from 和 insert into select from 的区别？&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;select into from 要求目标表不存在&lt;/li&gt;
+&lt;li&gt;insert into select from 要求目标表存在&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;如何保证-mysql-不丢数据&#34;&gt;如何保证 MySQL 不丢数据？&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;innodb_flush_log_at_trx_commit
+设置为 1，每次 commit 都会刷盘，针对 redolog&lt;/li&gt;
+&lt;li&gt;sync_binlog
+设置为 1，每次提交事务都会执行 fsync，针对 binlog&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;redolog--binlog-写入策略&#34;&gt;redolog + binlog 写入策略&lt;/h1&gt;
+&lt;h2 id=&#34;redolog-的写入策略&#34;&gt;redolog 的写入策略&lt;/h2&gt;
+&lt;p&gt;InnoDB 提供了 innodb_flush_log_at_trx_commit 参数，它有三种可能取值：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;设置为 0 的时候，表示每次事务提交时都只是把 redolog 留在 redolog buffer 中&lt;/li&gt;
+&lt;li&gt;设置为 1 的时候，表示每次事务提交时都将 redolog 直接持久化到磁盘&lt;/li&gt;
+&lt;li&gt;设置为 2 的时候，表示每次事务提交时都只是把 redolog 写到 page cache&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;binlog-的写入策略&#34;&gt;binlog 的写入策略&lt;/h2&gt;
+&lt;p&gt;binlog 的写入策略，write 和 fsync 的时机，是由参数 sync_ binlog 控制的：&lt;/p&gt;
+&lt;p&gt;sync_binlog = 0 的时候，表示每次提交事务都只 write，不 fsync；
+sync_binlog = 1 的时候，表示每次提交事务都会执行 fsync；
+sync_binlog = N(N&amp;gt;1) 的时候，表示每次提交事务都 write，但累积 N 个事务后才 fsync。
+因此，在出现 IO 瓶颈的场景里，将 sync_binlog 设置成一个比较大的值，可以提升性能。在实际的业务场景中，考虑到丢失日志量的可控性，一般不建议将这个参数设成 0，比较常见的是将其设置为 100~1000 中的某个数值。&lt;/p&gt;
+&lt;p&gt;但是，将 sync_binlog 设置为N，对应的风险是：如果主机发生异常重启，会丢失最近 N 个事务的 binlog 日志。&lt;/p&gt;
+&lt;h2 id=&#34;binlog-日志类型&#34;&gt;binlog 日志类型&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;statment&lt;/li&gt;
+&lt;li&gt;mixed&lt;/li&gt;
+&lt;li&gt;row&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;mixed 模式主要是为了解决 row 模式下，如果执行了表结构变更，row 模式产生的数据量比较大的问题。&lt;/p&gt;
+&lt;h2 id=&#34;生产配置&#34;&gt;生产配置&lt;/h2&gt;
+&lt;p&gt;通常情况下，生产都是&lt;code&gt;双1&lt;/code&gt;的配置，也就是 sync_binlog  和 innodb_flush_log_at_trx_commit 的配置都是 1，也就是说，一个事务完整提交前，&lt;code&gt;需要等待两次刷盘&lt;/code&gt;，一次是 redolog，一次是 binlog 。&lt;/p&gt;
+&lt;h2 id=&#34;性能瓶颈&#34;&gt;性能瓶颈&lt;/h2&gt;
+&lt;p&gt;如果你的 MySQL 现在出现了性能瓶颈，而且瓶颈在 IO 上，可以通过哪些方法来提升性能呢？&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;设置  &lt;code&gt;binlog_group_commit_sync_delay&lt;/code&gt; 和  &lt;code&gt;binlog_group_commit_sync_no_delay_count参数&lt;/code&gt;，减少 binlog 的写盘次数。这个方法是基于“额外的故意等待”来实现的，因此可能会增加语句的响应时间，但没有丢失数据的风险。&lt;/li&gt;
+&lt;li&gt;将 sync_ binlog  设置为大于 1 的值（比较常见是 100~1000）。这样做的风险是，主机掉电时会丢 binlog 日志。&lt;/li&gt;
+&lt;li&gt;将 innodb_flush_log_at_trx_commit 设置为 2。这样做的风险是，主机掉电的时候会丢数据。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;不建议把 innodb_flush_log_at_trx_commit 设置成 0。因为把这个参数设置成 0，表示 redolog 只保存在内存中，这样的话 MySQL 本身异常重启也会丢数据，风险太大。而 redolog 写到文件系统的 page cache 的速度也是很快的，所以将这个参数设置成 2 跟设置成 0 其实性能差不多，但这样做 MySQL 异常重启时就不会丢数据了，相比之下风险会更小。&lt;/p&gt;
+&lt;h1 id=&#34;mysql-为什么建议使用自增组件&#34;&gt;MySQL 为什么建议使用自增组件？&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;便于范围查询&lt;/li&gt;
+&lt;li&gt;避免插入的时候页分裂，影响插入效率&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/categories/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87/" term="面试八股文" label="面试八股文" />
+                            
+                        
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/tags/mysql/" term="MySQL" label="MySQL" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
+        <entry>
+            <title type="text">面试八股文-MySQL 索引</title>
+            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-mysql-%E7%B4%A2%E5%BC%95/" />
+            <id>https://blog.fflow.link/posts/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-mysql-%E7%B4%A2%E5%BC%95/</id>
+            <updated>2022-10-01T00:04:22&#43;00:00</updated>
+            <published>2022-07-28T09:48:04&#43;08:00</published>
+            <author>
+                    <name>fflow</name>
+                    <uri>https://blog.fflow.link/</uri>
+                    <email>hunterzhang86@gmail.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">类别 普通索引 唯一索引 主键索引 全文索引 组合索引 实现机制 B+树 MySQL 为什么使用 B+ 树做索引？ 非……</summary>
+            
+                <content type="html">&lt;h1 id=&#34;类别&#34;&gt;类别&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;普通索引&lt;/li&gt;
+&lt;li&gt;唯一索引&lt;/li&gt;
+&lt;li&gt;主键索引&lt;/li&gt;
+&lt;li&gt;全文索引&lt;/li&gt;
+&lt;li&gt;组合索引&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;实现机制&#34;&gt;实现机制&lt;/h1&gt;
+&lt;h2 id=&#34;b树&#34;&gt;B+树&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;https://blog.fflow.link/images/B+%E6%A0%91%E7%BB%93%E6%9E%84.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h1 id=&#34;mysql-为什么使用-b-树做索引&#34;&gt;MySQL 为什么使用 B+ 树做索引？&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;非叶子节点不含数据，在查找数据的时候查询磁盘次数少&lt;/li&gt;
+&lt;li&gt;叶子节点的深度一样，查询稳定&lt;/li&gt;
+&lt;li&gt;叶子节点之间有指针进行连接，便于进行顺序遍历和范围查找&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;sql-执行计划&#34;&gt;SQL 执行计划&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;通过 SQL 分析工具&lt;/li&gt;
+&lt;li&gt;Explain&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;什么情况下会失效&#34;&gt;什么情况下会失效？&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;使用 &lt;code&gt;or&lt;/code&gt; 关键字&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;like&lt;/code&gt; 的模糊查询以 &lt;code&gt;%&lt;/code&gt; 开头&lt;/li&gt;
+&lt;li&gt;组合索引使用的不是第一部分&lt;/li&gt;
+&lt;li&gt;列类型是字符串，但是查询条件中没有使用 &amp;quot;&amp;quot;&lt;/li&gt;
+&lt;li&gt;MySQL 内部机制认为不使用比使用快的其他情况&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/categories/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87/" term="面试八股文" label="面试八股文" />
+                            
+                        
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/tags/mysql/" term="MySQL" label="MySQL" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
+        <entry>
+            <title type="text">面试八股文-乐观锁和悲观锁</title>
+            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81/" />
+            <id>https://blog.fflow.link/posts/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81/</id>
+            <updated>2022-10-01T00:04:22&#43;00:00</updated>
+            <published>2022-07-28T09:48:04&#43;08:00</published>
+            <author>
+                    <name>fflow</name>
+                    <uri>https://blog.fflow.link/</uri>
+                    <email>hunterzhang86@gmail.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">乐观锁 出发点 认为数据一般情况下不会造成冲突 优点 并发好效率高 缺点 ABA 问题 解决方法 版本号 时……</summary>
+            
+                <content type="html">&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;乐观锁&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;出发点&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;认为数据一般情况下不会造成冲突&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;优点&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;并发好效率高&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;缺点&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ABA 问题
+&lt;ul&gt;
+&lt;li&gt;解决方法
+&lt;ul&gt;
+&lt;li&gt;版本号&lt;/li&gt;
+&lt;li&gt;时间戳&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;使用场景&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;读多写少，数据冲突不大的情况，考虑用户积分加减的场景&lt;/li&gt;
+&lt;li&gt;因为如果冲突比较大，事务需要回滚，应用层也会不断重试，这样反倒降低的性能&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;SQL&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;update table set name = &#39;FFlow&#39;, version = version + 1 where id = #{id} and version = #{version};&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;使用方式&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;先不上锁，但如果 SQL 执行失败应用层需要自己处理，比如重试&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;悲观锁&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;出发点
+&lt;ul&gt;
+&lt;li&gt;认为数据比较大可能会发生冲突&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;使用场景
+&lt;ul&gt;
+&lt;li&gt;数据冲突比较大的情况&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;使用方式
+&lt;ul&gt;
+&lt;li&gt;每次在拿数据的时候都会上锁，这样别人想拿这个数据就会 block 直到它拿到锁&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;SQL
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;select ... id=1 for update&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;使用场景
+&lt;ul&gt;
+&lt;li&gt;支付类场景，因为实际上悲观锁编写逻辑相对简单，不容易造成故障&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/categories/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87/" term="面试八股文" label="面试八股文" />
+                            
+                        
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/tags/mysql/" term="MySQL" label="MySQL" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
+        <entry>
+            <title type="text">面试八股文-网络</title>
+            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-%E7%BD%91%E7%BB%9C/" />
+            <id>https://blog.fflow.link/posts/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-%E7%BD%91%E7%BB%9C/</id>
+            <updated>2022-10-01T00:04:22&#43;00:00</updated>
+            <published>2022-07-28T09:48:04&#43;08:00</published>
+            <author>
+                    <name>fflow</name>
+                    <uri>https://blog.fflow.link/</uri>
+                    <email>hunterzhang86@gmail.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">我们现在基于TCP/IP的网络一般划分为四层： 应用层 HTTP/HTTPS HTTP 1.1 版本特性 keepalive 长连接，一次只能……</summary>
+            
+                <content type="html">&lt;p&gt;我们现在基于TCP/IP的网络一般划分为四层：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://blog.fflow.link/images/TCP%E5%8D%8F%E8%AE%AE%E6%A0%88.jpeg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h1 id=&#34;应用层&#34;&gt;应用层&lt;/h1&gt;
+&lt;h2 id=&#34;httphttps&#34;&gt;HTTP/HTTPS&lt;/h2&gt;
+&lt;h3 id=&#34;http-11-版本特性&#34;&gt;HTTP 1.1 版本特性&lt;/h3&gt;
+&lt;h4 id=&#34;keepalive&#34;&gt;keepalive&lt;/h4&gt;
+&lt;p&gt;长连接，一次只能发送一个请求&lt;/p&gt;
+&lt;h4 id=&#34;pipeline&#34;&gt;pipeline&lt;/h4&gt;
+&lt;p&gt;长连接，一次可以发送多个请求&lt;/p&gt;
+&lt;h3 id=&#34;http20-对比-http1x-的优势&#34;&gt;HTTP/2.0 对比 HTTP/1.x 的优势&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;HTTP/2.0&lt;/code&gt; 是相比于 HTTP/1.x &lt;code&gt;更快&lt;/code&gt;(性能提升 3 倍以上)，&lt;code&gt;更简单&lt;/code&gt;，&lt;code&gt;更稳定&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;HTTP/2.0 是&lt;code&gt;二进制协议&lt;/code&gt;，HTTP/1.x 是文本协议&lt;/li&gt;
+&lt;li&gt;HTTP/2.0 会进行&lt;code&gt;头部压缩&lt;/code&gt;
+&lt;ul&gt;
+&lt;li&gt;HTTP/1.x 只支持 Payload 压缩&lt;/li&gt;
+&lt;li&gt;HTTP/2.0 使用的是 Hpack 方式压缩，核心是对通用的字段使用标记位进行压缩，类似于协议中特定的字节表示特定的含义&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;HTTP/2.0 引入&lt;code&gt;连接多路复用&lt;/code&gt;
+&lt;ul&gt;
+&lt;li&gt;HTTP/1.1 使用&lt;strong&gt;长连接&lt;/strong&gt;进行连接复用，而且客户端可以同时发出多个请求，但是服务端需要按照发送请求的顺序进行回复，所以可能会产生&lt;strong&gt;队头阻塞&lt;/strong&gt;的的问题&lt;/li&gt;
+&lt;li&gt;HTTP/2.0 支持同一连接同时发起多个请求，减少服务端连接压力&lt;/li&gt;
+&lt;li&gt;HTTP/2.0 多个请求通过流进行通信，而且两端可以通过&lt;code&gt;帧的标识&lt;/code&gt;识别属于哪个请求，这样就不用像 HTTP/1.1 需要按照发送请求的顺序进行回复，提高了整体的性能&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;HTTP/2.0 支持&lt;code&gt;服务端推送&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://blog.fflow.link/images/pipelining%20%E5%89%8D%E5%90%8E%E5%AF%B9%E6%AF%94.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://blog.fflow.link/images/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E5%B8%A7.png&#34; alt=&#34;&#34;&gt;
+[ 二进制分帧 ]&lt;/p&gt;
+&lt;h3 id=&#34;实现推的几种方式&#34;&gt;实现推的几种方式&lt;/h3&gt;
+&lt;h4 id=&#34;简易轮询&#34;&gt;简易轮询&lt;/h4&gt;
+&lt;p&gt;这是最简单暴力的方法，客户端定时轮询，这种方法最大的好处是实现简单，但是如果客户端较多，服务端的压力会很大。&lt;/p&gt;
+&lt;h4 id=&#34;long-polling&#34;&gt;Long-Polling&lt;/h4&gt;
+&lt;p&gt;为了解决定时轮询里面服务端压力比较大的问题，也可以使用 Long-Polling 来实现从推送数据，简单来说，就是服务端先 hold 住客户端发送过来的请求，直到服务端的数据有变化才返回，[[配置中心]] Apollo 里面就是用的这种方式实现配置的推送。&lt;/p&gt;
+&lt;h4 id=&#34;websocket&#34;&gt;WebSocket&lt;/h4&gt;
+&lt;p&gt;区别于简易轮询和 Long-Polling，WebSocket 没有在 HTTP 协议上做文章，直接实现了一套新的全双工的消息交互协议，客户端既可以向服务端发送消息内容，服务端也可以向服务端发送消息内容，相对简易轮询和 Long-Polling 来说实现较为复杂。&lt;/p&gt;
+&lt;h3 id=&#34;常用状态码&#34;&gt;常用状态码&lt;/h3&gt;
+&lt;h4 id=&#34;200&#34;&gt;200&lt;/h4&gt;
+&lt;p&gt;成功&lt;/p&gt;
+&lt;h4 id=&#34;204&#34;&gt;204&lt;/h4&gt;
+&lt;p&gt;空返回&lt;/p&gt;
+&lt;h4 id=&#34;403&#34;&gt;403&lt;/h4&gt;
+&lt;p&gt;没有权限&lt;/p&gt;
+&lt;h4 id=&#34;404&#34;&gt;404&lt;/h4&gt;
+&lt;p&gt;没有找到资源&lt;/p&gt;
+&lt;h4 id=&#34;405&#34;&gt;405&lt;/h4&gt;
+&lt;p&gt;客户端请求中的方法被禁止&lt;/p&gt;
+&lt;h4 id=&#34;500&#34;&gt;500&lt;/h4&gt;
+&lt;p&gt;内部服务错误&lt;/p&gt;
+&lt;h4 id=&#34;502&#34;&gt;502&lt;/h4&gt;
+&lt;p&gt;无效响应&lt;/p&gt;
+&lt;h4 id=&#34;504&#34;&gt;504&lt;/h4&gt;
+&lt;p&gt;超时&lt;/p&gt;
+&lt;h3 id=&#34;https-加密过程&#34;&gt;HTTPS 加密过程&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://blog.fflow.link/images/HTTPS%20%E5%8A%A0%E5%AF%86%E8%BF%87%E7%A8%8B.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;ssh&#34;&gt;SSH&lt;/h2&gt;
+&lt;h2 id=&#34;ftpstfp&#34;&gt;FTP/STFP&lt;/h2&gt;
+&lt;h1 id=&#34;传输层&#34;&gt;传输层&lt;/h1&gt;
+&lt;h2 id=&#34;tcp&#34;&gt;TCP&lt;/h2&gt;
+&lt;p&gt;典型的传输层协议包括 TCP、UDP 协议，重点要关注的是 TCP 的三次握手，四次挥手。具体请看图。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://blog.fflow.link/images/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://blog.fflow.link/images/%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;TCP 是全双工协议，所以客户端和服务端都可以发起关闭连接请求。&lt;/p&gt;
+&lt;h3 id=&#34;为什么关闭连接需要四次挥手&#34;&gt;为什么关闭连接需要四次挥手？&lt;/h3&gt;
+&lt;p&gt;客户端发起关闭请求的时候，只是说客户端不再发送数据了，但服务端这个时候还有可能继续接收到之前的数据；所以这个时候服务端先返回一个收到关闭请求的回复，等服务端完成剩余数据的处理，再回复确认可以关闭连接。&lt;/p&gt;
+&lt;h3 id=&#34;弱网环境下四次挥手会有什么问题&#34;&gt;弱网环境下四次挥手会有什么问题？&lt;/h3&gt;
+&lt;p&gt;一直关不掉连接，连接被占满，Time-Wait 过多&lt;/p&gt;
+&lt;h3 id=&#34;time-wait-和-close-wait-的含义&#34;&gt;Time-Wait 和 Close-Wait 的含义&lt;/h3&gt;
+&lt;h4 id=&#34;time-wait&#34;&gt;Time-Wait&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Time-Wait 过多的原因？
+网络不稳定&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Time-Wait 过多的解决办法？
+net.ipv4.tcp_tw_reuse = 1
+表示开启重用。允许将 TIME-WAIT sockets 重新用于新的 TCP 连接
+net.ipv4.tcp_tw_recycle = 1
+表示开启 TCP 连接中 TIME-WAIT sockets 的快速回收&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;为什么要等待 2MSL ( MSL 为最长报文寿命)
+保证这次连接的重复数据段从网络中消失
+服务端如果没收到最后一次第三次挥手的确认，会重新发一遍第三次挥手的报文，所以如果 2MSL 里面没有收到任何报文，就代表连接已经关闭了&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;close-wait&#34;&gt;Close-Wait&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Close-Wait 过多的原因？
+谁主动发起关闭连接的请求，对方就有可能出现 Close-Wait 的情况，大多数情况是客户端代码没有关闭流的操作导致的。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;udp&#34;&gt;UDP&lt;/h2&gt;
+&lt;p&gt;面向无连接的传输层协议&lt;/p&gt;
+&lt;h1 id=&#34;网络层&#34;&gt;网络层&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;IP&lt;/li&gt;
+&lt;li&gt;ICMP&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;数据链路层&#34;&gt;数据链路层&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;ARP&lt;/li&gt;
+&lt;li&gt;RARP&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/categories/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87/" term="面试八股文" label="面试八股文" />
+                            
+                        
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/tags/%E7%BD%91%E7%BB%9C/" term="网络" label="网络" />
+                            
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/tags/tcp/" term="TCP" label="TCP" />
+                            
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/tags/http/" term="HTTP" label="HTTP" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
+        <entry>
+            <title type="text">面试八股文-Redis</title>
+            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-redis/" />
+            <id>https://blog.fflow.link/posts/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-redis/</id>
+            <updated>2022-10-01T00:04:22&#43;00:00</updated>
+            <published>2022-07-27T09:48:04&#43;08:00</published>
+            <author>
+                    <name>fflow</name>
+                    <uri>https://blog.fflow.link/</uri>
+                    <email>hunterzhang86@gmail.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">背景 关系数据库访问数据较慢 目标 提高数据的访问速度 优势 数据访问速度较快 劣势 数据存放在内……</summary>
+            
+                <content type="html">&lt;h1 id=&#34;背景&#34;&gt;背景&lt;/h1&gt;
+&lt;p&gt;关系数据库访问数据较慢&lt;/p&gt;
+&lt;h1 id=&#34;目标&#34;&gt;目标&lt;/h1&gt;
+&lt;p&gt;提高数据的访问速度&lt;/p&gt;
+&lt;h1 id=&#34;优势&#34;&gt;优势&lt;/h1&gt;
+&lt;p&gt;数据访问速度较快&lt;/p&gt;
+&lt;h1 id=&#34;劣势&#34;&gt;劣势&lt;/h1&gt;
+&lt;p&gt;数据存放在内存中，容量存在限制&lt;/p&gt;
+&lt;h1 id=&#34;底层原理&#34;&gt;底层原理&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;内存数据库&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;持久化方式&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;RDB
+&lt;ul&gt;
+&lt;li&gt;介绍
+&lt;ul&gt;
+&lt;li&gt;在指定的时间间隔内将内存中的数据集快照写入磁盘，实际操作过程是 fork 一个子进程，先将数据集写入临时文件，写入成功后，在替换之前的文件，用二进制压缩存储&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;优势
+&lt;ul&gt;
+&lt;li&gt;适合进行备份&lt;/li&gt;
+&lt;li&gt;适合进行灾备&lt;/li&gt;
+&lt;li&gt;对 Redis 的性能压力比较小&lt;/li&gt;
+&lt;li&gt;RDB 在恢复大数据集的速度比 AOF 恢复速度要快&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;劣势
+&lt;ul&gt;
+&lt;li&gt;RDB 有可能会丢失分钟级的数据&lt;/li&gt;
+&lt;li&gt;如果数据集比较大，且 CPU 紧张的情况下，Redis 停止服务的时间可能会比较长&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;AOF
+&lt;ul&gt;
+&lt;li&gt;以日志的形式记录服务器所处理的每一个写、删除操作，查询操作不会记录，以文本的方式记录，可以打开文件看到详细的操作记录&lt;/li&gt;
+&lt;li&gt;优势
+&lt;ul&gt;
+&lt;li&gt;AOF 只会丢失秒级的数据&lt;/li&gt;
+&lt;li&gt;AOF 只进行追加&lt;/li&gt;
+&lt;li&gt;AOF 文件的可读性较好&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;劣势
+&lt;ul&gt;
+&lt;li&gt;对于相同的数据集来说，AOF 文件的体积通常要大于 RDB 文件的体积&lt;/li&gt;
+&lt;li&gt;AOF 的速度可能会比 RDB 慢&lt;/li&gt;
+&lt;li&gt;AOF 可能会拖慢 Redis 的访问速度&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;部署架构&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;主从复制&lt;/li&gt;
+&lt;li&gt;哨兵&lt;/li&gt;
+&lt;li&gt;集群
+&lt;ul&gt;
+&lt;li&gt;Master 之间分配 slots，一共 16384 个 slot&lt;/li&gt;
+&lt;li&gt;slot 不完整，集群失效&lt;/li&gt;
+&lt;li&gt;每个 Master 都会有 Slave&lt;/li&gt;
+&lt;li&gt;扩缩容需要手动重新分片&lt;/li&gt;
+&lt;li&gt;先到其中任何一台执行，没执行成功会将客户端转向正确的节点执行命令&lt;/li&gt;
+&lt;li&gt;Redis 提供了命令供管理员自动迁移 slots&lt;/li&gt;
+&lt;li&gt;使用 CRC16(KEY) mod 16384 的值，决定将 key 放到哪个槽中&lt;/li&gt;
+&lt;li&gt;去中心化设计，每个节点都是对等的，保存全量的元数据信息&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;应用场景&#34;&gt;应用场景&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;查多写少&lt;/li&gt;
+&lt;li&gt;热点数据&lt;/li&gt;
+&lt;li&gt;不适合存储持久化数据&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;底层原理-1&#34;&gt;底层原理&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;底层数据结构&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;String&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;embstr&lt;/li&gt;
+&lt;li&gt;SDS&lt;/li&gt;
+&lt;li&gt;len，free&lt;/li&gt;
+&lt;li&gt;redisObject&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;HMap&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;hashtable
+&lt;ul&gt;
+&lt;li&gt;元素比较多时&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;ziplist
+&lt;ul&gt;
+&lt;li&gt;适用于元素较小时&lt;/li&gt;
+&lt;li&gt;key 和 value 都被推到队尾&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;List&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ziplist
+&lt;ul&gt;
+&lt;li&gt;使用连续空间，节省空间，但只能保存小整数或者小字符串&lt;/li&gt;
+&lt;li&gt;ziplist 如何压缩空间
+&lt;ul&gt;
+&lt;li&gt;小数字和大数字不一样，小数子只用一个字节存储&lt;/li&gt;
+&lt;li&gt;不需要前后指针&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;linkedlist
+&lt;ul&gt;
+&lt;li&gt;双端链表&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Set&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;inset
+&lt;ul&gt;
+&lt;li&gt;inset 编码的集合对象使用整数集合作底层实现，集合对象包含所有元素都会被保存在整数集合里面&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;hashtable&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;SortedSet&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;skiplist
+&lt;ul&gt;
+&lt;li&gt;使用 ZRANGE 和 ZREVERANGE 比较多&lt;/li&gt;
+&lt;li&gt;内存占用不多&lt;/li&gt;
+&lt;li&gt;实现比较简单&lt;/li&gt;
+&lt;li&gt;&lt;img src=&#34;https://blog.fflow.link/images/%E8%B7%B3%E8%A1%A8%E7%A4%BA%E6%84%8F%E5%9B%BE.png&#34; alt=&#34;&#34;&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.jianshu.com/p/9d8296562806&#34;&gt;https://www.jianshu.com/p/9d8296562806&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;ziplist&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;HyperLogLog&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;统计元素数量&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;GEO&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;地理位置&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;一致性 Hash&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;背景
+&lt;ul&gt;
+&lt;li&gt;取模的方式扩缩容的时候对缓存命中率的影响比较大&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;原理
+&lt;ul&gt;
+&lt;li&gt;将整个 hash 值空间组织成一个虚拟的圆环&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;扩容
+&lt;ul&gt;
+&lt;li&gt;只影响添加节点后面的节点（顺时针）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;缩容
+&lt;ul&gt;
+&lt;li&gt;只影响删除节点后面的数据（顺时针）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;问题
+&lt;ul&gt;
+&lt;li&gt;当节点较少的时候，容易因为节点分布不均匀，产生缓存热点的问题
+&lt;ul&gt;
+&lt;li&gt;使用虚拟节点，改善一致性 Hash 的问题&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;具体实现
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.cnblogs.com/snowwhite/p/9672185.html&#34;&gt;https://www.cnblogs.com/snowwhite/p/9672185.html&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;过期策略&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;定期删除&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;默认是每隔 100ms 就随机抽取一些一些设置了过期的 key&lt;/li&gt;
+&lt;li&gt;如果此时 key 已经过期，就删除，不会返回任何东西&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;惰性删除&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;放任键过期不管，但是每次从键空间中获取键时，都检查取得的键是否过期，如果过期的话，就删除该键，如果没有过期，就返回该键&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;定时删除&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;从设置 key 的过期时间开始，就启动一个定时器，到时间就删除该key&lt;/li&gt;
+&lt;li&gt;对内存比较友好，但浪费 CPU 资源&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;复制原理&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;slave 第一次连接或者重连，会触发一次全量同步&lt;/li&gt;
+&lt;li&gt;主节点做一个 bgsave，同时将后续修改操作记录到内存 buffer，如果 buffer 超过限定的值，则复制失败。待完成后将 rdb 文件全量同步到复制节点，复制节点接受完成后将 rdb 镜像加载到内存，加载完成后，再通知主节点将期间修改的操作记录同步到复制节点进行重放就完成了同步过程&lt;/li&gt;
+&lt;li&gt;后续 Master 手机到的写命令都会通过之前建立的连接，增量发送给 slave 端&lt;/li&gt;
+&lt;li&gt;slave 执行 buffer 中的命令&lt;/li&gt;
+&lt;li&gt;slave 异步方式执行同步&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;复制时机&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;全量复制&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;slave 首次启动或重启&lt;/li&gt;
+&lt;li&gt;slave 不满足部分复制的条件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;部分复制&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;主从的 Redis 版本 &amp;gt;= 2.8&lt;/li&gt;
+&lt;li&gt;slave 只是掉线&lt;/li&gt;
+&lt;li&gt;slave 保存的 run id 与 master 当前 run id 一致&lt;/li&gt;
+&lt;li&gt;slave 掉线期间，master 保存在内存的 offset 可用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;数据丢失&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;异步复制导致的数据丢失&lt;/li&gt;
+&lt;li&gt;Master 突然宕机，Slave 有些数据还没有同步过来&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;脑裂导致的数据丢失&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;发生主从切换，但是客户端还在往 Master 写入数据&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;事务&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;ACID&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;原子性&lt;/li&gt;
+&lt;li&gt;持久性
+&lt;ul&gt;
+&lt;li&gt;AOF 在总是 SYNC 的模式下，因为主线程不会阻塞到写入完成，所以不能保证持久性&lt;/li&gt;
+&lt;li&gt;RDB 的情况下，事务执行完成后，服务器可能在 RDB 未更新之前失败，所以也不可能保证持久性&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;隔离性&lt;/li&gt;
+&lt;li&gt;一致性&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;使用方法&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;WATCH&lt;/li&gt;
+&lt;li&gt;MULTI&lt;/li&gt;
+&lt;li&gt;EXEC&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;过期算法&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ttl&lt;/li&gt;
+&lt;li&gt;lru&lt;/li&gt;
+&lt;li&gt;random&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;对比&#34;&gt;对比&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;MongoDB&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;非关系数据库&lt;/li&gt;
+&lt;li&gt;非内存数据库&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Memcached&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;内存数据库&lt;/li&gt;
+&lt;li&gt;支持的数据结构较少&lt;/li&gt;
+&lt;li&gt;不能持久化&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;客户端驱动&#34;&gt;客户端驱动&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Jedis&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;偏数据库驱动，API 提供了比较全面的 Redis 命令的支持&lt;/li&gt;
+&lt;li&gt;高性能，分布式特性和丰富的结构，让使用者能够将精力更集中地放在处理业务逻辑上&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Redisson&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;底层原理
+&lt;ul&gt;
+&lt;li&gt;使用 [[Netty]] 作为通信组件&lt;/li&gt;
+&lt;li&gt;将一些操作组合成 Script 实现特定的功能&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;问题
+&lt;ul&gt;
+&lt;li&gt;MapCache 有内存溢出风险&lt;/li&gt;
+&lt;li&gt;在编解码失败的时候可能会造成某些命令执行时间过长&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;相关问题&#34;&gt;相关问题&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;缓存命中率&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;缓存穿透&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;解决方法&lt;/li&gt;
+&lt;li&gt;缓存预热&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;缓存雪崩&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;解决方法
+&lt;ul&gt;
+&lt;li&gt;使用高可用架构&lt;/li&gt;
+&lt;li&gt;服务降级，使用本地缓存&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;缓存击穿&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;让 key 不在一个时间段集中失效，加或减一个随机值&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;为什么使用单线程&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;CPU 不是瓶颈点，IO 是瓶颈点，单线程够用也简单&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Redis 集群做迁移的时候怎么查找数据？&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;单个 key 迁移的过程中会阻塞，所以如果没找到 key 会重新 ask 一遍&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;常用命令&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;scan 176 MATCH *11* COUNT 1000&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;常见优化&#34;&gt;常见优化&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;Master 最好不要做任何持久化工作，如 RDB 内存快照和 AOF 日志文件&lt;/li&gt;
+&lt;li&gt;如果数据比较重要，某个 Slave 开启 AOF 备份数据，策略设置为每秒同步一次&lt;/li&gt;
+&lt;li&gt;为了主从复制的速度和连接的稳定性，Master 和 Slave 最好在同一个局域网内&lt;/li&gt;
+&lt;li&gt;尽量避免在压力很大的主库增加从库&lt;/li&gt;
+&lt;li&gt;主从复制不要用图状结构，用单向链表结构更为稳定，即：Master &amp;lt; Slave1 &amp;lt; Slave2 ...&lt;/li&gt;
+&lt;li&gt;Redis 的连接数一般设置为 CPU 的核数 * 单核的最大连接&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/categories/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87/" term="面试八股文" label="面试八股文" />
+                            
+                        
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/tags/redis/" term="Redis" label="Redis" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
+        <entry>
+            <title type="text">面试八股文-Java 内存溢出的排查方法</title>
+            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-java-%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/" />
+            <id>https://blog.fflow.link/posts/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-java-%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/</id>
+            <updated>2022-10-01T00:04:22&#43;00:00</updated>
+            <published>2022-07-19T15:48:04&#43;08:00</published>
+            <author>
+                    <name>fflow</name>
+                    <uri>https://blog.fflow.link/</uri>
+                    <email>hunterzhang86@gmail.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">内存溢出分类 Java 里面内存溢出主要分以下几种： 堆溢出 1、内存溢出（无法申请到内存） jstat 查看……</summary>
+            
+                <content type="html">&lt;h1 id=&#34;内存溢出分类&#34;&gt;内存溢出分类&lt;/h1&gt;
+&lt;p&gt;Java 里面内存溢出主要分以下几种：&lt;/p&gt;
+&lt;h2 id=&#34;堆溢出&#34;&gt;堆溢出&lt;/h2&gt;
+&lt;p&gt;1、内存溢出（无法申请到内存）
+jstat 查看内存使用情况，检查堆参数，一般是申请的内存太大，比如一个特别大的 byte 数组&lt;/p&gt;
+&lt;p&gt;2、内存泄漏（对象无法回收）
+可以使用 MAT 工具里面的 Path to GC Roots 定位，一般是一个特大不能回收的对象&lt;/p&gt;
+&lt;h2 id=&#34;栈溢出&#34;&gt;栈溢出&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;StackOverflowError
+方法调用层次太深，内存不够新建栈帧，比如一个没有结束条件的递归&lt;/li&gt;
+&lt;li&gt;OutOfMemoryError
+线程太多，内存不够新建线程&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;metaspace-数据区溢出&#34;&gt;MetaSpace 数据区溢出&lt;/h2&gt;
+&lt;p&gt;动态生成大量 Class&lt;/p&gt;
+&lt;h2 id=&#34;本地直接内存溢出&#34;&gt;本地直接内存溢出&lt;/h2&gt;
+&lt;p&gt;申请一个大的直接内存&lt;/p&gt;
+&lt;h2 id=&#34;数据超限内存溢出&#34;&gt;数据超限内存溢出&lt;/h2&gt;
+&lt;p&gt;分配的数据结构在此平台不可寻址&lt;/p&gt;
+&lt;h1 id=&#34;排查方法&#34;&gt;排查方法&lt;/h1&gt;
+&lt;h2 id=&#34;jdk-自带命令&#34;&gt;JDK 自带命令&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;jstat -gcutil &lt;span class=&#34;m&#34;&gt;33816&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;250&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;20&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# 监控 jvm 的内存使用情况&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;jps -ml &lt;span class=&#34;c1&#34;&gt;# 输出虚拟机启动时传递给主类 main() 的参数，输出主类的全名&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;jmap -F -dump:live,format&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;b,file&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;dump.bin &lt;span class=&#34;m&#34;&gt;85962&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# dump 堆内存&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 分析方法&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 可以使用 VisualVM，主要查看是否存在大对象，然后分析为什么没有被回收&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;jstack -F -l -m &lt;span class=&#34;m&#34;&gt;85962&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# 显示虚拟机快照&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;jstack -l PID &amp;gt;&amp;gt; test.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;jmap -histo pid &lt;span class=&#34;c1&#34;&gt;# 实时查看JVM对象大小的排序结果，但无法看到对象的具体内容&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;arthas&#34;&gt;Arthas&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 找到最耗CPU的方法&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;thread -n &lt;span class=&#34;m&#34;&gt;5&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 观察方法的返回&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;watch com.test.MyClass query returnObj
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 反编译类&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;jad com.test.MyClass
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 监控调用情况&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;monitor -c &lt;span class=&#34;m&#34;&gt;5&lt;/span&gt; com.test.MyClass query
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 查看分段的调用时间&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;trace com.test.MyClass query
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 查看方法完整的调用链&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;stack com.test.MyClass query
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 记录调用现场&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;tt -t com.test.MyClass query
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;参数检查&#34;&gt;参数检查&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;-Xms 初始堆大小
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;-Xmx 最大堆大小
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;-Xmn 新生代大小
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;XX:MaxMetaSpaceSize 元数据区大小
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Survivor Eden与Survivor区的大小比值
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/categories/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87/" term="面试八股文" label="面试八股文" />
+                            
+                        
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/tags/oom/" term="OOM" label="OOM" />
+                            
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/tags/java/" term="Java" label="Java" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
+</feed>
