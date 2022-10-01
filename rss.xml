@@ -23,27 +23,22 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
         
-        <lastBuildDate>Sat, 01 Oct 2022 07:52:58 &#43;0000</lastBuildDate>
+        <lastBuildDate>Sat, 01 Oct 2022 08:06:16 &#43;0000</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://blog.fflow.link/rss.xml" />
         
         
             <item>
                 <title>Spring Security 记住我</title>
-                <link>https://blog.fflow.link/posts/%E6%89%8B%E5%86%8C/spring-security-remember-me-baeldung/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E6%89%8B%E5%86%8C/spring-security-remember-me-baeldung/</guid>
+                <link>https://blog.fflow.link/posts/%E6%89%8B%E5%86%8C/spring-security-remember-me/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/%E6%89%8B%E5%86%8C/spring-security-remember-me/</guid>
                 <pubDate>Sat, 01 Oct 2022 11:18:11 &#43;0800</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
                 
                 <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
                 
-                    <description>&lt;hr&gt;
-&lt;h2 id=&#34;categories-手册&#34;&gt;title: &amp;quot;Spring Security 记住我&amp;quot;
-date: 2022-10-01T11:16:41+08:00
-draft: false
-categories: [&amp;quot;手册&amp;quot;]&lt;/h2&gt;
-&lt;h2 id=&#34;1概述&#34;&gt;&lt;strong&gt;1。概述&lt;/strong&gt;&lt;/h2&gt;
+                    <description>&lt;h2 id=&#34;1概述&#34;&gt;&lt;strong&gt;1。概述&lt;/strong&gt;&lt;/h2&gt;
 &lt;p&gt;本教程将展示&lt;strong&gt;如何使用 Spring Security 在 Web 应用程序中启用和配置记住我功能&lt;/strong&gt;。已经讨论了设置&lt;a href=&#34;https://blog.fflow.link/spring-security-login&#34; title=&#34;Spring Security Form Login&#34;&gt;具有安全性和简单表单登录的 MVC 应用程序&lt;/a&gt;。&lt;/p&gt;
 &lt;p&gt;该机制将能够&lt;strong&gt;跨多个会话识别用户&lt;/strong&gt;——因此首先要了解的是，记住我仅在会话超时后才会启动。默认情况下，这发生在 30 分钟不活动后，但在 &lt;em&gt;web.xml&lt;/em&gt; 中&lt;a href=&#34;https://blog.fflow.link/servlet-session-timeout&#34; title=&#34;Java Session Timeout&#34;&gt;可以配置超时&lt;/a&gt;。&lt;/p&gt;
 &lt;p&gt;注意：本教程重点介绍&lt;strong&gt;基于标准 cookie 的方法&lt;/strong&gt;。对于持久化方法，请查看 &lt;a href=&#34;https://blog.fflow.link/spring-security-persistent-remember-me&#34;&gt;Spring Security -- Persistent Remember Me&lt;/a&gt; 指南。&lt;/p&gt;
@@ -457,8 +452,8 @@ categories: [&amp;quot;手册&amp;quot;]&lt;/h2&gt;
         
             <item>
                 <title>Spring Cloud Consul 入门指引</title>
-                <link>https://blog.fflow.link/posts/%E6%89%8B%E5%86%8C/a-quick-guide-to-spring-cloud-consul-baeldung-1/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E6%89%8B%E5%86%8C/a-quick-guide-to-spring-cloud-consul-baeldung-1/</guid>
+                <link>https://blog.fflow.link/posts/%E6%89%8B%E5%86%8C/a-quick-guide-to-spring-cloud-consul-1/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/%E6%89%8B%E5%86%8C/a-quick-guide-to-spring-cloud-consul-1/</guid>
                 <pubDate>Fri, 30 Sep 2022 09:48:04 &#43;0800</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
