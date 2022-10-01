@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-CN">
     <title type="text">FFlow Blog</title>
     <subtitle type="html">FFlow 的飞流协同平台的博客</subtitle>
-    <updated>2022-10-01T02:59:28&#43;00:00</updated>
+    <updated>2022-10-01T07:35:00&#43;00:00</updated>
     <id>https://blog.fflow.link/</id>
     <link rel="alternate" type="text/html" href="https://blog.fflow.link/" />
     <link rel="self" type="application/atom&#43;xml" href="https://blog.fflow.link/atom.xml" />
@@ -17,10 +17,301 @@
     <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights>
     <generator uri="https://gohugo.io/" version="0.104.2">Hugo</generator>
         <entry>
+            <title type="text">Spring Security 记住我</title>
+            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E6%89%8B%E5%86%8C/spring-security-remember-me-baeldung/" />
+            <id>https://blog.fflow.link/posts/%E6%89%8B%E5%86%8C/spring-security-remember-me-baeldung/</id>
+            <updated>2022-10-01T07:34:58&#43;00:00</updated>
+            <published>2022-10-01T11:18:11&#43;08:00</published>
+            <author>
+                    <name>fflow</name>
+                    <uri>https://blog.fflow.link/</uri>
+                    <email>hunterzhang86@gmail.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">title: &amp;quot;Spring Security 记住我&amp;quot; date: 2022-10-01T11:16:41+08:00 draft: false categories: [&amp;quot;手册&amp;quot;] 1。概述 本教程将展……</summary>
+            
+                <content type="html">&lt;hr&gt;
+&lt;h2 id=&#34;categories-手册&#34;&gt;title: &amp;quot;Spring Security 记住我&amp;quot;
+date: 2022-10-01T11:16:41+08:00
+draft: false
+categories: [&amp;quot;手册&amp;quot;]&lt;/h2&gt;
+&lt;h2 id=&#34;1概述&#34;&gt;&lt;strong&gt;1。概述&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;本教程将展示&lt;strong&gt;如何使用 Spring Security 在 Web 应用程序中启用和配置记住我功能&lt;/strong&gt;。已经讨论了设置&lt;a href=&#34;https://blog.fflow.link/spring-security-login&#34; title=&#34;Spring Security Form Login&#34;&gt;具有安全性和简单表单登录的 MVC 应用程序&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;该机制将能够&lt;strong&gt;跨多个会话识别用户&lt;/strong&gt;——因此首先要了解的是，记住我仅在会话超时后才会启动。默认情况下，这发生在 30 分钟不活动后，但在 &lt;em&gt;web.xml&lt;/em&gt; 中&lt;a href=&#34;https://blog.fflow.link/servlet-session-timeout&#34; title=&#34;Java Session Timeout&#34;&gt;可以配置超时&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;注意：本教程重点介绍&lt;strong&gt;基于标准 cookie 的方法&lt;/strong&gt;。对于持久化方法，请查看 &lt;a href=&#34;https://blog.fflow.link/spring-security-persistent-remember-me&#34;&gt;Spring Security -- Persistent Remember Me&lt;/a&gt; 指南。&lt;/p&gt;
+&lt;h2 id=&#34;2安全配置&#34;&gt;&lt;strong&gt;2。安全配置&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;让我们看看如何使用 Java 设置安全配置：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;30
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;31
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;32
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;33
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;34
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;35
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;36
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;37
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;38
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;39
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@配置&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@EnableWebSecurity&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;公共类&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SecSecurityConfig&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;扩展&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;WebSecurityConfigurerAdapter&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nd&#34;&gt;@Bean&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;身份验证管理器&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nd&#34;&gt;@覆盖&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;公共&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;AuthenticationManager&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;authenticationManagerBean&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;抛出异常&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;n&#34;&gt;返回&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;super&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;authenticationManagerBean&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nd&#34;&gt;@自动连线&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;configureGlobal&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;AuthenticationManagerBuilder&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;auth&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;抛出异常&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;auth&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;inMemoryAuthentication&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;withUser&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;user1&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;password&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;{noop}user1Pass&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;roles&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;USER&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;err&#34;&gt;。&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;和&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;（）&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;withUser&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;admin1&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;password&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;{noop}admin1Pass&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;roles&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;ADMIN&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nd&#34;&gt;@覆盖&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;受保护的无效配置&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;（&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;最终&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;HttpSecurity&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;http&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;）&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;抛出异常&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;http&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;authorizeRequests&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;antMatchers&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;/匿名*&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;anonymous&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;antMatchers&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;/login*&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;permitAll&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;anyRequest&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;authenticated&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;err&#34;&gt;。&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;和&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;（）&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;formLogin&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;loginPage&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;/login.html&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;loginProcessingUrl&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;/login&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;failureUrl&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;/login.html?error=true&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;err&#34;&gt;。&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;和&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;（）&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;logout&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;deleteCookies&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;JSESSIONID&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;err&#34;&gt;。&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;和&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;（）&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;rememberMe&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;key&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;uniqueAndSecret&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;如您所见，&lt;strong&gt;使用 &lt;em&gt;rememberMe()&lt;/em&gt; 方法的基本配置&lt;/strong&gt;非常简单，同时通过附加选项保持非常灵活。 &lt;em&gt;&lt;strong&gt;key&lt;/strong&gt;&lt;/em&gt; 在这里很重要——它是整个应用程序的私有值秘密，将在生成令牌的内容时使用。&lt;/p&gt;
+&lt;p&gt;此外，可以使用 &lt;em&gt;tokenValiditySeconds()&lt;/em&gt; 将 ** 令牌有效时间从默认的 2 周配置为** - 例如 - 一天：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;rememberMe&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;key&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;uniqueAndSecret&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;tokenValiditySeconds&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;86400&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;我们还可以看看等效的 XML 配置：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;http&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;use&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;expressions&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;intercept&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;url&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;pattern&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;/anonymous*&amp;#34;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;access&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;isAnonymous()&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;intercept&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;url&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;pattern&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;/login*&amp;#34;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;access&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;permitAll&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;intercept&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;url&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;pattern&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;/**&amp;#34;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;access&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;isAuthenticated()&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;form&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;login&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;login&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;page&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;login&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;html&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;authentication&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;failure&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;url&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;/login.html?error=true&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;logout&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;delete&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cookies&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;JSESSIONID&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;remember&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;me&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;key&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;uniqueAndSecret&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;http&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;authentication&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;manager&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;authenticationManager&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;身份验证提供者&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;用户服务&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;user&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;user1&amp;#34;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;password&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;{noop}user1Pass&amp;#34;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;authority&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;ROLE_USER&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;user&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;admin1&amp;#34;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;password&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;{noop}admin1Pass&amp;#34;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;authority&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;ROLE_ADMIN&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;o&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;用户服务&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;authentication&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;provider&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;authentication&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;manager&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;3登录表格&#34;&gt;&lt;strong&gt;3。登录表格&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;登录表单类似于&lt;a href=&#34;https://blog.fflow.link/spring-security-login#login-form&#34; title=&#34;A basic Login Form&#34;&gt;我们用于表单登录的那个&lt;/a&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;头&amp;gt;&amp;lt;/头&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;正文&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;h1&amp;gt;&lt;/span&gt;登录&lt;span class=&#34;nt&#34;&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;form&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;name=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;f&amp;#39;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;action=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;login&amp;#34;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;method=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;POST&amp;#39;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nt&#34;&gt;&amp;lt;表格&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;nt&#34;&gt;&amp;lt;tr&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;nt&#34;&gt;&amp;lt;td&amp;gt;&lt;/span&gt;用户：&lt;span class=&#34;nt&#34;&gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;nt&#34;&gt;&amp;lt;td&amp;gt;&amp;lt;input&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;type=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;text&amp;#39;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;name=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;username&amp;#39;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;value=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;nt&#34;&gt;&amp;lt;/tr&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;nt&#34;&gt;&amp;lt;tr&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;nt&#34;&gt;&amp;lt;td&amp;gt;&lt;/span&gt;密码：&lt;span class=&#34;nt&#34;&gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;nt&#34;&gt;&amp;lt;td&amp;gt;&amp;lt;input&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;type=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;password&amp;#39;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;name=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;password&amp;#39;&lt;/span&gt; &lt;span class=&#34;nt&#34;&gt;/&amp;gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;nt&#34;&gt;&amp;lt;/tr&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;nt&#34;&gt;&amp;lt;tr&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;nt&#34;&gt;&amp;lt;td&amp;gt;&lt;/span&gt;记住我：&lt;span class=&#34;nt&#34;&gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;nt&#34;&gt;&amp;lt;td&amp;gt;&amp;lt;input&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;type=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;checkbox&amp;#34;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;name=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;remember-me&amp;#34;&lt;/span&gt; &lt;span class=&#34;nt&#34;&gt;/&amp;gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;nt&#34;&gt;&amp;lt;/tr&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;nt&#34;&gt;&amp;lt;tr&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;nt&#34;&gt;&amp;lt;td&amp;gt;&amp;lt;input&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;name=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;submit&amp;#34;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;type=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;submit&amp;#34;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;value=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;submit&amp;#34;&lt;/span&gt; &lt;span class=&#34;nt&#34;&gt;/&amp;gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;nt&#34;&gt;&amp;lt;/tr&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nt&#34;&gt;&amp;lt;/table&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;/form&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;/正文&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;注意新添加的 &lt;em&gt;checkbox&lt;/em&gt; 输入——映射到 &lt;em&gt;remember-me&lt;/em&gt;。这个添加的输入足以在记住我激活的情况下登录。&lt;/p&gt;
+&lt;p&gt;此默认路径也可以更改如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;rememberMe&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;rememberMeParameter&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;remember-me-new&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;4饼干&#34;&gt;&lt;strong&gt;4。饼干&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;该机制将在用户登录时创建一个额外的 cookie——“remember-me”cookie。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Remember Me cookie&lt;/strong&gt; 包含以下数据：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;&lt;strong&gt;用户名&lt;/strong&gt;&lt;/em&gt; -- 标识登录的主体&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;&lt;strong&gt;expirationTime&lt;/strong&gt;&lt;/em&gt; -- 使 cookie 过期；默认为 2 周&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;MD5 hash&lt;/strong&gt; -- 前 2 个值的 -- &lt;em&gt;username&lt;/em&gt; 和 &lt;em&gt;expirationTime&lt;/em&gt; ，加上 &lt;em&gt;password&lt;/em&gt; 和预定义的 &lt;em&gt;key&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这里首先要注意的是 &lt;em&gt;username&lt;/em&gt; 和 &lt;em&gt;password&lt;/em&gt; 都是 cookie 的一部分——这意味着，如果其中任何一个被更改，cookie 将不再有效。此外，可以从 cookie 中读取 &lt;em&gt;username&lt;/em&gt;。&lt;/p&gt;
+&lt;p&gt;此外，重要的是要了解，如果记住我 cookie 被捕获，此机制可能会受到攻击。 &lt;strong&gt;cookie 将是有效且可用的&lt;/strong&gt;，直到它过期或更改凭据。&lt;/p&gt;
+&lt;h2 id=&#34;5在实践中&#34;&gt;&lt;strong&gt;5。在实践中&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;要轻松查看记住我机制的工作情况，您可以：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;登录时记得我活跃&lt;/li&gt;
+&lt;li&gt;等待会话过期（或删除浏览器中的 &lt;em&gt;JSESSIONID&lt;/em&gt; cookie）&lt;/li&gt;
+&lt;li&gt;刷新页面&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如果不记得我处于活动状态，cookie 过期后用户应该被 &lt;strong&gt;redirected back to the login page&lt;/strong&gt; 。记住我，用户现在&lt;strong&gt;在新令牌/cookie 的帮助下保持登录状态&lt;/strong&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;6结论&#34;&gt;&lt;strong&gt;6。结论&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;本教程展示了如何在安全配置中设置和配置记住我功能，并简要描述了进入 cookie 的数据类型。&lt;/p&gt;
+&lt;p&gt;实现可以在&lt;a href=&#34;https://github.com/eugenp/tutorials/tree/master/spring-security-modules/spring-security-web-mvc-custom&#34; title=&#34;Spring Security Custom MVC Project &#34;&gt;示例 Github 项目&lt;/a&gt; -- 这是一个基于 Eclipse 的项目，所以它应该很容易导入和运行。&lt;/p&gt;
+&lt;p&gt;当项目在本地运行时，可以在 [localhost] 上访问 &lt;em&gt;login.html&lt;/em&gt;（http://localhost:8080/spring-security-mvc-custom/login.html &amp;quot;Access the project on localhost&amp;quot;）。
+安全底&lt;/p&gt;
+&lt;h3 id=&#34;我刚刚宣布了新的-learn-spring-security-课程包括专注于-spring-security-5-中新-oauth2-堆栈的完整材料&#34;&gt;&lt;strong&gt;我刚刚宣布了新的 &lt;em&gt;Learn Spring Security&lt;/em&gt; 课程，包括专注于 Spring Security 5 中新 OAuth2 堆栈的完整材料：&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href=&#34;https://blog.fflow.link/learn-spring-security-course#table&#34;&gt;&amp;gt;&amp;gt; 查看课程&lt;/a&gt;&lt;/strong&gt;
+安全页脚横幅
+&lt;img src=&#34;wp-content/uploads/2016/05/baeldung-security-post-footer-main-1.2.0.jpg&#34; alt=&#34;REST API with Spring - 视频课程&#34;&gt;
+&lt;img src=&#34;wp-content/uploads/2016/05/baeldung-security-lightbox-icn-1.0.0-1.png&#34; alt=&#34;带有 Spring 的 REST API - 图标&#34;&gt;
+学习使用 Spring 保护 REST API 的基础知识
+&lt;a href=&#34;https://blog.fflow.link/security-video-guide&#34;&gt;获取视频课程的访问权限&lt;/a&gt;&lt;/p&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/categories/%E6%89%8B%E5%86%8C/" term="手册" label="手册" />
+                            
+                        
+                    
+                
+                    
+                
+            
+        </entry>
+    
+        <entry>
             <title type="text">浅谈 Java GC</title>
-            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E6%B5%85%E8%B0%88-java-gc/" />
-            <id>https://blog.fflow.link/posts/%E6%B5%85%E8%B0%88-java-gc/</id>
-            <updated>2022-10-01T02:59:26&#43;00:00</updated>
+            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/%E6%B5%85%E8%B0%88-java-gc/" />
+            <id>https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/%E6%B5%85%E8%B0%88-java-gc/</id>
+            <updated>2022-10-01T07:34:58&#43;00:00</updated>
             <published>2022-10-01T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -160,9 +451,9 @@
     
         <entry>
             <title type="text">Spring Cloud Consul 入门指引</title>
-            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/a-quick-guide-to-spring-cloud-consul-baeldung/" />
-            <id>https://blog.fflow.link/posts/a-quick-guide-to-spring-cloud-consul-baeldung/</id>
-            <updated>2022-10-01T02:59:26&#43;00:00</updated>
+            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E6%89%8B%E5%86%8C/a-quick-guide-to-spring-cloud-consul-baeldung-1/" />
+            <id>https://blog.fflow.link/posts/%E6%89%8B%E5%86%8C/a-quick-guide-to-spring-cloud-consul-baeldung-1/</id>
+            <updated>2022-10-01T07:34:58&#43;00:00</updated>
             <published>2022-09-30T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -395,7 +686,7 @@
 &lt;/div&gt;&lt;p&gt;如果我们访问 Consul 代理站点，我们会看到我们的应用程序失败了。要解决此问题，&lt;em&gt;&amp;quot;/my-health-check&amp;quot;&lt;/em&gt; 服务应返回 HTTP &lt;em&gt;200 OK&lt;/em&gt; 状态代码。&lt;/p&gt;
 &lt;h2 id=&#34;5-分布式配置&#34;&gt;&lt;strong&gt;5 分布式配置&lt;/strong&gt;&lt;/h2&gt;
 &lt;p&gt;此功能&lt;strong&gt;允许在所有服务之间同步配置&lt;/strong&gt;。 Consul 将监视任何配置更改，然后触发所有服务的更新。&lt;/p&gt;
-&lt;p&gt;首先，我们需要添加[spring-cloud-starter-consul-config](&lt;a href=&#34;https://search.maven.org/classic/#search%7Cga%7C1%7Ca%3A%22spring-cloud-starter-consul-&#34;&gt;https://search.maven.org/classic/#search%7Cga%7C1%7Ca%3A%22spring-cloud-starter-consul-&lt;/a&gt; config%22) 的 &lt;em&gt;pom.xml&lt;/em&gt; 的依赖：&lt;/p&gt;
+&lt;p&gt;首先，我们需要添加&lt;a href=&#34;https://search.maven.org/classic/#search%7Cga%7C1%7Ca%3A%22spring-cloud-starter-consul-config%22&#34;&gt;spring-cloud-starter-consul-config&lt;/a&gt; 的 &lt;em&gt;pom.xml&lt;/em&gt; 的依赖：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -536,9 +827,9 @@
     
         <entry>
             <title type="text">浅谈 Mock Server</title>
-            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E6%B5%85%E8%B0%88-mock-server/" />
-            <id>https://blog.fflow.link/posts/%E6%B5%85%E8%B0%88-mock-server/</id>
-            <updated>2022-10-01T02:59:26&#43;00:00</updated>
+            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/%E6%B5%85%E8%B0%88-mock-server/" />
+            <id>https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/%E6%B5%85%E8%B0%88-mock-server/</id>
+            <updated>2022-10-01T07:34:58&#43;00:00</updated>
             <published>2022-09-20T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -817,9 +1108,9 @@ Maven 引入&lt;/p&gt;
     
         <entry>
             <title type="text">MySQL 和 Redis 事务实现对比</title>
-            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/mysql-%E5%92%8C-redis-%E4%BA%8B%E5%8A%A1%E5%AE%9E%E7%8E%B0%E5%AF%B9%E6%AF%94/" />
-            <id>https://blog.fflow.link/posts/mysql-%E5%92%8C-redis-%E4%BA%8B%E5%8A%A1%E5%AE%9E%E7%8E%B0%E5%AF%B9%E6%AF%94/</id>
-            <updated>2022-10-01T02:59:26&#43;00:00</updated>
+            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/mysql-%E5%92%8C-redis-%E4%BA%8B%E5%8A%A1%E5%AE%9E%E7%8E%B0%E5%AF%B9%E6%AF%94/" />
+            <id>https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/mysql-%E5%92%8C-redis-%E4%BA%8B%E5%8A%A1%E5%AE%9E%E7%8E%B0%E5%AF%B9%E6%AF%94/</id>
+            <updated>2022-10-01T07:34:58&#43;00:00</updated>
             <published>2022-08-01T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -916,9 +1207,9 @@ Maven 引入&lt;/p&gt;
     
         <entry>
             <title type="text">面试八股文-RocketMQ</title>
-            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-rocketmq/" />
-            <id>https://blog.fflow.link/posts/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-rocketmq/</id>
-            <updated>2022-10-01T02:59:26&#43;00:00</updated>
+            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-rocketmq/" />
+            <id>https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-rocketmq/</id>
+            <updated>2022-10-01T07:34:58&#43;00:00</updated>
             <published>2022-07-31T09:20:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -1075,9 +1366,9 @@ Maven 引入&lt;/p&gt;
     
         <entry>
             <title type="text">浅谈 Golang 插件机制</title>
-            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E6%B5%85%E8%B0%88-golang-%E6%8F%92%E4%BB%B6%E6%9C%BA%E5%88%B6/" />
-            <id>https://blog.fflow.link/posts/%E6%B5%85%E8%B0%88-golang-%E6%8F%92%E4%BB%B6%E6%9C%BA%E5%88%B6/</id>
-            <updated>2022-10-01T02:59:26&#43;00:00</updated>
+            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/%E6%B5%85%E8%B0%88-golang-%E6%8F%92%E4%BB%B6%E6%9C%BA%E5%88%B6/" />
+            <id>https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/%E6%B5%85%E8%B0%88-golang-%E6%8F%92%E4%BB%B6%E6%9C%BA%E5%88%B6/</id>
+            <updated>2022-10-01T07:34:58&#43;00:00</updated>
             <published>2022-07-30T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -1200,9 +1491,9 @@ Maven 引入&lt;/p&gt;
     
         <entry>
             <title type="text">稳定性保障的方法论</title>
-            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%BF%9D%E9%9A%9C%E7%9A%84%E6%96%B9%E6%B3%95%E8%AE%BA/" />
-            <id>https://blog.fflow.link/posts/%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%BF%9D%E9%9A%9C%E7%9A%84%E6%96%B9%E6%B3%95%E8%AE%BA/</id>
-            <updated>2022-10-01T02:59:26&#43;00:00</updated>
+            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%BF%9D%E9%9A%9C%E7%9A%84%E6%96%B9%E6%B3%95%E8%AE%BA/" />
+            <id>https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%BF%9D%E9%9A%9C%E7%9A%84%E6%96%B9%E6%B3%95%E8%AE%BA/</id>
+            <updated>2022-10-01T07:34:58&#43;00:00</updated>
             <published>2022-07-29T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -1371,9 +1662,9 @@ Maven 引入&lt;/p&gt;
     
         <entry>
             <title type="text">架构整洁之道笔记</title>
-            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E6%9E%B6%E6%9E%84%E6%95%B4%E6%B4%81%E4%B9%8B%E9%81%93%E7%AC%94%E8%AE%B0/" />
-            <id>https://blog.fflow.link/posts/%E6%9E%B6%E6%9E%84%E6%95%B4%E6%B4%81%E4%B9%8B%E9%81%93%E7%AC%94%E8%AE%B0/</id>
-            <updated>2022-10-01T02:59:26&#43;00:00</updated>
+            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/%E6%9E%B6%E6%9E%84%E6%95%B4%E6%B4%81%E4%B9%8B%E9%81%93%E7%AC%94%E8%AE%B0/" />
+            <id>https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/%E6%9E%B6%E6%9E%84%E6%95%B4%E6%B4%81%E4%B9%8B%E9%81%93%E7%AC%94%E8%AE%B0/</id>
+            <updated>2022-10-01T07:34:58&#43;00:00</updated>
             <published>2022-07-28T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -1450,9 +1741,9 @@ Maven 引入&lt;/p&gt;
     
         <entry>
             <title type="text">面试八股文-MySQL</title>
-            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-mysql/" />
-            <id>https://blog.fflow.link/posts/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-mysql/</id>
-            <updated>2022-10-01T02:59:26&#43;00:00</updated>
+            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-mysql/" />
+            <id>https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-mysql/</id>
+            <updated>2022-10-01T07:34:58&#43;00:00</updated>
             <published>2022-07-28T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -1621,9 +1912,9 @@ sync_binlog = N(N&amp;gt;1) 的时候，表示每次提交事务都 write，但�
     
         <entry>
             <title type="text">面试八股文-MySQL 索引</title>
-            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-mysql-%E7%B4%A2%E5%BC%95/" />
-            <id>https://blog.fflow.link/posts/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-mysql-%E7%B4%A2%E5%BC%95/</id>
-            <updated>2022-10-01T02:59:26&#43;00:00</updated>
+            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-mysql-%E7%B4%A2%E5%BC%95/" />
+            <id>https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-mysql-%E7%B4%A2%E5%BC%95/</id>
+            <updated>2022-10-01T07:34:58&#43;00:00</updated>
             <published>2022-07-28T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -1694,9 +1985,9 @@ sync_binlog = N(N&amp;gt;1) 的时候，表示每次提交事务都 write，但�
     
         <entry>
             <title type="text">面试八股文-乐观锁和悲观锁</title>
-            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81/" />
-            <id>https://blog.fflow.link/posts/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81/</id>
-            <updated>2022-10-01T02:59:26&#43;00:00</updated>
+            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81/" />
+            <id>https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81/</id>
+            <updated>2022-10-01T07:34:58&#43;00:00</updated>
             <published>2022-07-28T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -1820,9 +2111,9 @@ sync_binlog = N(N&amp;gt;1) 的时候，表示每次提交事务都 write，但�
     
         <entry>
             <title type="text">面试八股文-网络</title>
-            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-%E7%BD%91%E7%BB%9C/" />
-            <id>https://blog.fflow.link/posts/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-%E7%BD%91%E7%BB%9C/</id>
-            <updated>2022-10-01T02:59:26&#43;00:00</updated>
+            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-%E7%BD%91%E7%BB%9C/" />
+            <id>https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-%E7%BD%91%E7%BB%9C/</id>
+            <updated>2022-10-01T07:34:58&#43;00:00</updated>
             <published>2022-07-28T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -1981,9 +2272,9 @@ net.ipv4.tcp_tw_recycle = 1
     
         <entry>
             <title type="text">面试八股文-Redis</title>
-            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-redis/" />
-            <id>https://blog.fflow.link/posts/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-redis/</id>
-            <updated>2022-10-01T02:59:26&#43;00:00</updated>
+            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-redis/" />
+            <id>https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-redis/</id>
+            <updated>2022-10-01T07:34:58&#43;00:00</updated>
             <published>2022-07-27T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -2447,9 +2738,9 @@ net.ipv4.tcp_tw_recycle = 1
     
         <entry>
             <title type="text">面试八股文-Java 内存溢出的排查方法</title>
-            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-java-%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/" />
-            <id>https://blog.fflow.link/posts/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-java-%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/</id>
-            <updated>2022-10-01T02:59:26&#43;00:00</updated>
+            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-java-%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/" />
+            <id>https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/%E9%9D%A2%E8%AF%95%E5%85%AB%E8%82%A1%E6%96%87-java-%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/</id>
+            <updated>2022-10-01T07:34:58&#43;00:00</updated>
             <published>2022-07-19T15:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
