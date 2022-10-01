@@ -23,10 +23,149 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
         
-        <lastBuildDate>Sat, 01 Oct 2022 02:43:41 &#43;0000</lastBuildDate>
+        <lastBuildDate>Sat, 01 Oct 2022 02:59:28 &#43;0000</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://blog.fflow.link/rss.xml" />
         
+        
+            <item>
+                <title>浅谈 Java GC</title>
+                <link>https://blog.fflow.link/posts/%E6%B5%85%E8%B0%88-java-gc/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/%E6%B5%85%E8%B0%88-java-gc/</guid>
+                <pubDate>Sat, 01 Oct 2022 09:48:04 &#43;0800</pubDate>
+                
+                    <author>hunterzhang86@gmail.com (fflow)</author>
+                
+                <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
+                
+                    <description>&lt;h1 id=&#34;对象生命周期&#34;&gt;对象生命周期&lt;/h1&gt;
+&lt;h2 id=&#34;引用计数法&#34;&gt;引用计数法&lt;/h2&gt;
+&lt;p&gt;无法解决循环引用的问题&lt;/p&gt;
+&lt;h2 id=&#34;可达性分析算法&#34;&gt;可达性分析算法&lt;/h2&gt;
+&lt;p&gt;从 GC Roots 看对象是否可达：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;虚拟机栈(栈中的本地变量表)中引用的对象&lt;/li&gt;
+&lt;li&gt;本地方法栈中 JNI(即 Native 方法)引用的对象&lt;/li&gt;
+&lt;li&gt;方法区中类静态属性的变量&lt;/li&gt;
+&lt;li&gt;方法区中常量引用的变量&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;引用&#34;&gt;引用&lt;/h3&gt;
+&lt;h4 id=&#34;强引用&#34;&gt;强引用&lt;/h4&gt;
+&lt;p&gt;只要强引用存在就不会回收&lt;/p&gt;
+&lt;h4 id=&#34;软引用&#34;&gt;软引用&lt;/h4&gt;
+&lt;p&gt;只有内存不够才会回收
+浏览器的后退按钮&lt;/p&gt;
+&lt;h4 id=&#34;弱引用&#34;&gt;弱引用&lt;/h4&gt;
+&lt;p&gt;不管内存够不够都会回收&lt;/p&gt;
+&lt;h4 id=&#34;虚引用&#34;&gt;虚引用&lt;/h4&gt;
+&lt;p&gt;作为回收对象时的通知
+回收方法区&lt;/p&gt;
+&lt;h4 id=&#34;废弃常量&#34;&gt;废弃常量&lt;/h4&gt;
+&lt;h4 id=&#34;无用的类&#34;&gt;无用的类&lt;/h4&gt;
+&lt;p&gt;大量反射、动态代理、CGLib 频繁自定义的 ClassLoader
+需要有类的卸载功能
+通过更换 ClassLoader 实现类的卸载&lt;/p&gt;
+&lt;h1 id=&#34;垃圾回收算法&#34;&gt;垃圾回收算法&lt;/h1&gt;
+&lt;h2 id=&#34;标记-清除算法&#34;&gt;标记-清除算法&lt;/h2&gt;
+&lt;p&gt;效率和内存碎片的问题&lt;/p&gt;
+&lt;h2 id=&#34;复制算法&#34;&gt;复制算法&lt;/h2&gt;
+&lt;p&gt;分区复制回收
+适用于对象存活率较低的场景(新生代)&lt;/p&gt;
+&lt;h2 id=&#34;标记-整理算法&#34;&gt;标记-整理算法&lt;/h2&gt;
+&lt;p&gt;标记 - 清除 - 整理
+使用与对象存活率较高的场景(老生代)&lt;/p&gt;
+&lt;h2 id=&#34;分代收集算法&#34;&gt;分代收集算法&lt;/h2&gt;
+&lt;p&gt;根据对象存活周期分为几块&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;新生代
+复制算法&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;老生代
+标记 - 清除算法
+标记 - 整理算法&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;垃圾收集器&#34;&gt;垃圾收集器&lt;/h1&gt;
+&lt;h2 id=&#34;serial-收集器&#34;&gt;Serial 收集器&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;缺点
+单线程处理，需要暂停其他所有线程&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;优点
+简单&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;parnew-收集器&#34;&gt;ParNew 收集器&lt;/h2&gt;
+&lt;p&gt;Serial 收集器的多线程实现&lt;/p&gt;
+&lt;h2 id=&#34;serial-old-收集器&#34;&gt;Serial Old 收集器&lt;/h2&gt;
+&lt;p&gt;Serial 收集器的老年代版本&lt;/p&gt;
+&lt;h2 id=&#34;parallel-scavenge-收集器&#34;&gt;Parallel Scavenge 收集器&lt;/h2&gt;
+&lt;p&gt;以&lt;code&gt;吞吐量&lt;/code&gt;为目标
+吞吐量 = 用户代码运行时间 /(用户代码运行时间 + GC时间)&lt;/p&gt;
+&lt;h2 id=&#34;parallel-old-收集器&#34;&gt;Parallel Old 收集器&lt;/h2&gt;
+&lt;p&gt;Parallel Scavenge 收集器的老年代版本&lt;/p&gt;
+&lt;h2 id=&#34;cms-收集器&#34;&gt;CMS 收集器&lt;/h2&gt;
+&lt;p&gt;以获取最短停顿时间为目标
+分为初始标记、并发标记、重新标记、并发清除四个阶段&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;优点
+停顿时间短&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;缺点
+消耗较多的 CPU 资源
+会产生较多的内存碎片 - [[CMS GC 为什么会产生内存碎片]]&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;为什么需要 STW？
+处理起来简单，不用管并发的问题&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;g1-收集器&#34;&gt;G1 收集器&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;更少的 GC 停顿时间&lt;/li&gt;
+&lt;li&gt;可预测的 GC 停顿时间&lt;/li&gt;
+&lt;li&gt;不牺牲过多的吞吐量&lt;/li&gt;
+&lt;li&gt;不需要过多的堆内存&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;zgc&#34;&gt;ZGC&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;低延迟&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+                
+                
+                
+                
+                
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://blog.fflow.link/categories/java/">Java</category>
+                                
+                            
+                        
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://blog.fflow.link/tags/gc/">GC</category>
+                                
+                            
+                        
+                    
+                
+            </item>
         
             <item>
                 <title>Spring Cloud Consul 入门指引</title>
