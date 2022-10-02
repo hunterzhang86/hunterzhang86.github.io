@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-CN">
     <title type="text">FFlow Blog</title>
     <subtitle type="html">FFlow 的飞流协同平台的博客</subtitle>
-    <updated>2022-10-02T00:35:11&#43;00:00</updated>
+    <updated>2022-10-02T04:01:34&#43;00:00</updated>
     <id>https://blog.fflow.link/</id>
     <link rel="alternate" type="text/html" href="https://blog.fflow.link/" />
     <link rel="self" type="application/atom&#43;xml" href="https://blog.fflow.link/atom.xml" />
@@ -17,10 +17,524 @@
     <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights>
     <generator uri="https://gohugo.io/" version="0.104.2">Hugo</generator>
         <entry>
+            <title type="text">Jess 规则引擎和 JSR 94</title>
+            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/jess-rule-engine-and-jsr-94/" />
+            <id>https://blog.fflow.link/posts/notes/jess-rule-engine-and-jsr-94/</id>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
+            <published>2022-10-02T11:18:11&#43;08:00</published>
+            <author>
+                    <name>fflow</name>
+                    <uri>https://blog.fflow.link/</uri>
+                    <email>hunterzhang86@gmail.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">一、概述 使用规则引擎是将业务逻辑与样板代码分离，并保护我们的应用程序代码免受业务更改……</summary>
+            
+                <content type="html">&lt;h2 id=&#34;一概述&#34;&gt;一、概述&lt;/h2&gt;
+&lt;p&gt;使用规则引擎是将业务逻辑与样板代码分离，并保护我们的应用程序代码免受业务更改影响的好方法。&lt;/p&gt;
+&lt;p&gt;在之前关于 &lt;a href=&#34;https://blog.fflow.link/java-rule-engines&#34;&gt;Java Rule Engines&lt;/a&gt; 的文章中，我们提到了 JSR 94 规范。 &lt;strong&gt;Jess Rule Engine&lt;/strong&gt; &lt;strong&gt;作为 JSR 94 的参考规则驱动程序来实现&lt;/strong&gt;，让我们来看看它。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Jess 规则引擎&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;a href=&#34;http://alvarestech.com/temp/fuzzyjess/Jess60/Jess70b7/docs/index.html&#34;&gt;Jess&lt;/a&gt;是最早与 Java 集成的规则引擎之一。 Jess 使用高效 &lt;a href=&#34;https://en.wikipedia.org/wiki/Rete_algorithm&#34;&gt;Rete 算法&lt;/a&gt; 的增强实现，使其在大多数情况下比简单的 Java 循环快得多。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;可以从使用原生 Jess 规则语言、基于 Lisp 的扩展语法&lt;/strong&gt; 或更详细的 XML 格式编写的规则集执行规则。我们将使用本地模式。&lt;/p&gt;
+&lt;p&gt;有一个 &lt;a href=&#34;http://alvarestech.com/temp/fuzzyjess/Jess60/Jess70b7/docs/release_notes.html&#34;&gt;基于 Eclipse 的 IDE&lt;/a&gt; 用于开发（适用于旧版本的 Eclipse）和一些优秀的 [文档](&lt;a href=&#34;http://alvarestech.com/temp/fuzzyjess/Jess60/Jess70b7/docs/basics.html&#34;&gt;http://alvarestech.com/temp/fuzzyjess/Jess60/Jess70b7/docs/basics.html&lt;/a&gt;）关于使用和集成 Jess 与 Java。甚至还有一个 REPL 命令行界面，我们可以在其中尝试我们的想法，然后再创建规则文件。&lt;/p&gt;
+&lt;p&gt;作为 JSR 94 的参考规则引擎，Jess 按照定义符合 JSR 94，尽管它不再处于积极开发中。&lt;/p&gt;
+&lt;h3 id=&#34;21关于-jsr-94-的简要介绍&#34;&gt;2.1。关于 JSR 94 的简要介绍&lt;/h3&gt;
+&lt;p&gt;JSR 94 提供了一个 API，我们可以使用它来独立于我们选择的任何规则引擎。我们可以将任何符合 JSR 94 的规则引擎插入到我们的代码中并运行一些规则，而无需更改我们在应用程序中与规则引擎交互的方式。&lt;/p&gt;
+&lt;p&gt;这并不意味着规则引擎的底层规则看起来相同——如果我们更改规则引擎，我们可能必须重写这些规则，但这确实意味着我们不需要重写应用程序的某些部分来使用新的规则引擎.我们需要的唯一代码更改是更新驱动程序的名称和一些规则文件名。&lt;/p&gt;
+&lt;h3 id=&#34;22-jess-jsr-94-驱动程序&#34;&gt;2.2。 Jess JSR 94 驱动程序&lt;/h3&gt;
+&lt;p&gt;尽管 JSR 94 中包含 Jess 的参考规则引擎 &lt;em&gt;驱动程序&lt;/em&gt;，但 Jess 本身并未包含在内，因为它是许可的商业产品。参考驱动程序包含在 &lt;em&gt;org.jcp.jsr94.jess&lt;/em&gt; 包中，但是当我们 &lt;a href=&#34;http://alvarestech.com/temp/fuzzyjess/&#34;&gt;下载 Jess&lt;/a&gt; 时，&lt;em&gt;jess.jsr94&lt;/em&gt; 包中提供了更新的驱动程序Jess60/Jess70b7/docs/basics.html）。&lt;/p&gt;
+&lt;p&gt;在继续了解 JSR 94 如何改变这一点之前，让我们先看看 Jess 如何与原生 Java 集成。&lt;/p&gt;
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;提供的例子&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;p&gt;在我们开始将 Jess 集成到我们的代码之前，让我们确保我们已经下载了它并使其在我们的类路径中可用。除非我们已经拥有许可证，否则我们需要注册 30 天免费试用下载。&lt;/p&gt;
+&lt;p&gt;所以，让我们&lt;a href=&#34;https://jess.sandia.gov/jess/download.shtml&#34;&gt;下载 Jess&lt;/a&gt;，解压缩下载的 &lt;em&gt;Jess71p2.jar&lt;/em&gt;，并运行其中一个示例以确保我们有一个工作版本。&lt;/p&gt;
+&lt;h3 id=&#34;31standalone-jess&#34;&gt;3.1。Standalone Jess&lt;/h3&gt;
+&lt;p&gt;让我们看看 &lt;em&gt;Jess71p2/examples&lt;/em&gt; 目录，其中 &lt;em&gt;jess&lt;/em&gt; 目录包含一些示例规则集。 &lt;em&gt;pricing_engine&lt;/em&gt; 目录显示了可以通过 &lt;a href=&#34;https://blog.fflow.link/ant-maven-gradle&#34;&gt;ant&lt;/a&gt; &lt;em&gt;build.xml&lt;/em&gt; 脚本执行的集成。让我们将目录更改为 pricing_engine 示例并通过 &lt;em&gt;ant test&lt;/em&gt; 运行程序：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;cd&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Jess71p2&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;examples&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;pricing_engine&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;ant&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;test&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这将构建并运行一个示例定价规则集：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nl&#34;&gt;Buildfile:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Jess71p2&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;\&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;examples&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;\&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;pricing_engine&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;\&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;build&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;xml&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nl&#34;&gt;test:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;java&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Items&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;order&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;123&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;java&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;CD&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Writer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;199&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;99&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;java&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Items&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;order&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;666&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;java&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Incredibles&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;DVD&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;29&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;99&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;java&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Offers&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;order&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;666&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;java&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;BUILD&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SUCCESSFUL&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;Total&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;time&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;second&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;32jess-与-jsr-94&#34;&gt;3.2。Jess 与 JSR 94&lt;/h3&gt;
+&lt;p&gt;现在我们已经让 Jess 工作了，让我们&lt;a href=&#34;https://jcp.org/aboutJava/communityprocess/final/jsr094/index.html&#34;&gt;下载 JSR 94&lt;/a&gt; 然后解压缩它以创建一个 jsr94-1.0 目录，其中包含 ant、doc、 lib 和 src 目录里面。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;unzip jreng-1_0a-fr-spec-api.zip
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这为我们提供了 JSR 94 API 和 Jess 参考驱动程序，但它没有附带许可的 Jess 实现，因此如果我们现在尝试运行示例，我们将收到以下错误：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Error: The reference implementation Jess could not be found.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;因此，让我们添加 Jess 参考实现 &lt;em&gt;jess.jar&lt;/em&gt;，它是我们之前下载的 Jess71p2 的一部分，并将其复制到 JSR 94 lib 目录，然后运行示例：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;cp Jess71p2/lib/jess.jar jsr94-1.0/lib/
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;java -jar jsr94-1.0/lib/jsr94-example.jar
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;该示例运行一些规则来确定客户在支付发票时的剩余信用：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Administration API Acquired RuleAdministrator: org.jcp.jsr94.jess.RuleAdministratorImpl@63947c6b
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Runtime API Acquired RuleRuntime: org.jcp.jsr94.jess.RuleRuntimeImpl@68fb2c38
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Customer credit limit result: &lt;span class=&#34;m&#34;&gt;3000&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Invoice &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt; amount: &lt;span class=&#34;m&#34;&gt;1750&lt;/span&gt; status: paid
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Released Stateful Rule Session.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ol start=&#34;4&#34;&gt;
+&lt;li&gt;将 Jess 与 Java 集成&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;p&gt;现在我们已经下载了 Jess 和 JSR 94 并且已经在本地和通过 JSR 运行了一些规则，让我们看看如何将 Jess 规则集集成到 Java 程序中。&lt;/p&gt;
+&lt;p&gt;在我们的示例中，我们将首先从 Java 代码执行一个简单的 Jess 规则文件 &lt;em&gt;hellojess.clp&lt;/em&gt;，然后查看另一个规则文件 &lt;em&gt;bonus.clp&lt;/em&gt;，它将使用和修改我们的一些对象。&lt;/p&gt;
+&lt;h3 id=&#34;41-maven-依赖&#34;&gt;4.1。 Maven 依赖&lt;/h3&gt;
+&lt;p&gt;Jess 没有可用的 Maven 依赖项，所以如果我们还没有这样做，让我们下载并解压缩 Jess jar (&lt;em&gt;jess.jar&lt;/em&gt; ) 和 &lt;em&gt;[mvn install](&lt;a href=&#34;https://maven.apache.org/guides&#34;&gt;https://maven.apache.org/guides&lt;/a&gt; /mini/guide-3rd-party-jars-local.html)&lt;/em&gt; 到我们的本地 Maven 存储库：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;mvn&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;install&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;install&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;file&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Dfile&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;jess&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;jar&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;DgroupId&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;gov&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;sandia&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;DartifactId&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;jess&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Dversion&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;7&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;1p2&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Dpackaging&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;jar&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;DgeneratePom&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;然后我们可以以通常的方式将其添加为依赖项：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;dependency&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;groupId&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;gov&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;sandia&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;groupId&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;artifactId&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;jess&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;artifactId&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;version&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;7&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;1p2&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;version&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;dependency&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;42jess-规则文件简单示例&#34;&gt;4.2。Jess 规则文件简单示例&lt;/h3&gt;
+&lt;p&gt;接下来，让我们创建最简单的规则文件来打印消息。我们将规则文件保存为 &lt;em&gt;hellojess.clp&lt;/em&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;printout&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;t&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;Hello from Jess!&amp;#34;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;crlf&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;43jess-规则引擎&#34;&gt;4.3。Jess 规则引擎&lt;/h3&gt;
+&lt;p&gt;现在，让我们创建 Jess &lt;em&gt;Rete&lt;/em&gt; 规则引擎的实例，&lt;em&gt;reset()&lt;/em&gt; 将其恢复到初始状态，在 &lt;em&gt;hellojess.clp&lt;/em&gt; 中加载规则并运行它们：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;HelloJess&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;static&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;[]&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;args&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;throws&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;JessException&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;Rete&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;engine&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Rete&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;engine&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;reset&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;engine&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;batch&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;hellojess.clp&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;engine&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;run&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;对于这个简单的示例，我们刚刚将潜在的 &lt;em&gt;JessException&lt;/em&gt; 添加到 &lt;em&gt;main&lt;/em&gt; 方法的 &lt;em&gt;throws&lt;/em&gt; 子句中。&lt;/p&gt;
+&lt;p&gt;当我们运行我们的程序时，我们会看到输出：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;Hello&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Jess&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;!&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ol start=&#34;5&#34;&gt;
+&lt;li&gt;将 Jess 与 Java 与数据集成&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;p&gt;现在一切都已正确安装并且我们可以运行规则了，&lt;strong&gt;让我们看看我们如何添加数据以供规则引擎处理以及我们如何检索结果&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;首先，我们需要一些 Java 类来使用，然后是一个使用它们的新规则集。&lt;/p&gt;
+&lt;h3 id=&#34;51模型&#34;&gt;5.1。模型&lt;/h3&gt;
+&lt;p&gt;让我们创建一些简单的 &lt;em&gt;Question&lt;/em&gt; 和 &lt;em&gt;Answer&lt;/em&gt; 类：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;Question&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kd&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;question&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kd&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;balance&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;c1&#34;&gt;// getters and setters
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;Question&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;question&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;balance&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;question&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;question&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;balance&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;balance&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;Answer&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kd&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;answer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kd&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;newBalance&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;c1&#34;&gt;// getters and setters
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;Answer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;answer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;newBalance&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;answer&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;answer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;newBalance&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;newBalance&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;52带有输入和输出的-jess-规则&#34;&gt;5.2。带有输入和输出的 Jess 规则&lt;/h3&gt;
+&lt;p&gt;现在，让我们创建一个名为 &lt;em&gt;bonus.clp&lt;/em&gt; 的简单 Jess 规则集，我们将向其传递 &lt;em&gt;Question&lt;/em&gt; 并从中接收 &lt;em&gt;Answer&lt;/em&gt;。&lt;/p&gt;
+&lt;p&gt;首先，我们 &lt;em&gt;import&lt;/em&gt; 我们的 &lt;em&gt;Question&lt;/em&gt; 和 &lt;em&gt;Answer&lt;/em&gt; 类，然后使用 Jess 的 &lt;em&gt;deftemplate&lt;/em&gt; 函数使它们可用于规则引擎：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;com.baeldung.rules.jsr94.jess.model.*&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;deftemplate&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;Question&lt;/span&gt;     &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;declare&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;from&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;Question&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;deftemplate&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;Answer&lt;/span&gt;       &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;declare&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;from&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;Answer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;注意括号的使用，它表示 Jess 函数调用。&lt;/p&gt;
+&lt;p&gt;现在，让我们使用 &lt;em&gt;defrule&lt;/em&gt; 在 Jess 的扩展 Lisp 格式中添加一条规则 &lt;em&gt;avoid-overdraft&lt;/em&gt;，如果我们的 &lt;em&gt;Question&lt;/em&gt; 中的余额低于零，则给我们 50 美元的奖金：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;defrule&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;avoid&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;overdraft&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;Give $50 to anyone overdrawn&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;?&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;q&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Question&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;balance&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;})&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;=&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;add&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Answer&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;Overdrawn bonus&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;(+&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;?&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;q&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;balance&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;50&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;))))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;在这里，当 &amp;quot;&lt;em&gt;&amp;lt;-&amp;quot;&lt;/em&gt; 右侧的条件匹配时，&amp;quot;&lt;em&gt;?&amp;quot;&lt;/em&gt; 将对象绑定到变量 &lt;em&gt;q&lt;/em&gt;。在这种情况下，规则引擎会发现 &lt;em&gt;余额&lt;/em&gt; 小于 0 的 &lt;em&gt;问题&lt;/em&gt;。&lt;/p&gt;
+&lt;p&gt;当它发生时，“&lt;em&gt;=&amp;gt;”&lt;/em&gt; 右侧的动作被触发，因此引擎 &lt;em&gt;add&lt;/em&gt; s &lt;em&gt;new Answer&lt;/em&gt; 对象到工作内存。我们给它两个必需的构造函数参数：&lt;em&gt;answer&lt;/em&gt; 参数的“Overdrawn bonus”和计算 &lt;em&gt;newAmount&lt;/em&gt; 参数的 &lt;em&gt;(+)&lt;/em&gt; 函数。&lt;/p&gt;
+&lt;h3 id=&#34;53使用-jess-规则引擎处理数据&#34;&gt;5.3。使用 Jess 规则引擎处理数据&lt;/h3&gt;
+&lt;p&gt;我们可以使用 &lt;em&gt;add()&lt;/em&gt; 一次将单个对象添加到规则引擎的工作内存中，或者使用 &lt;em&gt;addAll()&lt;/em&gt; 添加数据集合。让我们使用 &lt;em&gt;add()&lt;/em&gt; 添加一个问题：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;Question&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;question&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Question&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Can I have a bonus?&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;engine&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;add&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;有了我们所有的数据，让我们执行我们的规则：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;engine&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;run&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Jess &lt;em&gt;Rete&lt;/em&gt; 引擎将发挥它的魔力，并在所有相关规则都执行后返回。在我们的例子中，我们将有一个 &lt;em&gt;Answer&lt;/em&gt; 来检查。&lt;/p&gt;
+&lt;p&gt;让我们使用 &lt;em&gt;jess.Filter&lt;/em&gt; 将我们的 &lt;em&gt;Answer&lt;/em&gt; 从规则引擎提取到 &lt;em&gt;Iterable&lt;/em&gt; 结果对象*：*&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;Iterator&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;results&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;engine&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getObjects&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;jess&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;Filter&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;ByClass&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Answer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;class&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;));&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;while&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;results&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;hasNext&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;())&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;Answer&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;answer&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Answer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;results&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;next&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;c1&#34;&gt;// process our Answer
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;在我们的简单示例中，我们没有任何引用数据，但是当我们这样做时，我们可以使用 &lt;em&gt;WorkingMemoryMarker&lt;/em&gt; 和 &lt;em&gt;engine.mark()&lt;/em&gt; 来标记添加数据后规则引擎工作内存的状态。然后我们可以使用我们的标记调用 &lt;em&gt;engine&lt;/em&gt; .&lt;em&gt;resetToMark&lt;/em&gt; 将工作内存重置为我们的“加载”状态，并有效地将规则引擎重用于一组不同的对象：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;WorkingMemoryMarker&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;marker&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// load reference data
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;marker&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;engine&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;mark&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// load specific data and run rules
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;engine&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;resetToMark&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;marker&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;现在，让我们看看我们如何使用 JSR 94 运行相同的规则集。&lt;/p&gt;
+&lt;ol start=&#34;6&#34;&gt;
+&lt;li&gt;使用 JSR 94 集成 Jess 规则引擎&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;p&gt;JSR 94 标准化了我们的代码如何与规则引擎交互。如果出现更好的替代方案，这使得更改我们的规则引擎而不显着改变我们的应用程序变得更容易。&lt;/p&gt;
+&lt;p&gt;JSR 94 API 有两个主要包：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;javax.rules.admin&lt;/em&gt; -- 用于加载驱动程序和规则&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;javax.rules&lt;/em&gt; -- 运行规则并提取结果&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;我们将看看如何使用这两个类中的类。&lt;/p&gt;
+&lt;h3 id=&#34;61-maven-依赖&#34;&gt;6.1。 Maven 依赖&lt;/h3&gt;
+&lt;p&gt;首先，让我们为 &lt;em&gt;jsr94&lt;/em&gt; 添加一个 Maven 依赖项：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;dependency&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;groupId&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;jsr94&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;groupId&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;artifactId&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;jsr94&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;artifactId&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;version&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;version&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;dependency&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;62管理-api&#34;&gt;6.2。管理 API&lt;/h3&gt;
+&lt;p&gt;要开始使用 JSR 94，我们需要实例化一个 &lt;em&gt;RuleServiceProvider&lt;/em&gt;。让我们创建一个，将我们的 Jess 规则驱动程序传递给它：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;RULE_SERVICE_PROVIDER&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;jess.jsr94&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;Class&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;forName&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;RULE_SERVICE_PROVIDER&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;.RuleServiceProviderImpl&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;RuleServiceProvider&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ruleServiceProvider&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;RuleServiceProviderManager&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getRuleServiceProvider&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;RULE_SERVICE_PROVIDER&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;现在，让我们获取 Jess 的 JSR 94 &lt;em&gt;RuleAdministrator&lt;/em&gt; ，将示例规则集加载到 JSR 94 &lt;em&gt;RuleExecutionSet&lt;/em&gt; 中，并使用我们选择的 URI 注册它以执行：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;RuleAdministrator&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ruleAdministrator&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;serviceProvider&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getRuleAdministrator&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;InputStream&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ruleInput&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;JessRunner&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;class&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getResourceAsStream&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;rulesFile&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;HashMap&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;vendorProperties&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;HashMap&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;RuleExecutionSet&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ruleExecutionSet&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ruleAdministrator&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getLocalRuleExecutionSetProvider&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;vendorProperties&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;createRuleExecutionSet&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ruleInput&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;vendorProperties&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;rulesURI&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;rules://com/baeldung/rules/bonus&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;ruleAdministrator&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;registerRuleExecutionSet&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;rulesURI&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ruleExecutionSet&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;vendorProperties&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Jess 驱动程序不需要我们提供给 &lt;em&gt;RuleAdministrator&lt;/em&gt; 的 &lt;em&gt;vendorProperties&lt;/em&gt; 映射，但它是接口的一部分，其他供应商可能需要它。&lt;/p&gt;
+&lt;p&gt;现在我们的规则引擎提供者 Jess 已经初始化并且我们的规则集已经注册，我们几乎可以运行我们的规则了。&lt;/p&gt;
+&lt;p&gt;在我们可以运行它们之前，我们需要一个运行时实例和一个会话来运行它们。让我们还添加一个占位符 &lt;em&gt;calculateResults()&lt;/em&gt; 来表示魔法将发生的位置，然后释放会话：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;RuleRuntime&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ruleRuntime&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ruleServiceProvider&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getRuleRuntime&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;StatelessRuleSession&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;statelessRuleSession&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;StatelessRuleSession&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ruleRuntime&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;createRuleSession&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;rulesURI&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;HashMap&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(),&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;RuleRuntime&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;STATELESS_SESSION_TYPE&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;calculateResults&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;statelessRuleSession&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;statelessRuleSession&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;release&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;63执行-api&#34;&gt;6.3。执行 API&lt;/h3&gt;
+&lt;p&gt;现在我们已经准备好了一切，让我们实现 &lt;em&gt;calculateResults&lt;/em&gt; 来提供我们的初始数据，在无状态会话中执行我们的规则，并提取结果：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;List&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;data&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ArrayList&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;add&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Question&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Can I have a bonus?&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;));&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;List&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;results&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;statelessRuleSession&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;executeRules&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;由于 JSR 94 是在 JDK 5 出现之前编写的，因此 API 不使用泛型，所以让我们使用 &lt;em&gt;Iterator&lt;/em&gt; 来查看结果：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;Iterator&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;itr&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;results&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;iterator&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;while&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;itr&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;hasNext&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;())&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;Object&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;obj&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;itr&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;next&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;obj&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;instanceof&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Answer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;answerBalance&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;((&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Answer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;obj&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getCalculatedBalance&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;());&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;我们在示例中使用了无状态会话，但如果我们想在调用之间保持状态，我们也可以创建一个 &lt;em&gt;StatefuleRuleSession&lt;/em&gt;。&lt;/p&gt;
+&lt;ol start=&#34;7&#34;&gt;
+&lt;li&gt;结论&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;p&gt;在本文中，我们学习了如何使用 Jess 的本机类将 Jess 规则引擎集成到我们的应用程序中，并且更加努力地使用 JSR 94。我们已经了解了如何将业务规则分成单独的文件进行处理当我们的应用程序运行时由规则引擎。&lt;/p&gt;
+&lt;p&gt;如果我们有相同业务逻辑的规则，是为另一个符合 JSR 94 的规则引擎编写的，那么我们可以简单地为我们的替代规则引擎添加驱动程序，并更新我们的应用程序应该使用的驱动程序名称，并且不需要进一步的代码更改必要的。&lt;/p&gt;
+&lt;p&gt;jess.sandia.gov 上有更多关于 &lt;a href=&#34;http://alvarestech.com/temp/fuzzyjess/Jess60/Jess70b7/docs/embedding.html&#34;&gt;在 Java 应用程序中嵌入 Jess&lt;/a&gt; 的详细信息，Oracle 有一个有用的指南&lt;a href=&#34;https://www.oracle.com/technical-resources/articles/javase/javarule.html&#34;&gt;Java 规则引擎 API 入门 (JSR 94)&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;我们在本文中提及的代码 [在 GitHub 上] (&lt;a href=&#34;https://github.com/eugenp/tutorials/tree/master/rule-engines-modules/jess&#34;&gt;https://github.com/eugenp/tutorials/tree/master/rule-engines-modules/jess&lt;/a&gt;) 可用。&lt;/p&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/categories/%E6%89%8B%E5%86%8C/" term="手册" label="手册" />
+                            
+                        
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/tags/%E8%A7%84%E5%88%99%E5%BC%95%E6%93%8E/" term="规则引擎" label="规则引擎" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
+        <entry>
             <title type="text">Spring JPA 使用指南</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/jpa-with-spring/" />
             <id>https://blog.fflow.link/posts/notes/jpa-with-spring/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2022-10-02T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -424,7 +938,7 @@ spring.datasource.url=
             <title type="text">Java 9 CompletableFuture API 接口的改进</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/java-9-completablefuture-api-improvements/" />
             <id>https://blog.fflow.link/posts/notes/java-9-completablefuture-api-improvements/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2022-10-02T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -650,7 +1164,7 @@ spring.datasource.url=
             <title type="text">Spring Security 配置 Remember Me</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/spring-security-remember-me/" />
             <id>https://blog.fflow.link/posts/notes/spring-security-remember-me/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2022-10-01T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -928,7 +1442,7 @@ spring.datasource.url=
             <title type="text">浅谈 Java GC</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/java-gc/" />
             <id>https://blog.fflow.link/posts/notes/java-gc/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2022-10-01T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -1070,7 +1584,7 @@ spring.datasource.url=
             <title type="text">Spring Cloud Consul 入门指引</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/spring-cloud-consul/" />
             <id>https://blog.fflow.link/posts/notes/spring-cloud-consul/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2022-09-30T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -1446,7 +1960,7 @@ spring.datasource.url=
             <title type="text">浅谈 Mock Server</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/%E6%B5%85%E8%B0%88-mock-server/" />
             <id>https://blog.fflow.link/posts/notes/%E6%B5%85%E8%B0%88-mock-server/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2022-09-20T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -1727,7 +2241,7 @@ Maven 引入&lt;/p&gt;
             <title type="text">MySQL 和 Redis 事务实现对比</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/mysql-%E5%92%8C-redis-%E4%BA%8B%E5%8A%A1%E5%AE%9E%E7%8E%B0%E5%AF%B9%E6%AF%94/" />
             <id>https://blog.fflow.link/posts/notes/mysql-%E5%92%8C-redis-%E4%BA%8B%E5%8A%A1%E5%AE%9E%E7%8E%B0%E5%AF%B9%E6%AF%94/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2022-08-01T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -1826,7 +2340,7 @@ Maven 引入&lt;/p&gt;
             <title type="text">程序员知识图谱-RocketMQ</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/rocketmq/" />
             <id>https://blog.fflow.link/posts/notes/rocketmq/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2022-07-31T09:20:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -1985,7 +2499,7 @@ Maven 引入&lt;/p&gt;
             <title type="text">浅谈 Golang 插件机制</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/%E6%B5%85%E8%B0%88-golang-%E6%8F%92%E4%BB%B6%E6%9C%BA%E5%88%B6/" />
             <id>https://blog.fflow.link/posts/notes/%E6%B5%85%E8%B0%88-golang-%E6%8F%92%E4%BB%B6%E6%9C%BA%E5%88%B6/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2022-07-30T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -2110,7 +2624,7 @@ Maven 引入&lt;/p&gt;
             <title type="text">稳定性保障的方法论</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%BF%9D%E9%9A%9C%E7%9A%84%E6%96%B9%E6%B3%95%E8%AE%BA/" />
             <id>https://blog.fflow.link/posts/notes/%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%BF%9D%E9%9A%9C%E7%9A%84%E6%96%B9%E6%B3%95%E8%AE%BA/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2022-07-29T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -2281,7 +2795,7 @@ Maven 引入&lt;/p&gt;
             <title type="text">程序员知识图谱-MySQL</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/mysql/" />
             <id>https://blog.fflow.link/posts/notes/mysql/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2022-07-28T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -2452,7 +2966,7 @@ sync_binlog = N(N&amp;gt;1) 的时候，表示每次提交事务都 write，但�
             <title type="text">程序员知识图谱-MySQL 索引</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/mysql-%E7%B4%A2%E5%BC%95/" />
             <id>https://blog.fflow.link/posts/notes/mysql-%E7%B4%A2%E5%BC%95/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2022-07-28T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -2525,7 +3039,7 @@ sync_binlog = N(N&amp;gt;1) 的时候，表示每次提交事务都 write，但�
             <title type="text">程序员知识图谱-乐观锁和悲观锁</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81/" />
             <id>https://blog.fflow.link/posts/notes/%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2022-07-28T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -2651,7 +3165,7 @@ sync_binlog = N(N&amp;gt;1) 的时候，表示每次提交事务都 write，但�
             <title type="text">程序员知识图谱-网络</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/network/" />
             <id>https://blog.fflow.link/posts/notes/network/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2022-07-28T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -2812,7 +3326,7 @@ net.ipv4.tcp_tw_recycle = 1
             <title type="text">架构整洁之道笔记</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/%E6%9E%B6%E6%9E%84%E6%95%B4%E6%B4%81%E4%B9%8B%E9%81%93%E7%AC%94%E8%AE%B0/" />
             <id>https://blog.fflow.link/posts/notes/%E6%9E%B6%E6%9E%84%E6%95%B4%E6%B4%81%E4%B9%8B%E9%81%93%E7%AC%94%E8%AE%B0/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2022-07-28T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -2891,7 +3405,7 @@ net.ipv4.tcp_tw_recycle = 1
             <title type="text">程序员知识图谱-Redis</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/redis/" />
             <id>https://blog.fflow.link/posts/notes/redis/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2022-07-27T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -3357,7 +3871,7 @@ net.ipv4.tcp_tw_recycle = 1
             <title type="text">程序员知识图谱-Java 内存溢出的排查方法</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/java-%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/" />
             <id>https://blog.fflow.link/posts/notes/java-%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2022-07-19T15:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -3502,7 +4016,7 @@ jstat 查看内存使用情况，检查堆参数，一般是申请的内存太�
             <title type="text">Golang GPM 原理介绍</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/golang-gpm%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/" />
             <id>https://blog.fflow.link/posts/archive/golang-gpm%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2022-05-10T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -3592,7 +4106,7 @@ jstat 查看内存使用情况，检查堆参数，一般是申请的内存太�
             <title type="text">如何实现三个线程轮流输出1-100</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/multi-thread-print-100/" />
             <id>https://blog.fflow.link/posts/archive/multi-thread-print-100/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2019-09-21T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -3799,7 +4313,7 @@ jstat 查看内存使用情况，检查堆参数，一般是申请的内存太�
             <title type="text">程序员知识图谱-微服务分布式事务</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-transaction/" />
             <id>https://blog.fflow.link/posts/archive/java-transaction/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2019-08-10T09:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -3861,7 +4375,7 @@ fascar&lt;/p&gt;
             <title type="text">程序员知识图谱-ElasticSearch</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-es/" />
             <id>https://blog.fflow.link/posts/archive/java-es/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2019-08-09T13:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -3925,7 +4439,7 @@ master&lt;/p&gt;
             <title type="text">程序员知识图谱-微服务注册中心</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-registry/" />
             <id>https://blog.fflow.link/posts/archive/java-registry/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2019-08-08T13:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -3984,7 +4498,7 @@ master&lt;/p&gt;
             <title type="text">程序员知识图谱-微服务配置中心</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-config/" />
             <id>https://blog.fflow.link/posts/archive/java-config/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2019-08-07T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -4067,7 +4581,7 @@ master&lt;/p&gt;
             <title type="text">程序员知识图谱-Dubbo</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-dubbo/" />
             <id>https://blog.fflow.link/posts/archive/java-dubbo/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2019-08-06T15:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -4150,7 +4664,7 @@ Container&lt;/p&gt;
             <title type="text">程序员知识图谱-动态代理</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-aop/" />
             <id>https://blog.fflow.link/posts/archive/java-aop/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2019-08-05T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -4231,7 +4745,7 @@ Dubbo使用的动态代理方法
             <title type="text">程序员知识图谱-微服务限流熔断</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-limiter/" />
             <id>https://blog.fflow.link/posts/archive/java-limiter/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2019-08-04T23:22:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -4307,7 +4821,7 @@ Dubbo使用的动态代理方法
             <title type="text">程序员知识图谱-JVM类加载机制</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-classloader/" />
             <id>https://blog.fflow.link/posts/archive/java-classloader/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2019-08-03T23:22:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -4395,7 +4909,7 @@ DriverManager
             <title type="text">程序员知识图谱-网络编程</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-io/" />
             <id>https://blog.fflow.link/posts/archive/java-io/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2019-08-02T23:22:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -4565,7 +5079,7 @@ Future，Future.get
             <title type="text">程序员知识图谱-并发编程</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-concurrent/" />
             <id>https://blog.fflow.link/posts/archive/java-concurrent/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2019-08-01T21:22:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -4758,7 +5272,7 @@ volatile变量的读和写
             <title type="text">程序员知识图谱-分布式锁</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-lock/" />
             <id>https://blog.fflow.link/posts/archive/java-lock/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2019-07-31T13:22:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -4824,7 +5338,7 @@ redis节点可能宕机
             <title type="text">程序员知识图谱-Linux</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-linux/" />
             <id>https://blog.fflow.link/posts/archive/java-linux/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2019-07-30T11:22:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -5040,7 +5554,7 @@ redis节点可能宕机
             <title type="text">五种常用消息队列对比</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/java-mq/" />
             <id>https://blog.fflow.link/posts/notes/java-mq/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2019-07-29T21:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -5506,7 +6020,7 @@ redis节点可能宕机
             <title type="text">程序员知识图谱-Netty</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-netty/" />
             <id>https://blog.fflow.link/posts/archive/java-netty/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2019-07-28T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -5604,7 +6118,7 @@ Channel的操作结果&lt;/p&gt;
             <title type="text">程序员知识图谱-内存溢出</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-oom/" />
             <id>https://blog.fflow.link/posts/archive/java-oom/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2019-07-27T10:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -5716,7 +6230,7 @@ Survivor Eden与Survivor区的大小比值
             <title type="text">常见Java面试题总结</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/ali-interview/" />
             <id>https://blog.fflow.link/posts/archive/ali-interview/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2019-07-27T08:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -5885,7 +6399,7 @@ JDK epoll的BUG，Netty是怎么解决的,如何解决TCP粘包和拆包的问�
             <title type="text">程序员知识图谱-Redis</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-redis/" />
             <id>https://blog.fflow.link/posts/archive/java-redis/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2019-07-26T12:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -6218,7 +6732,7 @@ CPU不是瓶颈点，IO是瓶颈点，单线程够用也简单&lt;/p&gt;
             <title type="text">MySQL 数据库常见面试题总结</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93/" />
             <id>https://blog.fflow.link/posts/archive/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2019-07-25T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -6638,7 +7152,7 @@ CPU不是瓶颈点，IO是瓶颈点，单线程够用也简单&lt;/p&gt;
             <title type="text">程序员知识图谱-垃圾回收</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-gc/" />
             <id>https://blog.fflow.link/posts/archive/java-gc/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2019-07-24T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -6798,7 +7312,7 @@ Parallel Scavenge收集器的老年代版本&lt;/p&gt;
             <title type="text">程序员知识图谱-计算机网络</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-network/" />
             <id>https://blog.fflow.link/posts/archive/java-network/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2019-07-23T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -6860,7 +7374,7 @@ Parallel Scavenge收集器的老年代版本&lt;/p&gt;
             <title type="text">通过Ngrok实现内网穿透</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/install-ngrok/" />
             <id>https://blog.fflow.link/posts/archive/install-ngrok/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2019-07-22T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -6939,7 +7453,7 @@ sudo make release-client
             <title type="text">在Debian上搭建FTP服务器</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/install-ftp-indebian/" />
             <id>https://blog.fflow.link/posts/archive/install-ftp-indebian/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2019-07-21T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -7150,7 +7664,7 @@ systemctl restart vsftpd 或 service vsftpd restart
             <title type="text">如何将一台老电脑改造为docker服务器</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/install-linux-in-old-computer/" />
             <id>https://blog.fflow.link/posts/archive/install-linux-in-old-computer/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2019-07-20T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -7214,7 +7728,7 @@ sudo systemctl restart docker
             <title type="text">Windows下配置Hexo博客的方法</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/config-hexo-in-windows/" />
             <id>https://blog.fflow.link/posts/archive/config-hexo-in-windows/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2018-09-23T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -7302,7 +7816,7 @@ hexo g
             <title type="text">使用Redis实现实时展示页面访问量排名的方法</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/get_topn_count_with_redis/" />
             <id>https://blog.fflow.link/posts/archive/get_topn_count_with_redis/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2018-09-23T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -7366,7 +7880,7 @@ ZREM title_count baidu.com bing.com
             <title type="text">HBase常用命令</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/hbase-example/" />
             <id>https://blog.fflow.link/posts/archive/hbase-example/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2018-07-07T20:11:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -7466,7 +7980,7 @@ deteteall &#39;sogou:search_detail&#39;, &#39;rowKey001&#39;&lt;/p&gt;
             <title type="text">将已存在的代码提交到Github管理的方法</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/git-add-code-to-exists-repo/" />
             <id>https://blog.fflow.link/posts/archive/git-add-code-to-exists-repo/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2018-01-22T14:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -7537,7 +8051,7 @@ deteteall &#39;sogou:search_detail&#39;, &#39;rowKey001&#39;&lt;/p&gt;
             <title type="text">Guava中实现线程异步回调机制探索</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/guava-thread-listen/" />
             <id>https://blog.fflow.link/posts/archive/guava-thread-listen/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2017-10-31T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -7619,7 +8133,7 @@ deteteall &#39;sogou:search_detail&#39;, &#39;rowKey001&#39;&lt;/p&gt;
             <title type="text">Java代码块的加载顺序总结</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-class-code-block-load-order/" />
             <id>https://blog.fflow.link/posts/archive/java-class-code-block-load-order/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2017-10-31T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -7671,7 +8185,7 @@ deteteall &#39;sogou:search_detail&#39;, &#39;rowKey001&#39;&lt;/p&gt;
             <title type="text">MAC上安装Telnet的方法</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/install-brew-in-mac/" />
             <id>https://blog.fflow.link/posts/archive/install-brew-in-mac/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2017-10-31T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -7714,7 +8228,7 @@ Press RETURN to continue or any other key to abort
             <title type="text">见贤思齐</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/learn-from-others/" />
             <id>https://blog.fflow.link/posts/archive/learn-from-others/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2017-10-31T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -7754,7 +8268,7 @@ Press RETURN to continue or any other key to abort
             <title type="text">一种显示目录结构的方法</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/show-dir/" />
             <id>https://blog.fflow.link/posts/archive/show-dir/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2017-10-31T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -7820,7 +8334,7 @@ $ find . | sed -e &amp;#39;s;[^/]*/;|___;g;s;___|; |;g&amp;#39;
             <title type="text">配置 Kafka Exactly-Once 消费的方法</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/%E9%85%8D%E7%BD%AEkafka-exactly-once%E6%B6%88%E8%B4%B9%E7%9A%84%E6%96%B9%E6%B3%95/" />
             <id>https://blog.fflow.link/posts/archive/%E9%85%8D%E7%BD%AEkafka-exactly-once%E6%B6%88%E8%B4%B9%E7%9A%84%E6%96%B9%E6%B3%95/</id>
-            <updated>2022-10-02T00:35:08&#43;00:00</updated>
+            <updated>2022-10-02T04:01:31&#43;00:00</updated>
             <published>2017-09-22T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
