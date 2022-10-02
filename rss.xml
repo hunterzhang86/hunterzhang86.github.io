@@ -23,15 +23,15 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
         
-        <lastBuildDate>Sat, 01 Oct 2022 23:57:15 &#43;0000</lastBuildDate>
+        <lastBuildDate>Sun, 02 Oct 2022 00:35:11 &#43;0000</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://blog.fflow.link/rss.xml" />
         
         
             <item>
                 <title>Spring JPA 使用指南</title>
-                <link>https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/jpa-with-spring/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/jpa-with-spring/</guid>
+                <link>https://blog.fflow.link/posts/notes/jpa-with-spring/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/notes/jpa-with-spring/</guid>
                 <pubDate>Sun, 02 Oct 2022 07:18:11 &#43;0800</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -431,8 +431,8 @@ spring.datasource.url=
         
             <item>
                 <title>Java 9 CompletableFuture API 接口的改进</title>
-                <link>https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/java-9-completablefuture-api-improvements/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/java-9-completablefuture-api-improvements/</guid>
+                <link>https://blog.fflow.link/posts/notes/java-9-completablefuture-api-improvements/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/notes/java-9-completablefuture-api-improvements/</guid>
                 <pubDate>Sun, 02 Oct 2022 03:18:11 &#43;0800</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -654,8 +654,8 @@ spring.datasource.url=
         
             <item>
                 <title>Spring Security 配置 Remember Me</title>
-                <link>https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/spring-security-remember-me/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/spring-security-remember-me/</guid>
+                <link>https://blog.fflow.link/posts/notes/spring-security-remember-me/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/notes/spring-security-remember-me/</guid>
                 <pubDate>Sat, 01 Oct 2022 11:18:11 &#43;0800</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -929,8 +929,8 @@ spring.datasource.url=
         
             <item>
                 <title>浅谈 Java GC</title>
-                <link>https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/java-gc/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/java-gc/</guid>
+                <link>https://blog.fflow.link/posts/notes/java-gc/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/notes/java-gc/</guid>
                 <pubDate>Sat, 01 Oct 2022 09:48:04 &#43;0800</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -1068,8 +1068,8 @@ spring.datasource.url=
         
             <item>
                 <title>Spring Cloud Consul 入门指引</title>
-                <link>https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/spring-cloud-consul/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/spring-cloud-consul/</guid>
+                <link>https://blog.fflow.link/posts/notes/spring-cloud-consul/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/notes/spring-cloud-consul/</guid>
                 <pubDate>Fri, 30 Sep 2022 09:48:04 &#43;0800</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -1441,8 +1441,8 @@ spring.datasource.url=
         
             <item>
                 <title>浅谈 Mock Server</title>
-                <link>https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/%E6%B5%85%E8%B0%88-mock-server/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/%E6%B5%85%E8%B0%88-mock-server/</guid>
+                <link>https://blog.fflow.link/posts/notes/%E6%B5%85%E8%B0%88-mock-server/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/notes/%E6%B5%85%E8%B0%88-mock-server/</guid>
                 <pubDate>Tue, 20 Sep 2022 09:48:04 &#43;0800</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -1719,8 +1719,8 @@ Maven 引入&lt;/p&gt;
         
             <item>
                 <title>MySQL 和 Redis 事务实现对比</title>
-                <link>https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/mysql-%E5%92%8C-redis-%E4%BA%8B%E5%8A%A1%E5%AE%9E%E7%8E%B0%E5%AF%B9%E6%AF%94/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/mysql-%E5%92%8C-redis-%E4%BA%8B%E5%8A%A1%E5%AE%9E%E7%8E%B0%E5%AF%B9%E6%AF%94/</guid>
+                <link>https://blog.fflow.link/posts/notes/mysql-%E5%92%8C-redis-%E4%BA%8B%E5%8A%A1%E5%AE%9E%E7%8E%B0%E5%AF%B9%E6%AF%94/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/notes/mysql-%E5%92%8C-redis-%E4%BA%8B%E5%8A%A1%E5%AE%9E%E7%8E%B0%E5%AF%B9%E6%AF%94/</guid>
                 <pubDate>Mon, 01 Aug 2022 09:48:04 &#43;0800</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -1815,8 +1815,8 @@ Maven 引入&lt;/p&gt;
         
             <item>
                 <title>程序员知识图谱-RocketMQ</title>
-                <link>https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/rocketmq/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/rocketmq/</guid>
+                <link>https://blog.fflow.link/posts/notes/rocketmq/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/notes/rocketmq/</guid>
                 <pubDate>Sun, 31 Jul 2022 09:20:04 &#43;0800</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -1971,8 +1971,8 @@ Maven 引入&lt;/p&gt;
         
             <item>
                 <title>浅谈 Golang 插件机制</title>
-                <link>https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/%E6%B5%85%E8%B0%88-golang-%E6%8F%92%E4%BB%B6%E6%9C%BA%E5%88%B6/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/%E6%B5%85%E8%B0%88-golang-%E6%8F%92%E4%BB%B6%E6%9C%BA%E5%88%B6/</guid>
+                <link>https://blog.fflow.link/posts/notes/%E6%B5%85%E8%B0%88-golang-%E6%8F%92%E4%BB%B6%E6%9C%BA%E5%88%B6/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/notes/%E6%B5%85%E8%B0%88-golang-%E6%8F%92%E4%BB%B6%E6%9C%BA%E5%88%B6/</guid>
                 <pubDate>Sat, 30 Jul 2022 09:48:04 &#43;0800</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -2093,8 +2093,8 @@ Maven 引入&lt;/p&gt;
         
             <item>
                 <title>稳定性保障的方法论</title>
-                <link>https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%BF%9D%E9%9A%9C%E7%9A%84%E6%96%B9%E6%B3%95%E8%AE%BA/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%BF%9D%E9%9A%9C%E7%9A%84%E6%96%B9%E6%B3%95%E8%AE%BA/</guid>
+                <link>https://blog.fflow.link/posts/notes/%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%BF%9D%E9%9A%9C%E7%9A%84%E6%96%B9%E6%B3%95%E8%AE%BA/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/notes/%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%BF%9D%E9%9A%9C%E7%9A%84%E6%96%B9%E6%B3%95%E8%AE%BA/</guid>
                 <pubDate>Fri, 29 Jul 2022 09:48:04 &#43;0800</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -2261,8 +2261,8 @@ Maven 引入&lt;/p&gt;
         
             <item>
                 <title>程序员知识图谱-MySQL</title>
-                <link>https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/mysql/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/mysql/</guid>
+                <link>https://blog.fflow.link/posts/notes/mysql/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/notes/mysql/</guid>
                 <pubDate>Thu, 28 Jul 2022 09:48:04 &#43;0800</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -2429,8 +2429,8 @@ sync_binlog = N(N&amp;gt;1) 的时候，表示每次提交事务都 write，但�
         
             <item>
                 <title>程序员知识图谱-MySQL 索引</title>
-                <link>https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/mysql-%E7%B4%A2%E5%BC%95/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/mysql-%E7%B4%A2%E5%BC%95/</guid>
+                <link>https://blog.fflow.link/posts/notes/mysql-%E7%B4%A2%E5%BC%95/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/notes/mysql-%E7%B4%A2%E5%BC%95/</guid>
                 <pubDate>Thu, 28 Jul 2022 09:48:04 &#43;0800</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -2499,8 +2499,8 @@ sync_binlog = N(N&amp;gt;1) 的时候，表示每次提交事务都 write，但�
         
             <item>
                 <title>程序员知识图谱-乐观锁和悲观锁</title>
-                <link>https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81/</guid>
+                <link>https://blog.fflow.link/posts/notes/%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/notes/%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81/</guid>
                 <pubDate>Thu, 28 Jul 2022 09:48:04 &#43;0800</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -2622,8 +2622,8 @@ sync_binlog = N(N&amp;gt;1) 的时候，表示每次提交事务都 write，但�
         
             <item>
                 <title>程序员知识图谱-网络</title>
-                <link>https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/network/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/network/</guid>
+                <link>https://blog.fflow.link/posts/notes/network/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/notes/network/</guid>
                 <pubDate>Thu, 28 Jul 2022 09:48:04 &#43;0800</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -2780,8 +2780,8 @@ net.ipv4.tcp_tw_recycle = 1
         
             <item>
                 <title>架构整洁之道笔记</title>
-                <link>https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/%E6%9E%B6%E6%9E%84%E6%95%B4%E6%B4%81%E4%B9%8B%E9%81%93%E7%AC%94%E8%AE%B0/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/%E6%9E%B6%E6%9E%84%E6%95%B4%E6%B4%81%E4%B9%8B%E9%81%93%E7%AC%94%E8%AE%B0/</guid>
+                <link>https://blog.fflow.link/posts/notes/%E6%9E%B6%E6%9E%84%E6%95%B4%E6%B4%81%E4%B9%8B%E9%81%93%E7%AC%94%E8%AE%B0/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/notes/%E6%9E%B6%E6%9E%84%E6%95%B4%E6%B4%81%E4%B9%8B%E9%81%93%E7%AC%94%E8%AE%B0/</guid>
                 <pubDate>Thu, 28 Jul 2022 09:48:04 &#43;0800</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -2856,8 +2856,8 @@ net.ipv4.tcp_tw_recycle = 1
         
             <item>
                 <title>程序员知识图谱-Redis</title>
-                <link>https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/redis/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/redis/</guid>
+                <link>https://blog.fflow.link/posts/notes/redis/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/notes/redis/</guid>
                 <pubDate>Wed, 27 Jul 2022 09:48:04 &#43;0800</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -3319,8 +3319,8 @@ net.ipv4.tcp_tw_recycle = 1
         
             <item>
                 <title>程序员知识图谱-Java 内存溢出的排查方法</title>
-                <link>https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/java-%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/java-%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/</guid>
+                <link>https://blog.fflow.link/posts/notes/java-%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/notes/java-%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/</guid>
                 <pubDate>Tue, 19 Jul 2022 15:48:04 &#43;0800</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -3461,8 +3461,8 @@ jstat 查看内存使用情况，检查堆参数，一般是申请的内存太�
         
             <item>
                 <title>Golang GPM 原理介绍</title>
-                <link>https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/golang-gpm%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/golang-gpm%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/</guid>
+                <link>https://blog.fflow.link/posts/archive/golang-gpm%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/archive/golang-gpm%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/</guid>
                 <pubDate>Tue, 10 May 2022 20:38:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -3548,8 +3548,8 @@ jstat 查看内存使用情况，检查堆参数，一般是申请的内存太�
         
             <item>
                 <title>如何实现三个线程轮流输出1-100</title>
-                <link>https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/multi-thread-print-100/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/multi-thread-print-100/</guid>
+                <link>https://blog.fflow.link/posts/archive/multi-thread-print-100/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/archive/multi-thread-print-100/</guid>
                 <pubDate>Sat, 21 Sep 2019 20:38:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -3752,8 +3752,8 @@ jstat 查看内存使用情况，检查堆参数，一般是申请的内存太�
         
             <item>
                 <title>程序员知识图谱-微服务分布式事务</title>
-                <link>https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-transaction/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-transaction/</guid>
+                <link>https://blog.fflow.link/posts/archive/java-transaction/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/archive/java-transaction/</guid>
                 <pubDate>Sat, 10 Aug 2019 09:38:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -3811,8 +3811,8 @@ fascar&lt;/p&gt;
         
             <item>
                 <title>程序员知识图谱-ElasticSearch</title>
-                <link>https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-es/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-es/</guid>
+                <link>https://blog.fflow.link/posts/archive/java-es/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/archive/java-es/</guid>
                 <pubDate>Fri, 09 Aug 2019 13:38:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -3872,8 +3872,8 @@ master&lt;/p&gt;
         
             <item>
                 <title>程序员知识图谱-微服务注册中心</title>
-                <link>https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-registry/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-registry/</guid>
+                <link>https://blog.fflow.link/posts/archive/java-registry/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/archive/java-registry/</guid>
                 <pubDate>Thu, 08 Aug 2019 13:38:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -3928,8 +3928,8 @@ master&lt;/p&gt;
         
             <item>
                 <title>程序员知识图谱-微服务配置中心</title>
-                <link>https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-config/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-config/</guid>
+                <link>https://blog.fflow.link/posts/archive/java-config/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/archive/java-config/</guid>
                 <pubDate>Wed, 07 Aug 2019 20:38:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -4008,8 +4008,8 @@ master&lt;/p&gt;
         
             <item>
                 <title>程序员知识图谱-Dubbo</title>
-                <link>https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-dubbo/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-dubbo/</guid>
+                <link>https://blog.fflow.link/posts/archive/java-dubbo/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/archive/java-dubbo/</guid>
                 <pubDate>Tue, 06 Aug 2019 15:38:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -4088,8 +4088,8 @@ Container&lt;/p&gt;
         
             <item>
                 <title>程序员知识图谱-动态代理</title>
-                <link>https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-aop/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-aop/</guid>
+                <link>https://blog.fflow.link/posts/archive/java-aop/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/archive/java-aop/</guid>
                 <pubDate>Mon, 05 Aug 2019 20:38:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -4166,8 +4166,8 @@ Dubbo使用的动态代理方法
         
             <item>
                 <title>程序员知识图谱-微服务限流熔断</title>
-                <link>https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-limiter/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-limiter/</guid>
+                <link>https://blog.fflow.link/posts/archive/java-limiter/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/archive/java-limiter/</guid>
                 <pubDate>Sun, 04 Aug 2019 23:22:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -4239,8 +4239,8 @@ Dubbo使用的动态代理方法
         
             <item>
                 <title>程序员知识图谱-JVM类加载机制</title>
-                <link>https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-classloader/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-classloader/</guid>
+                <link>https://blog.fflow.link/posts/archive/java-classloader/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/archive/java-classloader/</guid>
                 <pubDate>Sat, 03 Aug 2019 23:22:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -4324,8 +4324,8 @@ DriverManager
         
             <item>
                 <title>程序员知识图谱-网络编程</title>
-                <link>https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-io/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-io/</guid>
+                <link>https://blog.fflow.link/posts/archive/java-io/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/archive/java-io/</guid>
                 <pubDate>Fri, 02 Aug 2019 23:22:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -4491,8 +4491,8 @@ Future，Future.get
         
             <item>
                 <title>程序员知识图谱-并发编程</title>
-                <link>https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-concurrent/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-concurrent/</guid>
+                <link>https://blog.fflow.link/posts/archive/java-concurrent/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/archive/java-concurrent/</guid>
                 <pubDate>Thu, 01 Aug 2019 21:22:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -4681,8 +4681,8 @@ volatile变量的读和写
         
             <item>
                 <title>程序员知识图谱-分布式锁</title>
-                <link>https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-lock/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-lock/</guid>
+                <link>https://blog.fflow.link/posts/archive/java-lock/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/archive/java-lock/</guid>
                 <pubDate>Wed, 31 Jul 2019 13:22:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -4744,8 +4744,8 @@ redis节点可能宕机
         
             <item>
                 <title>程序员知识图谱-Linux</title>
-                <link>https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-linux/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-linux/</guid>
+                <link>https://blog.fflow.link/posts/archive/java-linux/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/archive/java-linux/</guid>
                 <pubDate>Tue, 30 Jul 2019 11:22:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -4957,8 +4957,8 @@ redis节点可能宕机
         
             <item>
                 <title>五种常用消息队列对比</title>
-                <link>https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/java-mq/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E7%AC%94%E8%AE%B0/java-mq/</guid>
+                <link>https://blog.fflow.link/posts/notes/java-mq/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/notes/java-mq/</guid>
                 <pubDate>Mon, 29 Jul 2019 21:38:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -5420,8 +5420,8 @@ redis节点可能宕机
         
             <item>
                 <title>程序员知识图谱-Netty</title>
-                <link>https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-netty/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-netty/</guid>
+                <link>https://blog.fflow.link/posts/archive/java-netty/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/archive/java-netty/</guid>
                 <pubDate>Sun, 28 Jul 2019 20:38:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -5515,8 +5515,8 @@ Channel的操作结果&lt;/p&gt;
         
             <item>
                 <title>程序员知识图谱-内存溢出</title>
-                <link>https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-oom/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-oom/</guid>
+                <link>https://blog.fflow.link/posts/archive/java-oom/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/archive/java-oom/</guid>
                 <pubDate>Sat, 27 Jul 2019 10:38:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -5624,8 +5624,8 @@ Survivor Eden与Survivor区的大小比值
         
             <item>
                 <title>常见Java面试题总结</title>
-                <link>https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/ali-interview/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/ali-interview/</guid>
+                <link>https://blog.fflow.link/posts/archive/ali-interview/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/archive/ali-interview/</guid>
                 <pubDate>Sat, 27 Jul 2019 08:38:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -5790,8 +5790,8 @@ JDK epoll的BUG，Netty是怎么解决的,如何解决TCP粘包和拆包的问�
         
             <item>
                 <title>程序员知识图谱-Redis</title>
-                <link>https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-redis/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-redis/</guid>
+                <link>https://blog.fflow.link/posts/archive/java-redis/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/archive/java-redis/</guid>
                 <pubDate>Fri, 26 Jul 2019 12:38:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -6120,8 +6120,8 @@ CPU不是瓶颈点，IO是瓶颈点，单线程够用也简单&lt;/p&gt;
         
             <item>
                 <title>MySQL 数据库常见面试题总结</title>
-                <link>https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93/</guid>
+                <link>https://blog.fflow.link/posts/archive/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/archive/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93/</guid>
                 <pubDate>Thu, 25 Jul 2019 20:38:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -6537,8 +6537,8 @@ CPU不是瓶颈点，IO是瓶颈点，单线程够用也简单&lt;/p&gt;
         
             <item>
                 <title>程序员知识图谱-垃圾回收</title>
-                <link>https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-gc/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-gc/</guid>
+                <link>https://blog.fflow.link/posts/archive/java-gc/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/archive/java-gc/</guid>
                 <pubDate>Wed, 24 Jul 2019 20:38:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -6694,8 +6694,8 @@ Parallel Scavenge收集器的老年代版本&lt;/p&gt;
         
             <item>
                 <title>程序员知识图谱-计算机网络</title>
-                <link>https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-network/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-network/</guid>
+                <link>https://blog.fflow.link/posts/archive/java-network/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/archive/java-network/</guid>
                 <pubDate>Tue, 23 Jul 2019 20:38:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -6753,8 +6753,8 @@ Parallel Scavenge收集器的老年代版本&lt;/p&gt;
         
             <item>
                 <title>通过Ngrok实现内网穿透</title>
-                <link>https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/install-ngrok/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/install-ngrok/</guid>
+                <link>https://blog.fflow.link/posts/archive/install-ngrok/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/archive/install-ngrok/</guid>
                 <pubDate>Mon, 22 Jul 2019 20:38:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -6829,8 +6829,8 @@ sudo make release-client
         
             <item>
                 <title>在Debian上搭建FTP服务器</title>
-                <link>https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/install-ftp-indebian/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/install-ftp-indebian/</guid>
+                <link>https://blog.fflow.link/posts/archive/install-ftp-indebian/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/archive/install-ftp-indebian/</guid>
                 <pubDate>Sun, 21 Jul 2019 20:38:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -7037,8 +7037,8 @@ systemctl restart vsftpd 或 service vsftpd restart
         
             <item>
                 <title>如何将一台老电脑改造为docker服务器</title>
-                <link>https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/install-linux-in-old-computer/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/install-linux-in-old-computer/</guid>
+                <link>https://blog.fflow.link/posts/archive/install-linux-in-old-computer/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/archive/install-linux-in-old-computer/</guid>
                 <pubDate>Sat, 20 Jul 2019 20:38:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -7098,8 +7098,8 @@ sudo systemctl restart docker
         
             <item>
                 <title>Windows下配置Hexo博客的方法</title>
-                <link>https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/config-hexo-in-windows/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/config-hexo-in-windows/</guid>
+                <link>https://blog.fflow.link/posts/archive/config-hexo-in-windows/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/archive/config-hexo-in-windows/</guid>
                 <pubDate>Sun, 23 Sep 2018 20:38:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -7183,8 +7183,8 @@ hexo g
         
             <item>
                 <title>使用Redis实现实时展示页面访问量排名的方法</title>
-                <link>https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/get_topn_count_with_redis/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/get_topn_count_with_redis/</guid>
+                <link>https://blog.fflow.link/posts/archive/get_topn_count_with_redis/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/archive/get_topn_count_with_redis/</guid>
                 <pubDate>Sun, 23 Sep 2018 20:38:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -7244,8 +7244,8 @@ ZREM title_count baidu.com bing.com
         
             <item>
                 <title>HBase常用命令</title>
-                <link>https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/hbase-example/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/hbase-example/</guid>
+                <link>https://blog.fflow.link/posts/archive/hbase-example/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/archive/hbase-example/</guid>
                 <pubDate>Sat, 07 Jul 2018 20:11:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -7341,8 +7341,8 @@ deteteall &#39;sogou:search_detail&#39;, &#39;rowKey001&#39;&lt;/p&gt;
         
             <item>
                 <title>将已存在的代码提交到Github管理的方法</title>
-                <link>https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/git-add-code-to-exists-repo/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/git-add-code-to-exists-repo/</guid>
+                <link>https://blog.fflow.link/posts/archive/git-add-code-to-exists-repo/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/archive/git-add-code-to-exists-repo/</guid>
                 <pubDate>Mon, 22 Jan 2018 14:38:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -7409,8 +7409,8 @@ deteteall &#39;sogou:search_detail&#39;, &#39;rowKey001&#39;&lt;/p&gt;
         
             <item>
                 <title>Guava中实现线程异步回调机制探索</title>
-                <link>https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/guava-thread-listen/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/guava-thread-listen/</guid>
+                <link>https://blog.fflow.link/posts/archive/guava-thread-listen/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/archive/guava-thread-listen/</guid>
                 <pubDate>Tue, 31 Oct 2017 20:38:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -7488,8 +7488,8 @@ deteteall &#39;sogou:search_detail&#39;, &#39;rowKey001&#39;&lt;/p&gt;
         
             <item>
                 <title>Java代码块的加载顺序总结</title>
-                <link>https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-class-code-block-load-order/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/java-class-code-block-load-order/</guid>
+                <link>https://blog.fflow.link/posts/archive/java-class-code-block-load-order/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/archive/java-class-code-block-load-order/</guid>
                 <pubDate>Tue, 31 Oct 2017 20:38:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -7537,8 +7537,8 @@ deteteall &#39;sogou:search_detail&#39;, &#39;rowKey001&#39;&lt;/p&gt;
         
             <item>
                 <title>MAC上安装Telnet的方法</title>
-                <link>https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/install-brew-in-mac/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/install-brew-in-mac/</guid>
+                <link>https://blog.fflow.link/posts/archive/install-brew-in-mac/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/archive/install-brew-in-mac/</guid>
                 <pubDate>Tue, 31 Oct 2017 20:38:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -7577,8 +7577,8 @@ Press RETURN to continue or any other key to abort
         
             <item>
                 <title>见贤思齐</title>
-                <link>https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/learn-from-others/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/learn-from-others/</guid>
+                <link>https://blog.fflow.link/posts/archive/learn-from-others/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/archive/learn-from-others/</guid>
                 <pubDate>Tue, 31 Oct 2017 20:38:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -7614,8 +7614,8 @@ Press RETURN to continue or any other key to abort
         
             <item>
                 <title>一种显示目录结构的方法</title>
-                <link>https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/show-dir/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/show-dir/</guid>
+                <link>https://blog.fflow.link/posts/archive/show-dir/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/archive/show-dir/</guid>
                 <pubDate>Tue, 31 Oct 2017 20:38:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
@@ -7677,8 +7677,8 @@ $ find . | sed -e &amp;#39;s;[^/]*/;|___;g;s;___|; |;g&amp;#39;
         
             <item>
                 <title>配置 Kafka Exactly-Once 消费的方法</title>
-                <link>https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/%E9%85%8D%E7%BD%AEkafka-exactly-once%E6%B6%88%E8%B4%B9%E7%9A%84%E6%96%B9%E6%B3%95/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/%E5%BD%92%E6%A1%A3/%E9%85%8D%E7%BD%AEkafka-exactly-once%E6%B6%88%E8%B4%B9%E7%9A%84%E6%96%B9%E6%B3%95/</guid>
+                <link>https://blog.fflow.link/posts/archive/%E9%85%8D%E7%BD%AEkafka-exactly-once%E6%B6%88%E8%B4%B9%E7%9A%84%E6%96%B9%E6%B3%95/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/archive/%E9%85%8D%E7%BD%AEkafka-exactly-once%E6%B6%88%E8%B4%B9%E7%9A%84%E6%96%B9%E6%B3%95/</guid>
                 <pubDate>Fri, 22 Sep 2017 20:38:17 &#43;0000</pubDate>
                 
                     <author>hunterzhang86@gmail.com (fflow)</author>
