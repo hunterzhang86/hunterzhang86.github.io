@@ -23,10 +23,84 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
         
-        <lastBuildDate>Mon, 03 Oct 2022 01:34:20 &#43;0000</lastBuildDate>
+        <lastBuildDate>Mon, 03 Oct 2022 07:54:08 &#43;0000</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://blog.fflow.link/rss.xml" />
         
+        
+            <item>
+                <title>Paths.get 和 Path.of 的区别</title>
+                <link>https://blog.fflow.link/posts/notes/differences-between-paths.get-and-path.of/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/notes/differences-between-paths.get-and-path.of/</guid>
+                <pubDate>Mon, 03 Oct 2022 11:18:11 &#43;0800</pubDate>
+                
+                    <author>hunterzhang86@gmail.com (fflow)</author>
+                
+                <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
+                
+                    <description>&lt;h2 id=&#34;一概述&#34;&gt;一、概述&lt;/h2&gt;
+&lt;p&gt;在本文中，我们将分析 Java 里面 &lt;a href=&#34;https://blog.fflow.link/java-nio-2-path#creating-a-path&#34;&gt;&lt;em&gt;Paths.get()&lt;/em&gt;&lt;/a&gt; 和 &lt;em&gt;Path.of()&lt;/em&gt; 之间的异同。&lt;/p&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;相同的行为&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;Path.of()&lt;/em&gt; 方法将 &lt;em&gt;&lt;a href=&#34;https://blog.fflow.link/java-url-vs-uri&#34;&gt;URI&lt;/a&gt;&lt;/em&gt; 作为参数并将其转换为 [&lt;em&gt;Path&lt;/em&gt;](/java-path-vs-file#javaniofilepath -class) 的关联对象。&lt;/p&gt;
+&lt;p&gt;现在让我们看一下*Paths.get()*的代码：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;final&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;Paths&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;static&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Path&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;get&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;URI&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;uri&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Path&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;of&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;uri&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;如上所示 &lt;em&gt;Paths.get()&lt;/em&gt; 所做的唯一事情就是调用 &lt;em&gt;Path.of()。&lt;/em&gt; 因此，这两个方法返回相同的结果。&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&#34;三方法的区别&#34;&gt;三、方法的区别&lt;/h2&gt;
+&lt;p&gt;我们现在将评论这两种方法之间的区别。&lt;/p&gt;
+&lt;h3 id=&#34;31介绍版本&#34;&gt;3.1。介绍版本&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;在 Java 8 之前，无法在接口内定义 &lt;a href=&#34;https://blog.fflow.link/java-static-default-methods&#34;&gt;默认静态方法&lt;/a&gt;。&lt;/strong&gt; 因此 &lt;em&gt;Path&lt;/em&gt; 需要一个伴随接口 &lt;em&gt;Paths&lt;/em&gt; 。此时所有的[工厂方法]（/creational-design-patterns#factory-method）都在 Pathss 中定义。&lt;/p&gt;
+&lt;p&gt;然后这个限制被取消了，在 Java 11 中，工厂方法的代码最终被移到了 &lt;em&gt;Path&lt;/em&gt; 接口中。此外， &lt;em&gt;Paths.get()&lt;/em&gt; 的代码已更新为遵循 &lt;em&gt;Path.of()&lt;/em&gt; 。 &lt;em&gt;Paths.get()&lt;/em&gt; 保留以确保向后兼容性。&lt;/p&gt;
+&lt;h3 id=&#34;32命名模式&#34;&gt;3.2。命名模式&lt;/h3&gt;
+&lt;p&gt;代码不仅被移动了，而且工厂方法的名称也发生了变化。原始名称的问题在于它看起来像一个 getter。然而，&lt;em&gt;Paths.get()&lt;/em&gt; 没有得到任何属于 &lt;em&gt;Paths&lt;/em&gt; 对象的东西。 &lt;strong&gt;Java 中静态工厂方法的标准名称是 &lt;em&gt;of&lt;/em&gt;。&lt;/strong&gt; 例如，&lt;em&gt;&lt;a href=&#34;https://blog.fflow.link/java-enumset&#34;&gt;EnumSet.of()&lt;/a&gt;&lt;/em&gt; 遵循此模式。因此，为了保持一致性，新方法被称为 &lt;em&gt;Path.of()&lt;/em&gt;。&lt;/p&gt;
+&lt;ol start=&#34;4&#34;&gt;
+&lt;li&gt;我们应该使用哪一个？&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;p&gt;如果我们使用 Java 7 和 10 之间的版本，我们别无选择，只能使用 &lt;em&gt;Paths.get()&lt;/em&gt; 。 &lt;strong&gt;如果我们使用的是 10 以后的版本，我们应该使用 &lt;em&gt;Path.of()&lt;/em&gt;。&lt;/strong&gt; &lt;em&gt;Paths&lt;/em&gt; 类在未来的 Java 版本中可能确实会被弃用，正如它在类注释中所描述的。此外，直接使用 &lt;em&gt;Path&lt;/em&gt; 中的工厂方法可以节省额外的输入。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;结论&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;p&gt;在本教程中，我们了解到 &lt;em&gt;Paths.get()&lt;/em&gt; 和 &lt;em&gt;Path.of()&lt;/em&gt; 这两个相同的方法由于某些历史原因共存。我们已经分析了它们的差异，并根据我们的情况得出了最适合我们的结论。&lt;/p&gt;
+</description>
+                
+                
+                
+                
+                
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://blog.fflow.link/categories/%E6%89%8B%E5%86%8C/">手册</category>
+                                
+                            
+                        
+                    
+                        
+                    
+                
+            </item>
         
             <item>
                 <title>配置 Spring Security 登录后重定向到不同的页面</title>
