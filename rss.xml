@@ -23,10 +23,269 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
         
-        <lastBuildDate>Mon, 03 Oct 2022 16:00:51 &#43;0000</lastBuildDate>
+        <lastBuildDate>Mon, 03 Oct 2022 23:58:21 &#43;0000</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://blog.fflow.link/rss.xml" />
         
+        
+            <item>
+                <title>JVM 日志锻造</title>
+                <link>https://blog.fflow.link/posts/guide/jvm-log-forging/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/guide/jvm-log-forging/</guid>
+                <pubDate>Tue, 04 Oct 2022 07:18:11 &#43;0800</pubDate>
+                
+                    <author>hunterzhang86@gmail.com (fflow)</author>
+                
+                <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
+                
+                    <description>&lt;h2 id=&#34;1概述&#34;&gt;&lt;strong&gt;1。概述&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;在这篇快速文章中，我们将探讨 &lt;em&gt;JVM&lt;/em&gt; 世界中最常见的安全问题之一——日志锻造。我们还将展示一个示例技术，可以保护我们免受这种安全问题的影响。&lt;/p&gt;
+&lt;h2 id=&#34;2什么是原木锻造&#34;&gt;&lt;strong&gt;2。什么是原木锻造？&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;根据*&lt;a href=&#34;https://www.owasp.org/&#34;&gt;OWASP&lt;/a&gt;*，日志伪造是最常见的攻击技术之一。&lt;/p&gt;
+&lt;p&gt;当数据从不受信任的来源进入应用程序或数据被某些外部实体写入应用程序/系统日志文件时，就会出现日志伪造漏洞。&lt;/p&gt;
+&lt;p&gt;根据 &lt;a href=&#34;https://owasp.org/www-community/attacks/Log_Injection&#34;&gt;&lt;em&gt;OWASP&lt;/em&gt; 指南&lt;/a&gt; 日志伪造或注入是一种将未经验证的用户输入写入日志文件的技术，以便攻击者可以伪造日志条目或将恶意内容注入日志。&lt;/p&gt;
+&lt;p&gt;简单地说，通过日志伪造，攻击者通过探索应用程序中的安全漏洞来尝试添加/修改记录内容。&lt;/p&gt;
+&lt;h2 id=&#34;3例子&#34;&gt;&lt;strong&gt;3。例子&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;考虑一个用户从网络提交支付请求的例子。在应用程序级别，一旦此请求得到处理，将记录一个条目，其金额为：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;私人最终&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Logger&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;记录器&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;LoggerFactory&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getLogger&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;LogForgingDemo&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;class&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;公共无效添加日志&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;（&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;字符串数量&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;）&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;logger&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;info&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;贷记金额 = {}&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;amount&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;公共静态无效主要&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;（&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;字符串&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;[]&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;参数&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;）&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;LogForgingDemo&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;演示&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;LogForgingDemo&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;demo&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;addLog&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;300&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;如果我们查看控制台，我们将看到如下内容：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-纯文本hljs&#34; data-lang=&#34;纯文本hljs&#34;&gt;网络 - 2017-04-12 17:45:29,978 [主要]
+  信息 com.baeldung.logforging.LogForgingDemo - 贷记金额 = 300
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;现在，假设攻击者提供的输入为 *&amp;quot;\n\nweb -- 2017-04-12 17:47:08,957 [main] INFO Amount reversed successful&amp;quot;，*那么日志将是：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-纯文本hljs&#34; data-lang=&#34;纯文本hljs&#34;&gt;web - 2017-04-12 17:52:14,124 [主要] 信息 com.baeldung.logforging。
+  LogForgingDemo - 贷记金额 = 300
+
+web - 2017-04-12 17:47:08,957 [main] INFO 金额已成功撤销
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;攻击者故意在应用程序日志中创建了一个伪造条目，该条目破坏了日志的值并混淆了未来的任何审计类型活动。这就是原木锻造的精髓。&lt;/p&gt;
+&lt;h2 id=&#34;4预防&#34;&gt;&lt;strong&gt;4。预防&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;最明显的解决方案是不将任何用户输入写入日志文件。&lt;/p&gt;
+&lt;p&gt;但是，这可能并非在所有情况下都是可能的，因为用户提供的数据对于将来调试或审核应用程序活动是必需的。&lt;/p&gt;
+&lt;p&gt;我们必须使用其他替代方案来解决这种情况。&lt;/p&gt;
+&lt;h3 id=&#34;41引入验证&#34;&gt;&lt;strong&gt;4.1。引入验证&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;最简单的解决方案之一是在记录之前始终验证输入。这种方法的一个问题是我们必须在运行时验证大量数据，这将影响整体系统性能。&lt;/p&gt;
+&lt;p&gt;此外，如果验证失败，数据将不会被记录并永远丢失，这通常是不可接受的情况。&lt;/p&gt;
+&lt;h3 id=&#34;42数据库记录&#34;&gt;&lt;strong&gt;4.2。数据库记录&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;另一种选择是将数据记录到数据库中。这比其他方法更安全，因为 &lt;em&gt;&#39;\n&#39;&lt;/em&gt; 或换行符对这种情况没有任何意义。然而，这将引发另一个性能问题，因为大量的数据库连接将用于记录用户数据。&lt;/p&gt;
+&lt;p&gt;更重要的是，这种技术引入了另一个安全漏洞——即&lt;a href=&#34;https://owasp.org/www-community/attacks/SQL_Injection&#34;&gt;&lt;em&gt;SQL Injection&lt;/em&gt;&lt;/a&gt;。为了解决这个问题，我们最终可能会编写许多额外的代码行。&lt;/p&gt;
+&lt;h3 id=&#34;43-esapi&#34;&gt;&lt;strong&gt;4.3。 ESAPI&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;根据此上下文，使用 &lt;em&gt;ESAPI&lt;/em&gt; 是最共享和最可取的技术。在这里，每个用户数据在写入日志之前都经过编码。 &lt;em&gt;ESAPI&lt;/em&gt; 是 &lt;em&gt;OWASP&lt;/em&gt; 提供的开源 API：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;依赖&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;org.owasp.esapi&lt;span class=&#34;nt&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;esapi&lt;span class=&#34;nt&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;版本&amp;gt;&lt;/span&gt;2.5.0.0&lt;span class=&#34;nt&#34;&gt;&amp;lt;/版本&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;/依赖&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;它在 [Central Maven 存储库](&lt;a href=&#34;https://search.maven.org/classic/#search%7Cgav%7C1%7Cg%3A%22org.owasp.esapi%22%20AND%20a%3A%22esapi%22&#34;&gt;https://search.maven.org/classic/#search%7Cgav%7C1%7Cg%3A%22org.owasp.esapi%22%20AND%20a%3A%22esapi%22&lt;/a&gt; ）。&lt;/p&gt;
+&lt;p&gt;我们可以使用 &lt;em&gt;ESAPI&lt;/em&gt; 的 &lt;a href=&#34;https://static.javadoc.io/org.owasp.esapi/esapi/2.0.1/org/owasp/esapi/Encoder.html&#34;&gt;&lt;em&gt;Encoder&lt;/em&gt;&lt;/a&gt; 接口对数据进行编码：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;公共字符串编码&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;（&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;字符串消息&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;）&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;message&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;replace&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt; &lt;span class=&#34;sc&#34;&gt;&amp;#39;\n&amp;#39;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;sc&#34;&gt;&amp;#39;_&amp;#39;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;replace&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt; &lt;span class=&#34;sc&#34;&gt;&amp;#39;\r&amp;#39;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;sc&#34;&gt;&amp;#39;_&amp;#39;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;replace&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt; &lt;span class=&#34;sc&#34;&gt;&amp;#39;\t&amp;#39;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;sc&#34;&gt;&amp;#39;_&amp;#39;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;消息&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ESAPI&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;encoder&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;encodeForHTML&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;消息&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;返回消息&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;；&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;在这里，我们创建了一个包装方法，它用下划线替换所有回车和换行，并对修改后的消息进行编码。&lt;/p&gt;
+&lt;p&gt;在前面的示例中，如果我们使用此包装函数对消息进行编码，则日志应如下所示：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-纯文本hljs&#34; data-lang=&#34;纯文本hljs&#34;&gt;web - 2017-04-12 18:15:58,528 [主要] 信息 com.baeldung.logforging。
+  LogForgingDemo - 贷记金额 = 300
+__web - 2017-04-12 17:47:08,957 [main] INFO 金额已成功冲销
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;在这里，损坏的字符串片段被编码并且可以很容易地识别。&lt;/p&gt;
+&lt;p&gt;需要注意的重要一点是，要使用 &lt;em&gt;ESAPI&lt;/em&gt;，我们需要在类路径中包含 &lt;em&gt;ESAPI.properties&lt;/em&gt; 文件，否则 &lt;em&gt;ESAPI&lt;/em&gt; API 将在运行时抛出异常。它可用 [这里]（https://github.com/OWASP/EJSF/blob/master/esapi_master_FULL/WebContent/ESAPI.properties）。&lt;/p&gt;
+&lt;h2 id=&#34;5结论&#34;&gt;&lt;strong&gt;5。结论&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;在这个快速教程中，我们了解了日志伪造和克服这种安全问题的技术。&lt;/p&gt;
+&lt;p&gt;与往常一样，完整的源代码可在 &lt;a href=&#34;https://github.com/eugenp/tutorials/tree/master/core-java-modules/core-java-jvm&#34;&gt;over on GitHub&lt;/a&gt; 上获得。
+通用底部&lt;/p&gt;
+&lt;h3 id=&#34;通过-learn-spring-课程开始使用-spring-5-和-spring-boot-2&#34;&gt;&lt;strong&gt;通过 &lt;em&gt;Learn Spring&lt;/em&gt; 课程开始使用 Spring 5 和 Spring Boot 2：&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href=&#34;https://blog.fflow.link/ls-course-end&#34;&gt;&amp;gt;&amp;gt; 查看课程&lt;/a&gt;&lt;/strong&gt;
+通用页脚横幅
+&lt;img src=&#34;https://blog.fflow.link/wp-content/uploads/2016/05/baeldung-rest-post-footer-main-1.2.0.jpg&#34; alt=&#34;使用 SPRING 构建您的 API - 书籍封面&#34;&gt;
+&lt;img src=&#34;https://blog.fflow.link/wp-content/uploads/2016/05/baeldung-rest-post-footer-icn-1.0.0.png&#34; alt=&#34;使用 SPRING 构建您的 API - 图标&#34;&gt;
+学习构建你的 API
+&lt;strong&gt;与春天&lt;/strong&gt;？
+&lt;a href=&#34;https://blog.fflow.link/rest-api-spring-guide&#34;&gt;下载电子书&lt;/a&gt;&lt;/p&gt;
+</description>
+                
+                
+                
+                
+                
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://blog.fflow.link/categories/%E6%89%8B%E5%86%8C/">手册</category>
+                                
+                            
+                        
+                    
+                        
+                    
+                
+            </item>
+        
+            <item>
+                <title>AspectJ 中的 Joinpoint 与 ProceedingJoinPoint</title>
+                <link>https://blog.fflow.link/posts/guide/joinpoint-vs.-proceedingjoinpoint-in-aspectj/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/guide/joinpoint-vs.-proceedingjoinpoint-in-aspectj/</guid>
+                <pubDate>Tue, 04 Oct 2022 03:18:11 &#43;0800</pubDate>
+                
+                    <author>hunterzhang86@gmail.com (fflow)</author>
+                
+                <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
+                
+                    <description>&lt;h2 id=&#34;一简介&#34;&gt;一、简介&lt;/h2&gt;
+&lt;p&gt;在这个简短的教程中，我们将了解 &lt;em&gt;&lt;a href=&#34;https://blog.fflow.link/aspectj&#34;&gt;AspectJ&lt;/a&gt; 中的 &lt;em&gt;JoinPoint&lt;/em&gt; 和 &lt;em&gt;ProceedingJoinPoint&lt;/em&gt; 接口之间的区别。&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;我们将通过简短的解释和代码示例对其进行介绍。&lt;/p&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;&lt;em&gt;连接点&lt;/em&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;JoinPoint&lt;/em&gt; 是一个 &lt;em&gt;AspectJ&lt;/em&gt; 接口，&lt;strong&gt;提供对给定连接点可用状态的反射访问&lt;/strong&gt;，如方法参数、返回值或抛出的异常。它还提供有关方法本身的所有静态信息。&lt;/p&gt;
+&lt;p&gt;我们可以将它与 &lt;em&gt;@Before&lt;/em&gt; 、 &lt;em&gt;@After&lt;/em&gt; 、 &lt;em&gt;@AfterThrowing&lt;/em&gt; 和 &lt;em&gt;@AfterReturning&lt;/em&gt; 建议一起使用。这些切入点将分别在方法执行前、执行后、返回值后、或仅在抛出异常后、或仅在方法返回值后启动。&lt;/p&gt;
+&lt;p&gt;为了更好地理解，让我们看一个基本的例子。首先，我们需要声明一个切入点。我们将定义为 &lt;em&gt;ArticleService&lt;/em&gt; 类中的 &lt;em&gt;getArticleList()&lt;/em&gt; 的每次执行：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-hljs&#34; data-lang=&#34;hljs&#34;&gt;@Pointcut(&amp;#34;执行(* com.baeldung.ArticleService.getArticleList(..))&amp;#34;)
+公共无效文章ListPointcut（）{}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;接下来，我们可以定义通知。在我们的示例中，我们将使用 &lt;em&gt;@Before&lt;/em&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@Before&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;articleListPointcut()&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;beforeAdvice&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;JoinPoint&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;joinPoint&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;日志信息&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;（&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;s&#34;&gt;&amp;#34;使用 {} 参数执行的方法 {}&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;joinPoint&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getStaticPart&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getSignature&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;joinPoint&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getArgs&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;在上面的示例中，我们使用 &lt;em&gt;@Before&lt;/em&gt; 建议来记录方法执行及其参数。一个类似的用例是记录我们代码中发生的异常：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-hljs&#34; data-lang=&#34;hljs&#34;&gt;@AfterThrowing(
+  pointcut = &amp;#34;articleListPointcut()&amp;#34;,
+  投掷=“e”
+)
+公共无效日志异常（JoinPoint jp，异常 e）{
+    log.error(e.getMessage(), e);
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;通过使用 &lt;em&gt;@AfterThrowing&lt;/em&gt; 建议，我们确保日志记录仅在异常发生时发生。&lt;/p&gt;
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;&lt;em&gt;ProceedingJoinPoint&lt;/em&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;ProceedingJoinPoint&lt;/em&gt; 是 &lt;em&gt;JoinPoint&lt;/em&gt; 的扩展，它公开了额外的 &lt;em&gt;proceed()&lt;/em&gt; 方法。调用时，代码执行跳转到下一个建议或目标方法。&lt;strong&gt;它使我们能够控制代码流&lt;/strong&gt;并决定是否继续进行进一步的调用。&lt;/p&gt;
+&lt;p&gt;它可以只使用 &lt;em&gt;@Around&lt;/em&gt; 建议，它围绕整个方法调用：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-hljs&#34; data-lang=&#34;hljs&#34;&gt;@Around(&amp;#34;articleListPointcut()&amp;#34;)
+public Object aroundAdvice(ProceedingJoinPoint pjp) {
+    对象文章 = cache.get(pjp.getArgs());
+    如果（文章 == null）{
+        文章 = pjp.proceed(pjp.getArgs());
+    }
+    退货；
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;在上面的示例中，我们说明了 &lt;em&gt;@Around&lt;/em&gt; 建议最流行的用法之一。只有当缓存没有返回结果时，才会调用实际的方法。 &lt;strong&gt;这是 &lt;a href=&#34;https://blog.fflow.link/spring-cache-tutorial&#34;&gt;Spring Cache Annotations&lt;/a&gt; 工作的确切方式。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;我们还可以使用 &lt;em&gt;ProceedingJoinPoint&lt;/em&gt; 和 &lt;em&gt;@Around&lt;/em&gt; 通知来重试操作，以防出现任何异常：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-hljs&#34; data-lang=&#34;hljs&#34;&gt;@Around(&amp;#34;articleListPointcut()&amp;#34;)
+public Object aroundAdvice(ProceedingJoinPoint pjp) {
+    尝试 {
+        返回 pjp.proceed(pjp.getArgs());
+    } 捕捉（可投掷）{
+        log.error(e.getMessage(), e);
+        log.info(&amp;#34;重试操作&amp;#34;);
+        返回 pjp.proceed(pjp.getArgs());
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;例如，此解决方案可用于在网络中断的情况下重试 HTTP 调用。&lt;/p&gt;
+&lt;h2 id=&#34;4结论&#34;&gt;4。结论&lt;/h2&gt;
+&lt;p&gt;在本文中，我们了解了 &lt;em&gt;AspectJ&lt;/em&gt; 中的 &lt;em&gt;Joinpoint&lt;/em&gt; 和 &lt;em&gt;ProceedingJoinPoint&lt;/em&gt; 之间的区别。与往常一样，所有源代码都 [在 GitHub 上] (&lt;a href=&#34;https://github.com/eugenp/tutorials/tree/master/spring-aop&#34;&gt;https://github.com/eugenp/tutorials/tree/master/spring-aop&lt;/a&gt;) 可用。
+通用底部&lt;/p&gt;
+&lt;h3 id=&#34;通过-learn-spring-课程开始使用-spring-5-和-spring-boot-2&#34;&gt;&lt;strong&gt;通过 &lt;em&gt;Learn Spring&lt;/em&gt; 课程开始使用 Spring 5 和 Spring Boot 2：&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href=&#34;https://blog.fflow.link/ls-course-end&#34;&gt;&amp;gt;&amp;gt; 查看课程&lt;/a&gt;&lt;/strong&gt;
+通用页脚横幅
+&lt;img src=&#34;https://blog.fflow.link/wp-content/uploads/2016/05/baeldung-rest-post-footer-main-1.2.0.jpg&#34; alt=&#34;使用 SPRING 构建您的 API - 书籍封面&#34;&gt;
+&lt;img src=&#34;https://blog.fflow.link/wp-content/uploads/2016/05/baeldung-rest-post-footer-icn-1.0.0.png&#34; alt=&#34;使用 SPRING 构建您的 API - 图标&#34;&gt;
+学习构建你的 API
+&lt;strong&gt;与春天&lt;/strong&gt;？
+&lt;a href=&#34;https://blog.fflow.link/rest-api-spring-guide&#34;&gt;下载电子书&lt;/a&gt;&lt;/p&gt;
+</description>
+                
+                
+                
+                
+                
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://blog.fflow.link/categories/%E6%89%8B%E5%86%8C/">手册</category>
+                                
+                            
+                        
+                    
+                        
+                    
+                
+            </item>
         
             <item>
                 <title>Paths.get 和 Path.of 的区别</title>
