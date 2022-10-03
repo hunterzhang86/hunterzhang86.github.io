@@ -23,7 +23,7 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
         
-        <lastBuildDate>Mon, 03 Oct 2022 15:02:57 &#43;0000</lastBuildDate>
+        <lastBuildDate>Mon, 03 Oct 2022 15:07:24 &#43;0000</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://blog.fflow.link/rss.xml" />
         
@@ -7708,73 +7708,6 @@ Java底层&lt;/p&gt;
 构建您的微服务架构
 Spring Boot 和 Spring Cloud
 &lt;a href=&#34;https://blog.fflow.link/spring-microservices-guide&#34;&gt;下载电子书&lt;/a&gt;&lt;/p&gt;
-</description>
-                
-                
-                
-                
-                
-                    
-                        
-                            
-                                
-                                
-                                
-                                    <category domain="https://blog.fflow.link/categories/%E6%89%8B%E5%86%8C/">手册</category>
-                                
-                            
-                        
-                    
-                        
-                    
-                
-            </item>
-        
-            <item>
-                <title>Maven 部署插件</title>
-                <link>https://blog.fflow.link/posts/guide/the-maven-deploy-plugin/</link>
-                <guid isPermaLink="true">https://blog.fflow.link/posts/guide/the-maven-deploy-plugin/</guid>
-                <pubDate>Tue, 26 Jul 2022 11:18:11 &#43;0800</pubDate>
-                
-                    <author>hunterzhang86@gmail.com (fflow)</author>
-                
-                <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
-                
-                    <description>&lt;p&gt;This article is part of a series:&lt;br&gt;
-&lt;a href=&#34;https://blog.fflow.link/maven-resources-plugin&#34;&gt;• Maven Resources Plugin&lt;/a&gt;&lt;br&gt;
-&lt;a href=&#34;https://blog.fflow.link/maven-compiler-plugin&#34;&gt;• Maven Compiler Plugin&lt;/a&gt;&lt;br&gt;
-&lt;a href=&#34;https://blog.fflow.link/maven-install-plugin&#34;&gt;• Quick Guide to the Maven Install Plugin&lt;/a&gt;&lt;br&gt;
-&lt;a href=&#34;https://blog.fflow.link/maven-failsafe-plugin&#34;&gt;• The Maven Failsafe Plugin&lt;/a&gt;&lt;br&gt;
-&lt;a href=&#34;https://blog.fflow.link/maven-surefire-plugin&#34;&gt;• Quick Guide to the Maven Surefire Plugin&lt;/a&gt;&lt;br&gt;
-• The Maven Deploy Plugin (current article)
-&lt;a href=&#34;https://blog.fflow.link/maven-clean-plugin&#34;&gt;• The Maven Clean Plugin&lt;/a&gt;&lt;br&gt;
-&lt;a href=&#34;https://blog.fflow.link/maven-verifier-plugin&#34;&gt;• The Maven Verifier Plugin&lt;/a&gt;&lt;br&gt;
-&lt;a href=&#34;https://blog.fflow.link/maven-site-plugin&#34;&gt;• The Maven Site Plugin&lt;/a&gt;&lt;br&gt;
-&lt;a href=&#34;https://blog.fflow.link/core-maven-plugins&#34;&gt;• Guide to the Core Maven Plugins&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&#34;1-overview&#34;&gt;&lt;strong&gt;1. Overview&lt;/strong&gt;&lt;/h2&gt;
-&lt;p&gt;This tutorial introduces the &lt;em&gt;deploy&lt;/em&gt; plugin, one of the core plugins of the Maven build tool.&lt;/p&gt;
-&lt;p&gt;For a quick overview of the other core plugins, refer to &lt;a href=&#34;https://blog.fflow.link/core-maven-plugins&#34;&gt;this article&lt;/a&gt;.&lt;/p&gt;
-&lt;h2 id=&#34;2-plugin-goals&#34;&gt;&lt;strong&gt;2. Plugin Goals&lt;/strong&gt;&lt;/h2&gt;
-&lt;p&gt;We use the &lt;em&gt;deploy&lt;/em&gt; plugin during the &lt;em&gt;deploy&lt;/em&gt; phase, &lt;strong&gt;pushing artifacts to a remote repository to share with other developers&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;In addition to the artifact itself, this plugin ensures that all associated information, such as POMs, metadata or hash values, is correct.&lt;/p&gt;
-&lt;p&gt;The &lt;em&gt;deploy&lt;/em&gt; plugin is specified in the super POM, hence it&#39;s not necessary to add this plugin to the POM.&lt;/p&gt;
-&lt;p&gt;The most noticeable goal of this plugin is &lt;em&gt;deploy&lt;/em&gt; , bound to the &lt;em&gt;deploy&lt;/em&gt; phase by default. &lt;a href=&#34;https://blog.fflow.link/maven-deploy-nexus&#34;&gt;This tutorial&lt;/a&gt; covers the &lt;em&gt;deploy&lt;/em&gt; plugin in detail, hence we won&#39;t go any further.&lt;/p&gt;
-&lt;p&gt;The &lt;em&gt;deploy&lt;/em&gt; plugin has another goal named &lt;em&gt;deploy-file&lt;/em&gt;, deploying an artifact in a remote repository. This goal isn&#39;t in common use though.&lt;/p&gt;
-&lt;h2 id=&#34;3-conclusion&#34;&gt;&lt;strong&gt;3. Conclusion&lt;/strong&gt;&lt;/h2&gt;
-&lt;p&gt;This article gave a brief description of the &lt;em&gt;deploy&lt;/em&gt; plugin.&lt;/p&gt;
-&lt;p&gt;We can find more information about this plugin on &lt;a href=&#34;https://maven.apache.org/plugins/maven-deploy-plugin/&#34;&gt;the Maven website&lt;/a&gt;.&lt;br&gt;
-Next &lt;strong&gt;&amp;gt;&amp;gt;&lt;/strong&gt;
-&lt;a href=&#34;https://blog.fflow.link/maven-clean-plugin&#34;&gt;The Maven Clean Plugin&lt;/a&gt;&lt;br&gt;
-&lt;strong&gt;&amp;lt;&amp;lt;&lt;/strong&gt; Previous
-&lt;a href=&#34;https://blog.fflow.link/maven-surefire-plugin&#34;&gt;Quick Guide to the Maven Surefire Plugin&lt;/a&gt;&lt;br&gt;
-Generic bottom&lt;/p&gt;
-&lt;h3 id=&#34;get-started-with-spring-5-and-spring-boot-2-through-the-learn-spring-course&#34;&gt;&lt;strong&gt;Get started with Spring 5 and Spring Boot 2, through the &lt;em&gt;Learn Spring&lt;/em&gt; course:&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;&lt;strong&gt;&lt;a href=&#34;https://blog.fflow.link/ls-course-end&#34;&gt;&amp;gt;&amp;gt; CHECK OUT THE COURSE&lt;/a&gt;&lt;/strong&gt;&lt;br&gt;
-Maven footer banner&lt;br&gt;
-&lt;img src=&#34;wp-content/uploads/2022/06/maven-ebook-post-footer-1.jpg&#34; alt=&#34;Apache Maven Guide - book cover&#34;&gt;&lt;br&gt;
-&lt;img src=&#34;wp-content/uploads/2022/06/maven-ebook-post-footer-icon.png&#34; alt=&#34;Apache Maven - icon&#34;&gt;&lt;br&gt;
-Get Started with Apache Maven
-&lt;a href=&#34;https://blog.fflow.link/maven-ebook&#34;&gt;Download the E-book&lt;/a&gt;&lt;/p&gt;
 </description>
                 
                 
