@@ -57,7 +57,7 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2022-07-19T11:18:11+08:00",
-        "dateModified": "2022-10-04T03:06:13+00:00",
+        "dateModified": "2022-10-04T03:18:51+00:00",
         "url": "https://blog.fflow.link/posts/guide/spring-boot-with-h2-database/",
         "headline": "带有 H2 数据库的 Spring Boot",
         "description": "1。概述 在本教程中，我们将探索在 Spring Boot 中使用 H2。就像其他数据库一样，Spring Boot 生……",
@@ -108,7 +108,7 @@
 <meta property="og:locale" content="zh" /><meta property="og:image" content="https://www.baeldung.com/wp-content/uploads/2019/04/Screenshot-2019-04-13-at-5.21.34-PM-e1555173105246-1024x496.png" />
 <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2022-07-19T11:18:11&#43;08:00" />
-    <meta property="article:modified_time" content="2022-10-04T03:06:13&#43;00:00" />
+    <meta property="article:modified_time" content="2022-10-04T03:18:51&#43;00:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -216,7 +216,7 @@
     
     
         
-        <time datetime="2022-10-04T03:06:13&#43;00:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;2022.10.4</time>
+        <time datetime="2022-10-04T03:18:51&#43;00:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;2022.10.4</time>
     
     
     
@@ -283,7 +283,7 @@
 </div><h2 id="3数据库配置"><a href="#3数据库配置" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><strong>3。数据库配置</strong></h2>
 <p>默认情况下，Spring Boot 将应用程序配置为<strong>使用用户名 <em>sa</em> 和空密码</strong>连接到内存存储。</p>
 <p>但是，我们可以通过将以下属性添加到 <em>application.properties</em> 文件来更改这些参数：</p>
-<pre tabindex="0"><code class="language-纯文本hljs" data-lang="纯文本hljs">spring.datasource.url=jdbc:h2:mem:testdb
+<pre tabindex="0"><code class="language-纯文本" data-lang="纯文本">spring.datasource.url=jdbc:h2:mem:testdb
 spring.datasource.driverClassName=org.h2.Driver
 spring.datasource.username=sa
 spring.datasource.password=密码
@@ -299,7 +299,7 @@ spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
     spring.jpa.database-platform：org.hibernate.dialect.H2Dialect
 </code></pre><p>根据设计，内存数据库是易失性的，在应用程序重新启动后会导致数据丢失。</p>
 <p>我们可以通过使用基于文件的存储来改变这种行为。为此，我们需要更新 <em>spring.datasource.url</em> 属性：</p>
-<pre tabindex="0"><code class="language-纯文本hljs" data-lang="纯文本hljs">spring.datasource.url=jdbc:h2:file:/data/demo
+<pre tabindex="0"><code class="language-纯文本" data-lang="纯文本">spring.datasource.url=jdbc:h2:file:/data/demo
 </code></pre><p>同样，在 <em>application.yaml</em> 中，我们可以为基于文件的存储添加相同的属性：</p>
 <pre tabindex="0"><code class="language-属性" data-lang="属性">春天：
   数据源：
@@ -336,7 +336,7 @@ spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
 <h2 id="5访问-h2-控制台"><a href="#5访问-h2-控制台" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><strong>5。访问 H2 控制台</strong></h2>
 <p>H2 数据库有一个嵌入式 GUI 控制台，用于浏览数据库的内容和运行 SQL 查询。默认情况下，Spring 中未启用 H2 控制台。</p>
 <p>要启用它，我们需要将以下属性添加到 <em>application.properties</em>：</p>
-<pre tabindex="0"><code class="language-纯文本hljs" data-lang="纯文本hljs">spring.h2.console.enabled=true
+<pre tabindex="0"><code class="language-纯文本" data-lang="纯文本">spring.h2.console.enabled=true
 </code></pre><p>如果我们使用 YAML 配置，我们需要将属性添加到 <em>application.yaml</em>：</p>
 <pre tabindex="0"><code class="language-属性" data-lang="属性">春天：
   h2:
@@ -348,7 +348,7 @@ spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
 <a href="/wp-content/uploads/2019/04/Screenshot-2019-04-13-at-5.25.16-PM.png"><img src="https://www.baeldung.com/wp-content/uploads/2019/04/Screenshot-2019-04-13-at-5.25.16-PM.png" alt="h2 控制台 - SQL 语句"></a></p>
 <p>Web 控制台具有建议 SQL 关键字的自动完成功能。控制台是轻量级的这一事实使其便于直观地检查数据库或直接执行原始 SQL。</p>
 <p>此外，我们可以通过在项目的 <em>application.properties</em> 中使用我们想要的值指定以下属性来进一步配置控制台：</p>
-<pre tabindex="0"><code class="language-纯文本hljs" data-lang="纯文本hljs">spring.h2.console.path=/h2-console
+<pre tabindex="0"><code class="language-纯文本" data-lang="纯文本">spring.h2.console.path=/h2-console
 spring.h2.console.settings.trace=false
 spring.h2.console.settings.web-allow-others=false
 </code></pre><p>同样，在使用 YAML 配置时，我们可以将上述属性添加为：</p>
@@ -390,7 +390,7 @@ spring.h2.console.settings.web-allow-others=false
 
         
     <div class="updated-badge-container">
-        <span title="Updated @ 2022-10-04 03:06:13 UTC" style="cursor:help">
+        <span title="Updated @ 2022-10-04 03:18:51 UTC" style="cursor:help">
 
 <svg xmlns="http://www.w3.org/2000/svg" width="130" height="20" class="updated-badge"><linearGradient id="b" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="a"><rect width="130" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#a)"><path class="updated-badge-left" d="M0 0h55v20H0z"/><path class="updated-badge-right" d="M55 0h75v20H55z"/><path fill="url(#b)" d="M0 0h130v20H0z"/></g><g fill="#fff" text-anchor="middle" font-size="110"><text x="285" y="150" fill="#010101" fill-opacity=".3" textLength="450" transform="scale(.1)">updated</text><text x="285" y="140" textLength="450" transform="scale(.1)">updated</text><text x="915" y="150" fill="#010101" fill-opacity=".3" textLength="650" transform="scale(.1)">2022-10-04</text><text x="915" y="140" textLength="650" transform="scale(.1)">2022-10-04</text></g></svg>
         </span></div>
@@ -495,11 +495,15 @@ spring.h2.console.settings.web-allow-others=false
             <ul class="related-list">
                 
                     <li class="related-item">
-                        <a href="/posts/guide/jvm-log-forging/" class="related-link">JVM 日志锻造</a>
+                        <a href="/posts/guide/concatenating-strings-in-java/" class="related-link">在 Java 中连接字符串</a>
                     </li>
                 
                     <li class="related-item">
-                        <a href="/posts/guide/joinpoint-vs.-proceedingjoinpoint-in-aspectj/" class="related-link">AspectJ 中的 Joinpoint 与 ProceedingJoinPoint</a>
+                        <a href="/posts/notes/jvm-log-forging/" class="related-link">JVM 日志伪造</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/notes/joinpoint-vs.-proceedingjoinpoint-in-aspectj/" class="related-link">AspectJ 中的 Joinpoint 与 ProceedingJoinPoint</a>
                     </li>
                 
                     <li class="related-item">
@@ -508,10 +512,6 @@ spring.h2.console.settings.web-allow-others=false
                 
                     <li class="related-item">
                         <a href="/posts/notes/redirect-to-different-pages-after-login-with-spring-security/" class="related-link">配置 Spring Security 登录后重定向到不同的页面</a>
-                    </li>
-                
-                    <li class="related-item">
-                        <a href="/posts/guide/making-tomcat-utf-8-ready/" class="related-link">配置 Tomcat 支持 UTF-8</a>
                     </li>
                 
             </ul>

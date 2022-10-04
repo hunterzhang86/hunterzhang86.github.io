@@ -57,7 +57,7 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2022-07-02T11:18:11+08:00",
-        "dateModified": "2022-10-04T03:06:13+00:00",
+        "dateModified": "2022-10-04T03:18:51+00:00",
         "url": "https://blog.fflow.link/posts/guide/different-ways-to-capture-java-heap-dumps/",
         "headline": "捕获 Java 堆转储的不同方法",
         "description": "1。介绍 在本教程中，我们将探索在 Java 中捕获堆转储的不同方法。 堆转储是某个时刻在 JVM 内存中……",
@@ -108,7 +108,7 @@
 <meta property="og:locale" content="zh" /><meta property="og:image" content="https://blog.fflow.link/wp-content/uploads/2018/09/dump-menu-cropped-1.png" />
 <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2022-07-02T11:18:11&#43;08:00" />
-    <meta property="article:modified_time" content="2022-10-04T03:06:13&#43;00:00" />
+    <meta property="article:modified_time" content="2022-10-04T03:18:51&#43;00:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -216,7 +216,7 @@
     
     
         
-        <time datetime="2022-10-04T03:06:13&#43;00:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;2022.10.4</time>
+        <time datetime="2022-10-04T03:18:51&#43;00:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;2022.10.4</time>
     
     
     
@@ -254,7 +254,7 @@
 <h3 id="21地图"><a href="#21地图" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><strong>2.1。地图</strong></h3>
 <p>jmap 是一个打印有关正在运行的 JVM 中的内存统计信息的工具。我们可以将它用于本地或远程进程。</p>
 <p><strong>要使用 jmap 捕获堆转储，我们需要使用 <em>dump</em> 选项：</strong></p>
-<pre tabindex="0"><code class="language-纯文本hljs" data-lang="纯文本hljs">jmap -dump:[live],format=b,file=&lt;file-path&gt; &lt;pid&gt;
+<pre tabindex="0"><code class="language-纯文本" data-lang="纯文本">jmap -dump:[live],format=b,file=&lt;file-path&gt; &lt;pid&gt;
 </code></pre><p>除了该选项，我们还应该指定几个参数：</p>
 <ul>
 <li><em>live</em>：如果设置，它只打印具有活动引用的对象，并丢弃那些准备好被垃圾回收的对象。此参数是可选的。</li>
@@ -263,13 +263,13 @@
 <li><em>pid</em>：Java进程的id</li>
 </ul>
 <p>一个示例如下所示：</p>
-<pre tabindex="0"><code class="language-纯文本hljs" data-lang="纯文本hljs">jmap -dump:live,format=b,file=/tmp/dump.hprof 12587
+<pre tabindex="0"><code class="language-纯文本" data-lang="纯文本">jmap -dump:live,format=b,file=/tmp/dump.hprof 12587
 </code></pre><p>请记住，我们可以通过使用 <em>jps</em> 命令轻松获取 Java 进程的 <em>pid</em>。</p>
 <p><strong>另外，请记住</strong> <strong>jmap 是作为实验工具在 JDK 中引入的，不受支持。</strong> 因此，在某些情况下，最好使用其他工具来代替。</p>
 <h3 id="22指令"><a href="#22指令" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><strong>2.2。指令</strong></h3>
 <p>jcmd 是一个非常完整的工具，它通过向 JVM 发送命令请求来工作。我们必须在运行 Java 进程的同一台机器上使用它。</p>
 <p><strong>它的许多命令之一是 <em>GC.heap_dump</em></strong> 。我们可以通过指定进程的 <em>pid</em> 和输出文件路径来使用它来获取堆转储：</p>
-<pre tabindex="0"><code class="language-纯文本hljs" data-lang="纯文本hljs">jcmd &lt;pid&gt; GC.heap_dump &lt;文件路径&gt;
+<pre tabindex="0"><code class="language-纯文本" data-lang="纯文本">jcmd &lt;pid&gt; GC.heap_dump &lt;文件路径&gt;
 </code></pre><p>我们可以使用之前使用的相同参数执行它：</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
@@ -289,11 +289,11 @@
 <h2 id="3自动捕获堆转储"><a href="#3自动捕获堆转储" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><strong>3。自动捕获堆转储</strong></h2>
 <p>我们在前几节中展示的所有工具都旨在在特定时间手动捕获堆转储。在某些情况下，我们希望在发生 <em>java.lang.OutOfMemoryError</em> 时获得堆转储以帮助我们调查错误。</p>
 <p>对于这些情况，<strong>Java 提供了 <em>HeapDumpOnOutOfMemoryError</em> 命令行选项，它会在抛出 <em>java.lang.OutOfMemoryError</em> 时生成堆转储：</strong></p>
-<pre tabindex="0"><code class="language-纯文本hljs" data-lang="纯文本hljs">java -XX:+HeapDumpOnOutOfMemoryError
+<pre tabindex="0"><code class="language-纯文本" data-lang="纯文本">java -XX:+HeapDumpOnOutOfMemoryError
 </code></pre><p><strong>默认情况下，它将转储存储在我们运行应用程序的目录中的 <em>java_pid&lt;pid&gt;.hprof</em> 文件中。如果我们想指定另一个文件或目录，我们可以在 <em>HeapDumpPath</em> 选项中设置：</strong></p>
-<pre tabindex="0"><code class="language-纯文本hljs" data-lang="纯文本hljs">java -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=&lt;file-or-dir-path&gt;
+<pre tabindex="0"><code class="language-纯文本" data-lang="纯文本">java -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=&lt;file-or-dir-path&gt;
 </code></pre><p>当我们的应用程序使用此选项耗尽内存时，我们将能够在日志中找到包含堆转储的创建文件：</p>
-<pre tabindex="0"><code class="language-纯文本hljs" data-lang="纯文本hljs">java.lang.OutOfMemoryError：请求的数组大小超过 VM 限制
+<pre tabindex="0"><code class="language-纯文本" data-lang="纯文本">java.lang.OutOfMemoryError：请求的数组大小超过 VM 限制
 将堆转储到 java_pid12587.hprof ...
 创建线程“主”堆转储文件中的异常 [4744371 字节在 0.029 秒内]
 java.lang.OutOfMemoryError：请求的数组大小超过 VM 限制
@@ -338,7 +338,7 @@ java.lang.OutOfMemoryError：请求的数组大小超过 VM 限制
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p><strong>请注意，不能覆盖 hprof 文件。</strong> 因此，在创建打印堆转储的应用程序时，我们应该考虑到这一点。如果我们不这样做，我们会得到一个异常：</p>
-<pre tabindex="0"><code class="language-纯文本hljs" data-lang="纯文本hljs">线程“主”java.io.IOException 中的异常：文件存在
+<pre tabindex="0"><code class="language-纯文本" data-lang="纯文本">线程“主”java.io.IOException 中的异常：文件存在
 在 sun.management.HotSpotDiagnostic.dumpHeap0（本机方法）
 在 sun.management.HotSpotDiagnostic.dumpHeap(HotSpotDiagnostic.java:60)
 </code></pre><h2 id="5结论"><a href="#5结论" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><strong>5。结论</strong></h2>
@@ -382,7 +382,7 @@ Java底层</p>
 
         
     <div class="updated-badge-container">
-        <span title="Updated @ 2022-10-04 03:06:13 UTC" style="cursor:help">
+        <span title="Updated @ 2022-10-04 03:18:51 UTC" style="cursor:help">
 
 <svg xmlns="http://www.w3.org/2000/svg" width="130" height="20" class="updated-badge"><linearGradient id="b" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="a"><rect width="130" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#a)"><path class="updated-badge-left" d="M0 0h55v20H0z"/><path class="updated-badge-right" d="M55 0h75v20H55z"/><path fill="url(#b)" d="M0 0h130v20H0z"/></g><g fill="#fff" text-anchor="middle" font-size="110"><text x="285" y="150" fill="#010101" fill-opacity=".3" textLength="450" transform="scale(.1)">updated</text><text x="285" y="140" textLength="450" transform="scale(.1)">updated</text><text x="915" y="150" fill="#010101" fill-opacity=".3" textLength="650" transform="scale(.1)">2022-10-04</text><text x="915" y="140" textLength="650" transform="scale(.1)">2022-10-04</text></g></svg>
         </span></div>
@@ -487,11 +487,15 @@ Java底层</p>
             <ul class="related-list">
                 
                     <li class="related-item">
-                        <a href="/posts/guide/jvm-log-forging/" class="related-link">JVM 日志锻造</a>
+                        <a href="/posts/guide/concatenating-strings-in-java/" class="related-link">在 Java 中连接字符串</a>
                     </li>
                 
                     <li class="related-item">
-                        <a href="/posts/guide/joinpoint-vs.-proceedingjoinpoint-in-aspectj/" class="related-link">AspectJ 中的 Joinpoint 与 ProceedingJoinPoint</a>
+                        <a href="/posts/notes/jvm-log-forging/" class="related-link">JVM 日志伪造</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/notes/joinpoint-vs.-proceedingjoinpoint-in-aspectj/" class="related-link">AspectJ 中的 Joinpoint 与 ProceedingJoinPoint</a>
                     </li>
                 
                     <li class="related-item">
@@ -500,10 +504,6 @@ Java底层</p>
                 
                     <li class="related-item">
                         <a href="/posts/notes/redirect-to-different-pages-after-login-with-spring-security/" class="related-link">配置 Spring Security 登录后重定向到不同的页面</a>
-                    </li>
-                
-                    <li class="related-item">
-                        <a href="/posts/guide/making-tomcat-utf-8-ready/" class="related-link">配置 Tomcat 支持 UTF-8</a>
                     </li>
                 
             </ul>

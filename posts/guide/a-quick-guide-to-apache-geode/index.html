@@ -57,7 +57,7 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2022-07-11T07:18:11+08:00",
-        "dateModified": "2022-10-04T03:06:13+00:00",
+        "dateModified": "2022-10-04T03:18:51+00:00",
         "url": "https://blog.fflow.link/posts/guide/a-quick-guide-to-apache-geode/",
         "headline": "Apache Geode 快速指南",
         "description": "1。概述 Apache Geode 是一个支持缓存和数据计算的分布式内存数据网格。 在本教程中，我们将介绍 Geode 的……",
@@ -107,7 +107,7 @@
 <meta property="og:locale" content="zh" /><meta property="og:image" content="https://blog.fflow.link/icons/apple-touch-icon.png" />
     <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2022-07-11T07:18:11&#43;08:00" />
-    <meta property="article:modified_time" content="2022-10-04T03:06:13&#43;00:00" />
+    <meta property="article:modified_time" content="2022-10-04T03:18:51&#43;00:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -215,7 +215,7 @@
     
     
         
-        <time datetime="2022-10-04T03:06:13&#43;00:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;2022.10.4</time>
+        <time datetime="2022-10-04T03:18:51&#43;00:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;2022.10.4</time>
     
     
     
@@ -250,7 +250,7 @@
 <p>其次，本教程将创建一些文件系统工件。因此，我们可以通过创建一个临时目录并从那里启动东西来隔离它们。</p>
 <h3 id="21安装和配置"><a href="#21安装和配置" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><strong>2.1。安装和配置</strong></h3>
 <p>从我们的临时目录中，我们需要启动一个 <em>Locator</em> 实例：</p>
-<pre tabindex="0"><code class="language-纯文本hljs" data-lang="纯文本hljs">gfsh&gt; 开始定位器 --name=locator --bind-address=localhost
+<pre tabindex="0"><code class="language-纯文本" data-lang="纯文本">gfsh&gt; 开始定位器 --name=locator --bind-address=localhost
 </code></pre><p><strong><em>Locators</em> 负责 Geode <em>Cluster</em> 的不同成员之间的协调，</strong> 我们可以通过 JMX 进一步管理它。</p>
 <p>接下来，让我们启动一个 <em>Server</em> 实例来托管一个或多个数据 <em>Region</em>s：</p>
 <div class="highlight"><div class="chroma">
@@ -263,7 +263,7 @@
 </div>
 </div><p>我们将 <em>--server-port</em> 选项设置为 0，以便 Geode 选择任何可用端口。虽然如果我们忽略它，服务器将使用默认端口 40404。<strong>服务器是 <em>Cluster</em> 的可配置成员，作为长期进程运行并负责管理数据 <em>Regions</em></strong>。</p>
 <p>最后，我们需要一个 <em>Region</em>：</p>
-<pre tabindex="0"><code class="language-纯文本hljs" data-lang="纯文本hljs">gfsh&gt; 创建区域 --name=baeldung --type=REPLICATE
+<pre tabindex="0"><code class="language-纯文本" data-lang="纯文本">gfsh&gt; 创建区域 --name=baeldung --type=REPLICATE
 </code></pre><p><strong><em>Region</em> 最终是我们存储数据的地方。</strong></p>
 <h3 id="22确认"><a href="#22确认" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><strong>2.2。确认</strong></h3>
 <p>在我们继续之前，让我们确保一切正常。</p>
@@ -285,7 +285,7 @@
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>接下来，我们有我们的 <em>Region</em>：</p>
-<pre tabindex="0"><code class="language-纯文本hljs" data-lang="纯文本hljs">gfsh&gt; 描述区域 --name=baeldung
+<pre tabindex="0"><code class="language-纯文本" data-lang="纯文本">gfsh&gt; 描述区域 --name=baeldung
 ..................................................... ...........
 名称：拜登
 数据策略：复制
@@ -303,7 +303,7 @@
 <h2 id="3-maven-依赖"><a href="#3-maven-依赖" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><strong>3。 Maven 依赖</strong></h2>
 <p>现在我们有了一个正在运行的 Geode，让我们开始查看客户端代码。</p>
 <p>要在我们的 Java 代码中使用 Geode，我们需要将 <a href="https://search.maven.org/search?q=a:geode-core" target="_blank" rel="noopener">Apache Geode Java 客户端</a> 库添加到我们的 *pom *:</p>
-<pre tabindex="0"><code class="language-纯文本hljs" data-lang="纯文本hljs">&lt;依赖&gt;
+<pre tabindex="0"><code class="language-纯文本" data-lang="纯文本">&lt;依赖&gt;
      &lt;groupId&gt;org.apache.geode&lt;/groupId&gt;
      &lt;artifactId&gt;geode-core&lt;/artifactId&gt;
      &lt;版本&gt;1.6.0&lt;/版本&gt;
@@ -445,7 +445,7 @@
 <p>其次，<strong>它们需要位于我们应用程序的类路径以及 Geode <em>Server</em></strong> 的类路径中。</p>
 <p>为了让它们进入服务器的类路径，让我们将它们打包，比如使用 <em>mvn clean package</em>。</p>
 <p>然后我们可以在新的 <em>start server</em> 命令中引用生成的 jar：</p>
-<pre tabindex="0"><code class="language-纯文本hljs" data-lang="纯文本hljs">gfsh&gt; 停止服务器 --name=server1
+<pre tabindex="0"><code class="language-纯文本" data-lang="纯文本">gfsh&gt; 停止服务器 --name=server1
 gfsh&gt; 启动服务器 --name=server1 --classpath=../lib/apache-geode-1.0-SNAPSHOT.jar --server-port=0
 </code></pre><p><strong>同样，我们必须从临时目录运行这些命令。</strong></p>
 <p>最后，让我们使用与创建“baeldung”区域相同的命令在 <em>Server</em> 上创建一个名为“baeldung-customers”的新 <em>Region</em>：</p>
@@ -513,13 +513,13 @@ gfsh&gt; 启动服务器 --name=server1 --classpath=../lib/apache-geode-1.0-SNAP
 <h3 id="51复制区域"><a href="#51复制区域" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><strong>5.1。复制区域</strong></h3>
 <p>顾名思义，**a <em>Replicated Region</em> 在多个 <em>Server</em> 上维护其数据的副本。**让我们对此进行测试。</p>
 <p>从工作目录中的 <em>gfsh</em> 控制台，让我们再添加一个名为 <em>server2</em> 的 <em>Server</em> 到集群：</p>
-<pre tabindex="0"><code class="language-纯文本hljs" data-lang="纯文本hljs">gfsh&gt; 启动服务器 --name=server2 --classpath=../lib/apache-geode-1.0-SNAPSHOT.jar --server-port=0
+<pre tabindex="0"><code class="language-纯文本" data-lang="纯文本">gfsh&gt; 启动服务器 --name=server2 --classpath=../lib/apache-geode-1.0-SNAPSHOT.jar --server-port=0
 </code></pre><p>请记住，当我们制作“baeldung”时，我们使用了 <em>--type=REPLICATE</em> 。因此，<strong>Geode 会自动将我们的数据复制到新服务器。</strong></p>
 <p>让我们通过停止 <em>server1:</em> 来验证这一点</p>
-<pre tabindex="0"><code class="language-纯文本hljs" data-lang="纯文本hljs">gfsh&gt; 停止服务器 --name=server1
+<pre tabindex="0"><code class="language-纯文本" data-lang="纯文本">gfsh&gt; 停止服务器 --name=server1
 </code></pre><p>然后，让我们对“baeldung”区域执行快速查询。</p>
 <p>如果数据复制成功，我们将返回结果：</p>
-<pre tabindex="0"><code class="language-纯文本hljs" data-lang="纯文本hljs">gfsh&gt; query --query=&#39;select e.key from /baeldung.entries e&#39;
+<pre tabindex="0"><code class="language-纯文本" data-lang="纯文本">gfsh&gt; query --query=&#39;select e.key from /baeldung.entries e&#39;
 结果：真
 限制：100
 行数：5
@@ -537,13 +537,13 @@ D
 <h3 id="52分区区域"><a href="#52分区区域" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><strong>5.2。分区区域</strong></h3>
 <p>对于更大的数据集，我们可以通过配置 Geode 将一个区域拆分为单独的分区或存储桶来更好地扩展系统。</p>
 <p>让我们创建一个名为“baeldung-partitioned”的分区<em>Region</em>：</p>
-<pre tabindex="0"><code class="language-纯文本hljs" data-lang="纯文本hljs">gfsh&gt; 创建区域 --name=baeldung-partitioned --type=PARTITION
+<pre tabindex="0"><code class="language-纯文本" data-lang="纯文本">gfsh&gt; 创建区域 --name=baeldung-partitioned --type=PARTITION
 </code></pre><p>添加一些数据：</p>
-<pre tabindex="0"><code class="language-纯文本hljs" data-lang="纯文本hljs">gfsh&gt; put --region=baeldung-partitioned --key=&#34;1&#34; --value=&#34;one&#34;
+<pre tabindex="0"><code class="language-纯文本" data-lang="纯文本">gfsh&gt; put --region=baeldung-partitioned --key=&#34;1&#34; --value=&#34;one&#34;
 gfsh&gt; put --region=baeldung-partitioned --key=&#34;2&#34; --value=&#34;two&#34;
 gfsh&gt; put --region=baeldung-partitioned --key=&#34;3&#34; --value=&#34;three&#34;
 </code></pre><p>并快速验证：</p>
-<pre tabindex="0"><code class="language-纯文本hljs" data-lang="纯文本hljs">gfsh&gt; query --query=&#39;select e.key, e.value from /baeldung-partitioned.entries e&#39;
+<pre tabindex="0"><code class="language-纯文本" data-lang="纯文本">gfsh&gt; query --query=&#39;select e.key, e.value from /baeldung-partitioned.entries e&#39;
 结果：真
 限制：100
 行数：3
@@ -554,7 +554,7 @@ gfsh&gt; put --region=baeldung-partitioned --key=&#34;3&#34; --value=&#34;three&
 1 |一
 3 |三
 </code></pre><p>然后，为了验证数据是否已分区，让我们再次停止 <em>server1</em> 并重新查询：</p>
-<pre tabindex="0"><code class="language-纯文本hljs" data-lang="纯文本hljs">gfsh&gt; 停止服务器 --name=server1
+<pre tabindex="0"><code class="language-纯文本" data-lang="纯文本">gfsh&gt; 停止服务器 --name=server1
 gfsh&gt; query --query=&#39;select e.key, e.value from /baeldung-partitioned.entries e&#39;
 结果：真
 限制：100
@@ -667,7 +667,7 @@ gfsh&gt; query --query=&#39;select e.key, e.value from /baeldung-partitioned.ent
 <h3 id="72部署功能"><a href="#72部署功能" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><strong>7.2。部署功能</strong></h3>
 <p>我们需要让 Geode 知道我们的函数才能运行它。就像我们对自定义数据类型所做的那样，我们将打包 jar。</p>
 <p>但是这一次，我们可以只使用 <em>deploy</em> 命令：</p>
-<pre tabindex="0"><code class="language-纯文本hljs" data-lang="纯文本hljs">gfsh&gt; 部署 --jar=./lib/apache-geode-1.0-SNAPSHOT.jar
+<pre tabindex="0"><code class="language-纯文本" data-lang="纯文本">gfsh&gt; 部署 --jar=./lib/apache-geode-1.0-SNAPSHOT.jar
 </code></pre><h3 id="73执行功能"><a href="#73执行功能" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><strong>7.3。执行功能</strong></h3>
 <p>现在，我们可以使用 <em>FunctionService:</em> 从应用程序中执行 <em>Function</em></p>
 <div class="highlight"><div class="chroma">
@@ -721,7 +721,7 @@ gfsh&gt; query --query=&#39;select e.key, e.value from /baeldung-partitioned.ent
 
         
     <div class="updated-badge-container">
-        <span title="Updated @ 2022-10-04 03:06:13 UTC" style="cursor:help">
+        <span title="Updated @ 2022-10-04 03:18:51 UTC" style="cursor:help">
 
 <svg xmlns="http://www.w3.org/2000/svg" width="130" height="20" class="updated-badge"><linearGradient id="b" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="a"><rect width="130" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#a)"><path class="updated-badge-left" d="M0 0h55v20H0z"/><path class="updated-badge-right" d="M55 0h75v20H55z"/><path fill="url(#b)" d="M0 0h130v20H0z"/></g><g fill="#fff" text-anchor="middle" font-size="110"><text x="285" y="150" fill="#010101" fill-opacity=".3" textLength="450" transform="scale(.1)">updated</text><text x="285" y="140" textLength="450" transform="scale(.1)">updated</text><text x="915" y="150" fill="#010101" fill-opacity=".3" textLength="650" transform="scale(.1)">2022-10-04</text><text x="915" y="140" textLength="650" transform="scale(.1)">2022-10-04</text></g></svg>
         </span></div>
@@ -826,11 +826,15 @@ gfsh&gt; query --query=&#39;select e.key, e.value from /baeldung-partitioned.ent
             <ul class="related-list">
                 
                     <li class="related-item">
-                        <a href="/posts/guide/jvm-log-forging/" class="related-link">JVM 日志锻造</a>
+                        <a href="/posts/guide/concatenating-strings-in-java/" class="related-link">在 Java 中连接字符串</a>
                     </li>
                 
                     <li class="related-item">
-                        <a href="/posts/guide/joinpoint-vs.-proceedingjoinpoint-in-aspectj/" class="related-link">AspectJ 中的 Joinpoint 与 ProceedingJoinPoint</a>
+                        <a href="/posts/notes/jvm-log-forging/" class="related-link">JVM 日志伪造</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/notes/joinpoint-vs.-proceedingjoinpoint-in-aspectj/" class="related-link">AspectJ 中的 Joinpoint 与 ProceedingJoinPoint</a>
                     </li>
                 
                     <li class="related-item">
@@ -839,10 +843,6 @@ gfsh&gt; query --query=&#39;select e.key, e.value from /baeldung-partitioned.ent
                 
                     <li class="related-item">
                         <a href="/posts/notes/redirect-to-different-pages-after-login-with-spring-security/" class="related-link">配置 Spring Security 登录后重定向到不同的页面</a>
-                    </li>
-                
-                    <li class="related-item">
-                        <a href="/posts/guide/making-tomcat-utf-8-ready/" class="related-link">配置 Tomcat 支持 UTF-8</a>
                     </li>
                 
             </ul>

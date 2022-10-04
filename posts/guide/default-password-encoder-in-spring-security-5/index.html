@@ -57,7 +57,7 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2022-07-16T07:18:11+08:00",
-        "dateModified": "2022-10-04T03:06:13+00:00",
+        "dateModified": "2022-10-04T03:18:51+00:00",
         "url": "https://blog.fflow.link/posts/guide/default-password-encoder-in-spring-security-5/",
         "headline": "Spring Security 5 中的默认密码编码器",
         "description": "一、概述 在 Spring Security 4 中，可以使用内存身份验证以纯文本形式存储密码。 版本 5 中对密码管理过程……",
@@ -108,7 +108,7 @@
 <meta property="og:locale" content="zh" /><meta property="og:image" content="https://blog.fflow.link/wp-content/uploads/2016/05/baeldung-security-post-footer-main-1.2.0.jpg" />
 <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2022-07-16T07:18:11&#43;08:00" />
-    <meta property="article:modified_time" content="2022-10-04T03:06:13&#43;00:00" />
+    <meta property="article:modified_time" content="2022-10-04T03:18:51&#43;00:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -216,7 +216,7 @@
     
     
         
-        <time datetime="2022-10-04T03:06:13&#43;00:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;2022.10.4</time>
+        <time datetime="2022-10-04T03:18:51&#43;00:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;2022.10.4</time>
     
     
     
@@ -308,7 +308,7 @@
 </div>
 </div><p>此配置定义了所有 <em>/private/</em> 映射方法的身份验证和 <em>/public/.</em> 下所有内容的公共访问</p>
 <p>如果我们在 Spring Security 5 下使用相同的配置，我们会得到以下错误：</p>
-<pre tabindex="0"><code class="language-纯文本hljs" data-lang="纯文本hljs">java.lang.IllegalArgumentException：没有为 id“null”映射 PasswordEncoder
+<pre tabindex="0"><code class="language-纯文本" data-lang="纯文本">java.lang.IllegalArgumentException：没有为 id“null”映射 PasswordEncoder
 </code></pre><p>该错误告诉我们给定的密码<strong>无法解码，因为没有为我们的内存身份验证配置密码编码器</strong>。</p>
 <ol start="3">
 <li>Spring 安全 5</li>
@@ -351,7 +351,7 @@
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>现在，通过这种配置，我们使用 BCrypt 以下列格式存储我们的内存密码：</p>
-<pre tabindex="0"><code class="language-纯文本hljs" data-lang="纯文本hljs">{bcrypt}$2a$10$MF7hYnWLeLT66gNccBgxaONZHbrSMjlUofkp50sSpBw2PJjUqU.zS
+<pre tabindex="0"><code class="language-纯文本" data-lang="纯文本">{bcrypt}$2a$10$MF7hYnWLeLT66gNccBgxaONZHbrSMjlUofkp50sSpBw2PJjUqU.zS
 </code></pre><p>虽然我们可以定义自己的一组密码编码器，但建议坚持使用 [默认编码器](<a href="https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/" target="_blank" rel="noopener">https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/</a> crypto/factory/PasswordEncoderFactories.html) 在 <em>PasswordEncoderFactories</em> 中提供。</p>
 <h3 id="32-nooppasswordencoder"><a href="#32-nooppasswordencoder" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>3.2。 <em>NoOpPasswordEncoder</em></h3>
 <p>如果出于任何原因，我们不想对配置的密码进行编码，我们可以使用 [<em>NoOpPasswordEncoder</em>](<a href="https://docs.spring.io/spring-security/site/docs/current/api" target="_blank" rel="noopener">https://docs.spring.io/spring-security/site/docs/current/api</a> /org/springframework/security/crypto/password/NoOpPasswordEncoder.html）。</p>
@@ -406,7 +406,7 @@
 </div><ul>
 <li>使用已知的编码器标识符为散列存储密码添加前缀：</li>
 </ul>
-<pre tabindex="0"><code class="language-纯文本hljs" data-lang="纯文本hljs">{bcrypt}$2a$10$MF7hYnWLeLT66gNccBgxaONZHbrSMjlUofkp50sSpBw2PJjUqU.zS
+<pre tabindex="0"><code class="language-纯文本" data-lang="纯文本">{bcrypt}$2a$10$MF7hYnWLeLT66gNccBgxaONZHbrSMjlUofkp50sSpBw2PJjUqU.zS
 {sha256}97cde38028ad898ebc02e690819fa220e88c62e0699403e94fff291cfffaf8410849f27605abcbc0
 </code></pre><ul>
 <li>当存储密码的编码机制未知时，请求用户更新他们的密码</li>
@@ -450,7 +450,7 @@
 
         
     <div class="updated-badge-container">
-        <span title="Updated @ 2022-10-04 03:06:13 UTC" style="cursor:help">
+        <span title="Updated @ 2022-10-04 03:18:51 UTC" style="cursor:help">
 
 <svg xmlns="http://www.w3.org/2000/svg" width="130" height="20" class="updated-badge"><linearGradient id="b" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="a"><rect width="130" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#a)"><path class="updated-badge-left" d="M0 0h55v20H0z"/><path class="updated-badge-right" d="M55 0h75v20H55z"/><path fill="url(#b)" d="M0 0h130v20H0z"/></g><g fill="#fff" text-anchor="middle" font-size="110"><text x="285" y="150" fill="#010101" fill-opacity=".3" textLength="450" transform="scale(.1)">updated</text><text x="285" y="140" textLength="450" transform="scale(.1)">updated</text><text x="915" y="150" fill="#010101" fill-opacity=".3" textLength="650" transform="scale(.1)">2022-10-04</text><text x="915" y="140" textLength="650" transform="scale(.1)">2022-10-04</text></g></svg>
         </span></div>
@@ -555,11 +555,15 @@
             <ul class="related-list">
                 
                     <li class="related-item">
-                        <a href="/posts/guide/jvm-log-forging/" class="related-link">JVM 日志锻造</a>
+                        <a href="/posts/guide/concatenating-strings-in-java/" class="related-link">在 Java 中连接字符串</a>
                     </li>
                 
                     <li class="related-item">
-                        <a href="/posts/guide/joinpoint-vs.-proceedingjoinpoint-in-aspectj/" class="related-link">AspectJ 中的 Joinpoint 与 ProceedingJoinPoint</a>
+                        <a href="/posts/notes/jvm-log-forging/" class="related-link">JVM 日志伪造</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/notes/joinpoint-vs.-proceedingjoinpoint-in-aspectj/" class="related-link">AspectJ 中的 Joinpoint 与 ProceedingJoinPoint</a>
                     </li>
                 
                     <li class="related-item">
@@ -568,10 +572,6 @@
                 
                     <li class="related-item">
                         <a href="/posts/notes/redirect-to-different-pages-after-login-with-spring-security/" class="related-link">配置 Spring Security 登录后重定向到不同的页面</a>
-                    </li>
-                
-                    <li class="related-item">
-                        <a href="/posts/guide/making-tomcat-utf-8-ready/" class="related-link">配置 Tomcat 支持 UTF-8</a>
                     </li>
                 
             </ul>
