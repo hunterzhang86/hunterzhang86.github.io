@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-CN">
     <title type="text">FFlow Blog</title>
     <subtitle type="html">FFlow 的飞流协同平台的博客</subtitle>
-    <updated>2022-10-05T16:03:08&#43;00:00</updated>
+    <updated>2022-10-05T23:58:26&#43;00:00</updated>
     <id>https://blog.fflow.link/</id>
     <link rel="alternate" type="text/html" href="https://blog.fflow.link/" />
     <link rel="self" type="application/atom&#43;xml" href="https://blog.fflow.link/atom.xml" />
@@ -17,10 +17,714 @@
     <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights>
     <generator uri="https://gohugo.io/" version="0.104.3">Hugo</generator>
         <entry>
+            <title type="text">Spring Boot 管理员指南</title>
+            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/a-guide-to-spring-boot-admin/" />
+            <id>https://blog.fflow.link/posts/guide/a-guide-to-spring-boot-admin/</id>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
+            <published>2022-10-06T07:18:11&#43;08:00</published>
+            <author>
+                    <name>fflow</name>
+                    <uri>https://blog.fflow.link/</uri>
+                    <email>hunterzhang86@gmail.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">1。概述 Spring Boot Admin 是一个Web 应用程序，用于管理和监控Spring Boot 应用程序。每个应用程……</summary>
+            
+                <content type="html">&lt;h2 id=&#34;1概述&#34;&gt;&lt;strong&gt;1。概述&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/codecentric/spring-boot-admin&#34;&gt;Spring Boot Admin&lt;/a&gt; 是一个Web 应用程序，用于管理和监控Spring Boot 应用程序。每个应用程序都被视为客户端并注册到管理服务器。在幕后，Spring Boot Actuator 端点赋予了魔力。&lt;/p&gt;
+&lt;p&gt;在本文中，我们将描述配置 Spring Boot 管理服务器的步骤以及应用程序如何成为客户端。&lt;/p&gt;
+&lt;h2 id=&#34;2管理服务器设置&#34;&gt;&lt;strong&gt;2。管理服务器设置&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;首先，我们需要创建一个简单的 Spring Boot Web 应用程序并添加以下 [Maven 依赖项](&lt;a href=&#34;https://search.maven.org/classic/#search%7Cga%7C1%7Cspring-boot-admin-starter&#34;&gt;https://search.maven.org/classic/#search%7Cga%7C1%7Cspring-boot-admin-starter&lt;/a&gt; -服务器）：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;依赖&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;de.codecentric&lt;span class=&#34;nt&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;spring-boot-admin-starter-server&lt;span class=&#34;nt&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;版本&amp;gt;&lt;/span&gt;2.4.1&lt;span class=&#34;nt&#34;&gt;&amp;lt;/版本&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;/依赖&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;在此之后，&lt;em&gt;@EnableAdminServer&lt;/em&gt; 将可用，因此我们将其添加到主类中，如下例所示：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@EnableAdminServer&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@SpringBootApplication&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;公共类&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;SpringBootAdminServerApplication&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;exclude&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;AdminServerHazelcastAutoConfiguration&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;class&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;公共静态无效主要&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;（&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;字符串&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;[]&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;参数&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;）&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;SpringApplication&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;run&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;SpringBootAdminServerApplication&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;class&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;args&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;此时，我们已准备好启动服务器并注册客户端应用程序。&lt;/p&gt;
+&lt;h2 id=&#34;3设置客户端&#34;&gt;&lt;strong&gt;3。设置客户端&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;现在，在我们设置好管理服务器之后，我们可以将我们的第一个 Spring Boot 应用程序注册为客户端。我们必须添加以下【Maven依赖】（https://search.maven.org/classic/#search%7Cga%7C1%7Cspring-boot-admin-starter-client）：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;依赖&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;de.codecentric&lt;span class=&#34;nt&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;spring-boot-admin-starter-client&lt;span class=&#34;nt&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;版本&amp;gt;&lt;/span&gt;2.4.1&lt;span class=&#34;nt&#34;&gt;&amp;lt;/版本&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;/依赖&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;接下来，我们需要配置客户端以了解管理服务器的基本 URL。为此，我们只需添加以下属性：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-纯文本&#34; data-lang=&#34;纯文本&#34;&gt;spring.boot.admin.client.url=http://localhost:8080
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;从 Spring Boot 2 开始，&lt;em&gt;health&lt;/em&gt; 和 &lt;em&gt;info&lt;/em&gt; 以外的端点默认不公开。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;让我们公开所有端点：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-纯文本&#34; data-lang=&#34;纯文本&#34;&gt;management.endpoints.web.exposure.include=*
+management.endpoint.health.show-details=总是
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;4安全配置&#34;&gt;&lt;strong&gt;4。安全配置&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;Spring Boot 管理服务器可以访问应用程序的敏感端点，因此&lt;strong&gt;建议我们为管理和客户端应用程序添加一些安全配置。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;首先，我们将专注于配置管理服务器的安全性。我们必须添加以下[Maven依赖项](&lt;a href=&#34;https://search.maven.org/classic/#search%7Cga%7C1%7Cg%3A%22org.springframework.boot%22%20AND%20a%3A%22spring-boot&#34;&gt;https://search.maven.org/classic/#search%7Cga%7C1%7Cg%3A%22org.springframework.boot%22%20AND%20a%3A%22spring-boot&lt;/a&gt; -starter-security%22):&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;依赖&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;de.codecentric&lt;span class=&#34;nt&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;spring-boot-admin-server-ui-login&lt;span class=&#34;nt&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;版本&amp;gt;&lt;/span&gt;1.5.7&lt;span class=&#34;nt&#34;&gt;&amp;lt;/版本&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;/依赖&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;依赖&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;org.springframework.boot&lt;span class=&#34;nt&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;spring-boot-starter-security&lt;span class=&#34;nt&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;版本&amp;gt;&lt;/span&gt;2.4.0&lt;span class=&#34;nt&#34;&gt;&amp;lt;/版本&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;/依赖&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这将启用安全性并向管理应用程序添加登录界面。&lt;/p&gt;
+&lt;p&gt;接下来，我们将添加一个安全配置类，如下所示：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;30
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;31
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;32
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;33
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;34
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;35
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;36
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;37
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;38
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;39
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;40
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;41
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;42
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;43
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;44
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;45
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;46
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@配置&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@EnableWebSecurity&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;公共类&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;WebSecurityConfig&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;私有最终&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;AdminServerProperties&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;adminServer&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;；&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;公共&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;WebSecurityConfig&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;AdminServerProperties&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;adminServer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;adminServer&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;adminServer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nd&#34;&gt;@豆&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;公共&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SecurityFilterChain&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;filterChain&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;HttpSecurity&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;http&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;抛出异常&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;SavedRequestAwareAuthenticationSuccessHandler&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;successHandler&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;          &lt;span class=&#34;n&#34;&gt;新的&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;SavedRequestAwareAuthenticationSuccessHandler&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;successHandler&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setTargetUrlParameter&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;redirectTo&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;successHandler&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setDefaultTargetUrl&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;adminServer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getContextPath&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;/&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;http&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;authorizeRequests&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;antMatchers&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;adminServer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getContextPath&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;/assets/**&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;permitAll&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;antMatchers&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;adminServer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getContextPath&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;/login&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;permitAll&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;anyRequest&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;authenticated&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;err&#34;&gt;。&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;和&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;（）&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;formLogin&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;loginPage&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;adminServer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getContextPath&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;/login&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;successHandler&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;successHandler&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;err&#34;&gt;。&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;和&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;（）&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;err&#34;&gt;。&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;登出&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;（）&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;logoutUrl&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;adminServer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getContextPath&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;/logout&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;err&#34;&gt;。&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;和&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;（）&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;httpBasic&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;err&#34;&gt;。&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;和&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;（）&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;csrf&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;csrfTokenRepository&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;CookieCsrfTokenRepository&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;withHttpOnlyFalse&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;())&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;ignoringRequestMatchers&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                  &lt;span class=&#34;n&#34;&gt;新&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;AntPathRequestMatcher&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;adminServer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getContextPath&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                   &lt;span class=&#34;s&#34;&gt;&amp;#34;/instances&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;HttpMethod&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;POST&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;toString&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                  &lt;span class=&#34;n&#34;&gt;新&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;AntPathRequestMatcher&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;adminServer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getContextPath&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                   &lt;span class=&#34;s&#34;&gt;&amp;#34;/instances/*&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;HttpMethod&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;DELETE&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;toString&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                  &lt;span class=&#34;n&#34;&gt;新&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;AntPathRequestMatcher&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;adminServer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getContextPath&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;/actuator/**&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;err&#34;&gt;。&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;和&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;（）&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;err&#34;&gt;。&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;记得我&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;（）&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;key&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;UUID&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;randomUUID&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;toString&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;())&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;tokenValiditySeconds&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;1209600&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;返回&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;http&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;build&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;有一个简单的安全配置，但添加后，我们会注意到客户端无法再注册到服务器。&lt;/p&gt;
+&lt;p&gt;为了将客户端注册到新安全的服务器，我们必须在客户端的属性文件中添加更多配置：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-纯文本&#34; data-lang=&#34;纯文本&#34;&gt;spring.boot.admin.client.username=admin
+spring.boot.admin.client.password=admin
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;我们已经到了保护我们的管理服务器的地方。在生产系统中，我们试图监控的应用程序自然会受到保护。因此，我们还将为客户端添加安全性——我们会在管理服务器的 UI 界面中注意到客户端信息不再可用。&lt;/p&gt;
+&lt;p&gt;我们必须添加一些我们将发送到管理服务器的元数据。服务器使用此信息连接到客户端的端点：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-纯文本&#34; data-lang=&#34;纯文本&#34;&gt;spring.security.user.name=客户端
+spring.security.user.password=客户端
+spring.boot.admin.client.instance.metadata.user.name=${spring.security.user.name}
+spring.boot.admin.client.instance.metadata.user.password=${spring.security.user.password}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;当然，通过 HTTP 发送凭据并不安全——因此通信需要通过 HTTPS。&lt;/p&gt;
+&lt;h2 id=&#34;5监控和管理功能&#34;&gt;&lt;strong&gt;5。监控和管理功能&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;Spring Boot Admin 可以配置为仅显示我们认为有用的信息。我们只需要更改默认配置并添加我们自己需要的指标：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-纯文本&#34; data-lang=&#34;纯文本&#34;&gt;spring.boot.admin.routes.endpoints=env、metrics、trace、jolokia、info、configprops
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;随着我们进一步深入，我们将看到还有一些其他的功能可以探索。我们正在谈论使用&lt;em&gt;Jolokia&lt;/em&gt; 和&lt;em&gt;Loglevel&lt;/em&gt;management 的&lt;em&gt;JMX bean management&lt;/em&gt;。&lt;/p&gt;
+&lt;p&gt;Spring Boot Admin 还支持使用 Hazelcast 进行集群复制。我们只需添加以下 &lt;a href=&#34;https://search.maven.org/classic/#search%7Cga%7C1%7Cg%3A%22com.hazelcast%22%20AND%20a%3A%22hazelcast%22&#34;&gt;Maven 依赖项&lt;/a&gt; 并让自动配置完成其余的工作：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;依赖&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;com.hazelcast&lt;span class=&#34;nt&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;hazelcast&lt;span class=&#34;nt&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;版本&amp;gt;&lt;/span&gt;4.0.3&lt;span class=&#34;nt&#34;&gt;&amp;lt;/版本&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;/依赖&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;如果我们想要一个持久化的 Hazelcast 实例，我们将使用自定义配置：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;30
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;31
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;32
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;33
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;34
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@配置&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;公共类&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;HazelcastConfig&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nd&#34;&gt;@豆&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;公共配置&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;hazelcast&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;MapConfig&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;eventStoreMap&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;MapConfig&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;spring-boot-admin-event-store&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;          &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setInMemoryFormat&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;InMemoryFormat&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;OBJECT&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;          &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setBackupCount&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;          &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setEvictionConfig&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;EvictionConfig&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setEvictionPolicy&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;EvictionPolicy&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;NONE&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;          &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setMergePolicyConfig&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;MergePolicyConfig&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;PutIfAbsentMergePolicy&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;class&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getName&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(),&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;100&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;));&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;MapConfig&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sentNotificationsMap&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;MapConfig&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;spring-boot-admin-application-store&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;          &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setInMemoryFormat&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;InMemoryFormat&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;OBJECT&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;          &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setBackupCount&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;          &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setEvictionConfig&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;新EvictionConfig&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setEvictionPolicy&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;EvictionPolicy&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;LRU&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;          &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setMergePolicyConfig&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;MergePolicyConfig&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;PutIfAbsentMergePolicy&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;class&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getName&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(),&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;100&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;));&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;配置配置&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;新配置&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;（）；&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;config&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;addMapConfig&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;eventStoreMap&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;config&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;addMapConfig&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sentNotificationsMap&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;config&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setProperty&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;hazelcast.jmx&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;config&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getNetworkConfig&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;          &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getJoin&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;          &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getMulticastConfig&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;          &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setEnabled&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;TcpIpConfig&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;tcpIpConfig&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;config&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getNetworkConfig&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;          &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getJoin&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;          &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getTcpIpConfig&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;tcpIpConfig&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setEnabled&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;tcpIpConfig&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setMembers&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Collections&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;singletonList&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;127.0.0.1&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;));&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;返回配置&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;；&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;6通知&#34;&gt;&lt;strong&gt;6。通知&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;接下来，让我们讨论一下如果我们的注册客户端发生问题时从管理服务器接收通知的可能性。以下通知器可用于配置：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;电子邮件&lt;/li&gt;
+&lt;li&gt;寻呼任务&lt;/li&gt;
+&lt;li&gt;操作精灵&lt;/li&gt;
+&lt;li&gt;Hipchat&lt;/li&gt;
+&lt;li&gt;松弛
+*让我们聊天&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;61电子邮件通知&#34;&gt;&lt;strong&gt;6.1。电子邮件通知&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;我们将首先专注于为我们的管理服务器配置邮件通知。为此，我们必须添加 [mail starter 依赖项](&lt;a href=&#34;https://search.maven.org/classic/#search%7Cga%7C1%7Cg%3A%22org.springframework.boot%22%20AND%20a&#34;&gt;https://search.maven.org/classic/#search%7Cga%7C1%7Cg%3A%22org.springframework.boot%22%20AND%20a&lt;/a&gt; %3A%22spring-boot-starter-mail%22) 如下图：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;依赖&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;org.springframework.boot&lt;span class=&#34;nt&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;spring-boot-starter-mail&lt;span class=&#34;nt&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;lt;版本&amp;gt;&lt;/span&gt;2.4.0&lt;span class=&#34;nt&#34;&gt;&amp;lt;/版本&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;/依赖&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;在此之后，我们必须添加一些邮件配置：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-纯文本&#34; data-lang=&#34;纯文本&#34;&gt;spring.mail.host=smtp.example.com
+spring.mail.username=smtp_user
+spring.mail.password=smtp_password
+spring.boot.admin.notify.mail.to=admin@example.com
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;现在，每当我们的注册客户将其状态从 UP 更改为 OFFLINE 或其他情况时，都会向上面配置的地址发送一封电子邮件。对于其他通知器，配置类似。&lt;/p&gt;
+&lt;h3 id=&#34;62-hipchat-通知&#34;&gt;&lt;strong&gt;6.2。 Hipchat 通知&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;正如我们将看到的，与 Hipchat 的集成非常简单。只需设置几个强制属性：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-纯文本&#34; data-lang=&#34;纯文本&#34;&gt;spring.boot.admin.notify.hipchat.auth-token=&amp;lt;生成的令牌&amp;gt;
+spring.boot.admin.notify.hipchat.room-id=&amp;lt;room-id&amp;gt;
+spring.boot.admin.notify.hipchat.url=https://yourcompany.hipchat.com/v2/
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;定义好这些后，我们会在 Hipchat 房间中注意到，每当客户端状态发生变化时，我们都会收到通知。&lt;/p&gt;
+&lt;h3 id=&#34;63自定义通知配置&#34;&gt;&lt;strong&gt;6.3。自定义通知配置&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;我们可以配置一个自定义通知系统，并为此提供一些强大的工具。我们可以使用 &lt;em&gt;reminding notifier&lt;/em&gt; 发送预定通知，直到客户端状态发生变化。&lt;/p&gt;
+&lt;p&gt;或者，也许我们想向一组过滤的客户端发送通知。为此，我们可以使用&lt;em&gt;过滤通知器：&lt;/em&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;30
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;31
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;32
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@配置&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;公共类&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;NotifierConfiguration&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;私有最终&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;InstanceRepository&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;存储库&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;；&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;私有最终&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ObjectProvider&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;List&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Notifier&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;otherNotifiers&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;公共&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;NotifierConfiguration&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;（&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;InstanceRepository&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;存储库&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;，&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;n&#34;&gt;ObjectProvider&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;List&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Notifier&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;otherNotifiers&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;repository&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;存储库&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;；&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;otherNotifiers&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;otherNotifiers&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nd&#34;&gt;@豆&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;公共过滤通知过滤通知&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;（）&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;CompositeNotifier&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;委托&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;          &lt;span class=&#34;n&#34;&gt;新的&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;CompositeNotifier&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;otherNotifiers&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getIfAvailable&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Collections&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;emptyList&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;));&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;FilteringNotifier&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;delegate&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;repository&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nd&#34;&gt;@豆&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;公共&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;LoggingNotifier&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;通知器&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;（）&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;返回新的&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;LoggingNotifier&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;（&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;存储库&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;）；&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nd&#34;&gt;@基本的&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nd&#34;&gt;@Bean&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;initMethod&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;开始&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;destroyMethod&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;停止&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;公共&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;RemindingNotifier&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;提醒Notifier&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;RemindingNotifierremindingNotifier&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;RemindingNotifier&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;filteringNotifier&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(),&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;repository&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;提醒通知器&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setReminderPeriod&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Duration&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;ofMinutes&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;));&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;提醒通知器&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setCheckReminderInverval&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Duration&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;ofSeconds&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;60&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;));&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;返回提醒通知器&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;；&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;7结论&#34;&gt;&lt;strong&gt;7。结论&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;本介绍性教程介绍了使用 Spring Boot Admin 监视和管理他的 Spring Boot 应用程序必须执行的简单步骤。&lt;/p&gt;
+&lt;p&gt;自动配置允许我们只添加一些次要配置，并在最后拥有一个完全工作的管理服务器。&lt;/p&gt;
+&lt;p&gt;而且，与往常一样，本指南的示例代码可以在 &lt;a href=&#34;https://github.com/eugenp/tutorials/tree/master/spring-boot-modules/spring-boot-admin&#34;&gt;在 Github 上&lt;/a&gt; 找到。
+通用底部&lt;/p&gt;
+&lt;h3 id=&#34;通过-learn-spring-课程开始使用-spring-5-和-spring-boot-2&#34;&gt;&lt;strong&gt;通过 &lt;em&gt;Learn Spring&lt;/em&gt; 课程开始使用 Spring 5 和 Spring Boot 2：&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href=&#34;https://blog.fflow.link/ls-course-end&#34;&gt;&amp;gt;&amp;gt; 查看课程&lt;/a&gt;&lt;/strong&gt;
+通用页脚横幅
+&lt;img src=&#34;https://blog.fflow.link/wp-content/uploads/2016/05/baeldung-rest-post-footer-main-1.2.0.jpg&#34; alt=&#34;使用 SPRING 构建您的 API - 书籍封面&#34;&gt;
+&lt;img src=&#34;https://blog.fflow.link/wp-content/uploads/2016/05/baeldung-rest-post-footer-icn-1.0.0.png&#34; alt=&#34;使用 SPRING 构建您的 API - 图标&#34;&gt;
+学习构建你的 API
+&lt;strong&gt;与春天&lt;/strong&gt;？
+&lt;a href=&#34;https://blog.fflow.link/rest-api-spring-guide&#34;&gt;下载电子书&lt;/a&gt;&lt;/p&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/categories/%E6%89%8B%E5%86%8C/" term="手册" label="手册" />
+                            
+                        
+                    
+                
+                    
+                
+            
+        </entry>
+    
+        <entry>
+            <title type="text">在 Java 中寻找自由端口</title>
+            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/finding-a-free-port-in-java/" />
+            <id>https://blog.fflow.link/posts/guide/finding-a-free-port-in-java/</id>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
+            <published>2022-10-06T03:18:11&#43;08:00</published>
+            <author>
+                    <name>fflow</name>
+                    <uri>https://blog.fflow.link/</uri>
+                    <email>hunterzhang86@gmail.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">一、概述 在我们的 Java 应用程序中启动套接字服务器时，java.net API 要求我们指定一个空……</summary>
+            
+                <content type="html">&lt;h2 id=&#34;一概述&#34;&gt;一、概述&lt;/h2&gt;
+&lt;p&gt;在我们的 Java 应用程序中启动套接字服务器时，&lt;em&gt;java.net&lt;/em&gt; API 要求我们指定一个空闲端口号来监听。端口号是必需的，以便 TCP 层可以识别传入数据的目标应用程序。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;明确指定端口号并不总是一个好的选择，因为应用程序可能已经占用了它。&lt;/strong&gt; 这将导致我们的 Java 应用程序中的输入/输出异常。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;在本快速教程中，我们将了解如何检查特定端口状态以及如何使用自动分配的端口。&lt;/strong&gt; 我们将研究如何使用纯 Java 和 Spring 框架完成此操作。我们还将查看其他一些服务器实现，例如嵌入式 Tomcat 和 Jetty。&lt;/p&gt;
+&lt;h2 id=&#34;2检查端口状态&#34;&gt;2.检查端口状态&lt;/h2&gt;
+&lt;p&gt;让我们看看如何使用 &lt;em&gt;java.net&lt;/em&gt; API 检查特定端口是空闲还是被占用。&lt;/p&gt;
+&lt;h3 id=&#34;21-s特定端口&#34;&gt;2.1。 S&lt;strong&gt;特定端口&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;我们将使用 &lt;em&gt;java.net&lt;/em&gt; API 中的 &lt;a href=&#34;https://blog.fflow.link/a-guide-to-java-sockets&#34;&gt;&lt;em&gt;ServerSocket&lt;/em&gt;&lt;/a&gt; 类来创建绑定到指定端口的服务器套接字。&lt;strong&gt;在其构造函数中&lt;/strong&gt; &lt;strong&gt;，&lt;em&gt;ServerSocket&lt;/em&gt; 接受一个明确的端口号。该类还实现了 &lt;em&gt;Closeable&lt;/em&gt; 接口，因此可以在 &lt;a href=&#34;https://blog.fflow.link/java-try-with-resources&#34;&gt;&lt;em&gt;try-with-resources&lt;/em&gt;&lt;/a&gt; 中使用它来自动关闭套接字并释放端口：&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;尝试&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ServerSocket&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;serverSocket&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ServerSocket&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;FREE_PORT_NUMBER&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;))&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;assertThat&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;serverSocket&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;isNotNull&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;assertThat&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;serverSocket&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getLocalPort&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;isEqualTo&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;FREE_PORT_NUMBER&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;捕捉&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;（&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;IOException&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;）&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;fail&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;端口不可用&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;如果我们两次使用特定端口，或者它已经被另一个应用程序占用，&lt;em&gt;ServerSocket&lt;/em&gt; 构造函数将抛出 &lt;em&gt;IOException&lt;/em&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;尝试&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ServerSocket&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;serverSocket&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ServerSocket&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;FREE_PORT_NUMBER&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;))&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;新的&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;ServerSocket&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;FREE_PORT_NUMBER&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;fail&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;同一端口不能使用两次&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;捕捉&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;（&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;IOException&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;）&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;assertThat&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;hasMessageContaining&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;地址已被使用&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;22-port-范围&#34;&gt;2.2。 P&lt;strong&gt;ort&lt;/strong&gt; 范围&lt;/h3&gt;
+&lt;p&gt;现在让我们检查如何利用抛出的 &lt;em&gt;IOException,&lt;/em&gt; 使用给定端口号范围内的第一个空闲端口创建服务器套接字：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;对于&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;（&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;端口&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;：&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;FREE_PORT_RANGE&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;）&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;尝试&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ServerSocket&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;serverSocket&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ServerSocket&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;port&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;))&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;assertThat&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;serverSocket&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;isNotNull&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;assertThat&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;serverSocket&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getLocalPort&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;isEqualTo&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;port&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;返回&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;捕捉&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;（&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;IOException&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;）&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;assertThat&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;hasMessageContaining&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;地址已被使用&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;fail&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;范围内未找到空闲端口&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;寻找&lt;strong&gt;自由港&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;p&gt;使用明确的端口号并不总是一个好的选择，所以让我们研究一下自动分配空闲端口的可能性。&lt;/p&gt;
+&lt;h3 id=&#34;31纯java&#34;&gt;3.1。纯Java&lt;/h3&gt;
+&lt;p&gt;我们可以在 &lt;em&gt;ServerSocket&lt;/em&gt; 类构造函数中使用特殊的端口号零。结果，&lt;em&gt;java.net&lt;/em&gt; API 会自动为我们分配一个空闲端口：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;尝试&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ServerSocket&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;serverSocket&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ServerSocket&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;))&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;assertThat&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;serverSocket&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;isNotNull&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;assertThat&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;serverSocket&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getLocalPort&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;isGreaterThan&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;捕捉&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;（&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;IOException&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;）&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;fail&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;端口不可用&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;32春天框架&#34;&gt;3.2。春天框架&lt;/h3&gt;
+&lt;p&gt;Spring 框架包含一个 &lt;em&gt;SocketUtils&lt;/em&gt; 类，我们可以使用它来查找可用的空闲端口。它的内部实现使用 &lt;em&gt;ServerSocket&lt;/em&gt; 类，如我们前面的示例所示：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;端口&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SocketUtils&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;findAvailableTcpPort&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;尝试&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ServerSocket&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;serverSocket&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ServerSocket&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;port&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;))&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;assertThat&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;serverSocket&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;isNotNull&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;assertThat&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;serverSocket&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getLocalPort&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;isEqualTo&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;port&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;捕捉&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;（&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;IOException&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;）&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;fail&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;端口不可用&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ol start=&#34;4&#34;&gt;
+&lt;li&gt;其他服务器实现&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;p&gt;现在让我们看看其他一些流行的服务器实现。&lt;/p&gt;
+&lt;h3 id=&#34;41码头&#34;&gt;4.1。码头&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&#34;https://blog.fflow.link/jetty-embedded&#34;&gt;Jetty 是一个非常流行的嵌入式服务器&lt;/a&gt; 用于 Java 应用程序。&lt;strong&gt;它会自动为我们分配一个空闲端口，除非我们通过 &lt;em&gt;ServerConnector&lt;/em&gt; 类的 &lt;em&gt;setPort&lt;/em&gt; 方法显式设置它：&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;服务器&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;jettyServer&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Server&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;ServerConnector&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;serverConnector&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ServerConnector&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;jettyServer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;jettyServer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;addConnector&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;serverConnector&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;尝试&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;jettyServer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;start&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;assertThat&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;serverConnector&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getLocalPort&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;isGreaterThan&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;捕捉&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;（&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;异常&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;）&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;fail&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;启动码头服务器失败&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;最后&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;jettyServer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;stop&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;jettyServer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;destroy&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;42雄猫&#34;&gt;4.2。雄猫&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&#34;https://blog.fflow.link/tomcat&#34;&gt;Tomcat&lt;/a&gt; 是另一种流行的 Java 嵌入式服务器，其工作方式略有不同。我们可以通过 &lt;em&gt;Tomcat&lt;/em&gt; 类的 &lt;em&gt;setPort&lt;/em&gt; 方法指定一个明确的端口号。 &lt;strong&gt;如果我们提供的端口号为零，Tomcat 将自动分配一个空闲端口。&lt;/strong&gt; 但是，如果我们不设置任何端口号，Tomcat 将使用其默认端口 8080。注意，默认的 Tomcat 端口可能被占用通过其他应用程序：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;Tomcat&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;tomcatServer&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Tomcat&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;tomcatServer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setPort&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;尝试&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;tomcatServer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;start&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;assertThat&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;tomcatServer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getConnector&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getLocalPort&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;isGreaterThan&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;捕捉&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;（&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;LifecycleException&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;）&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;fail&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;启动Tomcat服务器失败&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;最后&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;tomcatServer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;stop&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;tomcatServer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;destroy&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ol start=&#34;5&#34;&gt;
+&lt;li&gt;结论&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;在本文中，我们探讨了如何检查特定端口状态。我们还介绍了从一系列端口号中查找空闲端口，并解释了如何使用自动分配的空闲端口。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在示例中，我们介绍了来自 &lt;em&gt;java.net&lt;/em&gt; API 的基本 &lt;em&gt;ServerSocket&lt;/em&gt; 类和其他流行的服务器实现，包括 Jetty 和 Tomcat。&lt;/p&gt;
+&lt;p&gt;与往常一样，&lt;a href=&#34;https://github.com/eugenp/tutorials/tree/master/core-java-modules/core-java-networking-3&#34;&gt;在 GitHub 上&lt;/a&gt; 提供了完整的源代码。
+Java底层&lt;/p&gt;
+&lt;h3 id=&#34;通过-learn-spring-课程开始使用-spring-5-和-spring-boot-2&#34;&gt;&lt;strong&gt;通过 &lt;em&gt;Learn Spring&lt;/em&gt; 课程开始使用 Spring 5 和 Spring Boot 2：&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href=&#34;https://blog.fflow.link/ls-course-end&#34;&gt;&amp;gt;&amp;gt; 查看课程&lt;/a&gt;&lt;/strong&gt;
+通用页脚横幅
+&lt;img src=&#34;https://blog.fflow.link/wp-content/uploads/2016/05/baeldung-rest-post-footer-main-1.2.0.jpg&#34; alt=&#34;使用 SPRING 构建您的 API - 书籍封面&#34;&gt;
+&lt;img src=&#34;https://blog.fflow.link/wp-content/uploads/2016/05/baeldung-rest-post-footer-icn-1.0.0.png&#34; alt=&#34;使用 SPRING 构建您的 API - 图标&#34;&gt;
+学习构建你的 API
+&lt;strong&gt;与春天&lt;/strong&gt;？
+&lt;a href=&#34;https://blog.fflow.link/rest-api-spring-guide&#34;&gt;下载电子书&lt;/a&gt;&lt;/p&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/categories/%E6%89%8B%E5%86%8C/" term="手册" label="手册" />
+                            
+                        
+                    
+                
+                    
+                
+            
+        </entry>
+    
+        <entry>
             <title type="text">在 Java 中读取和写入用户输入</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/read-and-write-user-input-in-java/" />
             <id>https://blog.fflow.link/posts/guide/read-and-write-user-input-in-java/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-10-05T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -222,7 +926,7 @@ Java底层&lt;/p&gt;
             <title type="text">系统规则库指南</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/guide-to-the-system-rules-library/" />
             <id>https://blog.fflow.link/posts/guide/guide-to-the-system-rules-library/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-10-05T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -705,7 +1409,7 @@ Junit 页脚横幅
             <title type="text">在 Maven 中设置 Java 版本</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/setting-the-java-version-in-maven/" />
             <id>https://blog.fflow.link/posts/guide/setting-the-java-version-in-maven/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-10-05T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -890,7 +1594,7 @@ Maven 页脚横幅
             <title type="text">在 Java 中连接字符串</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/concatenating-strings-in-java/" />
             <id>https://blog.fflow.link/posts/guide/concatenating-strings-in-java/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-10-04T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -1134,7 +1838,7 @@ Java底层&lt;/p&gt;
             <title type="text">JVM 日志伪造</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/jvm-log-forging/" />
             <id>https://blog.fflow.link/posts/notes/jvm-log-forging/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-10-04T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -1290,7 +1994,7 @@ web - 2017-04-12 17:47:08,957 [main] INFO Amount reversed successfully
             <title type="text">AspectJ 中的 Joinpoint 与 ProceedingJoinPoint</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/joinpoint-vs.-proceedingjoinpoint-in-aspectj/" />
             <id>https://blog.fflow.link/posts/notes/joinpoint-vs.-proceedingjoinpoint-in-aspectj/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-10-04T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -1449,7 +2153,7 @@ web - 2017-04-12 17:47:08,957 [main] INFO Amount reversed successfully
             <title type="text">Paths.get 和 Path.of 的区别</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/differences-between-paths.get-and-path.of/" />
             <id>https://blog.fflow.link/posts/notes/differences-between-paths.get-and-path.of/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-10-03T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -1517,7 +2221,7 @@ web - 2017-04-12 17:47:08,957 [main] INFO Amount reversed successfully
             <title type="text">配置 Spring Security 登录后重定向到不同的页面</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/redirect-to-different-pages-after-login-with-spring-security/" />
             <id>https://blog.fflow.link/posts/notes/redirect-to-different-pages-after-login-with-spring-security/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-10-03T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -1882,7 +2586,7 @@ web - 2017-04-12 17:47:08,957 [main] INFO Amount reversed successfully
             <title type="text">配置 Tomcat 支持 UTF-8</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/making-tomcat-utf-8-ready/" />
             <id>https://blog.fflow.link/posts/guide/making-tomcat-utf-8-ready/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-10-03T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -2103,7 +2807,7 @@ collation-server = utf8mb4_unicode_ci
             <title type="text">Jess 规则引擎和 JSR 94</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/jess-rule-engine-and-jsr-94/" />
             <id>https://blog.fflow.link/posts/notes/jess-rule-engine-and-jsr-94/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-10-02T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -2617,7 +3321,7 @@ collation-server = utf8mb4_unicode_ci
             <title type="text">Spring JPA 使用指南</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/jpa-with-spring/" />
             <id>https://blog.fflow.link/posts/notes/jpa-with-spring/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-10-02T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -3021,7 +3725,7 @@ spring.datasource.url=
             <title type="text">Java 9 CompletableFuture API 接口的改进</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/java-9-completablefuture-api-improvements/" />
             <id>https://blog.fflow.link/posts/notes/java-9-completablefuture-api-improvements/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-10-02T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -3245,7 +3949,7 @@ spring.datasource.url=
             <title type="text">Spring Security 配置 Remember Me</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/spring-security-remember-me/" />
             <id>https://blog.fflow.link/posts/notes/spring-security-remember-me/</id>
-            <updated>2022-10-05T16:03:05&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-10-01T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -3523,7 +4227,7 @@ spring.datasource.url=
             <title type="text">浅谈 Java GC</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/java-gc/" />
             <id>https://blog.fflow.link/posts/notes/java-gc/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-10-01T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -3665,7 +4369,7 @@ spring.datasource.url=
             <title type="text">Spring Cloud Consul 入门指引</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/spring-cloud-consul/" />
             <id>https://blog.fflow.link/posts/notes/spring-cloud-consul/</id>
-            <updated>2022-10-05T16:03:05&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-09-30T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -4041,7 +4745,7 @@ spring.datasource.url=
             <title type="text">浅谈 Mock Server</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/%E6%B5%85%E8%B0%88-mock-server/" />
             <id>https://blog.fflow.link/posts/notes/%E6%B5%85%E8%B0%88-mock-server/</id>
-            <updated>2022-10-05T16:03:05&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-09-20T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -4322,7 +5026,7 @@ Maven 引入&lt;/p&gt;
             <title type="text">MySQL 和 Redis 事务实现对比</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/mysql-%E5%92%8C-redis-%E4%BA%8B%E5%8A%A1%E5%AE%9E%E7%8E%B0%E5%AF%B9%E6%AF%94/" />
             <id>https://blog.fflow.link/posts/notes/mysql-%E5%92%8C-redis-%E4%BA%8B%E5%8A%A1%E5%AE%9E%E7%8E%B0%E5%AF%B9%E6%AF%94/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-08-01T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -4421,7 +5125,7 @@ Maven 引入&lt;/p&gt;
             <title type="text">程序员知识图谱-RocketMQ</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/rocketmq/" />
             <id>https://blog.fflow.link/posts/notes/rocketmq/</id>
-            <updated>2022-10-05T16:03:05&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-31T09:20:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -4580,7 +5284,7 @@ Maven 引入&lt;/p&gt;
             <title type="text">Java 中的广义目标类型推断</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/generalized-target-type-inference-in-java/" />
             <id>https://blog.fflow.link/posts/guide/generalized-target-type-inference-in-java/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-31T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -4743,7 +5447,7 @@ Java底层&lt;/p&gt;
             <title type="text">使用 Gradle 跳过测试</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/skipping-tests-with-gradle/" />
             <id>https://blog.fflow.link/posts/guide/skipping-tests-with-gradle/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-31T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -4943,7 +5647,7 @@ Junit 页脚横幅
             <title type="text">高效合并已排序的 Java 序列</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/efficiently-merge-sorted-java-sequences/" />
             <id>https://blog.fflow.link/posts/guide/efficiently-merge-sorted-java-sequences/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-30T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -5288,7 +5992,7 @@ Java底层&lt;/p&gt;
             <title type="text">浅谈 Golang 插件机制</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/%E6%B5%85%E8%B0%88-golang-%E6%8F%92%E4%BB%B6%E6%9C%BA%E5%88%B6/" />
             <id>https://blog.fflow.link/posts/notes/%E6%B5%85%E8%B0%88-golang-%E6%8F%92%E4%BB%B6%E6%9C%BA%E5%88%B6/</id>
-            <updated>2022-10-05T16:03:05&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-30T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -5413,7 +6117,7 @@ Java底层&lt;/p&gt;
             <title type="text">Postman 的基本身份验证</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/basic-authentication-with-postman/" />
             <id>https://blog.fflow.link/posts/guide/basic-authentication-with-postman/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-30T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -5525,7 +6229,7 @@ Java底层&lt;/p&gt;
             <title type="text">Java 扫描器接受字符输入</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/java-scanner-taking-a-character-input/" />
             <id>https://blog.fflow.link/posts/guide/java-scanner-taking-a-character-input/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-30T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -5665,7 +6369,7 @@ Java底层&lt;/p&gt;
             <title type="text">执行程序 newCachedThreadPool() 与 newFixedThreadPool()</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/executors-newcachedthreadpool-vs-newfixedthreadpool/" />
             <id>https://blog.fflow.link/posts/guide/executors-newcachedthreadpool-vs-newfixedthreadpool/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-29T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -5810,7 +6514,7 @@ Java底层&lt;/p&gt;
             <title type="text">稳定性保障的方法论</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%BF%9D%E9%9A%9C%E7%9A%84%E6%96%B9%E6%B3%95%E8%AE%BA/" />
             <id>https://blog.fflow.link/posts/notes/%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%BF%9D%E9%9A%9C%E7%9A%84%E6%96%B9%E6%B3%95%E8%AE%BA/</id>
-            <updated>2022-10-05T16:03:05&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-29T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -5981,7 +6685,7 @@ Java底层&lt;/p&gt;
             <title type="text">谷歌汽车服务</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/google-autoservice/" />
             <id>https://blog.fflow.link/posts/guide/google-autoservice/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-29T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -6171,7 +6875,7 @@ Java底层&lt;/p&gt;
             <title type="text">Liquibase 回滚简介</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/introduction-to-liquibase-rollback/" />
             <id>https://blog.fflow.link/posts/guide/introduction-to-liquibase-rollback/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-29T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -6468,7 +7172,7 @@ Java底层&lt;/p&gt;
             <title type="text">Spring 和 Apache 文件上传</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/spring-and-apache-fileupload/" />
             <id>https://blog.fflow.link/posts/guide/spring-and-apache-fileupload/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-28T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -6653,7 +7357,7 @@ Java底层&lt;/p&gt;
             <title type="text">程序员知识图谱-MySQL</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/mysql/" />
             <id>https://blog.fflow.link/posts/notes/mysql/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-28T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -6824,7 +7528,7 @@ sync_binlog = N(N&amp;gt;1) 的时候，表示每次提交事务都 write，但�
             <title type="text">程序员知识图谱-MySQL 索引</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/mysql-%E7%B4%A2%E5%BC%95/" />
             <id>https://blog.fflow.link/posts/notes/mysql-%E7%B4%A2%E5%BC%95/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-28T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -6897,7 +7601,7 @@ sync_binlog = N(N&amp;gt;1) 的时候，表示每次提交事务都 write，但�
             <title type="text">程序员知识图谱-乐观锁和悲观锁</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81/" />
             <id>https://blog.fflow.link/posts/notes/%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81/</id>
-            <updated>2022-10-05T16:03:05&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-28T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -7023,7 +7727,7 @@ sync_binlog = N(N&amp;gt;1) 的时候，表示每次提交事务都 write，但�
             <title type="text">程序员知识图谱-网络</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/network/" />
             <id>https://blog.fflow.link/posts/notes/network/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-28T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -7184,7 +7888,7 @@ net.ipv4.tcp_tw_recycle = 1
             <title type="text">架构整洁之道笔记</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/%E6%9E%B6%E6%9E%84%E6%95%B4%E6%B4%81%E4%B9%8B%E9%81%93%E7%AC%94%E8%AE%B0/" />
             <id>https://blog.fflow.link/posts/notes/%E6%9E%B6%E6%9E%84%E6%95%B4%E6%B4%81%E4%B9%8B%E9%81%93%E7%AC%94%E8%AE%B0/</id>
-            <updated>2022-10-05T16:03:05&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-28T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -7263,7 +7967,7 @@ net.ipv4.tcp_tw_recycle = 1
             <title type="text">Java 16 中的新功能</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/new-features-in-java-16/" />
             <id>https://blog.fflow.link/posts/guide/new-features-in-java-16/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-28T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -7682,7 +8386,7 @@ Java底层&lt;/p&gt;
             <title type="text">带有 React 的 Spring Security 登录页面</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/spring-security-login-page-with-react/" />
             <id>https://blog.fflow.link/posts/guide/spring-security-login-page-with-react/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-28T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -8385,7 +9089,7 @@ Java底层&lt;/p&gt;
             <title type="text">杰克逊 VS 格森</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/jackson-vs-gson/" />
             <id>https://blog.fflow.link/posts/guide/jackson-vs-gson/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-27T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -8421,7 +9125,7 @@ Java底层&lt;/p&gt;
             <title type="text">程序员知识图谱-Redis</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/redis/" />
             <id>https://blog.fflow.link/posts/notes/redis/</id>
-            <updated>2022-10-05T16:03:05&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-27T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -8887,7 +9591,7 @@ Java底层&lt;/p&gt;
             <title type="text">Spring Data JPA - 在所有存储库中添加方法</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/spring-data-jpa-add-method-in-all-repositories/" />
             <id>https://blog.fflow.link/posts/guide/spring-data-jpa-add-method-in-all-repositories/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-27T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -9141,7 +9845,7 @@ Java底层&lt;/p&gt;
             <title type="text">Spring Cloud 教程</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/spring-cloud-tutorial/" />
             <id>https://blog.fflow.link/posts/guide/spring-cloud-tutorial/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-27T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -9253,7 +9957,7 @@ Spring Boot 和 Spring Cloud
             <title type="text">Java中的映射到字符串转换</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/map-to-string-conversion-in-java/" />
             <id>https://blog.fflow.link/posts/guide/map-to-string-conversion-in-java/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-26T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -9533,7 +10237,7 @@ Java底层&lt;/p&gt;
             <title type="text">用于在 Java 中匹配日期模式的 RegEx</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/regex-for-matching-date-pattern-in-java/" />
             <id>https://blog.fflow.link/posts/guide/regex-for-matching-date-pattern-in-java/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-26T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -9766,7 +10470,7 @@ Java底层&lt;/p&gt;
             <title type="text">stream().forEach() 和 forEach() 的区别</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/the-difference-between-stream.foreach-and-foreach/" />
             <id>https://blog.fflow.link/posts/guide/the-difference-between-stream.foreach-and-foreach/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-25T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -10114,7 +10818,7 @@ Java底层&lt;/p&gt;
             <title type="text">Spring Cloud Stream 简介</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/introduction-to-spring-cloud-stream/" />
             <id>https://blog.fflow.link/posts/guide/introduction-to-spring-cloud-stream/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-25T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -10591,7 +11295,7 @@ Spring Boot 和 Spring Cloud
             <title type="text">Java 8 中的新特性</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/new-features-in-java-8/" />
             <id>https://blog.fflow.link/posts/guide/new-features-in-java-8/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-25T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -10928,7 +11632,7 @@ Java底层&lt;/p&gt;
             <title type="text">Spring Cloud 合约简介</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/an-intro-to-spring-cloud-contract/" />
             <id>https://blog.fflow.link/posts/guide/an-intro-to-spring-cloud-contract/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-24T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -11323,7 +12027,7 @@ Spring Boot 和 Spring Cloud
             <title type="text">Spring Cloud AWS – 消息传递支持</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/spring-cloud-aws-messaging-support/" />
             <id>https://blog.fflow.link/posts/guide/spring-cloud-aws-messaging-support/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-24T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -11539,7 +12243,7 @@ Spring Boot 和 Spring Cloud
             <title type="text">在 Java 中查找最小公倍数</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/finding-the-least-common-multiple-in-java/" />
             <id>https://blog.fflow.link/posts/guide/finding-the-least-common-multiple-in-java/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-24T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -11983,7 +12687,7 @@ Java底层&lt;/p&gt;
             <title type="text">Spring MVC &#43; Thymeleaf 3.0：新特性</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/spring-mvc-&#43;-thymeleaf-3.0-new-features/" />
             <id>https://blog.fflow.link/posts/guide/spring-mvc-&#43;-thymeleaf-3.0-new-features/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-23T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -12398,7 +13102,7 @@ Java底层&lt;/p&gt;
             <title type="text">Java 中的 hashCode() 指南</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/guide-to-hashcode-in-java/" />
             <id>https://blog.fflow.link/posts/guide/guide-to-hashcode-in-java/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-23T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -12837,7 +13541,7 @@ Java底层&lt;/p&gt;
             <title type="text">如何在 Spring MVC 中设置 JSON 内容类型</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/how-to-set-json-content-type-in-spring-mvc/" />
             <id>https://blog.fflow.link/posts/guide/how-to-set-json-content-type-in-spring-mvc/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-23T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -13143,7 +13847,7 @@ Java底层&lt;/p&gt;
             <title type="text">杰克逊@JsonFormat 指南</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/guide-to-jsonformat-in-jackson/" />
             <id>https://blog.fflow.link/posts/guide/guide-to-jsonformat-in-jackson/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-22T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -13341,7 +14045,7 @@ Java底层&lt;/p&gt;
             <title type="text">延迟队列指南</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/guide-to-delayqueue/" />
             <id>https://blog.fflow.link/posts/guide/guide-to-delayqueue/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-22T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -13703,7 +14407,7 @@ Java底层&lt;/p&gt;
             <title type="text">使用 javac 编译目录结构中的所有 Java 类</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/compile-all-java-classes-in-directory-structure-with-javac/" />
             <id>https://blog.fflow.link/posts/guide/compile-all-java-classes-in-directory-structure-with-javac/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-22T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -13951,7 +14655,7 @@ Java底层&lt;/p&gt;
             <title type="text">多版本 Jar 文件</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/multi-release-jar-files/" />
             <id>https://blog.fflow.link/posts/guide/multi-release-jar-files/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-21T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -14200,7 +14904,7 @@ Java底层&lt;/p&gt;
             <title type="text">OpenAPI JSON 对象作为查询参数</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/openapi-json-objects-as-query-parameters/" />
             <id>https://blog.fflow.link/posts/guide/openapi-json-objects-as-query-parameters/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-21T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -14418,7 +15122,7 @@ REST 页脚横幅
             <title type="text">Null 参数的 IllegalArgumentException 或 NullPointerException？</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/illegalargumentexception-or-nullpointerexception-for-a-null-parameter/" />
             <id>https://blog.fflow.link/posts/guide/illegalargumentexception-or-nullpointerexception-for-a-null-parameter/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-21T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -14528,7 +15232,7 @@ Java底层&lt;/p&gt;
             <title type="text">Drools 简介</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/introduction-to-drools/" />
             <id>https://blog.fflow.link/posts/guide/introduction-to-drools/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-20T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -14811,7 +15515,7 @@ Java底层&lt;/p&gt;
             <title type="text">Baeldung 周评 5</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/baeldung-weekly-review-5/" />
             <id>https://blog.fflow.link/posts/guide/baeldung-weekly-review-5/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-20T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -14908,7 +15612,7 @@ Java底层&lt;/p&gt;
             <title type="text">使用 Spring MVC 的 JSON 参数</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/json-parameters-with-spring-mvc/" />
             <id>https://blog.fflow.link/posts/guide/json-parameters-with-spring-mvc/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-20T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -15169,7 +15873,7 @@ Java底层&lt;/p&gt;
             <title type="text">程序员知识图谱-Java 内存溢出的排查方法</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/java-%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/" />
             <id>https://blog.fflow.link/posts/notes/java-%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-19T15:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -15314,7 +16018,7 @@ jstat 查看内存使用情况，检查堆参数，一般是申请的内存太�
             <title type="text">带有 H2 数据库的 Spring Boot</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/spring-boot-with-h2-database/" />
             <id>https://blog.fflow.link/posts/guide/spring-boot-with-h2-database/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-19T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -15468,7 +16172,7 @@ spring.h2.console.settings.web-allow-others=false
             <title type="text">使用 @AttributeOverride 覆盖列定义</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/overriding-column-definition-with-attributeoverride/" />
             <id>https://blog.fflow.link/posts/guide/overriding-column-definition-with-attributeoverride/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-19T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -15727,7 +16431,7 @@ spring.h2.console.settings.web-allow-others=false
             <title type="text">Apache HttpClient 教程</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/apache-httpclient-tutorial/" />
             <id>https://blog.fflow.link/posts/guide/apache-httpclient-tutorial/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-19T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -15794,7 +16498,7 @@ HTTPClient 页脚
             <title type="text">Java 调试接口 (JDI) 简介</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/an-intro-to-the-java-debug-interface-jdi/" />
             <id>https://blog.fflow.link/posts/guide/an-intro-to-the-java-debug-interface-jdi/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-18T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -16299,7 +17003,7 @@ Java底层&lt;/p&gt;
             <title type="text">Java 中的 LongAdder 和 LongAccumulator</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/longadder-and-longaccumulator-in-java/" />
             <id>https://blog.fflow.link/posts/guide/longadder-and-longaccumulator-in-java/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-18T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -16471,7 +17175,7 @@ Java底层&lt;/p&gt;
             <title type="text">Java 集合</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/java-collections/" />
             <id>https://blog.fflow.link/posts/guide/java-collections/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-18T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -16655,7 +17359,7 @@ Java底层&lt;/li&gt;
             <title type="text">Spring @Qualifier 注解</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/spring-qualifier-annotation/" />
             <id>https://blog.fflow.link/posts/guide/spring-qualifier-annotation/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-17T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -16924,7 +17628,7 @@ Java底层&lt;/li&gt;
             <title type="text">使用 Shell 命令列出 Kafka 集群中的活动代理</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/list-active-brokers-in-a-kafka-cluster-using-shell-commands/" />
             <id>https://blog.fflow.link/posts/guide/list-active-brokers-in-a-kafka-cluster-using-shell-commands/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-17T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -17314,7 +18018,7 @@ get_all_active_brokers
             <title type="text">Spring Data JDBC简介</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/introduction-to-spring-data-jdbc/" />
             <id>https://blog.fflow.link/posts/guide/introduction-to-spring-data-jdbc/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-17T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -17495,7 +18199,7 @@ get_all_active_brokers
             <title type="text">Java 12 中的新功能</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/new-features-in-java-12/" />
             <id>https://blog.fflow.link/posts/guide/new-features-in-java-12/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-16T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -17922,7 +18626,7 @@ Java底层&lt;/p&gt;
             <title type="text">Spring Security 5 中的默认密码编码器</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/default-password-encoder-in-spring-security-5/" />
             <id>https://blog.fflow.link/posts/guide/default-password-encoder-in-spring-security-5/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-16T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -18136,7 +18840,7 @@ Java底层&lt;/p&gt;
             <title type="text">带有休眠功能的 Spring Boot</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/spring-boot-with-hibernate/" />
             <id>https://blog.fflow.link/posts/guide/spring-boot-with-hibernate/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-16T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -18387,7 +19091,7 @@ Java底层&lt;/p&gt;
             <title type="text">Spring 表达式语言指南</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/spring-expression-language-guide/" />
             <id>https://blog.fflow.link/posts/guide/spring-expression-language-guide/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-15T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -18423,7 +19127,7 @@ Java底层&lt;/p&gt;
             <title type="text">确定 Java 列表中的所有元素是否相同</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/determine-if-all-elements-are-the-same-in-a-java-list/" />
             <id>https://blog.fflow.link/posts/guide/determine-if-all-elements-are-the-same-in-a-java-list/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-15T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -18683,7 +19387,7 @@ Java底层&lt;/p&gt;
             <title type="text">用 Java 创建 PDF 文件</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/creating-pdf-files-in-java/" />
             <id>https://blog.fflow.link/posts/guide/creating-pdf-files-in-java/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-15T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -19123,7 +19827,7 @@ Java底层&lt;/p&gt;
             <title type="text">JPA 中的默认列值</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/default-column-values-in-jpa/" />
             <id>https://blog.fflow.link/posts/guide/default-column-values-in-jpa/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-14T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -19355,7 +20059,7 @@ Java底层&lt;/p&gt;
             <title type="text">如何在 Java 中替换多个 if 语句</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/how-to-replace-many-if-statements-in-java/" />
             <id>https://blog.fflow.link/posts/guide/how-to-replace-many-if-statements-in-java/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-14T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -19840,7 +20544,7 @@ Java底层&lt;/p&gt;
             <title type="text">Spring Cloud Zookeeper 简介</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/an-intro-to-spring-cloud-zookeeper/" />
             <id>https://blog.fflow.link/posts/guide/an-intro-to-spring-cloud-zookeeper/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-14T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -20249,7 +20953,7 @@ Spring Boot 和 Spring Cloud
             <title type="text">Docker Registry API – 列出图像和标签</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/docker-registry-api-listing-images-and-tags/" />
             <id>https://blog.fflow.link/posts/guide/docker-registry-api-listing-images-and-tags/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-13T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -20459,7 +21163,7 @@ Spring Boot 和 Spring Cloud
             <title type="text">Baeldung 周评 1</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/baeldung-weekly-review-1/" />
             <id>https://blog.fflow.link/posts/guide/baeldung-weekly-review-1/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-13T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -20547,7 +21251,7 @@ Spring Boot 和 Spring Cloud
             <title type="text">Junit 5 中的@RepeatedTest 指南</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/a-guide-to-repeatedtest-in-junit-5/" />
             <id>https://blog.fflow.link/posts/guide/a-guide-to-repeatedtest-in-junit-5/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-13T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -20757,7 +21461,7 @@ Junit 页脚横幅
             <title type="text">春季教程</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/spring-tutorial/" />
             <id>https://blog.fflow.link/posts/guide/spring-tutorial/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-12T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -20901,7 +21605,7 @@ Junit 页脚横幅
             <title type="text">NIO2 异步套接字通道指南</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/a-guide-to-nio2-asynchronous-socket-channel/" />
             <id>https://blog.fflow.link/posts/guide/a-guide-to-nio2-asynchronous-socket-channel/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-12T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -21346,7 +22050,7 @@ Java底层&lt;/p&gt;
             <title type="text">从 Spring Data JPA 存储库调用存储过程</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/calling-stored-procedures-from-spring-data-jpa-repositories/" />
             <id>https://blog.fflow.link/posts/guide/calling-stored-procedures-from-spring-data-jpa-repositories/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-12T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -21619,7 +22323,7 @@ Java底层&lt;/p&gt;
             <title type="text">比较 Java 中的长值</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/comparing-long-values-in-java/" />
             <id>https://blog.fflow.link/posts/guide/comparing-long-values-in-java/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-11T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -21784,7 +22488,7 @@ Java底层&lt;/p&gt;
             <title type="text">Apache Geode 快速指南</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/a-quick-guide-to-apache-geode/" />
             <id>https://blog.fflow.link/posts/guide/a-quick-guide-to-apache-geode/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-11T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -22270,7 +22974,7 @@ gfsh&amp;gt; query --query=&amp;#39;select e.key, e.value from /baeldung-partiti
             <title type="text">在 Java 中实现模板方法模式</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/implementing-the-template-method-pattern-in-java/" />
             <id>https://blog.fflow.link/posts/guide/implementing-the-template-method-pattern-in-java/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-11T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -22538,7 +23242,7 @@ Java底层&lt;/p&gt;
             <title type="text">Java 11 单文件源代码</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/java-11-single-file-source-code/" />
             <id>https://blog.fflow.link/posts/guide/java-11-single-file-source-code/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-10T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -22814,7 +23518,7 @@ Java底层&lt;/p&gt;
             <title type="text">列出所有 Redis 数据库</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/list-all-redis-databases/" />
             <id>https://blog.fflow.link/posts/guide/list-all-redis-databases/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-10T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -22942,7 +23646,7 @@ Java底层&lt;/p&gt;
             <title type="text">带有 Lambda 表达式的 Java 流过滤器</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/java-stream-filter-with-lambda-expression/" />
             <id>https://blog.fflow.link/posts/guide/java-stream-filter-with-lambda-expression/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-10T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -23249,7 +23953,7 @@ Java底层&lt;/p&gt;
             <title type="text">使用 Spring Data JPA 的自定义命名约定</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/custom-naming-convention-with-spring-data-jpa/" />
             <id>https://blog.fflow.link/posts/guide/custom-naming-convention-with-spring-data-jpa/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-09T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -23452,7 +24156,7 @@ Java底层&lt;/p&gt;
             <title type="text">Java 和 Spring 中的事务简介</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/introduction-to-transactions-in-java-and-spring/" />
             <id>https://blog.fflow.link/posts/guide/introduction-to-transactions-in-java-and-spring/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-09T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -23490,7 +24194,7 @@ Java底层&lt;/p&gt;
             <title type="text">杰克逊 JSON 视图</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/jackson-json-views/" />
             <id>https://blog.fflow.link/posts/guide/jackson-json-views/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-09T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -23959,7 +24663,7 @@ Java底层&lt;/p&gt;
             <title type="text">Spring Boot 消费和生产 JSON</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/spring-boot-consuming-and-producing-json/" />
             <id>https://blog.fflow.link/posts/guide/spring-boot-consuming-and-producing-json/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-08T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -24162,7 +24866,7 @@ Java底层&lt;/p&gt;
             <title type="text">使用 Spring Cloud 数据流进行批处理</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/batch-processing-with-spring-cloud-data-flow/" />
             <id>https://blog.fflow.link/posts/guide/batch-processing-with-spring-cloud-data-flow/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-08T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -24376,7 +25080,7 @@ Spring Boot 和 Spring Cloud
             <title type="text">在 Java 中测试多线程代码</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/testing-multi-threaded-code-in-java/" />
             <id>https://blog.fflow.link/posts/guide/testing-multi-threaded-code-in-java/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-08T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -24414,7 +25118,7 @@ Spring Boot 和 Spring Cloud
             <title type="text">Java 中的清洁编码</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/clean-coding-in-java/" />
             <id>https://blog.fflow.link/posts/guide/clean-coding-in-java/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-07T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -24452,7 +25156,7 @@ Spring Boot 和 Spring Cloud
             <title type="text">使用 Guava 在 Java 中使用布隆过滤器</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/bloom-filter-in-java-using-guava/" />
             <id>https://blog.fflow.link/posts/guide/bloom-filter-in-java-using-guava/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-07T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -24615,7 +25319,7 @@ Spring Boot 和 Spring Cloud
             <title type="text">Docker 镜像和容器之间的区别</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/difference-between-docker-images-and-containers/" />
             <id>https://blog.fflow.link/posts/guide/difference-between-docker-images-and-containers/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-07T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -24811,7 +25515,7 @@ Spring Boot 和 Spring Cloud
             <title type="text">Spring AbstractRoutingDatasource 指南</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/a-guide-to-spring-abstractroutingdatasource/" />
             <id>https://blog.fflow.link/posts/guide/a-guide-to-spring-abstractroutingdatasource/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-06T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -25222,7 +25926,7 @@ client-b.datasource.script=SOME_SCRIPT.sql
             <title type="text">Cassandra 中的一致性级别</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/consistency-levels-in-cassandra/" />
             <id>https://blog.fflow.link/posts/guide/consistency-levels-in-cassandra/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-06T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -25338,7 +26042,7 @@ NoSql 底部&lt;/p&gt;
             <title type="text">WebSockets API 的 Java 客户端</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/a-java-client-for-a-websockets-api/" />
             <id>https://blog.fflow.link/posts/guide/a-java-client-for-a-websockets-api/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-06T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -25512,7 +26216,7 @@ INFO o.b.w.client.MyStompSessionHandler - 发送到 websocket 服务器的消息
             <title type="text">JDBC 自动提交指南</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/a-guide-to-auto-commit-in-jdbc/" />
             <id>https://blog.fflow.link/posts/guide/a-guide-to-auto-commit-in-jdbc/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-05T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -25864,7 +26568,7 @@ INFO o.b.w.client.MyStompSessionHandler - 发送到 websocket 服务器的消息
             <title type="text">Java中的构造函数返回类型</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/the-constructor-return-type-in-java/" />
             <id>https://blog.fflow.link/posts/guide/the-constructor-return-type-in-java/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-05T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -26009,7 +26713,7 @@ Java底层&lt;/p&gt;
             <title type="text">Java 构造函数指南</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/a-guide-to-constructors-in-java/" />
             <id>https://blog.fflow.link/posts/guide/a-guide-to-constructors-in-java/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-05T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -26311,7 +27015,7 @@ Java底层&lt;/p&gt;
             <title type="text">Java中两个列表的交集</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/intersection-of-two-lists-in-java/" />
             <id>https://blog.fflow.link/posts/guide/intersection-of-two-lists-in-java/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-04T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -26405,7 +27109,7 @@ Java底层&lt;/p&gt;
             <title type="text">Apache Commons Lang 3 简介</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/an-introduction-to-apache-commons-lang-3/" />
             <id>https://blog.fflow.link/posts/guide/an-introduction-to-apache-commons-lang-3/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-04T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -26441,7 +27145,7 @@ Java底层&lt;/p&gt;
             <title type="text">BDDMockito 快速指南</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/quick-guide-to-bddmockito/" />
             <id>https://blog.fflow.link/posts/guide/quick-guide-to-bddmockito/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-04T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -26713,7 +27417,7 @@ Junit 页脚横幅
             <title type="text">PCollections 简介</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/introduction-to-pcollections/" />
             <id>https://blog.fflow.link/posts/guide/introduction-to-pcollections/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-03T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -26949,7 +27653,7 @@ Junit 页脚横幅
             <title type="text">Java中的面向对象编程概念</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/object-oriented-programming-concepts-in-java/" />
             <id>https://blog.fflow.link/posts/guide/object-oriented-programming-concepts-in-java/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-03T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -27354,7 +28058,7 @@ Java底层&lt;/p&gt;
             <title type="text">Java 初始化指南</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/a-guide-to-java-initialization/" />
             <id>https://blog.fflow.link/posts/guide/a-guide-to-java-initialization/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-03T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -27679,7 +28383,7 @@ Java底层&lt;/p&gt;
             <title type="text">捕获 Java 堆转储的不同方法</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/different-ways-to-capture-java-heap-dumps/" />
             <id>https://blog.fflow.link/posts/guide/different-ways-to-capture-java-heap-dumps/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-02T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -27825,7 +28529,7 @@ Java底层&lt;/p&gt;
             <title type="text">获取字符串的最后一个单词</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/get-the-last-word-of-a-string/" />
             <id>https://blog.fflow.link/posts/guide/get-the-last-word-of-a-string/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-02T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -27918,7 +28622,7 @@ Java底层&lt;/p&gt;
             <title type="text">Spring Cloud Vault 简介</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/an-intro-to-spring-cloud-vault/" />
             <id>https://blog.fflow.link/posts/guide/an-intro-to-spring-cloud-vault/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-02T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -28130,7 +28834,7 @@ Java底层&lt;/p&gt;
             <title type="text">JCache简介</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/introduction-to-jcache/" />
             <id>https://blog.fflow.link/posts/guide/introduction-to-jcache/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-01T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -28546,7 +29250,7 @@ Java底层&lt;/p&gt;
             <title type="text">Apache HttpClient – 遵循 POST 的重定向</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/apache-httpclient-follow-redirects-for-post/" />
             <id>https://blog.fflow.link/posts/guide/apache-httpclient-follow-redirects-for-post/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-01T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -28734,7 +29438,7 @@ HTTPClient 页脚
             <title type="text">Spring Cloud AWS – RDS</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/spring-cloud-aws-rds/" />
             <id>https://blog.fflow.link/posts/guide/spring-cloud-aws-rds/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-07-01T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -28844,7 +29548,7 @@ Spring Boot 和 Spring Cloud
             <title type="text">Golang GPM 原理介绍</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/golang-gpm%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/" />
             <id>https://blog.fflow.link/posts/archive/golang-gpm%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2022-05-10T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -28934,7 +29638,7 @@ Spring Boot 和 Spring Cloud
             <title type="text">如何实现三个线程轮流输出1-100</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/multi-thread-print-100/" />
             <id>https://blog.fflow.link/posts/archive/multi-thread-print-100/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2019-09-21T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -29141,7 +29845,7 @@ Spring Boot 和 Spring Cloud
             <title type="text">程序员知识图谱-微服务分布式事务</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-transaction/" />
             <id>https://blog.fflow.link/posts/archive/java-transaction/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2019-08-10T09:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -29203,7 +29907,7 @@ fascar&lt;/p&gt;
             <title type="text">程序员知识图谱-ElasticSearch</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-es/" />
             <id>https://blog.fflow.link/posts/archive/java-es/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2019-08-09T13:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -29267,7 +29971,7 @@ master&lt;/p&gt;
             <title type="text">程序员知识图谱-微服务注册中心</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-registry/" />
             <id>https://blog.fflow.link/posts/archive/java-registry/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2019-08-08T13:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -29326,7 +30030,7 @@ master&lt;/p&gt;
             <title type="text">程序员知识图谱-微服务配置中心</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-config/" />
             <id>https://blog.fflow.link/posts/archive/java-config/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2019-08-07T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -29409,7 +30113,7 @@ master&lt;/p&gt;
             <title type="text">程序员知识图谱-Dubbo</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-dubbo/" />
             <id>https://blog.fflow.link/posts/archive/java-dubbo/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2019-08-06T15:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -29492,7 +30196,7 @@ Container&lt;/p&gt;
             <title type="text">程序员知识图谱-动态代理</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-aop/" />
             <id>https://blog.fflow.link/posts/archive/java-aop/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2019-08-05T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -29573,7 +30277,7 @@ Dubbo使用的动态代理方法
             <title type="text">程序员知识图谱-微服务限流熔断</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-limiter/" />
             <id>https://blog.fflow.link/posts/archive/java-limiter/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2019-08-04T23:22:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -29649,7 +30353,7 @@ Dubbo使用的动态代理方法
             <title type="text">程序员知识图谱-JVM类加载机制</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-classloader/" />
             <id>https://blog.fflow.link/posts/archive/java-classloader/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2019-08-03T23:22:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -29737,7 +30441,7 @@ DriverManager
             <title type="text">程序员知识图谱-网络编程</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-io/" />
             <id>https://blog.fflow.link/posts/archive/java-io/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2019-08-02T23:22:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -29907,7 +30611,7 @@ Future，Future.get
             <title type="text">程序员知识图谱-并发编程</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-concurrent/" />
             <id>https://blog.fflow.link/posts/archive/java-concurrent/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2019-08-01T21:22:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -30100,7 +30804,7 @@ volatile变量的读和写
             <title type="text">程序员知识图谱-分布式锁</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-lock/" />
             <id>https://blog.fflow.link/posts/archive/java-lock/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2019-07-31T13:22:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -30166,7 +30870,7 @@ redis节点可能宕机
             <title type="text">程序员知识图谱-Linux</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-linux/" />
             <id>https://blog.fflow.link/posts/archive/java-linux/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2019-07-30T11:22:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -30382,7 +31086,7 @@ redis节点可能宕机
             <title type="text">五种常用消息队列对比</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/java-mq/" />
             <id>https://blog.fflow.link/posts/notes/java-mq/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2019-07-29T21:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -30848,7 +31552,7 @@ redis节点可能宕机
             <title type="text">程序员知识图谱-Netty</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-netty/" />
             <id>https://blog.fflow.link/posts/archive/java-netty/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2019-07-28T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -30946,7 +31650,7 @@ Channel的操作结果&lt;/p&gt;
             <title type="text">程序员知识图谱-内存溢出</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-oom/" />
             <id>https://blog.fflow.link/posts/archive/java-oom/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2019-07-27T10:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -31058,7 +31762,7 @@ Survivor Eden与Survivor区的大小比值
             <title type="text">常见 Java 面试题总结</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/ali-interview/" />
             <id>https://blog.fflow.link/posts/archive/ali-interview/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2019-07-27T08:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -31227,7 +31931,7 @@ JDK epoll的BUG，Netty是怎么解决的,如何解决TCP粘包和拆包的问�
             <title type="text">程序员知识图谱-Redis</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-redis/" />
             <id>https://blog.fflow.link/posts/archive/java-redis/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2019-07-26T12:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -31560,7 +32264,7 @@ CPU不是瓶颈点，IO是瓶颈点，单线程够用也简单&lt;/p&gt;
             <title type="text">MySQL 数据库常见面试题总结</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93/" />
             <id>https://blog.fflow.link/posts/archive/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2019-07-25T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -31980,7 +32684,7 @@ CPU不是瓶颈点，IO是瓶颈点，单线程够用也简单&lt;/p&gt;
             <title type="text">程序员知识图谱-垃圾回收</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-gc/" />
             <id>https://blog.fflow.link/posts/archive/java-gc/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2019-07-24T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -32140,7 +32844,7 @@ Parallel Scavenge收集器的老年代版本&lt;/p&gt;
             <title type="text">程序员知识图谱-计算机网络</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-network/" />
             <id>https://blog.fflow.link/posts/archive/java-network/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2019-07-23T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -32202,7 +32906,7 @@ Parallel Scavenge收集器的老年代版本&lt;/p&gt;
             <title type="text">通过Ngrok实现内网穿透</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/install-ngrok/" />
             <id>https://blog.fflow.link/posts/archive/install-ngrok/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2019-07-22T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -32281,7 +32985,7 @@ sudo make release-client
             <title type="text">在Debian上搭建FTP服务器</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/install-ftp-indebian/" />
             <id>https://blog.fflow.link/posts/archive/install-ftp-indebian/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2019-07-21T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -32492,7 +33196,7 @@ systemctl restart vsftpd 或 service vsftpd restart
             <title type="text">如何将一台老电脑改造为docker服务器</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/install-linux-in-old-computer/" />
             <id>https://blog.fflow.link/posts/archive/install-linux-in-old-computer/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2019-07-20T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -32556,7 +33260,7 @@ sudo systemctl restart docker
             <title type="text">Windows下配置Hexo博客的方法</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/config-hexo-in-windows/" />
             <id>https://blog.fflow.link/posts/archive/config-hexo-in-windows/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2018-09-23T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -32644,7 +33348,7 @@ hexo g
             <title type="text">使用Redis实现实时展示页面访问量排名的方法</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/get_topn_count_with_redis/" />
             <id>https://blog.fflow.link/posts/archive/get_topn_count_with_redis/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2018-09-23T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -32708,7 +33412,7 @@ ZREM title_count baidu.com bing.com
             <title type="text">HBase常用命令</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/hbase-example/" />
             <id>https://blog.fflow.link/posts/archive/hbase-example/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2018-07-07T20:11:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -32808,7 +33512,7 @@ deteteall &#39;sogou:search_detail&#39;, &#39;rowKey001&#39;&lt;/p&gt;
             <title type="text">将已存在的代码提交到Github管理的方法</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/git-add-code-to-exists-repo/" />
             <id>https://blog.fflow.link/posts/archive/git-add-code-to-exists-repo/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2018-01-22T14:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -32879,7 +33583,7 @@ deteteall &#39;sogou:search_detail&#39;, &#39;rowKey001&#39;&lt;/p&gt;
             <title type="text">Guava中实现线程异步回调机制探索</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/guava-thread-listen/" />
             <id>https://blog.fflow.link/posts/archive/guava-thread-listen/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2017-10-31T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -32961,7 +33665,7 @@ deteteall &#39;sogou:search_detail&#39;, &#39;rowKey001&#39;&lt;/p&gt;
             <title type="text">Java代码块的加载顺序总结</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-class-code-block-load-order/" />
             <id>https://blog.fflow.link/posts/archive/java-class-code-block-load-order/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2017-10-31T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -33013,7 +33717,7 @@ deteteall &#39;sogou:search_detail&#39;, &#39;rowKey001&#39;&lt;/p&gt;
             <title type="text">MAC上安装Telnet的方法</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/install-brew-in-mac/" />
             <id>https://blog.fflow.link/posts/archive/install-brew-in-mac/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2017-10-31T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -33056,7 +33760,7 @@ Press RETURN to continue or any other key to abort
             <title type="text">见贤思齐</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/learn-from-others/" />
             <id>https://blog.fflow.link/posts/archive/learn-from-others/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2017-10-31T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -33096,7 +33800,7 @@ Press RETURN to continue or any other key to abort
             <title type="text">一种显示目录结构的方法</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/show-dir/" />
             <id>https://blog.fflow.link/posts/archive/show-dir/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2017-10-31T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -33162,7 +33866,7 @@ $ find . | sed -e &amp;#39;s;[^/]*/;|___;g;s;___|; |;g&amp;#39;
             <title type="text">配置 Kafka Exactly-Once 消费的方法</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/%E9%85%8D%E7%BD%AEkafka-exactly-once%E6%B6%88%E8%B4%B9%E7%9A%84%E6%96%B9%E6%B3%95/" />
             <id>https://blog.fflow.link/posts/archive/%E9%85%8D%E7%BD%AEkafka-exactly-once%E6%B6%88%E8%B4%B9%E7%9A%84%E6%96%B9%E6%B3%95/</id>
-            <updated>2022-10-05T16:03:04&#43;00:00</updated>
+            <updated>2022-10-05T23:58:21&#43;00:00</updated>
             <published>2017-09-22T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
