@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-CN">
     <title type="text">FFlow Blog</title>
     <subtitle type="html">FFlow 的飞流协同平台的博客</subtitle>
-    <updated>2022-10-04T23:57:23&#43;00:00</updated>
+    <updated>2022-10-05T07:56:09&#43;00:00</updated>
     <id>https://blog.fflow.link/</id>
     <link rel="alternate" type="text/html" href="https://blog.fflow.link/" />
     <link rel="self" type="application/atom&#43;xml" href="https://blog.fflow.link/atom.xml" />
@@ -17,10 +17,212 @@
     <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights>
     <generator uri="https://gohugo.io/" version="0.104.3">Hugo</generator>
         <entry>
+            <title type="text">在 Java 中读取和写入用户输入</title>
+            <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/read-and-write-user-input-in-java/" />
+            <id>https://blog.fflow.link/posts/guide/read-and-write-user-input-in-java/</id>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
+            <published>2022-10-05T11:18:11&#43;08:00</published>
+            <author>
+                    <name>fflow</name>
+                    <uri>https://blog.fflow.link/</uri>
+                    <email>hunterzhang86@gmail.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">1。介绍 在这个快速教程中，我们将演示几种在 Java 中使用控制台进行用户输入和输出的方法。 我……</summary>
+            
+                <content type="html">&lt;h2 id=&#34;1介绍&#34;&gt;&lt;strong&gt;1。介绍&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;在这个快速教程中，我们将&lt;strong&gt;演示几种在 Java 中使用控制台进行用户输入和输出的方法&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;我们将看看 &lt;a href=&#34;https://blog.fflow.link/java-scanner&#34;&gt;&lt;em&gt;Scanner&lt;/em&gt; 类&lt;/a&gt; 的一些方法来处理输入，然后我们将使用 &lt;em&gt;System.out&lt;/em&gt; 显示一些简单的输出。&lt;/p&gt;
+&lt;p&gt;最后，我们将看到如何使用从 Java 6 开始可用的 &lt;em&gt;Console&lt;/em&gt; 类用于控制台输入和输出。&lt;/p&gt;
+&lt;h2 id=&#34;2从-systemin-读取&#34;&gt;&lt;strong&gt;2。从 &lt;em&gt;System.in&lt;/em&gt;&lt;/strong&gt; 读取&lt;/h2&gt;
+&lt;p&gt;对于我们的第一个示例，我们将&lt;strong&gt;使用 &lt;em&gt;java.util&lt;/em&gt; 包中的 &lt;em&gt;Scanner&lt;/em&gt; 类从 &lt;em&gt;System.in&lt;/em&gt;&lt;/strong&gt; 获取输入——“标准”输入流：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;扫描仪扫描仪&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;新扫描仪&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;（&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;System&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;in&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;）；&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;让我们&lt;strong&gt;使用 &lt;em&gt;nextLine()&lt;/em&gt; 方法将整行输入读取为 &lt;em&gt;String&lt;/em&gt;&lt;/strong&gt; 并前进到下一行：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;nameSurname&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;scanner&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;nextLine&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;我们还可以&lt;strong&gt;使用 &lt;em&gt;next()&lt;/em&gt; 方法从流中获取下一个输入标记&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;字符串性别&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;scanner&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;next&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;如果我们期待数字输入，我们可以&lt;strong&gt;使用 &lt;em&gt;nextInt()&lt;/em&gt; 将下一个输入作为 &lt;em&gt;int&lt;/em&gt;&lt;/strong&gt; 原语获取，类似地，我们可以&lt;strong&gt;使用 &lt;em&gt;nextDouble()&lt;/em&gt; 获取变量&lt;em&gt;双&lt;/em&gt;&lt;/strong&gt;类型：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;整数年龄&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;扫描仪&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;nextInt&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;双倍高度&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;scanner&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;nextDouble&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;em&gt;Scanner&lt;/em&gt; 类还提供 &lt;strong&gt;&lt;em&gt;hasNext_Prefix()&lt;/em&gt; 方法，如果下一个标记可以解释为相应的数据类型&lt;/strong&gt;，则返回 &lt;em&gt;true&lt;/em&gt;。&lt;/p&gt;
+&lt;p&gt;例如，我们可以使用 &lt;em&gt;hasNextInt()&lt;/em&gt; 方法来检查下一个标记是否可以解释为整数：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;而&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;scanner&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;hasNextInt&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;())&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;nmbr&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;扫描仪&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;nextInt&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;c1&#34;&gt;//...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;此外，我们可以使用 &lt;em&gt;hasNext(Pattern pattern)&lt;/em&gt; 方法&lt;strong&gt;检查以下输入标记是否与模式匹配&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;scanner&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;hasNext&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Pattern&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;compile&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;www.baeldung.com&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)))&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;c1&#34;&gt;//...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;除了使用 &lt;em&gt;Scanner&lt;/em&gt; 类之外，&lt;strong&gt;我们还可以使用 &lt;em&gt;Input&lt;/em&gt; &lt;em&gt;StreamReader&lt;/em&gt; 和 &lt;em&gt;System.in&lt;/em&gt; 从控制台获取输入&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;BufferedReader&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;buffReader&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;BufferedReader&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;InputStreamReader&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;System&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;in&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;));&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;然后我们可以读取输入并将其解析为整数：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;i&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Integer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;parseInt&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;buffReader&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;readLine&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;());&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;写入 &lt;em&gt;System.out&lt;/em&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;p&gt;对于控制台输出，我们可以使用 &lt;strong&gt;&lt;em&gt;System.out&lt;/em&gt; --- &lt;em&gt;PrintStream&lt;/em&gt; 类的实例，&lt;/strong&gt; 它是 &lt;em&gt;OutputStream&lt;/em&gt; 的一种类型。&lt;/p&gt;
+&lt;p&gt;在我们的示例中，我们将使用控制台输出来提示用户输入并向用户显示最终消息。&lt;/p&gt;
+&lt;p&gt;让我们&lt;strong&gt;使用 &lt;em&gt;println()&lt;/em&gt; 方法打印 &lt;em&gt;String&lt;/em&gt; 并终止该行&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;System&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;out&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;println&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;请输入您的姓名和姓氏：&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;或者，我们可以&lt;strong&gt;使用 &lt;em&gt;print()&lt;/em&gt; 方法，它的工作方式类似于 &lt;em&gt;println()&lt;/em&gt;，但不终止行&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;System&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;out&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;祝你好运&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;System&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;out&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;一个！&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;4。使用 &lt;em&gt;Console&lt;/em&gt; 类进行输入和输出&lt;/strong&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;在 JDK 6 及更高版本中，我们可以使用 &lt;em&gt;java.io&lt;/em&gt;package 中的 &lt;em&gt;Console&lt;/em&gt; 类来读取和写入控制台。&lt;/p&gt;
+&lt;p&gt;要获得 &lt;em&gt;Console&lt;/em&gt; 对象，我们将调用 &lt;em&gt;System.console()&lt;/em&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;控制台控制台&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;System&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;console&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;接下来，让我们使用 &lt;em&gt;Console&lt;/em&gt; 类的 &lt;em&gt;readLine()&lt;/em&gt; 方法&lt;strong&gt;向控制台写入一行，然后从控制台读取一行&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;progLanguuge&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;console&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;readLine&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;输入你喜欢的编程语言：&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;如果我们需要读取敏感信息，例如密码，我们可以使用 &lt;em&gt;readPassword()&lt;/em&gt; 方法来&lt;strong&gt;提示用户输入密码并在禁用回显的情况下从控制台读取密码&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;char&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;[]&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;pass&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;console&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;readPassword&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;完成，输入密码：&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;我们还可以&lt;strong&gt;使用 &lt;em&gt;Console&lt;/em&gt; 类将输出写入控制台，例如，使用带有 &lt;em&gt;String&lt;/em&gt; 参数的 &lt;em&gt;printf()&lt;/em&gt; 方法&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;console&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;printf&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;progLanguuge&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34; 很有趣！&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;5结论&#34;&gt;&lt;strong&gt;5。结论&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;在本文中，我们展示了如何使用几个 Java 类来执行控制台用户输入和输出。&lt;/p&gt;
+&lt;p&gt;与往常一样，本教程中的代码示例 &lt;a href=&#34;https://github.com/eugenp/tutorials/tree/master/core-java-modules/core-java-console&#34;&gt;over on GitHub&lt;/a&gt; 提供。
+Java底层&lt;/p&gt;
+&lt;h3 id=&#34;通过-learn-spring-课程开始使用-spring-5-和-spring-boot-2&#34;&gt;&lt;strong&gt;通过 &lt;em&gt;Learn Spring&lt;/em&gt; 课程开始使用 Spring 5 和 Spring Boot 2：&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href=&#34;https://blog.fflow.link/ls-course-end&#34;&gt;&amp;gt;&amp;gt; 查看课程&lt;/a&gt;&lt;/strong&gt;
+通用页脚横幅
+&lt;img src=&#34;https://blog.fflow.link/wp-content/uploads/2016/05/baeldung-rest-post-footer-main-1.2.0.jpg&#34; alt=&#34;使用 SPRING 构建您的 API - 书籍封面&#34;&gt;
+&lt;img src=&#34;https://blog.fflow.link/wp-content/uploads/2016/05/baeldung-rest-post-footer-icn-1.0.0.png&#34; alt=&#34;使用 SPRING 构建您的 API - 图标&#34;&gt;
+学习构建你的 API
+&lt;strong&gt;与春天&lt;/strong&gt;？
+&lt;a href=&#34;https://blog.fflow.link/rest-api-spring-guide&#34;&gt;下载电子书&lt;/a&gt;&lt;/p&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://blog.fflow.link/categories/%E6%89%8B%E5%86%8C/" term="手册" label="手册" />
+                            
+                        
+                    
+                
+                    
+                
+            
+        </entry>
+    
+        <entry>
             <title type="text">系统规则库指南</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/guide-to-the-system-rules-library/" />
             <id>https://blog.fflow.link/posts/guide/guide-to-the-system-rules-library/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-10-05T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -503,7 +705,7 @@ Junit 页脚横幅
             <title type="text">在 Maven 中设置 Java 版本</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/setting-the-java-version-in-maven/" />
             <id>https://blog.fflow.link/posts/guide/setting-the-java-version-in-maven/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-10-05T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -688,7 +890,7 @@ Maven 页脚横幅
             <title type="text">在 Java 中连接字符串</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/concatenating-strings-in-java/" />
             <id>https://blog.fflow.link/posts/guide/concatenating-strings-in-java/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-10-04T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -932,7 +1134,7 @@ Java底层&lt;/p&gt;
             <title type="text">JVM 日志伪造</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/jvm-log-forging/" />
             <id>https://blog.fflow.link/posts/notes/jvm-log-forging/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-10-04T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -1088,7 +1290,7 @@ web - 2017-04-12 17:47:08,957 [main] INFO Amount reversed successfully
             <title type="text">AspectJ 中的 Joinpoint 与 ProceedingJoinPoint</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/joinpoint-vs.-proceedingjoinpoint-in-aspectj/" />
             <id>https://blog.fflow.link/posts/notes/joinpoint-vs.-proceedingjoinpoint-in-aspectj/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-10-04T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -1247,7 +1449,7 @@ web - 2017-04-12 17:47:08,957 [main] INFO Amount reversed successfully
             <title type="text">Paths.get 和 Path.of 的区别</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/differences-between-paths.get-and-path.of/" />
             <id>https://blog.fflow.link/posts/notes/differences-between-paths.get-and-path.of/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-10-03T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -1315,7 +1517,7 @@ web - 2017-04-12 17:47:08,957 [main] INFO Amount reversed successfully
             <title type="text">配置 Spring Security 登录后重定向到不同的页面</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/redirect-to-different-pages-after-login-with-spring-security/" />
             <id>https://blog.fflow.link/posts/notes/redirect-to-different-pages-after-login-with-spring-security/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-10-03T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -1680,7 +1882,7 @@ web - 2017-04-12 17:47:08,957 [main] INFO Amount reversed successfully
             <title type="text">配置 Tomcat 支持 UTF-8</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/making-tomcat-utf-8-ready/" />
             <id>https://blog.fflow.link/posts/guide/making-tomcat-utf-8-ready/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-10-03T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -1901,7 +2103,7 @@ collation-server = utf8mb4_unicode_ci
             <title type="text">Jess 规则引擎和 JSR 94</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/jess-rule-engine-and-jsr-94/" />
             <id>https://blog.fflow.link/posts/notes/jess-rule-engine-and-jsr-94/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-10-02T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -2415,7 +2617,7 @@ collation-server = utf8mb4_unicode_ci
             <title type="text">Spring JPA 使用指南</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/jpa-with-spring/" />
             <id>https://blog.fflow.link/posts/notes/jpa-with-spring/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-10-02T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -2819,7 +3021,7 @@ spring.datasource.url=
             <title type="text">Java 9 CompletableFuture API 接口的改进</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/java-9-completablefuture-api-improvements/" />
             <id>https://blog.fflow.link/posts/notes/java-9-completablefuture-api-improvements/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-10-02T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -3043,7 +3245,7 @@ spring.datasource.url=
             <title type="text">Spring Security 配置 Remember Me</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/spring-security-remember-me/" />
             <id>https://blog.fflow.link/posts/notes/spring-security-remember-me/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-10-01T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -3321,7 +3523,7 @@ spring.datasource.url=
             <title type="text">浅谈 Java GC</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/java-gc/" />
             <id>https://blog.fflow.link/posts/notes/java-gc/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-10-01T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -3463,7 +3665,7 @@ spring.datasource.url=
             <title type="text">Spring Cloud Consul 入门指引</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/spring-cloud-consul/" />
             <id>https://blog.fflow.link/posts/notes/spring-cloud-consul/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-09-30T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -3839,7 +4041,7 @@ spring.datasource.url=
             <title type="text">浅谈 Mock Server</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/%E6%B5%85%E8%B0%88-mock-server/" />
             <id>https://blog.fflow.link/posts/notes/%E6%B5%85%E8%B0%88-mock-server/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-09-20T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -4120,7 +4322,7 @@ Maven 引入&lt;/p&gt;
             <title type="text">MySQL 和 Redis 事务实现对比</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/mysql-%E5%92%8C-redis-%E4%BA%8B%E5%8A%A1%E5%AE%9E%E7%8E%B0%E5%AF%B9%E6%AF%94/" />
             <id>https://blog.fflow.link/posts/notes/mysql-%E5%92%8C-redis-%E4%BA%8B%E5%8A%A1%E5%AE%9E%E7%8E%B0%E5%AF%B9%E6%AF%94/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-08-01T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -4219,7 +4421,7 @@ Maven 引入&lt;/p&gt;
             <title type="text">程序员知识图谱-RocketMQ</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/rocketmq/" />
             <id>https://blog.fflow.link/posts/notes/rocketmq/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-31T09:20:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -4378,7 +4580,7 @@ Maven 引入&lt;/p&gt;
             <title type="text">Java 中的广义目标类型推断</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/generalized-target-type-inference-in-java/" />
             <id>https://blog.fflow.link/posts/guide/generalized-target-type-inference-in-java/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-31T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -4541,7 +4743,7 @@ Java底层&lt;/p&gt;
             <title type="text">使用 Gradle 跳过测试</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/skipping-tests-with-gradle/" />
             <id>https://blog.fflow.link/posts/guide/skipping-tests-with-gradle/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-31T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -4741,7 +4943,7 @@ Junit 页脚横幅
             <title type="text">高效合并已排序的 Java 序列</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/efficiently-merge-sorted-java-sequences/" />
             <id>https://blog.fflow.link/posts/guide/efficiently-merge-sorted-java-sequences/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-30T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -5086,7 +5288,7 @@ Java底层&lt;/p&gt;
             <title type="text">浅谈 Golang 插件机制</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/%E6%B5%85%E8%B0%88-golang-%E6%8F%92%E4%BB%B6%E6%9C%BA%E5%88%B6/" />
             <id>https://blog.fflow.link/posts/notes/%E6%B5%85%E8%B0%88-golang-%E6%8F%92%E4%BB%B6%E6%9C%BA%E5%88%B6/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-30T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -5211,7 +5413,7 @@ Java底层&lt;/p&gt;
             <title type="text">Postman 的基本身份验证</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/basic-authentication-with-postman/" />
             <id>https://blog.fflow.link/posts/guide/basic-authentication-with-postman/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-30T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -5323,7 +5525,7 @@ Java底层&lt;/p&gt;
             <title type="text">Java 扫描器接受字符输入</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/java-scanner-taking-a-character-input/" />
             <id>https://blog.fflow.link/posts/guide/java-scanner-taking-a-character-input/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-30T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -5463,7 +5665,7 @@ Java底层&lt;/p&gt;
             <title type="text">执行程序 newCachedThreadPool() 与 newFixedThreadPool()</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/executors-newcachedthreadpool-vs-newfixedthreadpool/" />
             <id>https://blog.fflow.link/posts/guide/executors-newcachedthreadpool-vs-newfixedthreadpool/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-29T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -5608,7 +5810,7 @@ Java底层&lt;/p&gt;
             <title type="text">稳定性保障的方法论</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%BF%9D%E9%9A%9C%E7%9A%84%E6%96%B9%E6%B3%95%E8%AE%BA/" />
             <id>https://blog.fflow.link/posts/notes/%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%BF%9D%E9%9A%9C%E7%9A%84%E6%96%B9%E6%B3%95%E8%AE%BA/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-29T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -5779,7 +5981,7 @@ Java底层&lt;/p&gt;
             <title type="text">谷歌汽车服务</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/google-autoservice/" />
             <id>https://blog.fflow.link/posts/guide/google-autoservice/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-29T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -5969,7 +6171,7 @@ Java底层&lt;/p&gt;
             <title type="text">Liquibase 回滚简介</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/introduction-to-liquibase-rollback/" />
             <id>https://blog.fflow.link/posts/guide/introduction-to-liquibase-rollback/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-29T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -6266,7 +6468,7 @@ Java底层&lt;/p&gt;
             <title type="text">Spring 和 Apache 文件上传</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/spring-and-apache-fileupload/" />
             <id>https://blog.fflow.link/posts/guide/spring-and-apache-fileupload/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-28T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -6451,7 +6653,7 @@ Java底层&lt;/p&gt;
             <title type="text">程序员知识图谱-MySQL</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/mysql/" />
             <id>https://blog.fflow.link/posts/notes/mysql/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-28T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -6622,7 +6824,7 @@ sync_binlog = N(N&amp;gt;1) 的时候，表示每次提交事务都 write，但�
             <title type="text">程序员知识图谱-MySQL 索引</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/mysql-%E7%B4%A2%E5%BC%95/" />
             <id>https://blog.fflow.link/posts/notes/mysql-%E7%B4%A2%E5%BC%95/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-28T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -6695,7 +6897,7 @@ sync_binlog = N(N&amp;gt;1) 的时候，表示每次提交事务都 write，但�
             <title type="text">程序员知识图谱-乐观锁和悲观锁</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81/" />
             <id>https://blog.fflow.link/posts/notes/%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-28T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -6821,7 +7023,7 @@ sync_binlog = N(N&amp;gt;1) 的时候，表示每次提交事务都 write，但�
             <title type="text">程序员知识图谱-网络</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/network/" />
             <id>https://blog.fflow.link/posts/notes/network/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-28T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -6982,7 +7184,7 @@ net.ipv4.tcp_tw_recycle = 1
             <title type="text">架构整洁之道笔记</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/%E6%9E%B6%E6%9E%84%E6%95%B4%E6%B4%81%E4%B9%8B%E9%81%93%E7%AC%94%E8%AE%B0/" />
             <id>https://blog.fflow.link/posts/notes/%E6%9E%B6%E6%9E%84%E6%95%B4%E6%B4%81%E4%B9%8B%E9%81%93%E7%AC%94%E8%AE%B0/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-28T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -7061,7 +7263,7 @@ net.ipv4.tcp_tw_recycle = 1
             <title type="text">Java 16 中的新功能</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/new-features-in-java-16/" />
             <id>https://blog.fflow.link/posts/guide/new-features-in-java-16/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-28T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -7480,7 +7682,7 @@ Java底层&lt;/p&gt;
             <title type="text">带有 React 的 Spring Security 登录页面</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/spring-security-login-page-with-react/" />
             <id>https://blog.fflow.link/posts/guide/spring-security-login-page-with-react/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-28T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -8183,7 +8385,7 @@ Java底层&lt;/p&gt;
             <title type="text">杰克逊 VS 格森</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/jackson-vs-gson/" />
             <id>https://blog.fflow.link/posts/guide/jackson-vs-gson/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-27T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -8219,7 +8421,7 @@ Java底层&lt;/p&gt;
             <title type="text">程序员知识图谱-Redis</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/redis/" />
             <id>https://blog.fflow.link/posts/notes/redis/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-27T09:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -8685,7 +8887,7 @@ Java底层&lt;/p&gt;
             <title type="text">Spring Data JPA - 在所有存储库中添加方法</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/spring-data-jpa-add-method-in-all-repositories/" />
             <id>https://blog.fflow.link/posts/guide/spring-data-jpa-add-method-in-all-repositories/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-27T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -8939,7 +9141,7 @@ Java底层&lt;/p&gt;
             <title type="text">Spring Cloud 教程</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/spring-cloud-tutorial/" />
             <id>https://blog.fflow.link/posts/guide/spring-cloud-tutorial/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-27T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -9051,7 +9253,7 @@ Spring Boot 和 Spring Cloud
             <title type="text">Java中的映射到字符串转换</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/map-to-string-conversion-in-java/" />
             <id>https://blog.fflow.link/posts/guide/map-to-string-conversion-in-java/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-26T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -9331,7 +9533,7 @@ Java底层&lt;/p&gt;
             <title type="text">用于在 Java 中匹配日期模式的 RegEx</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/regex-for-matching-date-pattern-in-java/" />
             <id>https://blog.fflow.link/posts/guide/regex-for-matching-date-pattern-in-java/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-26T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -9564,7 +9766,7 @@ Java底层&lt;/p&gt;
             <title type="text">stream().forEach() 和 forEach() 的区别</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/the-difference-between-stream.foreach-and-foreach/" />
             <id>https://blog.fflow.link/posts/guide/the-difference-between-stream.foreach-and-foreach/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-25T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -9912,7 +10114,7 @@ Java底层&lt;/p&gt;
             <title type="text">Spring Cloud Stream 简介</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/introduction-to-spring-cloud-stream/" />
             <id>https://blog.fflow.link/posts/guide/introduction-to-spring-cloud-stream/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-25T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -10389,7 +10591,7 @@ Spring Boot 和 Spring Cloud
             <title type="text">Java 8 中的新特性</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/new-features-in-java-8/" />
             <id>https://blog.fflow.link/posts/guide/new-features-in-java-8/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-25T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -10726,7 +10928,7 @@ Java底层&lt;/p&gt;
             <title type="text">Spring Cloud 合约简介</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/an-intro-to-spring-cloud-contract/" />
             <id>https://blog.fflow.link/posts/guide/an-intro-to-spring-cloud-contract/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-24T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -11121,7 +11323,7 @@ Spring Boot 和 Spring Cloud
             <title type="text">Spring Cloud AWS – 消息传递支持</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/spring-cloud-aws-messaging-support/" />
             <id>https://blog.fflow.link/posts/guide/spring-cloud-aws-messaging-support/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-24T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -11337,7 +11539,7 @@ Spring Boot 和 Spring Cloud
             <title type="text">在 Java 中查找最小公倍数</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/finding-the-least-common-multiple-in-java/" />
             <id>https://blog.fflow.link/posts/guide/finding-the-least-common-multiple-in-java/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-24T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -11781,7 +11983,7 @@ Java底层&lt;/p&gt;
             <title type="text">Spring MVC &#43; Thymeleaf 3.0：新特性</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/spring-mvc-&#43;-thymeleaf-3.0-new-features/" />
             <id>https://blog.fflow.link/posts/guide/spring-mvc-&#43;-thymeleaf-3.0-new-features/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-23T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -12196,7 +12398,7 @@ Java底层&lt;/p&gt;
             <title type="text">Java 中的 hashCode() 指南</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/guide-to-hashcode-in-java/" />
             <id>https://blog.fflow.link/posts/guide/guide-to-hashcode-in-java/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-23T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -12635,7 +12837,7 @@ Java底层&lt;/p&gt;
             <title type="text">如何在 Spring MVC 中设置 JSON 内容类型</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/how-to-set-json-content-type-in-spring-mvc/" />
             <id>https://blog.fflow.link/posts/guide/how-to-set-json-content-type-in-spring-mvc/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-23T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -12941,7 +13143,7 @@ Java底层&lt;/p&gt;
             <title type="text">杰克逊@JsonFormat 指南</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/guide-to-jsonformat-in-jackson/" />
             <id>https://blog.fflow.link/posts/guide/guide-to-jsonformat-in-jackson/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-22T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -13139,7 +13341,7 @@ Java底层&lt;/p&gt;
             <title type="text">延迟队列指南</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/guide-to-delayqueue/" />
             <id>https://blog.fflow.link/posts/guide/guide-to-delayqueue/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-22T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -13501,7 +13703,7 @@ Java底层&lt;/p&gt;
             <title type="text">使用 javac 编译目录结构中的所有 Java 类</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/compile-all-java-classes-in-directory-structure-with-javac/" />
             <id>https://blog.fflow.link/posts/guide/compile-all-java-classes-in-directory-structure-with-javac/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-22T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -13749,7 +13951,7 @@ Java底层&lt;/p&gt;
             <title type="text">多版本 Jar 文件</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/multi-release-jar-files/" />
             <id>https://blog.fflow.link/posts/guide/multi-release-jar-files/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-21T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -13998,7 +14200,7 @@ Java底层&lt;/p&gt;
             <title type="text">OpenAPI JSON 对象作为查询参数</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/openapi-json-objects-as-query-parameters/" />
             <id>https://blog.fflow.link/posts/guide/openapi-json-objects-as-query-parameters/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-21T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -14216,7 +14418,7 @@ REST 页脚横幅
             <title type="text">Null 参数的 IllegalArgumentException 或 NullPointerException？</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/illegalargumentexception-or-nullpointerexception-for-a-null-parameter/" />
             <id>https://blog.fflow.link/posts/guide/illegalargumentexception-or-nullpointerexception-for-a-null-parameter/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-21T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -14326,7 +14528,7 @@ Java底层&lt;/p&gt;
             <title type="text">Drools 简介</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/introduction-to-drools/" />
             <id>https://blog.fflow.link/posts/guide/introduction-to-drools/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-20T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -14609,7 +14811,7 @@ Java底层&lt;/p&gt;
             <title type="text">Baeldung 周评 5</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/baeldung-weekly-review-5/" />
             <id>https://blog.fflow.link/posts/guide/baeldung-weekly-review-5/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-20T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -14706,7 +14908,7 @@ Java底层&lt;/p&gt;
             <title type="text">使用 Spring MVC 的 JSON 参数</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/json-parameters-with-spring-mvc/" />
             <id>https://blog.fflow.link/posts/guide/json-parameters-with-spring-mvc/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-20T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -14967,7 +15169,7 @@ Java底层&lt;/p&gt;
             <title type="text">程序员知识图谱-Java 内存溢出的排查方法</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/java-%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/" />
             <id>https://blog.fflow.link/posts/notes/java-%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-19T15:48:04&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -15112,7 +15314,7 @@ jstat 查看内存使用情况，检查堆参数，一般是申请的内存太�
             <title type="text">带有 H2 数据库的 Spring Boot</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/spring-boot-with-h2-database/" />
             <id>https://blog.fflow.link/posts/guide/spring-boot-with-h2-database/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-19T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -15266,7 +15468,7 @@ spring.h2.console.settings.web-allow-others=false
             <title type="text">使用 @AttributeOverride 覆盖列定义</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/overriding-column-definition-with-attributeoverride/" />
             <id>https://blog.fflow.link/posts/guide/overriding-column-definition-with-attributeoverride/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-19T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -15525,7 +15727,7 @@ spring.h2.console.settings.web-allow-others=false
             <title type="text">Apache HttpClient 教程</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/apache-httpclient-tutorial/" />
             <id>https://blog.fflow.link/posts/guide/apache-httpclient-tutorial/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-19T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -15592,7 +15794,7 @@ HTTPClient 页脚
             <title type="text">Java 调试接口 (JDI) 简介</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/an-intro-to-the-java-debug-interface-jdi/" />
             <id>https://blog.fflow.link/posts/guide/an-intro-to-the-java-debug-interface-jdi/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-18T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -16097,7 +16299,7 @@ Java底层&lt;/p&gt;
             <title type="text">Java 中的 LongAdder 和 LongAccumulator</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/longadder-and-longaccumulator-in-java/" />
             <id>https://blog.fflow.link/posts/guide/longadder-and-longaccumulator-in-java/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-18T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -16269,7 +16471,7 @@ Java底层&lt;/p&gt;
             <title type="text">Java 集合</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/java-collections/" />
             <id>https://blog.fflow.link/posts/guide/java-collections/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-18T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -16453,7 +16655,7 @@ Java底层&lt;/li&gt;
             <title type="text">Spring @Qualifier 注解</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/spring-qualifier-annotation/" />
             <id>https://blog.fflow.link/posts/guide/spring-qualifier-annotation/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-17T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -16722,7 +16924,7 @@ Java底层&lt;/li&gt;
             <title type="text">使用 Shell 命令列出 Kafka 集群中的活动代理</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/list-active-brokers-in-a-kafka-cluster-using-shell-commands/" />
             <id>https://blog.fflow.link/posts/guide/list-active-brokers-in-a-kafka-cluster-using-shell-commands/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-17T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -17112,7 +17314,7 @@ get_all_active_brokers
             <title type="text">Spring Data JDBC简介</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/introduction-to-spring-data-jdbc/" />
             <id>https://blog.fflow.link/posts/guide/introduction-to-spring-data-jdbc/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-17T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -17293,7 +17495,7 @@ get_all_active_brokers
             <title type="text">Java 12 中的新功能</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/new-features-in-java-12/" />
             <id>https://blog.fflow.link/posts/guide/new-features-in-java-12/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-16T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -17720,7 +17922,7 @@ Java底层&lt;/p&gt;
             <title type="text">Spring Security 5 中的默认密码编码器</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/default-password-encoder-in-spring-security-5/" />
             <id>https://blog.fflow.link/posts/guide/default-password-encoder-in-spring-security-5/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-16T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -17934,7 +18136,7 @@ Java底层&lt;/p&gt;
             <title type="text">带有休眠功能的 Spring Boot</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/spring-boot-with-hibernate/" />
             <id>https://blog.fflow.link/posts/guide/spring-boot-with-hibernate/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-16T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -18185,7 +18387,7 @@ Java底层&lt;/p&gt;
             <title type="text">Spring 表达式语言指南</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/spring-expression-language-guide/" />
             <id>https://blog.fflow.link/posts/guide/spring-expression-language-guide/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-15T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -18221,7 +18423,7 @@ Java底层&lt;/p&gt;
             <title type="text">确定 Java 列表中的所有元素是否相同</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/determine-if-all-elements-are-the-same-in-a-java-list/" />
             <id>https://blog.fflow.link/posts/guide/determine-if-all-elements-are-the-same-in-a-java-list/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-15T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -18481,7 +18683,7 @@ Java底层&lt;/p&gt;
             <title type="text">用 Java 创建 PDF 文件</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/creating-pdf-files-in-java/" />
             <id>https://blog.fflow.link/posts/guide/creating-pdf-files-in-java/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-15T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -18921,7 +19123,7 @@ Java底层&lt;/p&gt;
             <title type="text">JPA 中的默认列值</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/default-column-values-in-jpa/" />
             <id>https://blog.fflow.link/posts/guide/default-column-values-in-jpa/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-14T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -19153,7 +19355,7 @@ Java底层&lt;/p&gt;
             <title type="text">如何在 Java 中替换多个 if 语句</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/how-to-replace-many-if-statements-in-java/" />
             <id>https://blog.fflow.link/posts/guide/how-to-replace-many-if-statements-in-java/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-14T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -19638,7 +19840,7 @@ Java底层&lt;/p&gt;
             <title type="text">Spring Cloud Zookeeper 简介</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/an-intro-to-spring-cloud-zookeeper/" />
             <id>https://blog.fflow.link/posts/guide/an-intro-to-spring-cloud-zookeeper/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-14T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -20047,7 +20249,7 @@ Spring Boot 和 Spring Cloud
             <title type="text">Docker Registry API – 列出图像和标签</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/docker-registry-api-listing-images-and-tags/" />
             <id>https://blog.fflow.link/posts/guide/docker-registry-api-listing-images-and-tags/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-13T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -20257,7 +20459,7 @@ Spring Boot 和 Spring Cloud
             <title type="text">Baeldung 周评 1</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/baeldung-weekly-review-1/" />
             <id>https://blog.fflow.link/posts/guide/baeldung-weekly-review-1/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-13T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -20345,7 +20547,7 @@ Spring Boot 和 Spring Cloud
             <title type="text">Junit 5 中的@RepeatedTest 指南</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/a-guide-to-repeatedtest-in-junit-5/" />
             <id>https://blog.fflow.link/posts/guide/a-guide-to-repeatedtest-in-junit-5/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-13T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -20555,7 +20757,7 @@ Junit 页脚横幅
             <title type="text">春季教程</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/spring-tutorial/" />
             <id>https://blog.fflow.link/posts/guide/spring-tutorial/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-12T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -20699,7 +20901,7 @@ Junit 页脚横幅
             <title type="text">NIO2 异步套接字通道指南</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/a-guide-to-nio2-asynchronous-socket-channel/" />
             <id>https://blog.fflow.link/posts/guide/a-guide-to-nio2-asynchronous-socket-channel/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-12T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -21144,7 +21346,7 @@ Java底层&lt;/p&gt;
             <title type="text">从 Spring Data JPA 存储库调用存储过程</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/calling-stored-procedures-from-spring-data-jpa-repositories/" />
             <id>https://blog.fflow.link/posts/guide/calling-stored-procedures-from-spring-data-jpa-repositories/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-12T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -21417,7 +21619,7 @@ Java底层&lt;/p&gt;
             <title type="text">比较 Java 中的长值</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/comparing-long-values-in-java/" />
             <id>https://blog.fflow.link/posts/guide/comparing-long-values-in-java/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-11T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -21582,7 +21784,7 @@ Java底层&lt;/p&gt;
             <title type="text">Apache Geode 快速指南</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/a-quick-guide-to-apache-geode/" />
             <id>https://blog.fflow.link/posts/guide/a-quick-guide-to-apache-geode/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-11T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -22068,7 +22270,7 @@ gfsh&amp;gt; query --query=&amp;#39;select e.key, e.value from /baeldung-partiti
             <title type="text">在 Java 中实现模板方法模式</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/implementing-the-template-method-pattern-in-java/" />
             <id>https://blog.fflow.link/posts/guide/implementing-the-template-method-pattern-in-java/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-11T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -22336,7 +22538,7 @@ Java底层&lt;/p&gt;
             <title type="text">Java 11 单文件源代码</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/java-11-single-file-source-code/" />
             <id>https://blog.fflow.link/posts/guide/java-11-single-file-source-code/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-10T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -22612,7 +22814,7 @@ Java底层&lt;/p&gt;
             <title type="text">列出所有 Redis 数据库</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/list-all-redis-databases/" />
             <id>https://blog.fflow.link/posts/guide/list-all-redis-databases/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-10T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -22740,7 +22942,7 @@ Java底层&lt;/p&gt;
             <title type="text">带有 Lambda 表达式的 Java 流过滤器</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/java-stream-filter-with-lambda-expression/" />
             <id>https://blog.fflow.link/posts/guide/java-stream-filter-with-lambda-expression/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-10T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -23047,7 +23249,7 @@ Java底层&lt;/p&gt;
             <title type="text">使用 Spring Data JPA 的自定义命名约定</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/custom-naming-convention-with-spring-data-jpa/" />
             <id>https://blog.fflow.link/posts/guide/custom-naming-convention-with-spring-data-jpa/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-09T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -23250,7 +23452,7 @@ Java底层&lt;/p&gt;
             <title type="text">Java 和 Spring 中的事务简介</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/introduction-to-transactions-in-java-and-spring/" />
             <id>https://blog.fflow.link/posts/guide/introduction-to-transactions-in-java-and-spring/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-09T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -23288,7 +23490,7 @@ Java底层&lt;/p&gt;
             <title type="text">杰克逊 JSON 视图</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/jackson-json-views/" />
             <id>https://blog.fflow.link/posts/guide/jackson-json-views/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-09T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -23757,7 +23959,7 @@ Java底层&lt;/p&gt;
             <title type="text">Spring Boot 消费和生产 JSON</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/spring-boot-consuming-and-producing-json/" />
             <id>https://blog.fflow.link/posts/guide/spring-boot-consuming-and-producing-json/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-08T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -23960,7 +24162,7 @@ Java底层&lt;/p&gt;
             <title type="text">使用 Spring Cloud 数据流进行批处理</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/batch-processing-with-spring-cloud-data-flow/" />
             <id>https://blog.fflow.link/posts/guide/batch-processing-with-spring-cloud-data-flow/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-08T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -24174,7 +24376,7 @@ Spring Boot 和 Spring Cloud
             <title type="text">在 Java 中测试多线程代码</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/testing-multi-threaded-code-in-java/" />
             <id>https://blog.fflow.link/posts/guide/testing-multi-threaded-code-in-java/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-08T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -24212,7 +24414,7 @@ Spring Boot 和 Spring Cloud
             <title type="text">Java 中的清洁编码</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/clean-coding-in-java/" />
             <id>https://blog.fflow.link/posts/guide/clean-coding-in-java/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-07T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -24250,7 +24452,7 @@ Spring Boot 和 Spring Cloud
             <title type="text">使用 Guava 在 Java 中使用布隆过滤器</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/bloom-filter-in-java-using-guava/" />
             <id>https://blog.fflow.link/posts/guide/bloom-filter-in-java-using-guava/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-07T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -24413,7 +24615,7 @@ Spring Boot 和 Spring Cloud
             <title type="text">Docker 镜像和容器之间的区别</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/difference-between-docker-images-and-containers/" />
             <id>https://blog.fflow.link/posts/guide/difference-between-docker-images-and-containers/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-07T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -24609,7 +24811,7 @@ Spring Boot 和 Spring Cloud
             <title type="text">Spring AbstractRoutingDatasource 指南</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/a-guide-to-spring-abstractroutingdatasource/" />
             <id>https://blog.fflow.link/posts/guide/a-guide-to-spring-abstractroutingdatasource/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-06T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -25020,7 +25222,7 @@ client-b.datasource.script=SOME_SCRIPT.sql
             <title type="text">Cassandra 中的一致性级别</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/consistency-levels-in-cassandra/" />
             <id>https://blog.fflow.link/posts/guide/consistency-levels-in-cassandra/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-06T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -25136,7 +25338,7 @@ NoSql 底部&lt;/p&gt;
             <title type="text">WebSockets API 的 Java 客户端</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/a-java-client-for-a-websockets-api/" />
             <id>https://blog.fflow.link/posts/guide/a-java-client-for-a-websockets-api/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-06T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -25310,7 +25512,7 @@ INFO o.b.w.client.MyStompSessionHandler - 发送到 websocket 服务器的消息
             <title type="text">JDBC 自动提交指南</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/a-guide-to-auto-commit-in-jdbc/" />
             <id>https://blog.fflow.link/posts/guide/a-guide-to-auto-commit-in-jdbc/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-05T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -25662,7 +25864,7 @@ INFO o.b.w.client.MyStompSessionHandler - 发送到 websocket 服务器的消息
             <title type="text">Java中的构造函数返回类型</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/the-constructor-return-type-in-java/" />
             <id>https://blog.fflow.link/posts/guide/the-constructor-return-type-in-java/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-05T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -25807,7 +26009,7 @@ Java底层&lt;/p&gt;
             <title type="text">Java 构造函数指南</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/a-guide-to-constructors-in-java/" />
             <id>https://blog.fflow.link/posts/guide/a-guide-to-constructors-in-java/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-05T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -26109,7 +26311,7 @@ Java底层&lt;/p&gt;
             <title type="text">Java中两个列表的交集</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/intersection-of-two-lists-in-java/" />
             <id>https://blog.fflow.link/posts/guide/intersection-of-two-lists-in-java/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-04T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -26203,7 +26405,7 @@ Java底层&lt;/p&gt;
             <title type="text">Apache Commons Lang 3 简介</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/an-introduction-to-apache-commons-lang-3/" />
             <id>https://blog.fflow.link/posts/guide/an-introduction-to-apache-commons-lang-3/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-04T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -26239,7 +26441,7 @@ Java底层&lt;/p&gt;
             <title type="text">BDDMockito 快速指南</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/quick-guide-to-bddmockito/" />
             <id>https://blog.fflow.link/posts/guide/quick-guide-to-bddmockito/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-04T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -26511,7 +26713,7 @@ Junit 页脚横幅
             <title type="text">PCollections 简介</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/introduction-to-pcollections/" />
             <id>https://blog.fflow.link/posts/guide/introduction-to-pcollections/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-03T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -26747,7 +26949,7 @@ Junit 页脚横幅
             <title type="text">Java中的面向对象编程概念</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/object-oriented-programming-concepts-in-java/" />
             <id>https://blog.fflow.link/posts/guide/object-oriented-programming-concepts-in-java/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-03T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -27152,7 +27354,7 @@ Java底层&lt;/p&gt;
             <title type="text">Java 初始化指南</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/a-guide-to-java-initialization/" />
             <id>https://blog.fflow.link/posts/guide/a-guide-to-java-initialization/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-03T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -27477,7 +27679,7 @@ Java底层&lt;/p&gt;
             <title type="text">捕获 Java 堆转储的不同方法</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/different-ways-to-capture-java-heap-dumps/" />
             <id>https://blog.fflow.link/posts/guide/different-ways-to-capture-java-heap-dumps/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-02T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -27623,7 +27825,7 @@ Java底层&lt;/p&gt;
             <title type="text">获取字符串的最后一个单词</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/get-the-last-word-of-a-string/" />
             <id>https://blog.fflow.link/posts/guide/get-the-last-word-of-a-string/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-02T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -27716,7 +27918,7 @@ Java底层&lt;/p&gt;
             <title type="text">Spring Cloud Vault 简介</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/an-intro-to-spring-cloud-vault/" />
             <id>https://blog.fflow.link/posts/guide/an-intro-to-spring-cloud-vault/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-02T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -27928,7 +28130,7 @@ Java底层&lt;/p&gt;
             <title type="text">JCache简介</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/introduction-to-jcache/" />
             <id>https://blog.fflow.link/posts/guide/introduction-to-jcache/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-01T11:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -28344,7 +28546,7 @@ Java底层&lt;/p&gt;
             <title type="text">Apache HttpClient – 遵循 POST 的重定向</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/apache-httpclient-follow-redirects-for-post/" />
             <id>https://blog.fflow.link/posts/guide/apache-httpclient-follow-redirects-for-post/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-01T07:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -28532,7 +28734,7 @@ HTTPClient 页脚
             <title type="text">Spring Cloud AWS – RDS</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/guide/spring-cloud-aws-rds/" />
             <id>https://blog.fflow.link/posts/guide/spring-cloud-aws-rds/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-07-01T03:18:11&#43;08:00</published>
             <author>
                     <name>fflow</name>
@@ -28642,7 +28844,7 @@ Spring Boot 和 Spring Cloud
             <title type="text">Golang GPM 原理介绍</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/golang-gpm%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/" />
             <id>https://blog.fflow.link/posts/archive/golang-gpm%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2022-05-10T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -28732,7 +28934,7 @@ Spring Boot 和 Spring Cloud
             <title type="text">如何实现三个线程轮流输出1-100</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/multi-thread-print-100/" />
             <id>https://blog.fflow.link/posts/archive/multi-thread-print-100/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2019-09-21T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -28939,7 +29141,7 @@ Spring Boot 和 Spring Cloud
             <title type="text">程序员知识图谱-微服务分布式事务</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-transaction/" />
             <id>https://blog.fflow.link/posts/archive/java-transaction/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2019-08-10T09:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -29001,7 +29203,7 @@ fascar&lt;/p&gt;
             <title type="text">程序员知识图谱-ElasticSearch</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-es/" />
             <id>https://blog.fflow.link/posts/archive/java-es/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2019-08-09T13:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -29065,7 +29267,7 @@ master&lt;/p&gt;
             <title type="text">程序员知识图谱-微服务注册中心</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-registry/" />
             <id>https://blog.fflow.link/posts/archive/java-registry/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2019-08-08T13:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -29124,7 +29326,7 @@ master&lt;/p&gt;
             <title type="text">程序员知识图谱-微服务配置中心</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-config/" />
             <id>https://blog.fflow.link/posts/archive/java-config/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2019-08-07T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -29207,7 +29409,7 @@ master&lt;/p&gt;
             <title type="text">程序员知识图谱-Dubbo</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-dubbo/" />
             <id>https://blog.fflow.link/posts/archive/java-dubbo/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2019-08-06T15:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -29290,7 +29492,7 @@ Container&lt;/p&gt;
             <title type="text">程序员知识图谱-动态代理</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-aop/" />
             <id>https://blog.fflow.link/posts/archive/java-aop/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2019-08-05T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -29371,7 +29573,7 @@ Dubbo使用的动态代理方法
             <title type="text">程序员知识图谱-微服务限流熔断</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-limiter/" />
             <id>https://blog.fflow.link/posts/archive/java-limiter/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2019-08-04T23:22:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -29447,7 +29649,7 @@ Dubbo使用的动态代理方法
             <title type="text">程序员知识图谱-JVM类加载机制</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-classloader/" />
             <id>https://blog.fflow.link/posts/archive/java-classloader/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2019-08-03T23:22:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -29535,7 +29737,7 @@ DriverManager
             <title type="text">程序员知识图谱-网络编程</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-io/" />
             <id>https://blog.fflow.link/posts/archive/java-io/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2019-08-02T23:22:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -29705,7 +29907,7 @@ Future，Future.get
             <title type="text">程序员知识图谱-并发编程</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-concurrent/" />
             <id>https://blog.fflow.link/posts/archive/java-concurrent/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2019-08-01T21:22:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -29898,7 +30100,7 @@ volatile变量的读和写
             <title type="text">程序员知识图谱-分布式锁</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-lock/" />
             <id>https://blog.fflow.link/posts/archive/java-lock/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2019-07-31T13:22:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -29964,7 +30166,7 @@ redis节点可能宕机
             <title type="text">程序员知识图谱-Linux</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-linux/" />
             <id>https://blog.fflow.link/posts/archive/java-linux/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2019-07-30T11:22:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -30180,7 +30382,7 @@ redis节点可能宕机
             <title type="text">五种常用消息队列对比</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/notes/java-mq/" />
             <id>https://blog.fflow.link/posts/notes/java-mq/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2019-07-29T21:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -30646,7 +30848,7 @@ redis节点可能宕机
             <title type="text">程序员知识图谱-Netty</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-netty/" />
             <id>https://blog.fflow.link/posts/archive/java-netty/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2019-07-28T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -30744,7 +30946,7 @@ Channel的操作结果&lt;/p&gt;
             <title type="text">程序员知识图谱-内存溢出</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-oom/" />
             <id>https://blog.fflow.link/posts/archive/java-oom/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2019-07-27T10:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -30856,7 +31058,7 @@ Survivor Eden与Survivor区的大小比值
             <title type="text">常见 Java 面试题总结</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/ali-interview/" />
             <id>https://blog.fflow.link/posts/archive/ali-interview/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2019-07-27T08:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -31025,7 +31227,7 @@ JDK epoll的BUG，Netty是怎么解决的,如何解决TCP粘包和拆包的问�
             <title type="text">程序员知识图谱-Redis</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-redis/" />
             <id>https://blog.fflow.link/posts/archive/java-redis/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2019-07-26T12:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -31358,7 +31560,7 @@ CPU不是瓶颈点，IO是瓶颈点，单线程够用也简单&lt;/p&gt;
             <title type="text">MySQL 数据库常见面试题总结</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93/" />
             <id>https://blog.fflow.link/posts/archive/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2019-07-25T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -31778,7 +31980,7 @@ CPU不是瓶颈点，IO是瓶颈点，单线程够用也简单&lt;/p&gt;
             <title type="text">程序员知识图谱-垃圾回收</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-gc/" />
             <id>https://blog.fflow.link/posts/archive/java-gc/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2019-07-24T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -31938,7 +32140,7 @@ Parallel Scavenge收集器的老年代版本&lt;/p&gt;
             <title type="text">程序员知识图谱-计算机网络</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-network/" />
             <id>https://blog.fflow.link/posts/archive/java-network/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2019-07-23T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -32000,7 +32202,7 @@ Parallel Scavenge收集器的老年代版本&lt;/p&gt;
             <title type="text">通过Ngrok实现内网穿透</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/install-ngrok/" />
             <id>https://blog.fflow.link/posts/archive/install-ngrok/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2019-07-22T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -32079,7 +32281,7 @@ sudo make release-client
             <title type="text">在Debian上搭建FTP服务器</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/install-ftp-indebian/" />
             <id>https://blog.fflow.link/posts/archive/install-ftp-indebian/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2019-07-21T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -32290,7 +32492,7 @@ systemctl restart vsftpd 或 service vsftpd restart
             <title type="text">如何将一台老电脑改造为docker服务器</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/install-linux-in-old-computer/" />
             <id>https://blog.fflow.link/posts/archive/install-linux-in-old-computer/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2019-07-20T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -32354,7 +32556,7 @@ sudo systemctl restart docker
             <title type="text">Windows下配置Hexo博客的方法</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/config-hexo-in-windows/" />
             <id>https://blog.fflow.link/posts/archive/config-hexo-in-windows/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2018-09-23T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -32442,7 +32644,7 @@ hexo g
             <title type="text">使用Redis实现实时展示页面访问量排名的方法</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/get_topn_count_with_redis/" />
             <id>https://blog.fflow.link/posts/archive/get_topn_count_with_redis/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2018-09-23T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -32506,7 +32708,7 @@ ZREM title_count baidu.com bing.com
             <title type="text">HBase常用命令</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/hbase-example/" />
             <id>https://blog.fflow.link/posts/archive/hbase-example/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2018-07-07T20:11:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -32606,7 +32808,7 @@ deteteall &#39;sogou:search_detail&#39;, &#39;rowKey001&#39;&lt;/p&gt;
             <title type="text">将已存在的代码提交到Github管理的方法</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/git-add-code-to-exists-repo/" />
             <id>https://blog.fflow.link/posts/archive/git-add-code-to-exists-repo/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2018-01-22T14:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -32677,7 +32879,7 @@ deteteall &#39;sogou:search_detail&#39;, &#39;rowKey001&#39;&lt;/p&gt;
             <title type="text">Guava中实现线程异步回调机制探索</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/guava-thread-listen/" />
             <id>https://blog.fflow.link/posts/archive/guava-thread-listen/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2017-10-31T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -32759,7 +32961,7 @@ deteteall &#39;sogou:search_detail&#39;, &#39;rowKey001&#39;&lt;/p&gt;
             <title type="text">Java代码块的加载顺序总结</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/java-class-code-block-load-order/" />
             <id>https://blog.fflow.link/posts/archive/java-class-code-block-load-order/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2017-10-31T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -32811,7 +33013,7 @@ deteteall &#39;sogou:search_detail&#39;, &#39;rowKey001&#39;&lt;/p&gt;
             <title type="text">MAC上安装Telnet的方法</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/install-brew-in-mac/" />
             <id>https://blog.fflow.link/posts/archive/install-brew-in-mac/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2017-10-31T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -32854,7 +33056,7 @@ Press RETURN to continue or any other key to abort
             <title type="text">见贤思齐</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/learn-from-others/" />
             <id>https://blog.fflow.link/posts/archive/learn-from-others/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2017-10-31T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -32894,7 +33096,7 @@ Press RETURN to continue or any other key to abort
             <title type="text">一种显示目录结构的方法</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/show-dir/" />
             <id>https://blog.fflow.link/posts/archive/show-dir/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2017-10-31T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
@@ -32960,7 +33162,7 @@ $ find . | sed -e &amp;#39;s;[^/]*/;|___;g;s;___|; |;g&amp;#39;
             <title type="text">配置 Kafka Exactly-Once 消费的方法</title>
             <link rel="alternate" type="text/html" href="https://blog.fflow.link/posts/archive/%E9%85%8D%E7%BD%AEkafka-exactly-once%E6%B6%88%E8%B4%B9%E7%9A%84%E6%96%B9%E6%B3%95/" />
             <id>https://blog.fflow.link/posts/archive/%E9%85%8D%E7%BD%AEkafka-exactly-once%E6%B6%88%E8%B4%B9%E7%9A%84%E6%96%B9%E6%B3%95/</id>
-            <updated>2022-10-04T23:57:19&#43;00:00</updated>
+            <updated>2022-10-05T07:56:04&#43;00:00</updated>
             <published>2017-09-22T20:38:17&#43;00:00</published>
             <author>
                     <name>fflow</name>
