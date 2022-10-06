@@ -23,10 +23,110 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
         
-        <lastBuildDate>Wed, 05 Oct 2022 23:58:26 &#43;0000</lastBuildDate>
+        <lastBuildDate>Thu, 06 Oct 2022 07:53:07 &#43;0000</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://blog.fflow.link/rss.xml" />
         
+        
+            <item>
+                <title>使用 Spring Security 手动验证用户</title>
+                <link>https://blog.fflow.link/posts/guide/manually-authenticate-user-with-spring-security/</link>
+                <guid isPermaLink="true">https://blog.fflow.link/posts/guide/manually-authenticate-user-with-spring-security/</guid>
+                <pubDate>Thu, 06 Oct 2022 11:18:11 &#43;0800</pubDate>
+                
+                    <author>hunterzhang86@gmail.com (fflow)</author>
+                
+                <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
+                
+                    <description>&lt;h2 id=&#34;1概述&#34;&gt;&lt;strong&gt;1。概述&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;在这篇快速文章中，我们将重点介绍如何在 Spring Security 和 Spring MVC 中以编程方式设置经过身份验证的用户。&lt;/p&gt;
+&lt;h2 id=&#34;2弹簧安全&#34;&gt;&lt;strong&gt;2。弹簧安全&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;简单地说，Spring Security 将每个经过身份验证的用户的主体信息保存在 &lt;em&gt;ThreadLocal&lt;/em&gt; 中——表示为 &lt;em&gt;Authentication&lt;/em&gt; 对象。&lt;/p&gt;
+&lt;p&gt;为了构造和设置这个 &lt;em&gt;Authentication&lt;/em&gt; 对象——我们需要使用 Spring Security 通常用来在标准身份验证上构建对象的相同方法。&lt;/p&gt;
+&lt;p&gt;为此，让我们手动触发身份验证，然后将生成的 &lt;em&gt;Authentication&lt;/em&gt; 对象设置为框架用来保存当前登录用户的当前 &lt;em&gt;SecurityContext&lt;/em&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;用户名密码身份验证令牌&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;authReq&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;UsernamePasswordAuthenticationToken&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;user&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;pass&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;身份验证&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;auth&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;authManager&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;authenticate&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;authReq&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;SecurityContext&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sc&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SecurityContextHolder&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getContext&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;sc&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setAuthentication&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;auth&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;在上下文中设置 &lt;em&gt;Authentication&lt;/em&gt; 后，我们现在可以使用 &lt;em&gt;securityContext.getAuthentication().isAuthenticated()&lt;/em&gt; 检查当前用户是否已通过身份验证。&lt;/p&gt;
+&lt;h2 id=&#34;3弹簧-mvc&#34;&gt;&lt;strong&gt;3。弹簧 MVC&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;默认情况下，Spring Security 在 Spring Security 过滤器链中添加了一个额外的过滤器——它能够持久化安全上下文（&lt;em&gt;SecurityContextPersistenceFilter&lt;/em&gt; 类）。&lt;/p&gt;
+&lt;p&gt;反过来，它将安全上下文的持久性委托给 &lt;em&gt;SecurityContextRepository&lt;/em&gt; 的实例，默认为 &lt;em&gt;HttpSessionSecurityContextRepository&lt;/em&gt; 类。&lt;/p&gt;
+&lt;p&gt;因此，为了对请求设置身份验证并因此&lt;strong&gt;使其可用于来自客户端的所有后续请求&lt;/strong&gt;，我们需要在 HTTP 会话中手动设置包含 &lt;em&gt;Authentication&lt;/em&gt; 的 &lt;em&gt;SecurityContext&lt;/em&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;login&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;HttpServletRequest&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;req&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;user&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;pass&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;用户名密码身份验证令牌&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;authReq&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;UsernamePasswordAuthenticationToken&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;user&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;pass&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;身份验证&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;auth&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;authManager&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;authenticate&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;authReq&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;SecurityContext&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sc&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SecurityContextHolder&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getContext&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;sc&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setAuthentication&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;auth&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;HttpSession&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;会话&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;req&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getSession&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setAttribute&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;SPRING_SECURITY_CONTEXT_KEY&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sc&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;em&gt;SPRING_SECURITY_CONTEXT_KEY&lt;/em&gt; 是静态导入的 &lt;em&gt;HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY&lt;/em&gt;。&lt;/p&gt;
+&lt;p&gt;需要注意的是，我们不能直接使用 &lt;em&gt;HttpSessionSecurityContextRepository&lt;/em&gt; -- 因为它与 &lt;em&gt;SecurityContextPersistenceFilter.&lt;/em&gt; 一起工作&lt;/p&gt;
+&lt;p&gt;这是因为过滤器使用存储库在链中定义的其余过滤器执行之前和之后加载和存储安全上下文，但它对传递给链的响应使用自定义包装器。&lt;/p&gt;
+&lt;p&gt;所以在这种情况下，您应该知道所使用的包装器的类类型，并将其传递给存储库中适当的保存方法。&lt;/p&gt;
+&lt;h2 id=&#34;4结论&#34;&gt;&lt;strong&gt;4。结论&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;在这个快速教程中，我们讨论了如何在 Spring Security 上下文中手动设置用户 &lt;em&gt;Authentication&lt;/em&gt; 以及如何使其可用于 Spring MVC 目的，重点介绍了说明实现它的最简单方法的代码示例。&lt;/p&gt;
+&lt;p&gt;与往常一样，可以&lt;a href=&#34;https://github.com/eugenp/tutorials/tree/master/spring-security-modules/spring-security-web-mvc-custom&#34;&gt;在 GitHub 上&lt;/a&gt; 找到代码示例。
+安全底&lt;/p&gt;
+&lt;h3 id=&#34;我刚刚宣布了新的-learn-spring-security-课程包括专注于-spring-security-5-中新-oauth2-堆栈的完整材料&#34;&gt;&lt;strong&gt;我刚刚宣布了新的 &lt;em&gt;Learn Spring Security&lt;/em&gt; 课程，包括专注于 Spring Security 5 中新 OAuth2 堆栈的完整材料：&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href=&#34;https://blog.fflow.link/learn-spring-security-course#table&#34;&gt;&amp;gt;&amp;gt; 查看课程&lt;/a&gt;&lt;/strong&gt;
+安全页脚横幅
+&lt;img src=&#34;wp-content/uploads/2016/05/baeldung-security-post-footer-main-1.2.0.jpg&#34; alt=&#34;REST API with Spring - 视频课程&#34;&gt;
+&lt;img src=&#34;wp-content/uploads/2016/05/baeldung-security-lightbox-icn-1.0.0-1.png&#34; alt=&#34;带有 Spring 的 REST API - 图标&#34;&gt;
+学习使用 Spring 保护 REST API 的基础知识
+&lt;a href=&#34;https://blog.fflow.link/security-video-guide&#34;&gt;获取视频课程的访问权限&lt;/a&gt;&lt;/p&gt;
+</description>
+                
+                
+                
+                
+                
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://blog.fflow.link/categories/%E6%89%8B%E5%86%8C/">手册</category>
+                                
+                            
+                        
+                    
+                        
+                    
+                
+            </item>
         
             <item>
                 <title>Spring Boot 管理员指南</title>
