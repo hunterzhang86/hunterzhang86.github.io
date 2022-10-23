@@ -23,7 +23,7 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
         
-        <lastBuildDate>Sun, 23 Oct 2022 07:59:56 &#43;0000</lastBuildDate>
+        <lastBuildDate>Sun, 23 Oct 2022 08:07:10 &#43;0000</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://www.ifb.me/rss.xml" />
         
@@ -9115,7 +9115,6 @@ net.ipv4.tcp_tw_recycle = 1
 &lt;hr&gt;
 &lt;p&gt;在本文中，我们使用一个实际的示例比较了 REST 和 GraphQL。&lt;/p&gt;
 &lt;p&gt;我们看到了我们如何按照惯例使用每种方法。最后，我们讨论了这两种方法相互之间的优势。我们的结论是两者不能相互替代。&lt;/p&gt;
-&lt;p&gt;本文的示例代码可以 [在 GitHub 上] (&lt;a href=&#34;https://github.com/hunterzhang86/tutorials/tree/master/spring-boot-modules/spring-boot-libraries-comparison&#34;&gt;https://github.com/hunterzhang86/tutorials/tree/master/spring-boot-modules/spring-boot-libraries-comparison&lt;/a&gt;) 找到。&lt;/p&gt;
 </description>
                 
                 
