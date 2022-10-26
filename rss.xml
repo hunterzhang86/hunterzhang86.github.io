@@ -23,7 +23,7 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
         
-        <lastBuildDate>Wed, 26 Oct 2022 07:48:29 &#43;0000</lastBuildDate>
+        <lastBuildDate>Wed, 26 Oct 2022 13:05:11 &#43;0000</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://www.ifb.me/rss.xml" />
         
@@ -124,10 +124,10 @@
 &lt;p&gt;Clickhouse 实现的极致性能来自其独特的数据库引擎 MergeTree，而且 Clickhouse 也比较趋向于使用通用的硬件来做查询性能优化。&lt;/p&gt;
 &lt;h3 id=&#34;小索引稀疏索引&#34;&gt;小索引（稀疏索引）&lt;/h3&gt;
 &lt;p&gt;大家都知道在数据库中快速查找数据的关键是索引。索引最好保存在内存中以便快速访问。在 OLTP 数据库中，索引通常使用 B+ 树来进行存储，比如下图。&lt;/p&gt;
-&lt;p&gt;![[一级索引.png]]&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://blog.fflow.link/images/clickhouse/%E4%B8%80%E7%BA%A7%E7%B4%A2%E5%BC%95%E7%9A%84%E5%89%AF%E6%9C%AC.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;这适用于 OLTP 数据库，因为主键本质上是必不可少的。在 OLTP 数据库中，通常是通过主键 ID 查询数据库，例如 SELECT username, email FROM user WHERE id = 10086 或类似 UPDATE user SET email = &amp;quot;hunterzhang86@gmail.com&amp;quot; WHERE id = 10086 等查询。但是，一旦数据增长到数十亿行并且索引在内存中放不下的时候，这种类型的索引局限性就非常明显。&lt;/p&gt;
 &lt;p&gt;而在 Clickhouse 中，索引的构造如下图所示。&lt;/p&gt;
-&lt;p&gt;![[稀疏索引.png]]&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://blog.fflow.link/images/clickhouse/%E7%A8%80%E7%96%8F%E7%B4%A2%E5%BC%95.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Clickhouse 使用的索引 和 Kafka 类似，其仅存储索引数据的子集。这样的好处是索引相对较小，就算是很大的数据量，其索引在内存里面也放得下。我们想象一下如果要使用 SELECT SUM(visit) FROM visit WHERE date BETWEEN &#39;2022-10-01&#39; AND &#39;2022-10-31&#39; 进行查询，数据库使用稀疏索引的方式就很合适，因为我们的查询条件是日期范围，而不是主键 ID。这就是为什么稀疏索引在 OLAP 数据库中经常使用的原因。&lt;/p&gt;
 &lt;h3 id=&#34;数据压缩&#34;&gt;数据压缩&lt;/h3&gt;
 &lt;p&gt;由于 Clickhouse 的数据是按列而不是按行存储的，所以它能够比行式数据库能更好地压缩数据。 有数据表明，同样的数据放在 Clickhouse，相比于放在 PostgreSQL 所需的磁盘空间减少了 70%。另外在 Clickhouse 中，可以和方便的指定列的数据压缩算法和压缩级别。&lt;/p&gt;
