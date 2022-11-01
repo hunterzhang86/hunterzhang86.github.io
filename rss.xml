@@ -23,10 +23,104 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
         
-        <lastBuildDate>Tue, 01 Nov 2022 07:48:33 &#43;0000</lastBuildDate>
+        <lastBuildDate>Tue, 01 Nov 2022 15:10:49 &#43;0000</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://www.ifb.me/rss.xml" />
         
+        
+            <item>
+                <title>Nocalhost &#43; JRebel: 打造 Kubernetes 下构建云原生 Java 应用的全新体验</title>
+                <link>https://www.ifb.me/posts/notes/nocalhost/</link>
+                <guid isPermaLink="true">https://www.ifb.me/posts/notes/nocalhost/</guid>
+                <pubDate>Tue, 01 Nov 2022 09:48:04 &#43;0800</pubDate>
+                
+                    <author>hunterzhang86@gmail.com (noone)</author>
+                
+                <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
+                
+                    <description>&lt;blockquote&gt;
+&lt;p&gt;我们在进行日常开发调试的时候经常遇到一个窘境，就是我们修改的代码在开发环境很难及时生效，一天下来，大多数时间都被消耗在调试和部署上面，最后没有办法，除了加班还是只能加班。&lt;/p&gt;
+&lt;p&gt;为了解决这个问题，Coding 开发了一个叫做&lt;code&gt;Nocalhost&lt;/code&gt;的工具，给我们在 Kubernetes 环境下进行开发带来了全新的体验，Nocalhost 可以帮助我们把本地的代码实时的同步到 Kubernetes Pod 容器上。&lt;/p&gt;
+&lt;p&gt;而且进一步的，&lt;code&gt;Nocalhost&lt;/code&gt; 可以完美结合 Java 热加载神器 &lt;code&gt;JRebel&lt;/code&gt;，实现 Java 代码实时编译并生效，这样我们就可以像开发脚本程序一样构建云原生下的 Java 应用程序。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;一插件介绍&#34;&gt;一、插件介绍&lt;/h2&gt;
+&lt;h3 id=&#34;nocalhost&#34;&gt;Nocalhost&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&#34;https://nocalhost.dev/zh-CN/docs/introduction&#34;&gt;Nocalhost&lt;/a&gt; 是一款开源的基于 IDE 的云原生应用开发工具，主要支持以下能力：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;提供直接在 Kubernetes 集群中构建、测试和调试应用程序&lt;/li&gt;
+&lt;li&gt;提供易于使用的 IDE 插件（支持 VS Code 和 JetBrains），即使在 Kubernetes 集群中进行开发和调试，Nocalhost 也能保持和本地开发一样的开发体验&lt;/li&gt;
+&lt;li&gt;使用即时文件同步进行开发： 即时将您的代码更改同步到远端容器，而无需重建镜像或重新启动容器。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://nocalhost.dev/zh-CN/img/intro/coding-in-cluster.gif&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;jrebel&#34;&gt;JRebel&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&#34;https://jrebel.com/&#34;&gt;JRebel&lt;/a&gt; 是一款 Java 热部署工具，可以完美实现代码修改后，无需重启应用即可生效。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://blog.fflow.link/images/nocalhost/jrebel.png&#34; alt=&#34;jrebel.png&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;二配置步骤&#34;&gt;二、配置步骤&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;1. 安装 Nocalhost 插件&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://plugins.jetbrains.com/plugin/16058-nocalhost&#34;&gt;nocalhost 插件地址&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://blog.fflow.link/images/nocalhost/nocalhost%E6%8F%92%E4%BB%B6.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2. 安装 JRebel 插件&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://plugins.jetbrains.com/plugin/4441-jrebel-and-xrebel&#34;&gt;JRebel 插件地址&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://blog.fflow.link/images/nocalhost/2022-10-28-22-28-46.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3. 将 Kubernetes 集群添加到 Nocalhost&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://nocalhost.dev/zh-CN/docs/guides/manage-cluster&#34;&gt;参考文档&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;4. 将应用镜像推送到集群&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;本地将代码打包成镜像，并将镜像推送到 Kubernetes 镜像仓库。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;5. 部署应用镜像&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在 Kubernetes 集群部署应用。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;6. nocalhost 连接应用&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://nocalhost.dev/zh-CN/docs/guides/deploy/deploy-app&#34;&gt;参考文档&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://blog.fflow.link/images/nocalhost/2022-10-28-22-33-17.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;7. nocalhost 配置接口转发&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;需要将远程容器的接口转发到本地，后面在 JRebel 里面配置远程机器的时候用这个转发后的地址和端口就可以了。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://nocalhost.dev/zh-CN/docs/guides/deploy/deploy-demo&#34;&gt;参考文档&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://blog.fflow.link/images/nocalhost/2022-10-28-22-33-41.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;8. JRebel 配置远程机器&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://manuals.jrebel.com/jrebel/remoteserver/intellij.html#intellijremoteserver&#34;&gt;参考文档&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://blog.fflow.link/images/nocalhost/2022-10-28-22-31-52.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;9. Nocalhost 远程启动&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://blog.fflow.link/images/nocalhost/2022-10-28-22-32-25.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;10. 代码开发和调试&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;看到下面的输出即为配置成功，这样本地修改的代码，会实时编译后在远程 Pod 上生效。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://blog.fflow.link/images/nocalhost/2022-10-28-22-35-12.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;三小结&#34;&gt;三、小结&lt;/h2&gt;
+&lt;p&gt;通过上面的配置，我们就可以通过 Nocalhost + JRebel 在本地开发和调试远程 Kubernetes 集群上的应用。而且这样带来的好处是，我们本地不再需要费劲和集群上的数据库/消息组件打通，也不用再考虑本地开发机器和实际部署机器不一致带来的问题。&lt;/p&gt;
+&lt;p&gt;以上代码可以在我的 GitHub 仓库 &lt;a href=&#34;https://www.github.com/hunterzhang86/nocalhost-jrebel-demo&#34;&gt;hunterzhang86/nocalhost-jrebel-demo&lt;/a&gt; 中找到。&lt;/p&gt;
+</description>
+                
+                
+                
+                
+                
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://www.ifb.me/categories/java/">Java</category>
+                                
+                            
+                        
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://www.ifb.me/tags/nocalhost/">Nocalhost</category>
+                                
+                            
+                                
+                                
+                                
+                                    <category domain="https://www.ifb.me/tags/jrebel/">JRebel</category>
+                                
+                            
+                        
+                    
+                
+            </item>
         
             <item>
                 <title>性能优化宝典之序列化</title>
