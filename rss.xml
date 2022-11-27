@@ -23,10 +23,210 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
         
-        <lastBuildDate>Sun, 27 Nov 2022 07:45:57 &#43;0000</lastBuildDate>
+        <lastBuildDate>Sun, 27 Nov 2022 12:41:18 &#43;0000</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://www.ifb.me/rss.xml" />
         
+        
+            <item>
+                <title>一文带你理解 JVM 中堆空间和堆空间的区别</title>
+                <link>https://www.ifb.me/posts/notes/%E4%B8%80%E6%96%87%E5%B8%A6%E4%BD%A0%E7%90%86%E8%A7%A3-jvm-%E4%B8%AD%E5%A0%86%E7%A9%BA%E9%97%B4%E5%92%8C%E5%A0%86%E7%A9%BA%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB/</link>
+                <guid isPermaLink="true">https://www.ifb.me/posts/notes/%E4%B8%80%E6%96%87%E5%B8%A6%E4%BD%A0%E7%90%86%E8%A7%A3-jvm-%E4%B8%AD%E5%A0%86%E7%A9%BA%E9%97%B4%E5%92%8C%E5%A0%86%E7%A9%BA%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB/</guid>
+                <pubDate>Sun, 27 Nov 2022 07:18:11 &#43;0800</pubDate>
+                
+                    <author>hunterzhang86@gmail.com (noone)</author>
+                
+                <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
+                
+                    <description>&lt;blockquote&gt;
+&lt;p&gt;为了更高效的运行应用程序，JVM 选择将内存划分为栈空间和堆空间。 &lt;strong&gt;每当我们声明新变量和对象、调用新方法、声明 &lt;em&gt;String&lt;/em&gt; 或执行类似操作时，JVM 都会在栈或堆空间里面操作指定内存。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在这篇文章里面，我们将简要介绍 JVM 的内存模型以及它们的主要功能，然后我们将介绍它们是如何存储在内存里面，以及会在哪里使用到它们。最后，我们将分几个维度总结它们之间的主要区别。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;1-栈空间&#34;&gt;&lt;strong&gt;1. 栈空间&lt;/strong&gt;&lt;/h2&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;JVM 中的栈空间用于静态内存分配和线程的执行。&lt;/strong&gt; 它包含方法的原始值以及对象的引用。&lt;/p&gt;
+&lt;p&gt;对该内存的访问是按后进先出 (LIFO) 顺序进行的。每当我们调用新方法时，都会在堆栈顶部创建一个新块，其中包含特定于该方法的值，例如原始变量和对对象的引用。&lt;/p&gt;
+&lt;p&gt;当方法完成执行时，其相应的堆栈帧将被刷新，流程返回到调用方法，这样空间就又可用于下一个方法运行。&lt;/p&gt;
+&lt;h3 id=&#34;11-栈空间的主要特性&#34;&gt;&lt;strong&gt;1.1 栈空间的主要特性&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;栈空间的其他一些特性包括：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;它随着新方法的调用和返回分别增长和缩小。&lt;/li&gt;
+&lt;li&gt;堆栈中的变量只有在创建它们的方法正在运行时才存在。&lt;/li&gt;
+&lt;li&gt;当方法执行完成时，它会自动分配和释放。&lt;/li&gt;
+&lt;li&gt;如果此内存已满，Java 将抛出 &lt;em&gt;java.lang.StackOverFlowError.&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;与堆内存相比，访问此内存的速度更快。&lt;/li&gt;
+&lt;li&gt;该内存是线程安全的，因为每个线程都在自己的堆栈中运行。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;2-堆空间&#34;&gt;&lt;strong&gt;2. 堆空间&lt;/strong&gt;&lt;/h2&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;堆空间用于 Java 对象在运行时的动态内存分配&lt;/strong&gt;。新对象总是在堆空间中创建，而这些对象的引用则存储在栈空间中。&lt;/p&gt;
+&lt;p&gt;这些对象具有全局访问权限，我们可以从应用程序中的任何位置访问它们。&lt;/p&gt;
+&lt;p&gt;我们可以将这个内存模型分解成更小的部分，称为世代，它们是：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;新生代：&lt;/strong&gt; 这是所有新对象被分配和老化的地方。填满时会发生 Minor GC。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;老年代：&lt;/strong&gt; 这是存储长期存活对象的地方。当对象存储在新生代时，会设置对象年龄的阈值，当达到该阈值时，对象会被移动到老年代。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;21-堆空间的主要特性&#34;&gt;&lt;strong&gt;2.1 堆空间的主要特性&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;堆空间的其他一些特性包括：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;它通过复杂的内存管理技术访问，包括新生代、老年代等等。&lt;/li&gt;
+&lt;li&gt;如果堆空间已满，Java 抛出 &lt;em&gt;java.lang.OutOfMemoryError.&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;访问这块内存比栈内存慢&lt;/li&gt;
+&lt;li&gt;与堆栈相比，此内存不会自动释放。它需要垃圾收集器来释放未使用的对象，以保持内存使用的效率。&lt;/li&gt;
+&lt;li&gt;与堆栈不同，堆不是线程安全的，需要通过正确同步代码来保护。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;3-内存分配示例&#34;&gt;&lt;strong&gt;3. 内存分配示例&lt;/strong&gt;&lt;/h2&gt;
+&lt;hr&gt;
+&lt;p&gt;基于我们目前所学的，让我们通过分析一个简单的 Java 代码来展示 JVM 如何管理内存：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;Person&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;Person&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;id&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;name&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;PersonBuilder&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kd&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;static&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Person&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;buildPerson&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Person&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;static&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;[]&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;args&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;id&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;23&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;name&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;John&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;Person&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;person&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;person&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;buildPerson&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;让我们逐步分析一下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;当我们进入 &lt;em&gt;main()&lt;/em&gt; 方法时，会在栈内存中创建一个空间来存储该方法的原语和引用。
+&lt;ul&gt;
+&lt;li&gt;栈内存直接存储整数的原始值 &lt;em&gt;id&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Person&lt;/em&gt; 类型的引用变量 &lt;em&gt;person&lt;/em&gt; 也将在栈空间中创建，它将指向堆中的实际对象。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;从 &lt;em&gt;main()&lt;/em&gt; 调用参数化构造函数 &lt;em&gt;Person(int, String)&lt;/em&gt; 将在前一个堆栈的顶部分配更多内存。将存储如下内容：
+&lt;ul&gt;
+&lt;li&gt;栈空间中调用对象的 &lt;em&gt;this&lt;/em&gt; 对象引用&lt;/li&gt;
+&lt;li&gt;栈空间中的原始值 &lt;em&gt;id&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;String&lt;/em&gt; 参数 &lt;em&gt;name&lt;/em&gt; 的引用变量将指向堆内存中字符串池中的实际字符串&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;main&lt;/em&gt; 方法进一步调用了 &lt;em&gt;buildPerson()&lt;/em&gt; 静态方法，其进一步分配将在前一个之上的栈空间中进行。这将再次以上述方式存储变量。&lt;/li&gt;
+&lt;li&gt;堆内存会存储新创建的 &lt;em&gt;Person&lt;/em&gt; 类型的 &lt;em&gt;person&lt;/em&gt; 的所有实例变量&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;实际在内存中的分配如下图：
+&lt;img src=&#34;https://www.baeldung.com/wp-content/uploads/2018/07/java-heap-stack-diagram.png&#34; alt=&#34;java堆栈图&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;4-小结&#34;&gt;&lt;strong&gt;4. 小结&lt;/strong&gt;&lt;/h2&gt;
+&lt;hr&gt;
+&lt;p&gt;让我们快速总结一下栈空间和堆空间的主要区别：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;参数&lt;/th&gt;
+&lt;th&gt;栈空间&lt;/th&gt;
+&lt;th&gt;堆空间&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;使用场景&lt;/td&gt;
+&lt;td&gt;在线程执行期间使用&lt;/td&gt;
+&lt;td&gt;整个应用程序在运行时使用堆空间&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;大小限制&lt;/td&gt;
+&lt;td&gt;栈空间有大小限制，具体取决于操作系统，通常小于堆空间&lt;/td&gt;
+&lt;td&gt;通常没有大小限制&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;存储内容&lt;/td&gt;
+&lt;td&gt;仅存储原始变量和在堆空间中创建的对象的引用&lt;/td&gt;
+&lt;td&gt;所有新创建的对象都存储在这里&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;存取顺序&lt;/td&gt;
+&lt;td&gt;它使用后进先出 (LIFO) 内存分配系统进行访问&lt;/td&gt;
+&lt;td&gt;该内存是通过复杂的内存管理技术访问的，主要包括新生代和老年代。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;生命周期&lt;/td&gt;
+&lt;td&gt;栈空间只在当前方法运行时才存在&lt;/td&gt;
+&lt;td&gt;只要应用程序运行，堆空间就存在&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;效率&lt;/td&gt;
+&lt;td&gt;与堆相比，分配速度要快得多&lt;/td&gt;
+&lt;td&gt;与堆栈相比分配更慢&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;分配和回收&lt;/td&gt;
+&lt;td&gt;当一个方法被调用和返回时，这个内存将被自动分配和回收&lt;/td&gt;
+&lt;td&gt;堆空间是在新对象创建时分配的，当它们不再被引用时将被回收&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;栈空间和堆空间是 Java 分配内存的两种基本方式，熟悉它们的工作原理，将有利于我们开发出高效运行的 Java 应用程序。&lt;/p&gt;
+</description>
+                
+                
+                
+                
+                
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://www.ifb.me/categories/java/">Java</category>
+                                
+                            
+                        
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://www.ifb.me/tags/jvm/">JVM</category>
+                                
+                            
+                        
+                    
+                
+            </item>
         
             <item>
                 <title>一文带你了解使用 Drools 规则引擎进行反向推理</title>
