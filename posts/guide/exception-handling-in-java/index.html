@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
+    <meta charset="UTF-8" />
+
+    <meta name="generator" content="Hugo 0.111.3"><meta name="theme-color" content="#fff" />
+    <meta name="color-scheme" content="light dark">
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <title>Java中的异常处理 | NoOne&#39;s Blog</title>
+
+    <link rel="stylesheet" href="/css/meme.min.0d421277bb1b1b2784b749893638f7ff33314c409c04ff0aa6cef1825b70dd55.css"/>
+
+    
+    
+        <script src="/js/meme.min.f9f004b0d1c105a483e80decca90c784b63c49fe9cf42563d6a63ec4c73d65de.js"></script>
+
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB&#43;Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Noto&#43;Serif&#43;SC:wght@400;500;700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" media="print" onload="this.media='all'" />
+        <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB&#43;Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Noto&#43;Serif&#43;SC:wght@400;500;700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" /></noscript>
+
+    <meta name="author" content="noone" /><meta name="description" content="1。概述 --------------- 在本教程中，我们将介绍 Java 中异常处理的基础知识及其一些陷阱。 2。第一原则 ----------------------- ###……" />
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#2a6df4" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="NoOne&#39;s Blog" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="NoOne&#39;s Blog" />
+    <meta name="msapplication-starturl" content="../../../" />
+    <meta name="msapplication-TileColor" content="#fff" />
+    <meta name="msapplication-TileImage" content="../../../icons/mstile-150x150.png" />
+    <link rel="manifest" href="/manifest.json" />
+
+    
+    
+
+    
+    <link rel="canonical" href="https://www.ifb.me/posts/guide/exception-handling-in-java/" />
+    
+
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "datePublished": "2023-03-23T11:18:11+08:00",
+        "dateModified": "2023-03-23T07:47:28+00:00",
+        "url": "https://www.ifb.me/posts/guide/exception-handling-in-java/",
+        "headline": "Java中的异常处理",
+        "description": "1。概述 --------------- 在本教程中，我们将介绍 Java 中异常处理的基础知识及其一些陷阱。 2。第一原则 ----------------------- ###……",
+        "inLanguage" : "zh-CN",
+        "articleSection": "posts",
+        "wordCount":  5999 ,
+        "image": "https://www.ifb.me/icons/apple-touch-icon.png",
+        "author": {
+            "@type": "Person",
+            "description": "日拱一卒，功不唐捐",
+            "email": "hunterzhang86@gmail.com",
+            "image": "https://www.ifb.me/icons/apple-touch-icon.png",
+            "url": "https://www.ifb.me/",
+            "name": "noone"
+        },
+        "license": "[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)",
+        "publisher": {
+            "@type": "Organization",
+            "name": "NoOne's Blog",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://www.ifb.me/icons/apple-touch-icon.png"
+            },
+            "url": "https://www.ifb.me/"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebSite",
+            "@id": "https://www.ifb.me/"
+        }
+    }
+</script>
+
+    
+
+<meta name="twitter:card" content="summary" />
+
+<meta name="twitter:creator" content="@noone" />
+
+    
+
+
+
+<meta property="og:title" content="Java中的异常处理" />
+<meta property="og:description" content="1。概述 --------------- 在本教程中，我们将介绍 Java 中异常处理的基础知识及其一些陷阱。 2。第一原则 ----------------------- ###……" />
+<meta property="og:url" content="https://www.ifb.me/posts/guide/exception-handling-in-java/" />
+<meta property="og:site_name" content="NoOne&#39;s Blog" />
+<meta property="og:locale" content="zh" /><meta property="og:image" content="https://www.ifb.me/icons/apple-touch-icon.png" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2023-03-23T11:18:11&#43;08:00" />
+    <meta property="article:modified_time" content="2023-03-23T07:47:28&#43;00:00" />
+    
+    <meta property="article:section" content="posts" />
+
+
+
+    
+    
+
+    
+</head>
+
+    <body>
+        <div class="container">
+            
+    <header class="header">
+        
+            <div class="header-wrapper">
+                <div class="header-inner single">
+                    
+    <div class="site-brand">
+        
+            <a href="/" class="brand">NoOne&#39;s Blog</a>
+        
+    </div>
+
+                    <nav class="nav">
+    <ul class="menu" id="menu">
+        
+            
+        
+        
+        
+        
+            
+                <li class="menu-item"><a href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="icon home"><path d="M280.37 148.26L96 300.11V464a16 16 0 0 0 16 16l112.06-.29a16 16 0 0 0 15.92-16V368a16 16 0 0 1 16-16h64a16 16 0 0 1 16 16v95.64a16 16 0 0 0 16 16.05L464 480a16 16 0 0 0 16-16V300L295.67 148.26a12.19 12.19 0 0 0-15.3 0zM571.6 251.47L488 182.56V44.05a12 12 0 0 0-12-12h-56a12 12 0 0 0-12 12v72.61L318.47 43a48 48 0 0 0-61 0L4.34 251.47a12 12 0 0 0-1.6 16.9l25.5 31A12 12 0 0 0 45.15 301l235.22-193.74a12.19 12.19 0 0 1 15.3 0L530.9 301a12 12 0 0 0 16.9-1.6l25.5-31a12 12 0 0 0-1.7-16.93z"/></svg><span class="menu-item-name">首页</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item active"><a href="/posts/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon archive"><path d="M32 448c0 17.7 14.3 32 32 32h384c17.7 0 32-14.3 32-32V160H32v288zm160-212c0-6.6 5.4-12 12-12h104c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12H204c-6.6 0-12-5.4-12-12v-8zM480 32H32C14.3 32 0 46.3 0 64v48c0 8.8 7.2 16 16 16h480c8.8 0 16-7.2 16-16V64c0-17.7-14.3-32-32-32z"/></svg><span class="menu-item-name">文章</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/categories/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon th"><path d="M149.333 56v80c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V56c0-13.255 10.745-24 24-24h101.333c13.255 0 24 10.745 24 24zm181.334 240v-80c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.256 0 24.001-10.745 24.001-24zm32-240v80c0 13.255 10.745 24 24 24H488c13.255 0 24-10.745 24-24V56c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24zm-32 80V56c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.256 0 24.001-10.745 24.001-24zm-205.334 56H24c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24zM0 376v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H24c-13.255 0-24 10.745-24 24zm386.667-56H488c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zm0 160H488c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zM181.333 376v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24z"/></svg><span class="menu-item-name">分类</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/tags/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" class="icon tags"><path d="M497.941 225.941L286.059 14.059A48 48 0 0 0 252.118 0H48C21.49 0 0 21.49 0 48v204.118a48 48 0 0 0 14.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882 0l204.118-204.118c18.745-18.745 18.745-49.137 0-67.882zM112 160c-26.51 0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882 0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397 0h48.721a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882z"/></svg><span class="menu-item-name">标签</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/about/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon user-circle"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"/></svg><span class="menu-item-name">关于</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href=""></a>
+                </li>
+            
+        
+            
+                
+            
+        
+            
+                
+            
+        
+    </ul>
+</nav>
+
+                    
+                </div>
+            </div>
+            
+    <input type="checkbox" id="nav-toggle" aria-hidden="true" />
+    <label for="nav-toggle" class="nav-toggle"></label>
+    <label for="nav-toggle" class="nav-curtain"></label>
+
+
+        
+    </header>
+
+
+
+
+            
+            
+    <main class="main single" id="main">
+    <div class="main-inner">
+
+        
+
+        <article class="content post h-entry" data-align="justify" data-type="posts" data-toc-num="true">
+
+            <h1 class="post-title p-name">Java中的异常处理</h1>
+
+            
+
+            
+                
+            
+
+            
+                
+
+<div class="post-meta">
+    
+        
+        <time datetime="2023-03-23T11:18:11&#43;08:00" class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"/></svg>&nbsp;2023.3.23</time>
+    
+    
+        
+        <time datetime="2023-03-23T07:47:28&#43;00:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;2023.3.23</time>
+    
+    
+    
+        
+        
+        
+            
+                <span class="post-meta-item category"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M464 128H272l-54.63-54.63c-6-6-14.14-9.37-22.63-9.37H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V176c0-26.51-21.49-48-48-48zm0 272H48V112h140.12l54.63 54.63c6 6 14.14 9.37 22.63 9.37H464v224z"/></svg>&nbsp;<a href="/categories/%E6%89%8B%E5%86%8C/" class="category-link p-category">手册</a></span>
+            
+        
+    
+    
+        
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;5999</span>
+    
+    
+        
+        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;12&nbsp;分钟</span>
+    
+    
+        
+            
+            <span class="post-meta-item busuanzi-page-pv" id="busuanzi_container_page_pv"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="icon post-meta-icon"><path d="M288 144a110.94 110.94 0 0 0-31.24 5 55.4 55.4 0 0 1 7.24 27 56 56 0 0 1-56 56 55.4 55.4 0 0 1-27-7.24A111.71 111.71 0 1 0 288 144zm284.52 97.4C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19zM288 400c-98.65 0-189.09-55-237.93-144C98.91 167 189.34 112 288 112s189.09 55 237.93 144C477.1 345 386.66 400 288 400z"/></svg>&nbsp;<span id="busuanzi_value_page_pv"></span></span>
+        
+    
+    
+</div>
+
+            
+
+            <div class="post-body e-content">
+                <p><strong>1。概述</strong> --------------- 在本教程中，我们将介绍 Java 中异常处理的基础知识及其一些陷阱。 <strong>2。第一原则</strong> ----------------------- ### <strong>2.1。它是什么？</strong> 为了更好地理解异常和异常处理，让我们做一个真实的比较。想象一下，我们在网上订购了一个产品，但是在途中，交付失败了。一家好的公司可以处理这个问题并优雅地重新安排我们的包裹，以便它仍然准时到达。同样，在 Java 中，代码在执行我们的指令时可能会遇到错误。良好的<em>异常处理</em>可以处理错误并优雅地重新路由程序，从而为用户提供积极的体验*。* ### <strong>2.2。为什么使用它？</strong> 我们通常在理想化的环境中编写代码：文件系统总是包含我们的文件，网络是健康的，JVM 总是有足够的内存。有时我们称之为“幸福之路”。但是，在生产环境中，文件系统可能会损坏、网络崩溃以及 JVM 内存不足。我们代码的健康取决于它如何处理“不愉快的路径”。我们必须处理这些情况，因为它们会对应用程序的流程产生负面影响并形成<em>异常</em>：<code>java  public static List&lt;Player&gt; getPlayers() throws IOException { Path path = Paths.get(&quot;players.dat&quot;) ; List&lt;String&gt; 播放器 = Files.readAllLines(path);返回 player.stream() .map(Player::new) .collect(Collectors.toList()); } </code> 此代码选择不处理 <em>IOException</em>，而是将其传递到调用堆栈。在理想化的环境中，代码可以正常工作。但是如果 <em>players.dat</em> 丢失，生产中会发生什么？ <code>java  线程“主”java.nio.file.NoSuchFileException 中的异常：players.dat &lt;--sun.nio.fs.WindowsException.translateToIOException(Unknown Source) 处的 sun.nio.fs 中不存在 player.dat 文件。 nio.fs.WindowsException.rethrowAsIOException(Unknown Source) // ... java.nio.file.Files.readAllLines(Unknown Source) at java.nio.file.Files.readAllLines(Unknown Source) at Exceptions 的更多堆栈跟踪。 getPlayers(Exceptions.java:12) &lt;-- getPlayers() 方法中出现异常，第 12 行 Exceptions.main(Exceptions.java:19) &lt;-- getPlayers() 由 main() 调用，第 19 行 ` `` **如果不处理此异常，原本健康的程序可能会完全停止运行！** 我们需要确保我们的代码有一个计划，以应对出现问题。还要注意这里对异常的另一个好处，那就是堆栈跟踪本身。由于这个堆栈跟踪，我们通常可以查明有问题的代码，而无需附加调试器。 **3。 Exception Hierarchy** -------------------------- 归根结底，*exceptions* 只是 Java 对象，它们都从 *Throwable* 扩展而来：` ``java  ---&gt; 可抛出 &lt;--- | （选中）| | | | | ---&gt; 异常错误 | （选中）（未选中）| RuntimeException (unchecked) </code> 异常情况主要分为三类： * Checked exceptions * Unchecked exceptions / Runtime exceptions * Errors <strong>Runtime 和 unchecked exceptions 指的是同一件事。我们经常可以互换使用它们。</strong> ### 3.1。 <strong>Checked Exceptions</strong> Checked 异常是 Java 编译器要求我们处理的异常。我们必须要么以声明方式将异常抛出调用堆栈，要么我们必须自己处理它。稍后会详细介绍这两种情况。 <a href="https://docs.oracle.com/javase/tutorial/essential/exceptions/runtime.html" target="_blank" rel="noopener">Oracle 的文档</a> 告诉我们在我们可以合理地期望我们的方法的调用者能够恢复时使用检查的异常。已检查异常的几个示例是 <em>IOException</em> 和 <em>ServletException.</em> ### <strong>3.2。未经检查的异常</strong>未经检查的异常是Java编译器<em>不</em>要求我们处理的异常。简单来说，如果我们创建了一个扩展 <em>RuntimeException</em> 的异常，它将被取消选中；否则，将被检查。虽然这听起来很方便，但 <a href="https://docs.oracle.com/javase/tutorial/essential/exceptions/runtime.html" target="_blank" rel="noopener">Oracle 的文档</a> 告诉我们这两个概念都有充分的理由，例如区分情境错误（选中）和使用错误（未选中）。未经检查的异常的一些示例是 <em>NullPointerException,</em> <em>IllegalArgumentException,</em> 和 <em>SecurityException</em>。 ### <strong>3.3。错误</strong> 错误表示严重且通常无法恢复的情况，例如库不兼容、无限递归或内存泄漏。即使它们没有扩展<em>RuntimeException</em>，它们也没有被选中。在大多数情况下，我们处理、实例化或扩展 <em>Errors</em> 会很奇怪。通常，我们希望这些一直向上传播。几个错误示例是 <em>StackOverflowError</em> 和 <em>OutOfMemoryError</em>。 <strong>4。处理异常</strong> -------------------------- 在 Java API 中，有很多地方会出错，其中一些在签名或 Javadoc 中标记有异常的地方：<code>java  /** * @exception FileNotFoundException ... */ public Scanner(String fileName) throws FileNotFoundException { // ... } </code> As前面说过，当我们调用这些“有风险的”方法时，我们<em>必须</em>处理已检查的异常，我们<em>可能</em>处理未检查的异常。 Java 为我们提供了几种方法来做到这一点：### <strong>4.1。 <em>throws</em></strong> “处理”异常的最简单方法是重新抛出它：<code>java  public int getPlayerScore(String playerFile) throws FileNotFoundException { Scanner contents = new Scanner(new File(playerFile)); return Integer.parseInt(contents.nextLine()); } </code> 因为<em>FileNotFoundException</em> 是一个检查异常，这是满足编译器的最简单的方法，但是<strong>这确实意味着调用我们方法的任何人现在也需要处理它！</strong> <em>parseInt</em> 可以抛出一个<em>NumberFormatException</em>，但是因为它没有被选中，所以我们不需要处理它。 ### <strong>4.2。 <em>try-catch</em></strong> 如果我们想自己尝试处理异常，我们可以使用 <em>try-catch</em> 块。我们可以通过重新抛出异常来处理它：<code>java  public int getPlayerScore(String playerFile) { try { Scanner contents = new Scanner(new File(playerFile)); return Integer.parseInt(contents.nextLine()); } catch (FileNotFoundException noFile) { throw new IllegalArgumentException(&quot;找不到文件&quot;); } } </code> 或者通过执行恢复步骤：<code>java  public int getPlayerScore(String playerFile) { try { Scanner contents = new Scanner(new File(playerFile)); return Integer.parseInt(contents.nextLine()); } catch ( FileNotFoundException noFile ) { logger.warn(&quot;文件未找到，正在重置分数。&quot;);返回0； } } </code> ### <strong>4.3. <em>finally</em></strong> 现在，有时我们需要执行代码，无论是否发生异常，这就是 <em>finally</em> 关键字的用武之地。在我们目前的示例中，有一个讨厌的错误潜伏在阴影中，即默认情况下Java不会将文件句柄返回给操作系统。当然，无论我们是否可以读取文件，我们都希望确保我们进行了适当的清理！让我们先试试这个“懒惰”的方式：<code>java  public int getPlayerScore(String playerFile) throws FileNotFoundException { Scanner contents = null;尝试 { 内容 = 新扫描仪（新文件（playerFile））； return Integer.parseInt(contents.nextLine()); } 最后 { if (contents != null) { contents.close(); } } } </code> 这里，<em>finally</em> 块指示我们希望 Java 运行什么代码，而不管尝试读取文件时会发生什么。即使 <em>FileNotFoundException</em> 被抛出调用堆栈，Java 也会在此之前调用 <em>finally</em> 的内容。我们也可以同时处理异常<em>和</em>确保我们的资源被关闭：<code>java  public int getPlayerScore(String playerFile) { Scanner contents;尝试 { 内容 = 新扫描仪（新文件（playerFile））； return Integer.parseInt(contents.nextLine()); } catch (FileNotFoundException noFile) { logger.warn(&quot;找不到文件，正在重置分数。&quot;);返回0； } 最后 { 尝试 { if (contents != null) { contents.close(); } } catch (IOException io) { logger.error(&quot;无法关闭阅读器！&quot;, io); } } } </code> <strong>因为 <em>close</em> 也是一个“有风险”的方法，我们还需要捕获它的异常！</strong> 这可能看起来很复杂，但我们需要每个部分来处理每个可能正确出现的潜在问题. ### <strong>4.4。 <em>try</em>-with-resources</strong> 幸运的是，从 Java 7 开始，我们可以在处理扩展 <em>AutoCloseable</em> 的内容时简化上述语法：<code>java  public int getPlayerScore(String playerFile) { try (Scanner contents =新扫描仪（新文件（playerFile）））{返回Integer.parseInt（contents.nextLine（））； } catch (FileNotFoundException e) { logger.warn(&quot;文件未找到，正在重置分数。&quot;);返回0； } } </code> 当我们在 <em>try</em> 声明中放置 <em>AutoClosable</em> 的引用时，我们不需要自己关闭资源。不过，我们仍然可以使用 <em>finally</em> 块来进行我们想要的任何其他类型的清理。查看我们专门针对 <a href="/java-try-with-resources"><em>try</em>-with-resources</a> 的文章以了解更多信息。 ### <strong>4.5。多个 <em>catch</em> 块</strong> 有时，代码可能会抛出多个异常，我们可以分别处理多个 <em>catch</em> 块：<code>java  public int getPlayerScore(String playerFile) { try (Scanner contents = new Scanner(new File(playerFile))) { return Integer.parseInt(contents.nextLine()); } catch (IOException e) { logger.warn(&quot;播放器文件无法加载！&quot;, e);返回0； } catch (NumberFormatException e) { logger.warn(&quot;播放器文件已损坏！&quot;, e);返回0； } } </code> 多个捕获让我们有机会在需要时以不同方式处理每个异常。还要注意，我们没有捕获 <em>FileNotFoundException</em> ，那是因为它 <em>extends IOException</em> 。因为我们正在捕获 <em>IOException</em>，Java 将认为它的任何子类也已处理。但是，假设我们需要将 <em>FileNotFoundException</em> 与更一般的 <em>IOException</em> 区别对待： <code>java  public int getPlayerScore(String playerFile) { try (Scanner contents = new Scanner(new File(playerFile)) ) { return Integer.parseInt(contents.nextLine()); } catch (FileNotFoundException e) { logger.warn(&quot;找不到播放器文件！&quot;, e);返回0； } catch (IOException e) { logger.warn(&quot;播放器文件无法加载！&quot;, e);返回0； } catch (NumberFormatException e) { logger.warn(&quot;播放器文件已损坏！&quot;, e);返回0； } } ``` Java 允许我们单独处理子类异常，**记得将它们放在捕获列表中更高的位置。** ### **4.6。 Union *catch* Blocks** 当我们知道我们处理错误的方式将是相同的时，Java 7 引入了在同一个块中捕获多个异常的能力：```java  public int getPlayerScore(String playerFile ) { try (Scanner contents = new Scanner(new File(playerFile))) { return Integer.parseInt(contents.nextLine()); } catch (IOException | NumberFormatException e) { logger.warn(&quot;加载分数失败！&quot;, e);返回0； } } ``` **5。 Throwing Exceptions** -------------------------- 如果我们不想自己处理异常或者我们想为其他人生成我们的异常要处理，那么我们需要熟悉 *throw* 关键字。假设我们有以下我们自己创建的检查异常：```java  public class TimeoutException extends Exception { public TimeoutException(String message) { super(message); } } ``` 我们有一个可能需要很长时间才能完成的方法：```java  public List&lt;Player&gt; loadAllPlayers(String playerFile) { // ... 可能很长的操作 } </code> ## # <strong>5.1。抛出检查异常</strong> 就像从方法返回一样，我们可以在任何时候<em>抛出</em>。当然，当我们试图指出出现问题时，我们应该抛出：<code>java  public List&lt;Player&gt; loadAllPlayers(String playerFile) throws TimeoutException { while ( !tooLong ) { // ... 潜在的长时间操作} throw new TimeoutException(&quot;此操作耗时过长&quot;); } </code> 因为检查了 <em>TimeoutException</em>，我们还必须在签名中使用 <em>throws</em> 关键字，以便我们方法的调用者知道要处理它。 ### <strong>5.2。 <em>抛出</em>未经检查的异常</strong>如果我们想做一些事情，比如验证输入，我们可以使用未经检查的异常：<code>java  public List&lt;Player&gt; loadAllPlayers(String playerFile) throws TimeoutException { if( !isFilenameValid(playersFile)) { throw new IllegalArgumentException(&quot;文件名无效！&quot;); } // ... } </code> 因为 <em>IllegalArgumentException</em> 未选中，所以我们不必标记方法，尽管我们很欢迎。无论如何，有些人将该方法标记为一种文档形式。 ### <strong>5.3。包装和重新抛出</strong> 我们也可以选择重新抛出我们捕获的异常：<code>java  public List&lt;Player&gt; loadAllPlayers(String playerFile) throws IOException { try { // ... } catch (IOException io) {抛出 io; } } </code> 或者做一个换行并重新抛出：<code>java  public List&lt;Player&gt; loadAllPlayers(String playerFile) throws PlayerLoadException { try { // ... } catch (IOException io) { throw new PlayerLoadException(io) ; } } </code> 这可以很好地将许多不同的异常合并为一个。 ### <strong>5.4。重新抛出 <em>Throwable</em> 或 <em>Exception</em></strong> 现在是特殊情况。如果给定代码块可能引发的唯一可能异常是 <em>unchecked</em> 异常，那么我们可以捕获并重新抛出 <em>Throwable</em> 或 <em>Exception</em> 而无需将它们添加到我们的方法签名中：<code>java  public List&lt;Player&gt; loadAllPlayers(String playerFile) { try { throw new NullPointerException(); } catch (Throwable t) { throw t; } } </code> 虽然很简单，但上面的代码不能抛出检查异常，因此，即使我们重新抛出检查异常，我们也不必用 <em>throws</em> 子句标记签名。 <strong>这对于代理类和方法很方便。</strong> 可以在 <a href="http://4comprehension.com/sneakily-throwing-exceptions-in-lambda-expressions-in-java/" target="_blank" rel="noopener">此处</a> 找到更多相关信息。 ### 5.5。 <strong>继承</strong> 当我们用 <em>throws</em> 关键字标记方法时，它会影响子类如何覆盖我们的方法。在我们的方法抛出检查异常的情况下：<code>java  public class Exceptions { public List&lt;Player&gt; loadAllPlayers(String playerFile) throws TimeoutException { // ... } } risky&quot; 签名：``java  public class FewerExceptions extends Exceptions { @Override public List&lt;Player&gt; loadAllPlayers(String playerFile) { // 被覆盖 } } </code> 但不是“<em>more</em>riskier”签名：<code>java  public class MoreExceptions extends Exceptions { @Override public List&lt;Player&gt; loadAllPlayers(String playerFile) throws MyCheckedException { // overridden } }</code> 这是因为合约在编译时由引用类型决定。如果我创建 <em>MoreExceptions</em> 的实例并将其保存到 <em>Exceptions</em>：<code>java  Exceptions exceptions = new MoreExceptions(); exceptions.loadAllPlayers(&quot;文件&quot;); </code> 然后 JVM 只会告诉我 <em>catch</em> <em>TimeoutException</em> ，这是错误的，因为我说过 <em>MoreExceptions#loadAllPlayers</em> 会引发不同的异常。 <strong>简而言之，子类可以比其超类抛出<em>更少</em>的检查异常，但不能<em>更多</em>。</strong> <strong>6。反模式</strong> -------------------- ### <strong>6.1。吞下异常</strong> 现在，我们可以通过另一种方式满足编译器的要求：<code>java  public int getPlayerScore(String playerFile) { try { // ... } catch (Exception e) {} // &lt;= = 捕获并吞下返回 0； } </code> <strong>以上称为</strong> <strong>吞入异常</strong> 。大多数时候，这样做对我们来说有点意思，因为它没有解决问题<em>并且</em>它也使其他代码无法解决问题。有时，我们确信不会发生已检查异常。 <strong>在这些情况下，我们至少应该添加一条注释，说明我们故意吃掉了异常</strong>：<code>java  public int getPlayerScore(String playerFile) { try { // ... } catch (IOException e) { // 这永远不会发生 } } </code> 我们可以“吞下”异常的另一种方法是简单地将异常打印到错误流中： <code>java  public int getPlayerScore(String playerFile) { try { // ... } catch (Exception e) { e.printStackTrace(); } 返回 0; }```我们至少通过在某处将错误写出来以供以后诊断，从而稍微改善了我们的情况。不过，我们最好使用记录器：```java  public int getPlayerScore(String playerFile) { try { // ... } catch (IOException e) { logger.error(&quot;Couldn't加载分数&quot;, e);返回0； } } ``` 虽然以这种方式处理异常对我们来说非常方便，但我们需要确保我们不会吞下代码调用者可以用来解决问题的重要信息。最后，当我们抛出一个新异常时，我们可以通过不将其作为原因来无意中吞下一个异常：```java  public int getPlayerScore(String playerFile) { try { // ... } catch (IOException e) {抛出新的 PlayerScoreException(); } } ``` 在这里，我们为提醒调用者一个错误而拍拍自己的后背，但是**我们没有将 *IOException* 作为原因。** 因此，我们丢失了调用者的重要信息或操作员可以用来诊断问题。我们最好这样做：```java  public int getPlayerScore(String playerFile) { try { // ... } catch (IOException e) { throw new PlayerScoreException(e); } } ``` 注意将 *IOException* 作为 *PlayerScoreException* 的 *cause* 的细微差别。 ### **6.2。在*finally*Block** 中使用*return* 吞下异常的另一种方法是从*finally* 块中*return*。这很糟糕，因为通过突然返回，JVM 将丢弃异常，即使它是由我们的代码抛出的：```java  public int getPlayerScore(String playerFile) { int score = 0;尝试 { 抛出新的 IOException(); } 最后 { 返回分数； // &lt;== IOException 被丢弃 } } ``` 根据 [Java 语言规范](https://docs.oracle.com/javase/specs/jls/se7/html/jls-14.html#jls -14.20.2): &gt; 如果 try 块的执行由于任何其他原因突然完成 *R*，则执行 finally 块，然后有一个选择。 &gt; &gt; 如果 *finally* 块正常完成，则 try 语句由于原因 R 突然完成。 &gt; &gt; 如果 *finally* 块由于原因 S 突然完成，则 try 语句由于原因 S 突然完成（并且原因 R 被丢弃）。 ### **6.3。在 *finally* 块中使用 *throw* 与在 *finally* 块中使用 *return* 类似，在 *finally* 块中抛出的异常将优先于在 catch 块中出现的异常。这将从 *try* 块中“删除”原始异常，并且我们会丢失所有有价值的信息：```java  public int getPlayerScore(String playerFile) { try { // ... } catch (IOException io) { 抛出新的 IllegalStateException(io); // &lt;== 被 finally 吃掉 } finally { throw new OtherException(); } } ``` ### **6.4.使用 *throw* 作为 *goto*** 一些人还接受了使用 *throw* 作为 *goto* 语句的诱惑： </code>java  public void doSomething() { try { // 一堆代码 throw new我的异常（）； // 第二组代码 } catch (MyException e) { // 第三组代码 } } ``` 这很奇怪，因为代码试图将异常用于流控制而不是错误处理。 <strong>7。常见异常和错误</strong> ----------------------------------- 下面是一些常见的异常和错误，我们不时遇到：### <strong>7.1。 Checked Exceptions</strong> * <em>IOException</em> -- 此异常通常是表示网络、文件系统或数据库上的某些内容失败的一种方式。 ### <strong>7.2。 RuntimeExceptions</strong> * <em>ArrayIndexOutOfBoundsException</em> -- 这个异常意味着我们试图访问一个不存在的数组索引，就像试图从一个长度为 3 的数组中获取索引 5 时一样。 * <em>ClassCastException --</em> 这个异常意味着我们尝试了执行非法强制转换，例如尝试将 <em>String</em> 转换为 <em>List</em> 。我们通常可以通过在施法前执行防御性 <em>instanceof</em> 检查来避免它。 * <em>IllegalArgumentException</em> - 这个异常是我们说提供的方法或构造函数参数之一无效的通用方式。 * <em>IllegalStateException</em> -- 这个异常是我们说我们的内部状态，就像我们的对象的状态一样，是无效的通用方式。 * <em>NullPointerException</em> -- 这个异常意味着我们试图引用一个 <em>null</em> 对象。我们通常可以通过执行防御性 <em>null</em> 检查或使用 <em>Optional.</em> * <em>NumberFormatException</em> 来避免它——这个异常意味着我们试图将 <em>String</em> 转换为数字，但字符串包含非法字符，例如试图将“5f3”转换为数字。 ### <strong>7.3。 Errors</strong> * <em>StackOverflowError --</em> 这个异常意味着堆栈跟踪太大。这有时会发生在大规模应用程序中；然而，这通常意味着我们的代码中发生了一些无限递归。 * <em>NoClassDefFoundError</em> - 这个异常意味着一个类由于不在类路径上或由于静态初始化失败而无法加载。 * <em>OutOfMemoryError</em> -- 这个异常意味着 JVM 没有更多的内存可以分配给更多的对象。有时，这是由于内存泄漏。 <strong>8。小结</strong> ----------------- 在本文中，我们已经了解了异常处理的基础知识以及一些好的和不好的实践示例。与往常一样，本文中的所有代码都可以在 [在 GitHub 上] (<a href="https://github.com/hunterzhang86/tutorials/tree/master/core-java-modules/core-java-exceptions" target="_blank" rel="noopener">https://github.com/hunterzhang86/tutorials/tree/master/core-java-modules/core-java-exceptions</a>) 找到！ Java 底层 ### <strong>通过 <em>Learn Spring</em> 课程开始使用 Spring 5 和 Spring Boot 2：</strong> <a href="/ls-course-end">&gt;&gt; 查看课程</a>** 通用页脚横幅！<a href="/wp-content/uploads/2016/05/baeldung-rest-post-footer-main-1.2.0.jpg">使用 SPRING 构建您的 API - 书籍封面</a> ！<a href="/wp-content/uploads/2016/05/baeldung-rest-post-footer-icn-1.0.0.png">使用 SPRING 构建您的 API - 图标</a> 学习使用 Spring 构建 API **？[下载电子书](/休息API弹簧指南）</p>
+
+            </div>
+
+            
+    
+    
+        <ul class="post-copyright">
+            <li class="copyright-item author"><span class="copyright-item-text">作者</span>：<a href="https://www.ifb.me/" class="p-author h-card" target="_blank" rel="noopener">noone</a></li>
+            
+                
+                
+                
+                
+                <li class="copyright-item link"><span class="copyright-item-text">链接</span>：<a href="/posts/guide/exception-handling-in-java/" target="_blank" rel="noopener">https://www.ifb.me/posts/guide/exception-handling-in-java/</a></li>
+            
+            <li class="copyright-item license"><span class="copyright-item-text">许可</span>：<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a></li>
+            
+        </ul>
+    
+
+
+
+        </article>
+
+        
+
+        
+    <div class="updated-badge-container">
+        <span title="Updated @ 2023-03-23 07:47:28 UTC" style="cursor:help">
+
+<p>更多分享请扫描二维码关注微信公众号 <em><strong>NoOneNoOne</strong></em></p>
+<p><img src="https://blog.fflow.link/images/qrcode.jpeg" alt=""></p>
+
+<svg xmlns="http://www.w3.org/2000/svg" width="130" height="20" class="updated-badge"><linearGradient id="b" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="a"><rect width="130" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#a)"><path class="updated-badge-left" d="M0 0h55v20H0z"/><path class="updated-badge-right" d="M55 0h75v20H55z"/><path fill="url(#b)" d="M0 0h130v20H0z"/></g><g fill="#fff" text-anchor="middle" font-size="110"><text x="285" y="150" fill="#010101" fill-opacity=".3" textLength="450" transform="scale(.1)">updated</text><text x="285" y="140" textLength="450" transform="scale(.1)">updated</text><text x="915" y="150" fill="#010101" fill-opacity=".3" textLength="650" transform="scale(.1)">2023-03-23</text><text x="915" y="140" textLength="650" transform="scale(.1)">2023-03-23</text></g></svg>
+        </span></div>
+
+
+
+        
+
+
+        <div class="post-share">
+
+        
+
+        <div class="share-items">
+
+            
+                <div class="share-item twitter">
+                    
+                    <a href="https://twitter.com/share?url=https://www.ifb.me/posts/guide/exception-handling-in-java/&amp;text=Java%e4%b8%ad%e7%9a%84%e5%bc%82%e5%b8%b8%e5%a4%84%e7%90%86&amp;hashtags=&amp;via=" title="分享到「Twitter」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item facebook">
+                    
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.ifb.me/posts/guide/exception-handling-in-java/&amp;hashtag=%23" title="分享到「Facebook」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon facebook-icon"><path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item linkedin">
+                    
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.ifb.me/posts/guide/exception-handling-in-java/&amp;title=Java%e4%b8%ad%e7%9a%84%e5%bc%82%e5%b8%b8%e5%a4%84%e7%90%86&amp;summary=1%e3%80%82%e6%a6%82%e8%bf%b0%20---------------%20%e5%9c%a8%e6%9c%ac%e6%95%99%e7%a8%8b%e4%b8%ad%ef%bc%8c%e6%88%91%e4%bb%ac%e5%b0%86%e4%bb%8b%e7%bb%8d%20Java%20%e4%b8%ad%e5%bc%82%e5%b8%b8%e5%a4%84%e7%90%86%e7%9a%84%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86%e5%8f%8a%e5%85%b6%e4%b8%80%e4%ba%9b%e9%99%b7%e9%98%b1%e3%80%82%202%e3%80%82%e7%ac%ac%e4%b8%80%e5%8e%9f%e5%88%99%20-----------------------%20###%e2%80%a6%e2%80%a6&amp;source=NoOne%27s%20Blog" title="分享到「LinkedIn」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item telegram">
+                    
+                    <a href="https://t.me/share/url?url=https://www.ifb.me/posts/guide/exception-handling-in-java/&amp;text=Java%e4%b8%ad%e7%9a%84%e5%bc%82%e5%b8%b8%e5%a4%84%e7%90%86" title="分享到「Telegram」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon telegram-icon"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm121.8 169.9l-40.7 191.8c-3 13.6-11.1 16.9-22.4 10.5l-62-45.7-29.9 28.8c-3.3 3.3-6.1 6.1-12.5 6.1l4.4-63.1 114.9-103.8c5-4.4-1.1-6.9-7.7-2.5l-142 89.4-61.2-19.1c-13.3-4.2-13.6-13.3 2.8-19.7l239.1-92.2c11.1-4 20.8 2.7 17.2 19.5z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item weibo">
+                    
+                    <a href="https://service.weibo.com/share/share.php?&amp;url=https://www.ifb.me/posts/guide/exception-handling-in-java/&amp;title=Java%e4%b8%ad%e7%9a%84%e5%bc%82%e5%b8%b8%e5%a4%84%e7%90%86&amp;pic=https://www.ifb.me/icons/apple-touch-icon.png&amp;searchPic=false" title="分享到「新浪微博」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon weibo-icon"><path d="M407 177.6c7.6-24-13.4-46.8-37.4-41.7-22 4.8-28.8-28.1-7.1-32.8 50.1-10.9 92.3 37.1 76.5 84.8-6.8 21.2-38.8 10.8-32-10.3zM214.8 446.7C108.5 446.7 0 395.3 0 310.4c0-44.3 28-95.4 76.3-143.7C176 67 279.5 65.8 249.9 161c-4 13.1 12.3 5.7 12.3 6 79.5-33.6 140.5-16.8 114 51.4-3.7 9.4 1.1 10.9 8.3 13.1 135.7 42.3 34.8 215.2-169.7 215.2zm143.7-146.3c-5.4-55.7-78.5-94-163.4-85.7-84.8 8.6-148.8 60.3-143.4 116s78.5 94 163.4 85.7c84.8-8.6 148.8-60.3 143.4-116zM347.9 35.1c-25.9 5.6-16.8 43.7 8.3 38.3 72.3-15.2 134.8 52.8 111.7 124-7.4 24.2 29.1 37 37.4 12 31.9-99.8-55.1-195.9-157.4-174.3zm-78.5 311c-17.1 38.8-66.8 60-109.1 46.3-40.8-13.1-58-53.4-40.3-89.7 17.7-35.4 63.1-55.4 103.4-45.1 42 10.8 63.1 50.2 46 88.5zm-86.3-30c-12.9-5.4-30 .3-38 12.9-8.3 12.9-4.3 28 8.6 34 13.1 6 30.8.3 39.1-12.9 8-13.1 3.7-28.3-9.7-34zm32.6-13.4c-5.1-1.7-11.4.6-14.3 5.4-2.9 5.1-1.4 10.6 3.7 12.9 5.1 2 11.7-.3 14.6-5.4 2.8-5.2 1.1-10.9-4-12.9z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item douban">
+                    
+                    <a href="https://www.douban.com/share/service?href=https://www.ifb.me/posts/guide/exception-handling-in-java/&amp;name=Java%e4%b8%ad%e7%9a%84%e5%bc%82%e5%b8%b8%e5%a4%84%e7%90%86&amp;text=1%e3%80%82%e6%a6%82%e8%bf%b0%20---------------%20%e5%9c%a8%e6%9c%ac%e6%95%99%e7%a8%8b%e4%b8%ad%ef%bc%8c%e6%88%91%e4%bb%ac%e5%b0%86%e4%bb%8b%e7%bb%8d%20Java%20%e4%b8%ad%e5%bc%82%e5%b8%b8%e5%a4%84%e7%90%86%e7%9a%84%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86%e5%8f%8a%e5%85%b6%e4%b8%80%e4%ba%9b%e9%99%b7%e9%98%b1%e3%80%82%202%e3%80%82%e7%ac%ac%e4%b8%80%e5%8e%9f%e5%88%99%20-----------------------%20###%e2%80%a6%e2%80%a6" title="分享到「豆瓣」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon douban-icon"><path d="M.643.92v2.412h22.714V.92H.643zm1.974 4.926v9.42h18.764v-9.42H2.617zm2.72 2.408H18.69v4.605H5.338V8.254zm1.657 7.412l-2.512.938c1.037 1.461 1.87 2.825 2.512 4.091H0v2.385h24v-2.385h-6.678c.818-1.176 1.589-2.543 2.303-4.091l-2.73-.938a29.952 29.952 0 01-2.479 5.03h-4.75c-.786-1.962-1.677-3.641-2.672-5.03Z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item qq">
+                    
+                    <a href="https://connect.qq.com/widget/shareqq/index.html?url=https://www.ifb.me/posts/guide/exception-handling-in-java/&amp;title=Java%e4%b8%ad%e7%9a%84%e5%bc%82%e5%b8%b8%e5%a4%84%e7%90%86&amp;summary=1%e3%80%82%e6%a6%82%e8%bf%b0%20---------------%20%e5%9c%a8%e6%9c%ac%e6%95%99%e7%a8%8b%e4%b8%ad%ef%bc%8c%e6%88%91%e4%bb%ac%e5%b0%86%e4%bb%8b%e7%bb%8d%20Java%20%e4%b8%ad%e5%bc%82%e5%b8%b8%e5%a4%84%e7%90%86%e7%9a%84%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86%e5%8f%8a%e5%85%b6%e4%b8%80%e4%ba%9b%e9%99%b7%e9%98%b1%e3%80%82%202%e3%80%82%e7%ac%ac%e4%b8%80%e5%8e%9f%e5%88%99%20-----------------------%20###%e2%80%a6%e2%80%a6&amp;pics=https://www.ifb.me/icons/apple-touch-icon.png&amp;site=NoOne%27s%20Blog" title="分享到「QQ」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon qq-icon"><path d="M433.754 420.445c-11.526 1.393-44.86-52.741-44.86-52.741 0 31.345-16.136 72.247-51.051 101.786 16.842 5.192 54.843 19.167 45.803 34.421-7.316 12.343-125.51 7.881-159.632 4.037-34.122 3.844-152.316 8.306-159.632-4.037-9.045-15.25 28.918-29.214 45.783-34.415-34.92-29.539-51.059-70.445-51.059-101.792 0 0-33.334 54.134-44.859 52.741-5.37-.65-12.424-29.644 9.347-99.704 10.261-33.024 21.995-60.478 40.144-105.779C60.683 98.063 108.982.006 224 0c113.737.006 163.156 96.133 160.264 214.963 18.118 45.223 29.912 72.85 40.144 105.778 21.768 70.06 14.716 99.053 9.346 99.704z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item qzone">
+                    
+                    <a href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.ifb.me/posts/guide/exception-handling-in-java/&amp;title=Java%e4%b8%ad%e7%9a%84%e5%bc%82%e5%b8%b8%e5%a4%84%e7%90%86&amp;summary=1%e3%80%82%e6%a6%82%e8%bf%b0%20---------------%20%e5%9c%a8%e6%9c%ac%e6%95%99%e7%a8%8b%e4%b8%ad%ef%bc%8c%e6%88%91%e4%bb%ac%e5%b0%86%e4%bb%8b%e7%bb%8d%20Java%20%e4%b8%ad%e5%bc%82%e5%b8%b8%e5%a4%84%e7%90%86%e7%9a%84%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86%e5%8f%8a%e5%85%b6%e4%b8%80%e4%ba%9b%e9%99%b7%e9%98%b1%e3%80%82%202%e3%80%82%e7%ac%ac%e4%b8%80%e5%8e%9f%e5%88%99%20-----------------------%20###%e2%80%a6%e2%80%a6&amp;pics=https://www.ifb.me/icons/apple-touch-icon.png&amp;site=NoOne%27s%20Blog" title="分享到「QQ 空间」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon qzone-icon"><path d="M23.985 9.202c-.032-.099-.127-.223-.334-.258-.207-.036-7.351-1.406-7.351-1.406s-.105-.022-.198-.07c-.092-.047-.127-.167-.127-.167S12.447.956 12.349.77C12.25.583 12.104.532 12 .532c-.104 0-.251.051-.349.238-.098.186-3.626 6.531-3.626 6.531s-.035.12-.128.167c-.092.047-.197.07-.197.07S.556 8.908.348 8.943c-.208.036-.302.16-.333.258a.477.477 0 0 0 .125.449l5.362 5.49s.072.08.119.172c.016.104.005.21.005.21s-1.189 7.242-1.22 7.45.075.369.159.43c.083.062.233.106.421.013.189-.093 6.812-3.261 6.812-3.261s.098-.044.201-.061c.103-.017.201.061.201.061s6.623 3.168 6.812 3.261c.188.094.338.049.421-.013a.463.463 0 0 0 .159-.43c-.021-.14-.93-5.677-.93-5.677.876-.54 1.425-1.039 1.849-1.747-2.594.969-6.006 1.717-9.415 1.866-.915.041-2.41.097-3.473-.015-.678-.071-1.17-.144-1.243-.438-.053-.215.054-.46.545-.831a2640.5 2640.5 0 0 1 2.861-2.155c1.285-.968 3.559-2.47 3.559-2.731 0-.285-2.144-.781-4.037-.781-1.945 0-2.275.132-2.811.168-.488.034-.769.005-.804-.138-.06-.248.183-.389.588-.568.709-.314 1.86-.594 1.984-.626.194-.052 3.082-.805 5.618-.535 1.318.14 3.244.668 3.244 1.276 0 .342-1.721 1.494-3.225 2.597-1.149.843-2.217 1.561-2.217 1.688 0 .342 3.533 1.241 6.689 1.01l.003-.022c.048-.092.119-.172.119-.172l5.362-5.49a.477.477 0 0 0 .127-.449z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item qrcode">
+                    <div class="qrcode-container" title="通过「二维码」"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon qrcode-icon"><path d="M0 224h192V32H0v192zM64 96h64v64H64V96zm192-64v192h192V32H256zm128 128h-64V96h64v64zM0 480h192V288H0v192zm64-128h64v64H64v-64zm352-64h32v128h-96v-32h-32v96h-64V288h96v32h64v-32zm0 160h32v32h-32v-32zm-64 0h32v32h-32v-32z"/></svg><div id="qrcode-img"></div>
+                    </div>
+                    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+
+<script>
+    const typeNumber = 0;
+    const errorCorrectionLevel = 'L';
+    const qr = qrcode(typeNumber, errorCorrectionLevel);
+    qr.addData('https:\/\/www.ifb.me\/posts\/guide\/exception-handling-in-java\/');
+    qr.make();
+    document.getElementById('qrcode-img').innerHTML = qr.createImgTag();
+</script>
+
+                </div>
+            
+
+        </div>
+
+    </div>
+
+
+
+
+        
+    
+    
+        <div class="related-posts">
+            <h2 class="related-title">相关文章：<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon related-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"/></svg></h2>
+            <ul class="related-list">
+                
+                    <li class="related-item">
+                        <a href="/posts/guide/difference-between-expose-and-ports-in-docker-compose/" class="related-link">Docker Compose 中的 Expose 和 Ports 的区别</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/guide/format-instant-to-string-in-java/" class="related-link">在 Java 中将 Instant 格式化为字符串</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/guide/compare-two-json-objects-with-gson/" class="related-link">用 Gson 比较两个 JSON 对象</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/guide/java-streams/" class="related-link">Java 流</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/guide/differences-between-oracle-jdk-and-openjdk/" class="related-link">Oracle JDK 和 OpenJDK 的区别</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
+
+
+
+        
+    
+
+
+
+        
+
+
+        
+
+
+        
+    
+        
+        
+    
+    
+    
+    
+        <ul class="post-nav">
+            
+            
+                <li class="post-nav-next">
+                    <a href="/posts/guide/difference-between-expose-and-ports-in-docker-compose/" rel="next">Docker Compose 中的 Expose 和 Ports 的区别 &gt;</a>
+                </li>
+            
+        </ul>
+    
+
+
+
+        
+
+
+    </div>
+</main>
+
+
+            
+    <div id="back-to-top" class="back-to-top">
+        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon arrow-up"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg></a>
+    </div>
+
+
+            
+    <footer id="footer" class="footer">
+        <div class="footer-inner">
+            <div class="site-info">©&nbsp;2020–2023&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;noone</div><div class="site-copyright"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a></div>
+                <div class="busuanzi-site-uv-and-pv">
+                    <span id="busuanzi_container_site_uv">本站访客数&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon busuanzi-site-uv"><path d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z"/></svg>&nbsp;<span id="busuanzi_value_site_uv"></span></span>&nbsp;|&nbsp;<span id="busuanzi_container_site_pv">本站访问量&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="icon busuanzi-site-pv"><path d="M288 144a110.94 110.94 0 0 0-31.24 5 55.4 55.4 0 0 1 7.24 27 56 56 0 0 1-56 56 55.4 55.4 0 0 1-27-7.24A111.71 111.71 0 1 0 288 144zm284.52 97.4C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19zM288 400c-98.65 0-189.09-55-237.93-144C98.91 167 189.34 112 288 112s189.09 55 237.93 144C477.1 345 386.66 400 288 400z"/></svg>&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+                </div>
+
+            
+    
+        <ul class="socials"><li class="socials-item">
+                    <a href="/rss.xml" target="_blank" rel="external noopener" title="RSS"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M19.199 24C19.199 13.467 10.533 4.8 0 4.8V0c13.165 0 24 10.835 24 24h-4.801zM3.291 17.415c1.814 0 3.293 1.479 3.293 3.295 0 1.813-1.485 3.29-3.301 3.29C1.47 24 0 22.526 0 20.71s1.475-3.294 3.291-3.295zM15.909 24h-4.665c0-6.169-5.075-11.245-11.244-11.245V8.09c8.727 0 15.909 7.184 15.909 15.91z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="mailto:hunterzhang86@gmail.com" target="_blank" rel="external noopener" title="Email"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon social-icon"><path d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://github.com/hunterzhang86" target="_blank" rel="external noopener" title="GitHub"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+                </li></ul>
+    
+
+
+
+            
+        </div>
+    </footer>
+
+
+        </div>
+        
+
+        
+
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js"></script>
+
+<script>
+    let imgNodes = document.querySelectorAll('div.post-body img');
+    imgNodes = Array.from(imgNodes).filter(node => node.parentNode.tagName !== "A");
+
+    mediumZoom(imgNodes, {
+        background: 'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'
+    })
+</script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js" type="module" defer></script>
+
+
+
+    
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+
+
+
+    </body>
+</html>
