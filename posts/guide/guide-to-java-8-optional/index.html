@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
+    <meta charset="UTF-8" />
+
+    <meta name="generator" content="Hugo 0.111.3"><meta name="theme-color" content="#fff" />
+    <meta name="color-scheme" content="light dark">
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <title>Java 8 指南可选 | NoOne&#39;s Blog</title>
+
+    <link rel="stylesheet" href="/css/meme.min.0d421277bb1b1b2784b749893638f7ff33314c409c04ff0aa6cef1825b70dd55.css"/>
+
+    
+    
+        <script src="/js/meme.min.f9f004b0d1c105a483e80decca90c784b63c49fe9cf42563d6a63ec4c73d65de.js"></script>
+
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB&#43;Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Noto&#43;Serif&#43;SC:wght@400;500;700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" media="print" onload="this.media='all'" />
+        <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB&#43;Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Noto&#43;Serif&#43;SC:wght@400;500;700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" /></noscript>
+
+    <meta name="author" content="noone" /><meta name="description" content="1。概述 --------------- 在本教程中，我们将展示 Java 8 中引入的 Optional 类。该类的目的是提供一个类型表示可选值……" />
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#2a6df4" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="NoOne&#39;s Blog" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="NoOne&#39;s Blog" />
+    <meta name="msapplication-starturl" content="../../../" />
+    <meta name="msapplication-TileColor" content="#fff" />
+    <meta name="msapplication-TileImage" content="../../../icons/mstile-150x150.png" />
+    <link rel="manifest" href="/manifest.json" />
+
+    
+    
+
+    
+    <link rel="canonical" href="https://www.ifb.me/posts/guide/guide-to-java-8-optional/" />
+    
+
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "datePublished": "2023-04-06T07:18:11+08:00",
+        "dateModified": "2023-04-05T23:47:41+00:00",
+        "url": "https://www.ifb.me/posts/guide/guide-to-java-8-optional/",
+        "headline": "Java 8 指南可选",
+        "description": "1。概述 --------------- 在本教程中，我们将展示 Java 8 中引入的 Optional 类。该类的目的是提供一个类型表示可选值……",
+        "inLanguage" : "zh-CN",
+        "articleSection": "posts",
+        "wordCount":  7278 ,
+        "image": ["https://www.ifb.me/wp-content/uploads/2016/05/baeldung-rest-post-footer-main-1.2.0.jpg","https://www.ifb.me/wp-content/uploads/2016/05/baeldung-rest-post-footer-icn-1.0.0.png"],
+        "author": {
+            "@type": "Person",
+            "description": "日拱一卒，功不唐捐",
+            "email": "hunterzhang86@gmail.com",
+            "image": "https://www.ifb.me/icons/apple-touch-icon.png",
+            "url": "https://www.ifb.me/",
+            "name": "noone"
+        },
+        "license": "[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)",
+        "publisher": {
+            "@type": "Organization",
+            "name": "NoOne's Blog",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://www.ifb.me/icons/apple-touch-icon.png"
+            },
+            "url": "https://www.ifb.me/"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebSite",
+            "@id": "https://www.ifb.me/"
+        }
+    }
+</script>
+
+    
+
+<meta name="twitter:card" content="summary_large_image" />
+
+
+<meta name="twitter:creator" content="@noone" />
+
+    
+
+
+
+<meta property="og:title" content="Java 8 指南可选" />
+<meta property="og:description" content="1。概述 --------------- 在本教程中，我们将展示 Java 8 中引入的 Optional 类。该类的目的是提供一个类型表示可选值……" />
+<meta property="og:url" content="https://www.ifb.me/posts/guide/guide-to-java-8-optional/" />
+<meta property="og:site_name" content="NoOne&#39;s Blog" />
+<meta property="og:locale" content="zh" /><meta property="og:image" content="https://www.ifb.me/wp-content/uploads/2016/05/baeldung-rest-post-footer-main-1.2.0.jpg" />
+<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2023-04-06T07:18:11&#43;08:00" />
+    <meta property="article:modified_time" content="2023-04-05T23:47:41&#43;00:00" />
+    
+    <meta property="article:section" content="posts" />
+
+
+
+    
+    
+
+    
+</head>
+
+    <body>
+        <div class="container">
+            
+    <header class="header">
+        
+            <div class="header-wrapper">
+                <div class="header-inner single">
+                    
+    <div class="site-brand">
+        
+            <a href="/" class="brand">NoOne&#39;s Blog</a>
+        
+    </div>
+
+                    <nav class="nav">
+    <ul class="menu" id="menu">
+        
+            
+        
+        
+        
+        
+            
+                <li class="menu-item"><a href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="icon home"><path d="M280.37 148.26L96 300.11V464a16 16 0 0 0 16 16l112.06-.29a16 16 0 0 0 15.92-16V368a16 16 0 0 1 16-16h64a16 16 0 0 1 16 16v95.64a16 16 0 0 0 16 16.05L464 480a16 16 0 0 0 16-16V300L295.67 148.26a12.19 12.19 0 0 0-15.3 0zM571.6 251.47L488 182.56V44.05a12 12 0 0 0-12-12h-56a12 12 0 0 0-12 12v72.61L318.47 43a48 48 0 0 0-61 0L4.34 251.47a12 12 0 0 0-1.6 16.9l25.5 31A12 12 0 0 0 45.15 301l235.22-193.74a12.19 12.19 0 0 1 15.3 0L530.9 301a12 12 0 0 0 16.9-1.6l25.5-31a12 12 0 0 0-1.7-16.93z"/></svg><span class="menu-item-name">首页</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item active"><a href="/posts/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon archive"><path d="M32 448c0 17.7 14.3 32 32 32h384c17.7 0 32-14.3 32-32V160H32v288zm160-212c0-6.6 5.4-12 12-12h104c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12H204c-6.6 0-12-5.4-12-12v-8zM480 32H32C14.3 32 0 46.3 0 64v48c0 8.8 7.2 16 16 16h480c8.8 0 16-7.2 16-16V64c0-17.7-14.3-32-32-32z"/></svg><span class="menu-item-name">文章</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/categories/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon th"><path d="M149.333 56v80c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V56c0-13.255 10.745-24 24-24h101.333c13.255 0 24 10.745 24 24zm181.334 240v-80c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.256 0 24.001-10.745 24.001-24zm32-240v80c0 13.255 10.745 24 24 24H488c13.255 0 24-10.745 24-24V56c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24zm-32 80V56c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.256 0 24.001-10.745 24.001-24zm-205.334 56H24c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24zM0 376v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H24c-13.255 0-24 10.745-24 24zm386.667-56H488c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zm0 160H488c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zM181.333 376v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24z"/></svg><span class="menu-item-name">分类</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/tags/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" class="icon tags"><path d="M497.941 225.941L286.059 14.059A48 48 0 0 0 252.118 0H48C21.49 0 0 21.49 0 48v204.118a48 48 0 0 0 14.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882 0l204.118-204.118c18.745-18.745 18.745-49.137 0-67.882zM112 160c-26.51 0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882 0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397 0h48.721a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882z"/></svg><span class="menu-item-name">标签</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/about/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon user-circle"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"/></svg><span class="menu-item-name">关于</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href=""></a>
+                </li>
+            
+        
+            
+                
+            
+        
+            
+                
+            
+        
+    </ul>
+</nav>
+
+                    
+                </div>
+            </div>
+            
+    <input type="checkbox" id="nav-toggle" aria-hidden="true" />
+    <label for="nav-toggle" class="nav-toggle"></label>
+    <label for="nav-toggle" class="nav-curtain"></label>
+
+
+        
+    </header>
+
+
+
+
+            
+            
+    <main class="main single" id="main">
+    <div class="main-inner">
+
+        
+
+        <article class="content post h-entry" data-align="justify" data-type="posts" data-toc-num="true">
+
+            <h1 class="post-title p-name">Java 8 指南可选</h1>
+
+            
+
+            
+                
+            
+
+            
+                
+
+<div class="post-meta">
+    
+        
+        <time datetime="2023-04-06T07:18:11&#43;08:00" class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"/></svg>&nbsp;2023.4.6</time>
+    
+    
+        
+        <time datetime="2023-04-05T23:47:41&#43;00:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;2023.4.5</time>
+    
+    
+    
+        
+        
+        
+            
+                <span class="post-meta-item category"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M464 128H272l-54.63-54.63c-6-6-14.14-9.37-22.63-9.37H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V176c0-26.51-21.49-48-48-48zm0 272H48V112h140.12l54.63 54.63c6 6 14.14 9.37 22.63 9.37H464v224z"/></svg>&nbsp;<a href="/categories/%E6%89%8B%E5%86%8C/" class="category-link p-category">手册</a></span>
+            
+        
+    
+    
+        
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;7278</span>
+    
+    
+        
+        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;15&nbsp;分钟</span>
+    
+    
+        
+            
+            <span class="post-meta-item busuanzi-page-pv" id="busuanzi_container_page_pv"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="icon post-meta-icon"><path d="M288 144a110.94 110.94 0 0 0-31.24 5 55.4 55.4 0 0 1 7.24 27 56 56 0 0 1-56 56 55.4 55.4 0 0 1-27-7.24A111.71 111.71 0 1 0 288 144zm284.52 97.4C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19zM288 400c-98.65 0-189.09-55-237.93-144C98.91 167 189.34 112 288 112s189.09 55 237.93 144C477.1 345 386.66 400 288 400z"/></svg>&nbsp;<span id="busuanzi_value_page_pv"></span></span>
+        
+    
+    
+</div>
+
+            
+
+            <div class="post-body e-content">
+                <p><strong>1。概述</strong> --------------- 在本教程中，我们将展示 Java 8 中引入的 <em>Optional</em> 类。该类的目的是提供一个类型表示可选值而不是 <em>null</em> 引用的级解决方案。要更深入地了解为什么我们应该关心 <em>Optional</em> 类，请查看 [Oracle 官方文章](<a href="http://www.oracle.com/technetwork/articles/java/java8-optional-2175753" target="_blank" rel="noopener">http://www.oracle.com/technetwork/articles/java/java8-optional-2175753</a>. html).延伸阅读：---------------- <a href="/java-optional-return">Java Optional as Return Type</a> ---------------- ------------------------------------- 了解最佳实践以及何时在 Java 中返回 Optional 类型. <a href="/java-optional-return">阅读更多</a> → <a href="/java-optional-or-else-vs-or-else-get">Java 可选 -- orElse() 与 orElseGet()</a> ------ -------------------------------------------------- ------------------------- 探索 Optional orElse() 和 OrElseGet() 方法之间的区别。 <a href="/java-optional-or-else-vs-or-else-get">阅读更多</a> → <a href="/java-filter-stream-of-optional">过滤 Java 中的选项流</a> ------ -------------------------------------------------- ------------------ 在 Java 8 和 Java 9 中过滤可选流的快速实用指南 <a href="/java-filter-stream-of-optional">阅读更多</a> → <strong>2。创建 <em>Optional</em> 对象</strong> ---------------------------------- 创建 <em>Optional</em> 的方法有多种对象。要创建一个空的 <em>Optional</em> 对象，我们只需要使用它的 <em>empty()</em> 静态方法： <code>java  @Test public void whenCreatesEmptyOptional_thenCorrect() { Optional&lt;String&gt; empty = Optional.empty(); assertFalse(empty.isPresent()); } </code> 请注意，我们使用 <em>isPresent()</em> 方法来检查 <em>Optional</em> 对象中是否有值。仅当我们使用非 <em>null</em> 值创建 <em>Optional</em> 时才存在值。我们将在下一节中查看 <em>isPresent()</em> 方法。我们还可以使用静态方法 <em>of()</em> 创建一个 <em>Optional</em> 对象：<code>java  @Test public void givenNonNull_whenCreatesNonNullable_thenCorrect() { String name = &quot;baeldung&quot;;可选&lt;String&gt; opt = Optional.of(name); assertTrue(opt.isPresent()); } </code> 但是，传递给 <em>of()</em> 方法的参数不能为 <em>null。</em> 否则，我们将得到 <em>NullPointerException</em>: <code>java  @Test(expected = NullPointerException.class) public void givenNull_whenThrowsErrorOnCreate_thenCorrect() { String name = null; Optional.of(name); } ``` 但是如果我们期望一些 *null* 值，我们可以使用 *ofNullable()* 方法： ```java  @Test public void givenNonNull_whenCreatesNullable_thenCorrect() { String name = &quot;baeldung&quot;;可选&lt;String&gt; opt = Optional.ofNullable(name); assertTrue(opt.isPresent()); } ``` 通过这样做，如果我们传入一个 *null* 引用，它不会抛出异常，而是返回一个空的 *Optional* 对象：```java  @Test public void givenNull_whenCreatesNullable_thenCorrect() { String name =空；可选&lt;String&gt; opt = Optional.ofNullable(name);断言假（opt.isPresent（））； } ``` **3。检查值是否存在：*isPresent()* 和 *isEmpty()*** --------------------------------- ---------------------------- 当我们有一个从方法返回或由我们创建的 *Optional* 对象时，我们可以检查是否存在*isPresent()* 方法是否是其中的值：```java  @Test public void givenOptional_whenIsPresentWorks_thenCorrect() { Optional&lt;String&gt; opt = Optional.of(&quot;Baeldung&quot;); assertTrue(opt.isPresent()); opt = Optional.ofNullable(null);断言假（opt.isPresent（））；如果包装的值不是 *null，则此方法返回 *true*。此外，从 Java 11 开始，我们可以使用 *isEmpty* 方法执行相反的操作：```java  @Test public void givenAnEmptyOptional_thenIsEmptyBehavesAsExpected( ) { Optional&lt;String&gt; opt = Optional.of(&quot;Baeldung&quot;);断言假（opt.isEmpty（））； opt = Optional.ofNullable(null); assertTrue(opt.isEmpty()); } ``` **4。使用 *ifPresent()*** 的条件操作 ---------------------------------------- ---- *ifPresent()* 方法使我们能够在包装的值上运行一些代码，如果它被发现是非 *null* 。在 *Optional* 之前，我们会这样做：```java  if(name != null) { System.out.println(name.length()); } ``` 此代码在继续执行一些代码之前检查 name 变量是否为 *null*。这种方法很冗长，而且这不是唯一的问题 --- 它也容易出错。事实上，什么保证在打印该变量后，我们不会再次使用它然后**忘记执行空检查？** **如果空值进入，这可能会在运行时导致 *NullPointerException*该代码。**当程序由于输入问题而失败时，通常是由于编程实践不佳造成的。 *可选*使我们明确地处理可为空的值，以此作为执行良好编程实践的一种方式。现在让我们看看如何在 Java 8 中重构上述代码。在典型的函数式编程风格中，我们可以对实际存在的对象执行操作：```java  @Test public void givenOptional_whenIfPresentWorks_thenCorrect() { Optional&lt; String&gt; opt = Optional.of(&quot;baeldung&quot;); opt.ifPresent(name -&gt; System.out.println(name.length())); } ``` 在上面的例子中，我们只用了两行代码来替换第一个例子中的五行代码：一行将对象包装成一个*可选*对象，下一行执行隐式验证以及执行编码。 **5。 *orElse() 的默认值*** ------------------------------------------------ *orElse( )* 方法用于检索包装在 *Optional* 实例中的值。它采用一个参数，作为默认值。 *orElse()* 方法如果存在则返回包装的值，否则返回其参数：```java  @Test public void whenOrElseWorks_thenCorrect() { String nullName = null;字符串名称 = Optional.ofNullable(nullName).orElse(&quot;john&quot;); assertEquals（“约翰”，姓名）； } ``` **6。带 *orElseGet()*** 的默认值 ---------------------------------------------------- *orElseGet()* 方法类似于 *orElse()* 。但是，如果 *Optional* 值不存在，它不会采用返回值，而是采用供应商功能接口，该接口被调用并返回调用的值：```java  @Test public void whenOrElseGetWorks_thenCorrect() {字符串 nullName = null;字符串名称 = Optional.ofNullable(nullName).orElseGet(() -&gt; &quot;john&quot;); assertEquals（“约翰”，姓名）； } ``` **7。 *orElse* 和 *orElseGet()*** 之间的区别 ------------------------- --------------- 对于许多不熟悉*Optional* 或Java 8 的程序员来说，*orElse()* 和*orElseGet()* 之间的区别并不清楚。事实上，这两种方法给人的印象是它们在功能上相互重叠。然而，两者之间有一个微妙但非常重要的区别，如果没有很好地理解，可能会极大地影响我们代码的性能。让我们在测试类中创建一个名为 *getMyDefault()* 的方法，它不接受任何参数并返回一个默认值： ```java  public String getMyDefault() { System.out.println(&quot;Getting Default Value&quot;);返回“默认值”； } ``` 让我们看看两个测试并观察它们的副作用，以确定 *orElse()* 和 *orElseGet()* 重叠的地方以及它们不同的地方： ```java  @Test public void whenOrElseGetAndOrElseOverlap_thenCorrect() { String text =无效的; String defaultText = Optional.ofNullable(text).orElseGet(this::getMyDefault); assertEquals(&quot;默认值&quot;, defaultText); defaultText = Optional.ofNullable(text).orElse(getMyDefault()); assertEquals(&quot;默认值&quot;, defaultText); } ``` 在上面的例子中，我们将一个空文本包裹在一个 *Optional* 对象中，并尝试使用这两种方法中的每一种来获取包裹的值。副作用是：```纯文本  获取默认值...获取默认值...``` 在每种情况下都会调用 *getMyDefault()* 方法。碰巧**当包装的值不存在时，*orElse()* 和 *orElseGet()* 的工作方式完全相同。** 现在让我们运行另一个存在该值的测试，理想情况下，甚至不应该创建默认值：```java  @Test public void whenOrElseGetAndOrElseDiffer_thenCorrect() { String text = &quot;Text present&quot;; System.out.println(&quot;使用 orElseGet:&quot;); String defaultText = Optional.ofNullable(text).orElseGet(this::getMyDefault); assertEquals(&quot;文本存在&quot;, defaultText); System.out.println(&quot;使用 orElse:&quot;); defaultText = Optional.ofNullable(text).orElse(getMyDefault()); assertEquals(&quot;文本存在&quot;, defaultText); } ``` 在上面的示例中，我们不再包装 *null* 值，其余代码保持不变。现在让我们看看运行这段代码的副作用： ```plaintext  Using orElseGet: Using orElse: Getting default value... *getMyDefault()* 方法甚至没有被调用，因为包含的值存在。但是，当使用 *orElse()* 时，无论包装的值是否存在，都会创建默认对象。所以在这种情况下，我们只是创建了一个从未使用过的冗余对象。在这个简单的示例中，创建默认对象并没有显着的成本，因为 JVM 知道如何处理这种情况。 **但是，当 *getMyDefault()* 之类的方法必须进行 Web 服务调用甚至查询数据库时，成本变得非常明显。** **8. *orElseThrow()*** 的异常 -------------------------------------------------- *orElseThrow ()* 方法继承于 *orElse()* 和 *orElseGet()* 并添加了一种处理缺失值的新方法。当包装的值不存在时，它不会返回默认值，而是抛出异常：```java  @Test(expected = IllegalArgumentException.class) public void whenOrElseThrowWorks_thenCorrect() { String nullName = null;字符串名称 = Optional.ofNullable(nullName).orElseThrow(IllegalArgumentException::new); } ``` Java 8 中的方法引用在这里派上用场，用于传入异常构造函数。 **Java 10 引入了 *orElseThrow()* 方法的简化无参数版本**。如果是空的 *Optional*，它会抛出 *NoSuchElementException*：```java  @Test(expected = NoSuchElementException.class) public void whenNoArgOrElseThrowWorks_thenCorrect() { String nullName = null;字符串名称 = Optional.ofNullable(nullName).orElseThrow(); } ``` **9。使用 *get()*** 返回值 ------------------------------------ 最后的检索方法包装的值是 *get()* 方法：```java  @Test public void givenOptional_whenGetsValue_thenCorrect() { Optional&lt;String&gt; opt = Optional.of(&quot;baeldung&quot;);字符串名称 = opt.get(); assertEquals(&quot;baeldung&quot;, name); } ``` 但是，与前三种方法不同，*get()* 只能在被包装的对象不为 *null* 的情况下返回一个值；否则，它会抛出一个没有这样的元素异常：```java  @Test(expected = NoSuchElementException.class) public void givenOptionalWithNull_whenGetThrowsException_thenCorrect() { Optional&lt;String&gt; opt = Optional.ofNullable(null);字符串名称 = opt.get(); } ``` 这是 *get()* 方法的主要缺陷。理想情况下，*Optional* 应该可以帮助我们避免这种不可预见的异常。因此，这种方法与 *Optional* 的目标背道而驰，并且可能会在未来的版本中被弃用。因此，建议使用使我们能够准备并明确处理 *null* 情况的其他变体。 **10。使用 *filter()*** 的条件返回 ---------------------------------------- -- 我们可以使用 *filter* 方法对我们的包装值运行内联测试。它接受一个谓词作为参数并返回一个 *Optional* 对象。如果包装的值通过了谓词的测试，则 *Optional* 按原样返回。但是，如果谓词返回 *false* ，那么它将返回一个空 *Optional*：```java  @Test public void whenOptionalFilterWorks_thenCorrect() { Integer year = 2016; Optional&lt;Integer&gt; yearOptional = Optional.of(year); boolean is2016 = yearOptional.filter(y -&gt; y == 2016).isPresent();断言真（is2016）； boolean is2017 = yearOptional.filter(y -&gt; y == 2017).isPresent();断言假（is2017）； } ``` *filter* 方法通常以这种方式用于根据预定义规则拒绝包装的值。我们可以使用它来拒绝错误的电子邮件格式或不够强的密码。让我们看另一个有意义的例子。假设我们想买一个调制解调器，我们只关心它的价格。我们从某个站点接收有关调制解调器价格的推送通知，并将其存储在对象中：```java  public class Modem { private Double price;公共调制解调器（双倍价格）{ this.price = price; } // 标准 getter 和 setter } ``` 然后我们将这些对象提供给一些代码，其唯一目的是检查调制解调器的价格是否在我们的预算范围内。现在让我们看看没有 *Optional* 的代码：```java  public boolean priceIsInRange1(Modem modem) { boolean isInRange = false; if (modem != null &amp;&amp; modem.getPrice() != null &amp;&amp; (modem.getPrice() &gt;= 10 &amp;&amp; modem.getPrice() &lt;= 15)) { isInRange = true; } 返回 isInRange; } ``` 注意我们要写多少代码来实现这一点，尤其是在 *if* 条件下。 *if* 条件中唯一对应用程序至关重要的部分是最后的价格范围检查；其余的检查是防御性的：```java  @Test public void whenFiltersWithoutOptional_thenCorrect() { assertTrue(priceIsInRange1(new Modem(10.0))); assertFalse（priceIsInRange1（新调制解调器（9.9）））； assertFalse（priceIsInRange1（新调制解调器（null）））； assertFalse（priceIsInRange1（新调制解调器（15.5）））； assertFalse(priceIsInRange1(null)); } ``` 除此之外，有可能在漫长的一天中忘记空检查而不会出现任何编译时错误。现在让我们看一个带有 *Optional#filter* 的变体： ```java  public boolean priceIsInRange2(Modem modem2) { return Optional.ofNullable(modem2) .map(Modem::getPrice) .filter(p -&gt; p &gt;= 10) .filter(p -&gt; p &lt;= 15) .isPresent(); } ``` ** *map* 调用只是用于将一个值转换为其他值。** 请记住，此操作不会修改原始值。在我们的例子中，我们从 *Model* 类中获取价格对象。我们将在下一节中详细了解 *map()* 方法。首先，如果将 *null* 对象传递给此方法，我们预计不会有任何问题。其次，我们在其主体中编写的唯一逻辑正是方法名称所描述的——价格范围检查。 *可选*负责其余部分：```java  @Test public void whenFiltersWithOptional_thenCorrect() { assertTrue(priceIsInRange2(new Modem(10.0))); assertFalse（priceIsInRange2（新调制解调器（9.9）））； assertFalse（priceIsInRange2（新调制解调器（null）））； assertFalse（priceIsInRange2（新调制解调器（15.5）））； assertFalse(priceIsInRange2(null)); } ``` 以前的方法承诺检查价格范围，但必须做更多的事情来抵御其固有的脆弱性。因此，我们可以使用 *filter* 方法来替换不必要的 *if* 语句并拒绝不需要的值。 **11。使用 *map()*** 转换值 ---------------------------------------- In上一节，我们研究了如何根据过滤器拒绝或接受一个值。我们可以使用类似的语法通过 *map()* 方法转换 *Optional* 值：```java  @Test public void givenOptional_whenMapWorks_thenCorrect() { List&lt;String&gt; companyNames = Arrays.asList( &quot;paypal&quot;, &quot; oracle”、“”、“微软”、“”、“苹果”）；可选&lt;List&lt;String&gt;&gt; listOptional = Optional.of(companyNames); int size = listOptional .map(List::size) .orElse(0); assertEquals(6, 大小); } ``` 在这个例子中，我们将一个字符串列表包装在一个*Optional* 对象中，并使用它的*map* 方法对包含的列表执行操作。我们执行的操作是检索列表的大小。 *map* 方法返回包装在 *Optional* 中的计算结果。然后我们必须在返回的 *Optional* 上调用适当的方法来检索它的值。请注意，*filter* 方法只是对值进行检查，并且仅当它与给定的谓词匹配时才返回描述此值的 *Optional*。否则返回一个空的 *Optional。* *map* 方法采用现有值，使用该值执行计算，并返回包装在 *Optional* 对象中的计算结果：```java  @Test public void givenOptional_whenMapWorks_thenCorrect2() { String name = &quot;baeldung&quot;;可选&lt;String&gt; nameOptional = Optional.of(name); int len = nameOptional .map(String::length) .orElse(0); assertEquals(8, len); } ``` 我们可以将 *map* 和 *filter* 链接在一起来做一些更强大的事情。假设我们要检查用户输入的密码的正确性。我们可以使用 *map* 转换清除密码并使用 *filter* 检查其正确性：```java  @Test public void givenOptional_whenMapWorksWithFilter_thenCorrect() { String password = &quot; password &quot;;可选&lt;String&gt; passOpt = Optional.of(password); boolean correctPassword = passOpt.filter( pass -&gt; pass.equals(&quot;password&quot;)).isPresent(); assertFalse（正确密码）；正确密码 = passOpt .map(String::trim) .filter(pass -&gt; pass.equals(&quot;password&quot;)) .isPresent();断言真（正确密码）； } ``` 正如我们所看到的，如果不首先清理输入，它将被过滤掉——但用户可能会理所当然地认为前导和尾随空格都构成输入。因此，在过滤掉不正确的密码之前，我们使用 *map* 将脏密码转换为干净密码。 **12。使用 *flatMap()*** 转换值 ---------------------------------------------------- --- 就像 *map()* 方法一样，我们也有 *flatMap()* 方法作为转换值的替代方法。不同之处在于 *map* 仅在解包时才转换值，而 *flatMap* 采用已打包的值并在转换之前将其解包。以前，我们创建了简单的 *String* 和 *Integer* 对象，用于包装在 *Optional* 实例中。但是，我们经常会从复杂对象的访问器中接收这些对象。为了更清楚地了解差异，让我们看一个 *Person* 对象，它获取一个人的详细信息，例如姓名、年龄和密码：```java  public class Person { private String name;私人年龄；私人字符串密码； public Optional&lt;String&gt; getName() { return Optional.ofNullable(name); } public Optional&lt;Integer&gt; getAge() { return Optional.ofNullable(age); } public Optional&lt;String&gt; getPassword() { return Optional.ofNullable(password); } // 普通的构造函数和设置器 } ``` 我们通常会创建这样一个对象并将其包装在一个 *Optional* 对象中，就像我们对 String 所做的那样。或者，它可以通过另一个方法调用返回给我们：```java  Person person = new Person(&quot;john&quot;, 26);可选&lt;Person&gt; personOptional = Optional.of(person); ``` 现在请注意，当我们包装 *Person* 对象时，它将包含嵌套的 *Optional* 实例： </code>java  @Test public void givenOptional_whenFlatMapWorks_thenCorrect2() { Person person = new Person(&quot;john&quot;, 26);可选<Person> personOptional = Optional.of(person); Optional&lt;Optional<String>&gt; nameOptionalWrapper = personOptional.map(Person::getName);可选<String> nameOptional = nameOptionalWrapper.orElseThrow(IllegalArgumentException::new);字符串 name1 = nameOptional.orElse(&quot;&quot;); assertEquals(&quot;约翰&quot;, name1);字符串名称 = personOptional .flatMap(Person::getName) .orElse(&quot;&quot;); assertEquals（“约翰”，姓名）； } <code>在这里，我们试图检索 *Person* 对象的 name 属性来执行断言。请注意我们如何在第三个语句中使用 *map()* 方法来实现这一点，然后注意我们之后如何使用 *flatMap()* 方法来实现这一点。 *Person::getName* 方法引用类似于我们在上一节中用于清理密码的 *String::trim* 调用。唯一的区别是 *getName()* 返回一个 *Optional* 而不是 *trim()* 操作那样的字符串。再加上 *map* 转换将结果包装在 *Optional* 对象中的事实，导致嵌套的 *Optional*。因此，在使用 *map()* 方法时，我们需要在使用转换后的值之前添加一个额外的调用来检索值。这样，*Optional* 包装器将被删除。此操作在使用 *flatMap* 时隐式执行。 13. 在Java 8中链接*Optional* ------------------------------------ 有时，我们可能需要从多个 *Optional* 中获取第一个非空 *Optional* 对象。在这种情况下，使用 *orElseOptional()* 之类的方法会非常方便。不幸的是，Java 8 不直接支持这样的操作。让我们首先介绍一些我们将在本节中使用的方法：</code>java  private Optional<String> getEmpty() { return Optional.empty(); } private Optional<String> getHello() { return Optional.of(&quot;hello&quot;); } private Optional<String> getBye() { return Optional.of(&quot;bye&quot;); } private Optional<String> createOptional(String input) { if (input == null || &quot;&quot;.equals(input) || &quot;empty&quot;.equals(input)) { return Optional.empty(); } return Optional.of(input); } <code> 为了在 Java 8 中链接多个 *Optional* 对象并获取第一个非空对象，我们可以使用 *Stream* API：</code>java  @Test public void givenThreeOptionals_whenChaining_thenFirstNonEmptyIsReturned() { Optional<String > found = Stream.of(getEmpty(), getHello(), getBye()) .filter(Optional::isPresent) .map(Optional::get) .findFirst(); assertEquals(getHello(), 找到); } <code> 这种方法的缺点是我们所有的 *get* 方法总是被执行，不管 *Stream* 中的非空 *Optional* 出现在哪里。如果我们想懒惰地评估传递给 *Stream.of()* 的方法，我们需要使用方法引用和 *Supplier* 接口：</code>java  @Test public void givenThreeOptionals_whenChaining_thenFirstNonEmptyIsReturnedAndRestNotEvaluated() { Optional<String> found = Stream.&lt;Supplier&lt;Optional<String>&gt;&gt;of(this::getEmpty, this::getHello, this::getBye) .map(Supplier::get) .filter(Optional::isPresent) .map(Optional: :get) .findFirst(); assertEquals(getHello(), 找到); } <code> 如果我们需要使用带参数的方法，我们必须使用 lambda 表达式：</code>java  @Test public void givenTwoOptionalsReturnedByOneArgMethod_whenChaining_thenFirstNonEmptyIsReturned() { Optional<String> found = Stream.&lt;Supplier&lt;Optional<String >&gt;&gt;of( () -&gt; createOptional(&quot;empty&quot;), () -&gt; createOptional(&quot;hello&quot;) ) .map(Supplier::get) .filter(Optional::isPresent) .map(Optional::get ) .findFirst(); assertEquals(createOptional(&quot;hello&quot;), found); } <code> 通常，我们希望返回一个默认值，以防所有链接的 *Optional* 为空。我们可以通过添加对 *orElse()* 或 *orElseGet()* 的调用来做到这一点：</code>java  @Test public void givenTwoEmptyOptionals_whenChaining_thenDefaultIsReturned() { String found = Stream.&lt;Supplier&lt;Optional<String>&gt;&gt;of ( () -&gt; createOptional(&quot;empty&quot;), () -&gt; createOptional(&quot;empty&quot;) ) .map(Supplier::get) .filter(Optional::isPresent) .map(Optional::get) .findFirst( ) .orElseGet(() -&gt; “默认”); assertEquals（“默认”，找到）； } <code> 14. JDK 9 *Optional* API ------------------------ Java 9 的发布为 *Optional 添加了更多新方法* API：* *or()* 方法，用于提供创建替代 *Optional* * *ifPresentOrElse()* 方法，如果 *Optional* 存在则允许执行操作，如果不存在则允许执行另一个操作 * *stream() * 将 *Optional* 转换为 *Stream* 的方法 这是 [进一步阅读](/java-9-optional) 的完整文章。 15. *Optional* s 的误用 -------------------------- 最后，让我们看一下使用 *Optional* 的诱人但危险的方法s：将*可选*参数传递给方法。想象一下，我们有一个 *Person* 列表，我们想要一种方法来在该列表中搜索具有给定名称的人。此外，如果指定了该方法，我们希望该方法能够匹配至少具有一定年龄的条目。由于这个参数是可选的，我们使用了这个方法：</code>java  public static List<Person> search(List<Person> people, String name, Optional<Integer> age) { // Null 检查人员和名称返回people.stream() .filter(p -&gt; p.getName().equals(name)) .filter(p -&gt; p.getAge().get() &gt;= age.orElse(0)) .collect(Collectors .toList()); } <code> 然后我们发布我们的方法，另一个开发者尝试使用它：</code>java  someObject.search(people, &quot;Peter&quot;, null); <code> 现在开发人员执行它的代码并得到一个 *NullPointerException。* **我们必须对我们的可选参数进行空检查，这违背了我们想要避免这种情况的最初目的。** 这里有一些可能性我们本可以做得更好：</code>java  public static List<Person> search(List<Person> people, String name, Integer age) { // Null 检查人员和名称 final Integer ageFilter = age !=无效的 ？年龄：0； return people.stream() .filter(p -&gt; p.getName().equals(name)) .filter(p -&gt; p.getAge().get() &gt;= ageFilter) .collect(Collectors.toList() ); } <code> 在那里，参数仍然是可选的，但我们只在一次检查中处理它。另一种可能性是**创建两个重载方法**：</code>java  public static List<Person> search(List<Person> people, String name) { return doSearch(people, name, 0); } public static List<Person> search(List<Person> people, String name, int age) { return doSearch(people, name, age); } private static List<Person> doSearch(List<Person> people, String name, int age) { // 对人员和姓名进行空检查 return people.stream() .filter(p -&gt; p.getName().equals( name)) .filter(p -&gt; p.getAge().get().intValue() &gt;= age) .collect(Collectors.toList()); } ``` 这样我们就提供了一个清晰的 API，其中有两种方法做不同的事情（尽管它们共享实现）。因此，有一些解决方案可以避免使用 <em>Optional</em> 作为方法参数。<strong>Java 在释放 <em>Optional</em> 时的意图是将其用作返回类型</strong> ，从而表明方法可以返回空值。事实上，使用 <em>Optional</em> 作为方法参数的做法甚至 <a href="https://rules.sonarsource.com/java/RSPEC-3553" target="_blank" rel="noopener">被一些代码检查员反对</a>。 16. <em>Optional</em> 和序列化 -------------------------------- 如上所述，<em>Optional</em> 意味着用作返回类型。不建议尝试将其用作字段类型。此外，<strong>在可序列化的类中使用 <em>Optional</em> 将导致 <em>NotSerializableException</em>。</strong> 我们的文章 <a href="/java-optional-return">Java <em>Optional</em> as Return Type</a> 进一步解决了序列化问题。而且，在 <a href="/jackson-optional">使用 <em>Optional</em> 与 Jackson</a> 中，我们解释了当 <em>Optional</em> 字段被序列化时会发生什么，以及一些解决方法来实现所需的结果。 <strong>17。小结</strong> ------------------ 在本文中，我们介绍了 Java 8 <em>Optional</em> 类的大部分重要特性。我们简要探讨了为什么我们会选择使用 <em>Optional</em> 而不是显式的 null 检查和输入验证的一些原因。我们还学习了如何使用 <em>get()</em> 、 <em>orElse()</em> 和 <em>orElseGet()</em> 方法获取 <em>Optional</em> 的值，或者默认值（如果为空）（并看到 <a href="/java-filter-stream-of-optional">the important difference between the最后两个</a>)。然后我们看到了如何使用 <em>map()、flatMap()</em> 和 <em>filter()</em> 转换或过滤我们的 <em>Optional</em> 。我们讨论了 fluent <em>API</em> <em>Optional</em> 提供了什么，因为它允许我们轻松地链接不同的方法。最后，我们看到了为什么使用 <em>Optional</em>s 作为方法参数是一个坏主意以及如何避免它。文章中所有示例的源代码都可在 [在 GitHub 上] (<a href="https://github.com/hunterzhang86/tutorials/tree/master/core-java-modules/core-java-11-2" target="_blank" rel="noopener">https://github.com/hunterzhang86/tutorials/tree/master/core-java-modules/core-java-11-2</a>) Java 底部### <strong>通过 <em>Learn Spring</em> 课程开始使用 Spring 5 和 Spring Boot 2：</strong> <a href="/ls-course-end">&gt;&gt; 查看课程</a>** 通用页脚横幅<img src="/wp-content/uploads/2016/05/baeldung-rest-post-footer-main-1.2.0.jpg" alt="使用 SPRING 构建您的 API - 书籍封面"> <img src="/wp-content/uploads/2016/05/baeldung-rest-post-footer-icn-1.0.0.png" alt="使用 SPRING 构建您的 API - 图标"> 学习使用 Spring 构建 API **？[下载电子书](/rest- api-spring-guide)</p>
+
+            </div>
+
+            
+    
+    
+        <ul class="post-copyright">
+            <li class="copyright-item author"><span class="copyright-item-text">作者</span>：<a href="https://www.ifb.me/" class="p-author h-card" target="_blank" rel="noopener">noone</a></li>
+            
+                
+                
+                
+                
+                <li class="copyright-item link"><span class="copyright-item-text">链接</span>：<a href="/posts/guide/guide-to-java-8-optional/" target="_blank" rel="noopener">https://www.ifb.me/posts/guide/guide-to-java-8-optional/</a></li>
+            
+            <li class="copyright-item license"><span class="copyright-item-text">许可</span>：<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a></li>
+            
+        </ul>
+    
+
+
+
+        </article>
+
+        
+
+        
+    <div class="updated-badge-container">
+        <span title="Updated @ 2023-04-05 23:47:41 UTC" style="cursor:help">
+
+<p>更多分享请扫描二维码关注微信公众号 <em><strong>NoOneNoOne</strong></em></p>
+<p><img src="https://blog.fflow.link/images/qrcode.jpeg" alt=""></p>
+
+<svg xmlns="http://www.w3.org/2000/svg" width="130" height="20" class="updated-badge"><linearGradient id="b" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="a"><rect width="130" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#a)"><path class="updated-badge-left" d="M0 0h55v20H0z"/><path class="updated-badge-right" d="M55 0h75v20H55z"/><path fill="url(#b)" d="M0 0h130v20H0z"/></g><g fill="#fff" text-anchor="middle" font-size="110"><text x="285" y="150" fill="#010101" fill-opacity=".3" textLength="450" transform="scale(.1)">updated</text><text x="285" y="140" textLength="450" transform="scale(.1)">updated</text><text x="915" y="150" fill="#010101" fill-opacity=".3" textLength="650" transform="scale(.1)">2023-04-05</text><text x="915" y="140" textLength="650" transform="scale(.1)">2023-04-05</text></g></svg>
+        </span></div>
+
+
+
+        
+
+
+        <div class="post-share">
+
+        
+
+        <div class="share-items">
+
+            
+                <div class="share-item twitter">
+                    
+                    <a href="https://twitter.com/share?url=https://www.ifb.me/posts/guide/guide-to-java-8-optional/&amp;text=Java%208%20%e6%8c%87%e5%8d%97%e5%8f%af%e9%80%89&amp;hashtags=&amp;via=" title="分享到「Twitter」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item facebook">
+                    
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.ifb.me/posts/guide/guide-to-java-8-optional/&amp;hashtag=%23" title="分享到「Facebook」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon facebook-icon"><path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item linkedin">
+                    
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.ifb.me/posts/guide/guide-to-java-8-optional/&amp;title=Java%208%20%e6%8c%87%e5%8d%97%e5%8f%af%e9%80%89&amp;summary=1%e3%80%82%e6%a6%82%e8%bf%b0%20---------------%20%e5%9c%a8%e6%9c%ac%e6%95%99%e7%a8%8b%e4%b8%ad%ef%bc%8c%e6%88%91%e4%bb%ac%e5%b0%86%e5%b1%95%e7%a4%ba%20Java%208%20%e4%b8%ad%e5%bc%95%e5%85%a5%e7%9a%84%20Optional%20%e7%b1%bb%e3%80%82%e8%af%a5%e7%b1%bb%e7%9a%84%e7%9b%ae%e7%9a%84%e6%98%af%e6%8f%90%e4%be%9b%e4%b8%80%e4%b8%aa%e7%b1%bb%e5%9e%8b%e8%a1%a8%e7%a4%ba%e5%8f%af%e9%80%89%e5%80%bc%e2%80%a6%e2%80%a6&amp;source=NoOne%27s%20Blog" title="分享到「LinkedIn」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item telegram">
+                    
+                    <a href="https://t.me/share/url?url=https://www.ifb.me/posts/guide/guide-to-java-8-optional/&amp;text=Java%208%20%e6%8c%87%e5%8d%97%e5%8f%af%e9%80%89" title="分享到「Telegram」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon telegram-icon"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm121.8 169.9l-40.7 191.8c-3 13.6-11.1 16.9-22.4 10.5l-62-45.7-29.9 28.8c-3.3 3.3-6.1 6.1-12.5 6.1l4.4-63.1 114.9-103.8c5-4.4-1.1-6.9-7.7-2.5l-142 89.4-61.2-19.1c-13.3-4.2-13.6-13.3 2.8-19.7l239.1-92.2c11.1-4 20.8 2.7 17.2 19.5z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item weibo">
+                    
+                    <a href="https://service.weibo.com/share/share.php?&amp;url=https://www.ifb.me/posts/guide/guide-to-java-8-optional/&amp;title=Java%208%20%e6%8c%87%e5%8d%97%e5%8f%af%e9%80%89&amp;pic=https://www.ifb.me/wp-content/uploads/2016/05/baeldung-rest-post-footer-main-1.2.0.jpg&amp;searchPic=false" title="分享到「新浪微博」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon weibo-icon"><path d="M407 177.6c7.6-24-13.4-46.8-37.4-41.7-22 4.8-28.8-28.1-7.1-32.8 50.1-10.9 92.3 37.1 76.5 84.8-6.8 21.2-38.8 10.8-32-10.3zM214.8 446.7C108.5 446.7 0 395.3 0 310.4c0-44.3 28-95.4 76.3-143.7C176 67 279.5 65.8 249.9 161c-4 13.1 12.3 5.7 12.3 6 79.5-33.6 140.5-16.8 114 51.4-3.7 9.4 1.1 10.9 8.3 13.1 135.7 42.3 34.8 215.2-169.7 215.2zm143.7-146.3c-5.4-55.7-78.5-94-163.4-85.7-84.8 8.6-148.8 60.3-143.4 116s78.5 94 163.4 85.7c84.8-8.6 148.8-60.3 143.4-116zM347.9 35.1c-25.9 5.6-16.8 43.7 8.3 38.3 72.3-15.2 134.8 52.8 111.7 124-7.4 24.2 29.1 37 37.4 12 31.9-99.8-55.1-195.9-157.4-174.3zm-78.5 311c-17.1 38.8-66.8 60-109.1 46.3-40.8-13.1-58-53.4-40.3-89.7 17.7-35.4 63.1-55.4 103.4-45.1 42 10.8 63.1 50.2 46 88.5zm-86.3-30c-12.9-5.4-30 .3-38 12.9-8.3 12.9-4.3 28 8.6 34 13.1 6 30.8.3 39.1-12.9 8-13.1 3.7-28.3-9.7-34zm32.6-13.4c-5.1-1.7-11.4.6-14.3 5.4-2.9 5.1-1.4 10.6 3.7 12.9 5.1 2 11.7-.3 14.6-5.4 2.8-5.2 1.1-10.9-4-12.9z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item douban">
+                    
+                    <a href="https://www.douban.com/share/service?href=https://www.ifb.me/posts/guide/guide-to-java-8-optional/&amp;name=Java%208%20%e6%8c%87%e5%8d%97%e5%8f%af%e9%80%89&amp;text=1%e3%80%82%e6%a6%82%e8%bf%b0%20---------------%20%e5%9c%a8%e6%9c%ac%e6%95%99%e7%a8%8b%e4%b8%ad%ef%bc%8c%e6%88%91%e4%bb%ac%e5%b0%86%e5%b1%95%e7%a4%ba%20Java%208%20%e4%b8%ad%e5%bc%95%e5%85%a5%e7%9a%84%20Optional%20%e7%b1%bb%e3%80%82%e8%af%a5%e7%b1%bb%e7%9a%84%e7%9b%ae%e7%9a%84%e6%98%af%e6%8f%90%e4%be%9b%e4%b8%80%e4%b8%aa%e7%b1%bb%e5%9e%8b%e8%a1%a8%e7%a4%ba%e5%8f%af%e9%80%89%e5%80%bc%e2%80%a6%e2%80%a6" title="分享到「豆瓣」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon douban-icon"><path d="M.643.92v2.412h22.714V.92H.643zm1.974 4.926v9.42h18.764v-9.42H2.617zm2.72 2.408H18.69v4.605H5.338V8.254zm1.657 7.412l-2.512.938c1.037 1.461 1.87 2.825 2.512 4.091H0v2.385h24v-2.385h-6.678c.818-1.176 1.589-2.543 2.303-4.091l-2.73-.938a29.952 29.952 0 01-2.479 5.03h-4.75c-.786-1.962-1.677-3.641-2.672-5.03Z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item qq">
+                    
+                    <a href="https://connect.qq.com/widget/shareqq/index.html?url=https://www.ifb.me/posts/guide/guide-to-java-8-optional/&amp;title=Java%208%20%e6%8c%87%e5%8d%97%e5%8f%af%e9%80%89&amp;summary=1%e3%80%82%e6%a6%82%e8%bf%b0%20---------------%20%e5%9c%a8%e6%9c%ac%e6%95%99%e7%a8%8b%e4%b8%ad%ef%bc%8c%e6%88%91%e4%bb%ac%e5%b0%86%e5%b1%95%e7%a4%ba%20Java%208%20%e4%b8%ad%e5%bc%95%e5%85%a5%e7%9a%84%20Optional%20%e7%b1%bb%e3%80%82%e8%af%a5%e7%b1%bb%e7%9a%84%e7%9b%ae%e7%9a%84%e6%98%af%e6%8f%90%e4%be%9b%e4%b8%80%e4%b8%aa%e7%b1%bb%e5%9e%8b%e8%a1%a8%e7%a4%ba%e5%8f%af%e9%80%89%e5%80%bc%e2%80%a6%e2%80%a6&amp;pics=https://www.ifb.me/wp-content/uploads/2016/05/baeldung-rest-post-footer-main-1.2.0.jpg&amp;site=NoOne%27s%20Blog" title="分享到「QQ」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon qq-icon"><path d="M433.754 420.445c-11.526 1.393-44.86-52.741-44.86-52.741 0 31.345-16.136 72.247-51.051 101.786 16.842 5.192 54.843 19.167 45.803 34.421-7.316 12.343-125.51 7.881-159.632 4.037-34.122 3.844-152.316 8.306-159.632-4.037-9.045-15.25 28.918-29.214 45.783-34.415-34.92-29.539-51.059-70.445-51.059-101.792 0 0-33.334 54.134-44.859 52.741-5.37-.65-12.424-29.644 9.347-99.704 10.261-33.024 21.995-60.478 40.144-105.779C60.683 98.063 108.982.006 224 0c113.737.006 163.156 96.133 160.264 214.963 18.118 45.223 29.912 72.85 40.144 105.778 21.768 70.06 14.716 99.053 9.346 99.704z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item qzone">
+                    
+                    <a href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.ifb.me/posts/guide/guide-to-java-8-optional/&amp;title=Java%208%20%e6%8c%87%e5%8d%97%e5%8f%af%e9%80%89&amp;summary=1%e3%80%82%e6%a6%82%e8%bf%b0%20---------------%20%e5%9c%a8%e6%9c%ac%e6%95%99%e7%a8%8b%e4%b8%ad%ef%bc%8c%e6%88%91%e4%bb%ac%e5%b0%86%e5%b1%95%e7%a4%ba%20Java%208%20%e4%b8%ad%e5%bc%95%e5%85%a5%e7%9a%84%20Optional%20%e7%b1%bb%e3%80%82%e8%af%a5%e7%b1%bb%e7%9a%84%e7%9b%ae%e7%9a%84%e6%98%af%e6%8f%90%e4%be%9b%e4%b8%80%e4%b8%aa%e7%b1%bb%e5%9e%8b%e8%a1%a8%e7%a4%ba%e5%8f%af%e9%80%89%e5%80%bc%e2%80%a6%e2%80%a6&amp;pics=https://www.ifb.me/wp-content/uploads/2016/05/baeldung-rest-post-footer-main-1.2.0.jpg&amp;site=NoOne%27s%20Blog" title="分享到「QQ 空间」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon qzone-icon"><path d="M23.985 9.202c-.032-.099-.127-.223-.334-.258-.207-.036-7.351-1.406-7.351-1.406s-.105-.022-.198-.07c-.092-.047-.127-.167-.127-.167S12.447.956 12.349.77C12.25.583 12.104.532 12 .532c-.104 0-.251.051-.349.238-.098.186-3.626 6.531-3.626 6.531s-.035.12-.128.167c-.092.047-.197.07-.197.07S.556 8.908.348 8.943c-.208.036-.302.16-.333.258a.477.477 0 0 0 .125.449l5.362 5.49s.072.08.119.172c.016.104.005.21.005.21s-1.189 7.242-1.22 7.45.075.369.159.43c.083.062.233.106.421.013.189-.093 6.812-3.261 6.812-3.261s.098-.044.201-.061c.103-.017.201.061.201.061s6.623 3.168 6.812 3.261c.188.094.338.049.421-.013a.463.463 0 0 0 .159-.43c-.021-.14-.93-5.677-.93-5.677.876-.54 1.425-1.039 1.849-1.747-2.594.969-6.006 1.717-9.415 1.866-.915.041-2.41.097-3.473-.015-.678-.071-1.17-.144-1.243-.438-.053-.215.054-.46.545-.831a2640.5 2640.5 0 0 1 2.861-2.155c1.285-.968 3.559-2.47 3.559-2.731 0-.285-2.144-.781-4.037-.781-1.945 0-2.275.132-2.811.168-.488.034-.769.005-.804-.138-.06-.248.183-.389.588-.568.709-.314 1.86-.594 1.984-.626.194-.052 3.082-.805 5.618-.535 1.318.14 3.244.668 3.244 1.276 0 .342-1.721 1.494-3.225 2.597-1.149.843-2.217 1.561-2.217 1.688 0 .342 3.533 1.241 6.689 1.01l.003-.022c.048-.092.119-.172.119-.172l5.362-5.49a.477.477 0 0 0 .127-.449z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item qrcode">
+                    <div class="qrcode-container" title="通过「二维码」"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon qrcode-icon"><path d="M0 224h192V32H0v192zM64 96h64v64H64V96zm192-64v192h192V32H256zm128 128h-64V96h64v64zM0 480h192V288H0v192zm64-128h64v64H64v-64zm352-64h32v128h-96v-32h-32v96h-64V288h96v32h64v-32zm0 160h32v32h-32v-32zm-64 0h32v32h-32v-32z"/></svg><div id="qrcode-img"></div>
+                    </div>
+                    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+
+<script>
+    const typeNumber = 0;
+    const errorCorrectionLevel = 'L';
+    const qr = qrcode(typeNumber, errorCorrectionLevel);
+    qr.addData('https:\/\/www.ifb.me\/posts\/guide\/guide-to-java-8-optional\/');
+    qr.make();
+    document.getElementById('qrcode-img').innerHTML = qr.createImgTag();
+</script>
+
+                </div>
+            
+
+        </div>
+
+    </div>
+
+
+
+
+        
+    
+    
+        <div class="related-posts">
+            <h2 class="related-title">相关文章：<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon related-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"/></svg></h2>
+            <ul class="related-list">
+                
+                    <li class="related-item">
+                        <a href="/posts/guide/spring-boot-gradle-plugin/" class="related-link">Spring Boot Gradle 插件</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/guide/database-migrations-with-flyway/" class="related-link">使用 Flyway 进行数据库迁移</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/guide/like-queries-in-spring-jpa-repositories/" class="related-link">Spring JPA 存储库中的 LIKE 查询</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/guide/remove-the-first-element-from-a-list/" class="related-link">从列表中删除第一个元素</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/guide/immutable-objects-in-java/" class="related-link">Java 中的不可变对象</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
+
+
+
+        
+    
+
+
+
+        
+
+
+        
+
+
+        
+    
+        
+        
+    
+    
+    
+    
+        <ul class="post-nav">
+            
+            
+                <li class="post-nav-next">
+                    <a href="/posts/guide/spring-boot-gradle-plugin/" rel="next">Spring Boot Gradle 插件 &gt;</a>
+                </li>
+            
+        </ul>
+    
+
+
+
+        
+
+
+    </div>
+</main>
+
+
+            
+    <div id="back-to-top" class="back-to-top">
+        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon arrow-up"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg></a>
+    </div>
+
+
+            
+    <footer id="footer" class="footer">
+        <div class="footer-inner">
+            <div class="site-info">©&nbsp;2020–2023&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;noone</div><div class="site-copyright"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a></div>
+                <div class="busuanzi-site-uv-and-pv">
+                    <span id="busuanzi_container_site_uv">本站访客数&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon busuanzi-site-uv"><path d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z"/></svg>&nbsp;<span id="busuanzi_value_site_uv"></span></span>&nbsp;|&nbsp;<span id="busuanzi_container_site_pv">本站访问量&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="icon busuanzi-site-pv"><path d="M288 144a110.94 110.94 0 0 0-31.24 5 55.4 55.4 0 0 1 7.24 27 56 56 0 0 1-56 56 55.4 55.4 0 0 1-27-7.24A111.71 111.71 0 1 0 288 144zm284.52 97.4C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19zM288 400c-98.65 0-189.09-55-237.93-144C98.91 167 189.34 112 288 112s189.09 55 237.93 144C477.1 345 386.66 400 288 400z"/></svg>&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+                </div>
+
+            
+    
+        <ul class="socials"><li class="socials-item">
+                    <a href="/rss.xml" target="_blank" rel="external noopener" title="RSS"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M19.199 24C19.199 13.467 10.533 4.8 0 4.8V0c13.165 0 24 10.835 24 24h-4.801zM3.291 17.415c1.814 0 3.293 1.479 3.293 3.295 0 1.813-1.485 3.29-3.301 3.29C1.47 24 0 22.526 0 20.71s1.475-3.294 3.291-3.295zM15.909 24h-4.665c0-6.169-5.075-11.245-11.244-11.245V8.09c8.727 0 15.909 7.184 15.909 15.91z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="mailto:hunterzhang86@gmail.com" target="_blank" rel="external noopener" title="Email"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon social-icon"><path d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://github.com/hunterzhang86" target="_blank" rel="external noopener" title="GitHub"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+                </li></ul>
+    
+
+
+
+            
+        </div>
+    </footer>
+
+
+        </div>
+        
+
+        
+
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js"></script>
+
+<script>
+    let imgNodes = document.querySelectorAll('div.post-body img');
+    imgNodes = Array.from(imgNodes).filter(node => node.parentNode.tagName !== "A");
+
+    mediumZoom(imgNodes, {
+        background: 'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'
+    })
+</script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js" type="module" defer></script>
+
+
+
+    
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+
+
+
+    </body>
+</html>
