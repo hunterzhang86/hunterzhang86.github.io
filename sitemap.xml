@@ -3,1404 +3,1404 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://www.ifb.me/categories/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/exceptions-in-lambda-expression-using-vavr/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/categories/%E6%89%8B%E5%86%8C/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/java-11-string-api-additions/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/guide-to-mapmulti-in-stream-api/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/difference-between-docker-dockerfile-and-docker-compose/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/soft-references-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/a-guide-to-increment-and-decrement-unary-operators-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/memory-address-of-objects-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/making-a-json-post-request-with-httpurlconnection/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/docker-removing-dangling-and-unused-images/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/ignore-null-fields-with-jackson/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/memcached-vs-redis/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/converting-iterable-to-collection-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/quarkus-bean-discovery-with-jandex-indexing/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/ddd-aggregates-and-@domainevents/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/guava-join-and-split-collections/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/more-jackson-annotations/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/ldap-authentication-using-pure-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/apache-ignite-with-spring-data/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/spring-cloud-adding-angular-4/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/introduction-to-eclipse-collections/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/custom-user-attributes-with-keycloak/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/jackson-annotation-examples/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/introduction-to-spring-cloud-netflix-eureka/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/delete-a-git-branch-locally-and-remotely/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/guide-to-bufferedreader/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/spring-security-form-login/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/guide-to-jsf-expression-language-3.0/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/optical-character-recognition-with-tesseract/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/ternary-operator-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/spring-data-jpa-delete-and-relationships/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/lombok-@builder-with-inheritance/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/brute-force-algorithm-in-cybersecurity-and-string-search-on-computer-science/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/java-treemap-vs-hashmap/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/introduction-to-morphia-java-odm-for-mongodb/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/java-join-and-split-arrays-and-collections/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/guide-to-java-8-optional/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/spring-boot-gradle-plugin/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/database-migrations-with-flyway/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/like-queries-in-spring-jpa-repositories/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/remove-the-first-element-from-a-list/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/immutable-objects-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/stop-brute-force-authentication-attempts-with-spring-security/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/pkce-support-for-secret-clients-with-spring-security/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/chained-exceptions-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/arrays-in-java-a-reference-guide/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/spring-@entityscan-vs.-@componentscan/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/a-guide-to-junit-5-extensions/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/custom-filter-in-the-spring-security-filter-chain/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/spring-cloud-bootstrapping/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/introduction-to-javadoc/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/jackson-date/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/rest-assured-with-groovy/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/converting-between-an-array-and-a-set-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/a-guide-to-concurrent-queues-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/spring-jdbc-tutorial/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/java-string-conversions/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/guide-to-guava-table/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/introduction-to-rxjava-jdbc/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/collection-factory-methods-for-vavr/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/converting-string-to-bigdecimal-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/spring-dependency-injection/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/constructor-injection-in-spring-with-lombok/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/learn-spring-boot/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/java-write-to-file/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/generate-equals-and-hashcode-with-eclipse/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/download-a-binary-file-using-okhttp/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/a-guide-to-java-hashmap/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/spring-cloud-aws-ec2/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/introduction-to-joda-time/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/efficient-word-frequency-calculator-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/a-guide-to-jpa-buddy/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/serialize-only-fields-that-meet-a-custom-criteria-with-jackson/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/prevent-cross-site-scripting-xss-in-a-spring-application/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/convert-long-to-string-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/named-placeholders-in-string-formatting/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/exception-handling-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/difference-between-expose-and-ports-in-docker-compose/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/format-instant-to-string-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/compare-two-json-objects-with-gson/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/java-streams/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/differences-between-oracle-jdk-and-openjdk/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/generate-combinations-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/collect-a-java-stream-to-an-immutable-collection/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/apache-httpclient-get-the-status-code/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/check-for-null-before-calling-parse-in-double.parsedouble/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/jackson-exceptions-problems-and-solutions/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/find-files-that-match-wildcard-strings-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/introduction-to-apache-flink-with-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/deep-dive-into-hashing-on-computer-science/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/convert-an-object-to-a-byte-array-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/java-try-with-resources/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/hystrix-integration-with-existing-spring-app/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/find-the-number-of-lines-in-a-file-using-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/a-guide-to-the-problem-spring-web-library/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/hidden-classes-in-java-15/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/a-guide-to-java-9-modularity/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/guide-to-the-java-arraylist/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/java-string-or-.tostring/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/the-bridge-pattern-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/testing-spring-jms/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/introduction-to-spring-data-cassandra/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/how-to-start-a-thread-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/implementing-a-binary-tree-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/java-io-tutorials/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/how-to-play-sound-with-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/freemarker-common-operations/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/formatting-currencies-in-spring-using-thymeleaf/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/getting-started-with-graphql-spqr-and-spring-boot/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/json-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/spring-data-jpa-and-null-parameters/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/a-guide-to-jgit/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/pattern-search-with-grep-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/deep-dive-into-the-new-java-jit-compiler-graal/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/guide-to-@configurationproperties-in-spring-boot/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/convert-long-to-int-type-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/java-combine-multiple-collections/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/a-guide-to-multiplebagfetchexception-in-hibernate/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/spring-boot-customize-the-jackson-objectmapper/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/spring-boot-customize-whitelabel-error-page/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/how-to-serialize-and-deserialize-enums-with-jackson/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/helpful-nullpointerexceptions-in-java-14/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/hamcrest-collections-cookbook/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/introduction-to-spring-data-jpa/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/retrieve-user-information-in-spring-security/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/returning-the-generated-keys-in-jdbc/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/java-string.concat/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/guide-to-the-diamond-operator-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/introduction-to-jinq-with-spring/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/exploring-the-new-http-client-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/adding-shutdown-hooks-for-jvm-applications/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/jackson-marshall-string-to-jsonnode/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/lombok-builder-with-default-value/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/spring-data-jpa-@query/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/fixed-size-queue-implementations-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/a-guide-to-java-gss-api/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/copy-a-list-to-another-list-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/javas-time-based-releases/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/migrating-to-the-new-java-8-date-time-api/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/multi-dimensional-arraylist-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/string-concatenation-with-invoke-dynamic/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/an-introduction-to-java.util.hashtable-class/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/integration-tests-with-spring-cloud-netflix-and-feign/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/assert-two-lists-for-equality-ignoring-order-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/spring-rest-with-a-zuul-proxy/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/initializing-arrays-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/introduction-to-spring-method-security/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/a-guide-to-linkedhashmap-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/guide-to-system.gc/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/connecting-to-an-external-system-with-spring-cloud-connectors/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/guide-to-the-storage-engine-in-apache-cassandra/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/logging-exceptions-using-slf4j/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/guide-to-sun.misc.unsafe/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/concatenate-strings-with-groovy/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/guide-to-the-concurrentskiplistmap/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/spring-exceptions-series/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/introduction-to-spring-cloud-load-balancer/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/a-guide-to-iterator-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/sorting-query-results-with-spring-data/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/performance-difference-between-save-and-saveall-in-spring-data/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/a-simple-tagging-implementation-with-elasticsearch/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/spring-boot-and-togglz-aspect/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/the-basics-of-java-generics/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/introduction-to-the-java-arraydeque/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/searching-for-a-string-in-an-arraylist/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/a-guide-to-flyway-callbacks/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/feature-flags-with-spring/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/spring-security-access-permitall-filters-none-security-none/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/spring-data-jpa-and-named-entity-graphs/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/how-to-inject-git-secrets-in-jenkins/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/finding-all-classes-in-a-java-package/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/convert-a-map-to-an-array-list-or-set-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/query-entities-by-dates-and-times-with-spring-data-jpa/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/getting-the-size-of-an-iterable-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/jackson-ignore-properties-on-marshalling/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/collections.synchronizedmap-vs.-concurrenthashmap/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/lists-in-groovy/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/self-healing-applications-with-kubernetes-and-spring-boot/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/dealing-with-backpressure-with-rxjava/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/a-guide-to-cron-expressions/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/introduction-to-testing-with-spock-and-groovy/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/creating-sequences-with-project-reactor/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/guide-to-java-reflection/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/the-final-keyword-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/introduction-to-java-nio2-file-api/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/create-a-java-command-line-program-with-picocli/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/overriding-system-time-for-testing-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/security-with-spring/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/abstract-classes-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/java-optional-orelse-vs-orelseget/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/introduction-to-project-amber/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/rename-or-move-a-file-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/junit-5-conditional-test-execution-with-annotations/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/introduction-to-spring-data-redis/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/generating-alphanumeric-uuid-string-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/guide-to-undo-a-git-rebase/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/java-ioexception-too-many-open-files/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/jackson-change-name-of-field/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/reloading-properties-files-in-spring/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/a-guide-to-concurrentmap/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/scheduled-websocket-push-with-spring-boot/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/introduction-to-checkstyle/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/create-a-bmi-calculator-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/a-custom-spring-securityconfigurer/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/guide-to-the-this-java-keyword/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/returning-an-auto-generated-id-with-jpa/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/multi-swarm-optimization-algorithm-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/iterate-over-a-map-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/guide-to-jni-java-native-interface/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/java-equals-and-hashcode-contracts/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/introduction-to-servlets-and-servlet-containers/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/negate-a-predicate-method-reference-with-java-11/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/@dynamicupdate-with-spring-data-jpa/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/guide-to-the-java.util.arrays-class/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/hibernate-3-with-spring/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/java-string-to-inputstream/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/defining-indexes-in-jpa/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/get-the-running-port-in-spring-boot/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/guide-on-loading-initial-data-with-spring-boot/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/introduction-to-jool/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/spring-security-with-maven/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/guide-to-the-jdbc-resultset-interface/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/configure-a-resttemplate-with-resttemplatebuilder/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/setting-formulas-in-excel-with-apache-poi/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/how-to-pass-environment-variable-value-into-dockerfile/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/spring-data-mongodb-indexes-annotations-and-converters/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/how-to-filter-a-collection-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/java-9-exploring-the-repl/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/rate-limiting-in-spring-cloud-netflix-zuul/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/test-a-linked-list-for-cyclicity/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/spring-data-reactive-repositories-with-mongodb/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/liveness-and-readiness-probes-in-spring-boot/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/compare-two-json-objects-with-jackson/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/scanner-nextline-method/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/junit-5-@test-annotation/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/rest-api-with-jersey-and-spring/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/getting-started-with-mule-esb/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/guide-to-uuid-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/an-example-of-load-balancing-with-zuul-and-eureka/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/sort-a-hashmap-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/spring-cloud-bus/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/guide-to-java-8-collectors/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/how-to-convert-list-to-map-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/introduction-to-apache-cxf/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/introduction-to-findbugs/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/assertj-exception-assertions/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/difference-between-parseint-and-valueof-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/generate-the-md5-checksum-for-a-file-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/querying-couchbase-with-mapreduce-views/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/how-to-use-regular-expressions-to-replace-tokens/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/spring-security-attacking-oauth/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/securing-jakarta-ee-with-spring-security/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/difference-between-jvm-jre-and-jdk/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/guide-to-spring-session/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/all-about-string-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/guide-to-sdkman/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/guide-to-apache-commons-circularfifoqueue/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/introduction-to-spring-cloud-with-netflix-ribbon/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/advanced-apache-httpclient-configuration/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/spring-security-cache-control-headers/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/guide-to-microstream/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/introduction-to-java-primitives/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/overview-of-spring-boot-dev-tools-baeldung/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/apache-commons-collections-collectionutils/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/check-if-a-java-program-is-running-in-64-bit-or-32-bit-jvm/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/java-copy-constructor/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/dynamic-proxies-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/a-guide-to-treemap-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/handling-maven-invalid-loc-header-error/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/spring-persistence-tutorial/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/a-guide-to-java-profilers/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/flattening-nested-collections-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/baeldung-weekly-review-9/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/differences-between-collection.clear-and-collection.removeall/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/a-guide-to-java-loops/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/setting-request-headers-using-feign/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/finding-the-difference-between-two-strings-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/a-guide-to-spring-cloud-netflix-hystrix/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/changing-annotation-parameters-at-runtime/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/finding-an-objects-class-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/adding-a-comment-in-a-dockerfile/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/java-9-optional-api-additions/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/overview-of-ai-libraries-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/a-simple-file-search-with-lucene/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/hashmap-under-the-hood/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/rate-limiting-a-spring-api-using-bucket4j/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/apache-camel-with-spring-boot/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/testing-a-spring-multipart-post-request/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/run-a-java-application-from-the-command-line/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/pattern-matching-for-instanceof-in-java-14/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/spring-data-reactive-repositories-with-couchbase/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/serialize-and-deserialize-booleans-as-integers-with-jackson/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/retry-a-post-to-reddit-if-its-not-getting-traction/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/intro-to-the-jackson-objectmapper/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/spring-data-web-support/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/schedule-post-to-reddit-with-spring/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/rest-query-language-with-spring-data-jpa-specifications/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/introduction-to-spark-graph-processing-with-graphframes/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/cactoos/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/method-overloading-and-overriding-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/auto-generated-field-for-mongodb-using-spring-boot/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/introduction-to-using-thymeleaf-in-spring/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/jdk-configuration-for-maven-build-in-eclipse/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/kubernetes-with-kind/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/dockerizing-a-spring-boot-application/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/gatling-vs-jmeter-vs-the-grinder/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/formatting-json-dates-in-spring-boot/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/exactly-once-processing-in-kafka-with-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/running-spring-boot-with-postgresql-in-docker-compose/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/generate-spring-boot-project-with-swagger/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/java-weekly-issue-456/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/guide-to-priorityblockingqueue-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/how-to-read-pem-file-to-get-public-and-private-keys/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/find-the-registered-spring-security-filters/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/guide-to-guava-rangeset/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/spring-data-java-8-support/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/spring-cloud-sleuth-single-application/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/guide/auditing-with-jpa-hibernate-and-spring-data-jpa/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/categories/java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/jvm/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/%E4%B8%80%E6%96%87%E5%B8%A6%E4%BD%A0%E7%90%86%E8%A7%A3-jvm-%E4%B8%AD%E5%A0%86%E7%A9%BA%E9%97%B4%E5%92%8C%E5%A0%86%E7%A9%BA%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/categories/%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/%E8%A7%84%E5%88%99%E5%BC%95%E6%93%8E/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/an-example-of-backward-chaining-in-drools/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/jrebel/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/nocalhost/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/nocalhost/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/categories/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%AE%9D%E5%85%B8/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%AE%9D%E5%85%B8%E4%B9%8B%E5%BA%8F%E5%88%97%E5%8C%96/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/%E5%BA%8F%E5%88%97%E5%8C%96/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/clickhouse/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/clickhouse/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/categories/%E5%85%B6%E4%BB%96/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/ppt-chart/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/implementing-a-simple-blockchain-in-java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/thymeleaf/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/how-to-work-with-dates-in-thymeleaf/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/spring/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/taskscheduler/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/a-guide-to-the-spring-task-scheduler/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/spring-properties-file-outside-jar/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/code-analysis-with-sonarqube/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/java/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/powermock/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/powermock/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/should-we-close-a-java-stream/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/arrays.aslist-vs-new-arraylistarrays.aslist/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/migrating-from-junit-4-to-junit-5/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/manually-authenticate-user-with-spring-security/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/a-guide-to-spring-boot-admin/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/jvm-log-forging/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/joinpoint-vs.-proceedingjoinpoint-in-aspectj/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/differences-between-paths.get-and-path.of/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/redirect-to-different-pages-after-login-with-spring-security/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/jess-rule-engine-and-jsr-94/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/jpa/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/jpa-with-spring/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/java-9-completablefuture-api-improvements/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/spring-security-remember-me/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/gc/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/java-gc/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/spring-cloud/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/spring-cloud-consul/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/%E5%B7%A5%E5%85%B7/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/%E6%B5%85%E8%B0%88-mock-server/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/mysql/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/redis/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/mysql-%E5%92%8C-redis-%E4%BA%8B%E5%8A%A1%E5%AE%9E%E7%8E%B0%E5%AF%B9%E6%AF%94/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/mq/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/rocketmq/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/categories/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/skipping-tests-with-gradle/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/go/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/%E6%B5%85%E8%B0%88-golang-%E6%8F%92%E4%BB%B6%E6%9C%BA%E5%88%B6/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/%E7%A8%B3%E5%AE%9A%E6%80%A7/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%BF%9D%E9%9A%9C%E7%9A%84%E6%96%B9%E6%B3%95%E8%AE%BA/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/http/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/dragonfly/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/tcp/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/mysql/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/mysql-%E7%B4%A2%E5%BC%95/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/network/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/%E6%9E%B6%E6%9E%84/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/%E6%9E%B6%E6%9E%84%E6%95%B4%E6%B4%81%E4%B9%8B%E9%81%93%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/%E7%BD%91%E7%BB%9C/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/redis/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/oom/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/java-%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/about/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/categories/golang/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/archive/golang-gpm%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/gpm/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/spring-shell/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/a-cli-with-spring-shell/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/graphql/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/graphql-vs-rest/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/archive/multi-thread-print-100/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/archive/java-transaction/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/%E4%BA%8B%E5%8A%A1/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/es/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/archive/java-es/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/archive/java-registry/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/archive/java-config/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/dubbo/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/archive/java-dubbo/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/archive/java-aop/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/archive/java-limiter/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/%E7%86%94%E6%96%AD/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/%E9%99%90%E6%B5%81/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/archive/java-classloader/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/archive/java-io/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/archive/java-concurrent/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/%E7%BA%BF%E7%A8%8B/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/archive/java-lock/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/%E9%94%81/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/linux/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/archive/java-linux/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/activemq/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/kafka/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/pulsar/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/rabbitmq/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/rocketmq/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/notes/java-mq/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/netty/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/archive/java-netty/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/archive/java-oom/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/archive/ali-interview/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/%E9%9D%A2%E8%AF%95/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/archive/java-redis/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/archive/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/archive/java-gc/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/archive/java-network/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/categories/linux/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/ngrok/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/archive/install-ngrok/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/ftp/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/archive/install-ftp-indebian/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/docker/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/archive/install-linux-in-old-computer/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/hexo/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/archive/config-hexo-in-windows/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/archive/get_topn_count_with_redis/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/hbase/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/archive/hbase-example/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/tags/git/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/archive/git-add-code-to-exists-repo/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/archive/guava-thread-listen/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/archive/java-class-code-block-load-order/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/archive/install-brew-in-mac/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/archive/learn-from-others/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/archive/show-dir/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url><url>
     <loc>https://www.ifb.me/posts/archive/%E9%85%8D%E7%BD%AEkafka-exactly-once%E6%B6%88%E8%B4%B9%E7%9A%84%E6%96%B9%E6%B3%95/</loc>
-    <lastmod>2023-04-18T07:47:27+00:00</lastmod>
+    <lastmod>2023-04-18T15:47:31+00:00</lastmod>
   </url>
 </urlset>
