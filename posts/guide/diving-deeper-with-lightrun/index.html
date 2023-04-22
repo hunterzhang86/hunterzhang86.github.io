@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
+    <meta charset="UTF-8" />
+
+    <meta name="generator" content="Hugo 0.111.3"><meta name="theme-color" content="#fff" />
+    <meta name="color-scheme" content="light dark">
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <title>与 Lightrun 一起深入探索 | NoOne&#39;s Blog</title>
+
+    <link rel="stylesheet" href="/css/meme.min.0d421277bb1b1b2784b749893638f7ff33314c409c04ff0aa6cef1825b70dd55.css"/>
+
+    
+    
+        <script src="/js/meme.min.f9f004b0d1c105a483e80decca90c784b63c49fe9cf42563d6a63ec4c73d65de.js"></script>
+
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB&#43;Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Noto&#43;Serif&#43;SC:wght@400;500;700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" media="print" onload="this.media='all'" />
+        <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB&#43;Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Noto&#43;Serif&#43;SC:wght@400;500;700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" /></noscript>
+
+    <meta name="author" content="noone" /><meta name="description" content="1。介绍 -------------------- 在我们的 上一篇文章 中，我们介绍了 Lightrun -- 一个开发人员可观察性平台. 在本文中，我……" />
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#2a6df4" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="NoOne&#39;s Blog" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="NoOne&#39;s Blog" />
+    <meta name="msapplication-starturl" content="../../../" />
+    <meta name="msapplication-TileColor" content="#fff" />
+    <meta name="msapplication-TileImage" content="../../../icons/mstile-150x150.png" />
+    <link rel="manifest" href="/manifest.json" />
+
+    
+    
+
+    
+    <link rel="canonical" href="https://www.ifb.me/posts/guide/diving-deeper-with-lightrun/" />
+    
+
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "datePublished": "2023-04-22T11:18:11+08:00",
+        "dateModified": "2023-04-22T07:47:32+00:00",
+        "url": "https://www.ifb.me/posts/guide/diving-deeper-with-lightrun/",
+        "headline": "与 Lightrun 一起深入探索",
+        "description": "1。介绍 -------------------- 在我们的 上一篇文章 中，我们介绍了 Lightrun -- 一个开发人员可观察性平台. 在本文中，我……",
+        "inLanguage" : "zh-CN",
+        "articleSection": "posts",
+        "wordCount":  6400 ,
+        "image": ["https://www.baeldung.com/wp-content/uploads/2022/09/snapshot-added.png","https://www.baeldung.com/wp-content/uploads/2022/09/conditional-snapshot.png","https://www.baeldung.com/wp-content/uploads/2022/09/view-multiples-snapshots.png","https://www.baeldung.com/wp-content/uploads/2022/09/dynamic-log.png","https://www.baeldung.com/wp-content/uploads/2022/09/view-logs.png","https://www.baeldung.com/wp-content/uploads/2022/09/log-piping.png","https://www.baeldung.com/wp-content/uploads/2022/09/logging-expressions.png","https://www.baeldung.com/wp-content/uploads/2022/09/lightrun-counter.png","https://www.baeldung.com/wp-content/uploads/2022/09/log-metrics.png","https://www.baeldung.com/wp-content/uploads/2022/09/custom-metrics-logs.png"],
+        "author": {
+            "@type": "Person",
+            "description": "日拱一卒，功不唐捐",
+            "email": "hunterzhang86@gmail.com",
+            "image": "https://www.ifb.me/icons/apple-touch-icon.png",
+            "url": "https://www.ifb.me/",
+            "name": "noone"
+        },
+        "license": "[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)",
+        "publisher": {
+            "@type": "Organization",
+            "name": "NoOne's Blog",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://www.ifb.me/icons/apple-touch-icon.png"
+            },
+            "url": "https://www.ifb.me/"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebSite",
+            "@id": "https://www.ifb.me/"
+        }
+    }
+</script>
+
+    
+
+<meta name="twitter:card" content="summary_large_image" />
+
+
+<meta name="twitter:creator" content="@noone" />
+
+    
+
+
+
+<meta property="og:title" content="与 Lightrun 一起深入探索" />
+<meta property="og:description" content="1。介绍 -------------------- 在我们的 上一篇文章 中，我们介绍了 Lightrun -- 一个开发人员可观察性平台. 在本文中，我……" />
+<meta property="og:url" content="https://www.ifb.me/posts/guide/diving-deeper-with-lightrun/" />
+<meta property="og:site_name" content="NoOne&#39;s Blog" />
+<meta property="og:locale" content="zh" /><meta property="og:image" content="https://www.baeldung.com/wp-content/uploads/2022/09/snapshot-added.png" />
+<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2023-04-22T11:18:11&#43;08:00" />
+    <meta property="article:modified_time" content="2023-04-22T07:47:32&#43;00:00" />
+    
+    <meta property="article:section" content="posts" />
+
+
+
+    
+    
+
+    
+</head>
+
+    <body>
+        <div class="container">
+            
+    <header class="header">
+        
+            <div class="header-wrapper">
+                <div class="header-inner single">
+                    
+    <div class="site-brand">
+        
+            <a href="/" class="brand">NoOne&#39;s Blog</a>
+        
+    </div>
+
+                    <nav class="nav">
+    <ul class="menu" id="menu">
+        
+            
+        
+        
+        
+        
+            
+                <li class="menu-item"><a href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="icon home"><path d="M280.37 148.26L96 300.11V464a16 16 0 0 0 16 16l112.06-.29a16 16 0 0 0 15.92-16V368a16 16 0 0 1 16-16h64a16 16 0 0 1 16 16v95.64a16 16 0 0 0 16 16.05L464 480a16 16 0 0 0 16-16V300L295.67 148.26a12.19 12.19 0 0 0-15.3 0zM571.6 251.47L488 182.56V44.05a12 12 0 0 0-12-12h-56a12 12 0 0 0-12 12v72.61L318.47 43a48 48 0 0 0-61 0L4.34 251.47a12 12 0 0 0-1.6 16.9l25.5 31A12 12 0 0 0 45.15 301l235.22-193.74a12.19 12.19 0 0 1 15.3 0L530.9 301a12 12 0 0 0 16.9-1.6l25.5-31a12 12 0 0 0-1.7-16.93z"/></svg><span class="menu-item-name">首页</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item active"><a href="/posts/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon archive"><path d="M32 448c0 17.7 14.3 32 32 32h384c17.7 0 32-14.3 32-32V160H32v288zm160-212c0-6.6 5.4-12 12-12h104c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12H204c-6.6 0-12-5.4-12-12v-8zM480 32H32C14.3 32 0 46.3 0 64v48c0 8.8 7.2 16 16 16h480c8.8 0 16-7.2 16-16V64c0-17.7-14.3-32-32-32z"/></svg><span class="menu-item-name">文章</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/categories/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon th"><path d="M149.333 56v80c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V56c0-13.255 10.745-24 24-24h101.333c13.255 0 24 10.745 24 24zm181.334 240v-80c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.256 0 24.001-10.745 24.001-24zm32-240v80c0 13.255 10.745 24 24 24H488c13.255 0 24-10.745 24-24V56c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24zm-32 80V56c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.256 0 24.001-10.745 24.001-24zm-205.334 56H24c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24zM0 376v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H24c-13.255 0-24 10.745-24 24zm386.667-56H488c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zm0 160H488c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zM181.333 376v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24z"/></svg><span class="menu-item-name">分类</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/tags/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" class="icon tags"><path d="M497.941 225.941L286.059 14.059A48 48 0 0 0 252.118 0H48C21.49 0 0 21.49 0 48v204.118a48 48 0 0 0 14.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882 0l204.118-204.118c18.745-18.745 18.745-49.137 0-67.882zM112 160c-26.51 0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882 0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397 0h48.721a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882z"/></svg><span class="menu-item-name">标签</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/about/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon user-circle"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"/></svg><span class="menu-item-name">关于</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href=""></a>
+                </li>
+            
+        
+            
+                
+            
+        
+            
+                
+            
+        
+    </ul>
+</nav>
+
+                    
+                </div>
+            </div>
+            
+    <input type="checkbox" id="nav-toggle" aria-hidden="true" />
+    <label for="nav-toggle" class="nav-toggle"></label>
+    <label for="nav-toggle" class="nav-curtain"></label>
+
+
+        
+    </header>
+
+
+
+
+            
+            
+    <main class="main single" id="main">
+    <div class="main-inner">
+
+        
+
+        <article class="content post h-entry" data-align="justify" data-type="posts" data-toc-num="true">
+
+            <h1 class="post-title p-name">与 Lightrun 一起深入探索</h1>
+
+            
+
+            
+                
+            
+
+            
+                
+
+<div class="post-meta">
+    
+        
+        <time datetime="2023-04-22T11:18:11&#43;08:00" class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"/></svg>&nbsp;2023.4.22</time>
+    
+    
+        
+        <time datetime="2023-04-22T07:47:32&#43;00:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;2023.4.22</time>
+    
+    
+    
+        
+        
+        
+            
+                <span class="post-meta-item category"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M464 128H272l-54.63-54.63c-6-6-14.14-9.37-22.63-9.37H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V176c0-26.51-21.49-48-48-48zm0 272H48V112h140.12l54.63 54.63c6 6 14.14 9.37 22.63 9.37H464v224z"/></svg>&nbsp;<a href="/categories/%E6%89%8B%E5%86%8C/" class="category-link p-category">手册</a></span>
+            
+        
+    
+    
+        
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;6400</span>
+    
+    
+        
+        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;13&nbsp;分钟</span>
+    
+    
+        
+            
+            <span class="post-meta-item busuanzi-page-pv" id="busuanzi_container_page_pv"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="icon post-meta-icon"><path d="M288 144a110.94 110.94 0 0 0-31.24 5 55.4 55.4 0 0 1 7.24 27 56 56 0 0 1-56 56 55.4 55.4 0 0 1-27-7.24A111.71 111.71 0 1 0 288 144zm284.52 97.4C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19zM288 400c-98.65 0-189.09-55-237.93-144C98.91 167 189.34 112 288 112s189.09 55 237.93 144C477.1 345 386.66 400 288 400z"/></svg>&nbsp;<span id="busuanzi_value_page_pv"></span></span>
+        
+    
+    
+</div>
+
+            
+
+            <div class="post-body e-content">
+                <p><strong>1。介绍</strong> -------------------- 在我们的 <a href="/java-lightrun">上一篇文章</a> 中，我们介绍了 <a href="/lightrun">Lightrun</a> -- 一个开发人员可观察性平台. <strong>在本文中，我们将深入研究它提供的功能，我们如何才能最好地在我们的应用程序中使用它们，以及我们可以从中获得什么。</strong> <strong>2.快照</strong> ---------------- 在上一篇文章中，我们简要介绍了 <a href="/lightrun-snapshots">快照</a> 是什么以及它们可以为我们做什么。在这里，我们将更深入地研究它们是什么，我们如何最好地使用它们，以及它们可以为我们做什么。 **快照类似于调试器断点。**我们可以在应用程序的任何代码行上注册快照。每次触发它都会自动记录完整的堆栈跟踪和每个可见变量的值。就像正常的断点一样，这将包括局部变量、方法参数和类字段，并且会在整个堆栈帧中进行。快照和调试器断点之间的主要区别在于快照是非侵入式的。它们不会导致任何东西阻塞——无论是整个应用程序还是只是正在执行的线程。它们记录当前的执行状态，并且应用程序继续运行而不会以任何方式中断应用程序。传统的阻塞断点（例如在调试器中）会导致单线程或整个应用程序在我们查看细节时停止暂停。 Lightrun 允许我们在不影响实时应用程序的情况下完成所有这些工作。 ### <strong>2.1。放置快照</strong> <strong>快照直接从我们的代码编辑器放置到我们的应用程序中。</strong> 在本文中，我们使用的是 IntelliJ IDEA，但也可以通过 Visual Studio Code 实现一切。我们需要确定要在应用程序中放置快照的位置。然后我们可以右键单击这行代码，从菜单中选择“Lightrun &gt; Snapshot (Virtual Breakpoint)”：<a href="/wp-content/uploads/2022/09/place-snapshot.png">![](https://www.baeldung.com/wp-content/uploads/2022/ 09/place-snapshot.png)</a> 这样做会打开一个对话框，允许我们指定快照的详细信息：<a href="/wp-content/uploads/2022/09/create-snapshot.png">![](https ://www.baeldung.com/wp-content/uploads/2022/09/create-snapshot.png)</a> <strong>默认行为这相对简单，但通常这是最有用的。</strong> 它将： * 拍摄所选行的快照。 * 没有关于何时触发快照的条件。 * 没有额外的表达式来记录快照。 * 仅在第一次触发快照时记录。 * 添加后一小时过期。这意味着它将在下一次执行这行代码时记录确切的执行状态，只要它是在下一小时内。当我们诊断问题时，这通常是最有用的设置，因为我们希望控制录制的内容，而不会在录制中产生任何噪音。我们将在本文后面看到更多关于所有这些的信息。完成此操作后，将在注册快照的代码行旁边放置一个蓝色相机图标。这说明我们的快照已经放置成功，触发时会记录：[<img src="https://www.baeldung.com/wp-content/uploads/2022/09/snapshot-added.png" alt="">](/wp -content/uploads/2022/09/snapshot-added.png) 当快照被触发时，我们将自动在我们的编辑器中查看详细信息。这看起来和功能几乎与 IntelliJ 断点面板完全相同，因为它旨在服务于相同的目的：<a href="/wp-content/uploads/2022/09/snapshot-triggered.png">![](https://www.baeldung.com/wp-content/uploads/2022/09/snapshot -triggered.png)</a> 在这里我们可以立即看到我们执行的完整堆栈跟踪，以及我们可以访问的变量。这包括变量 <em>this</em>，在其中我们可以看到当前类实例的字段。我们还可以根据需要深入研究这些方法，并单击堆栈框架中的其他方法，与使用传统调试器的方式完全相同。 ### <strong>2.2。条件快照</strong> **在某些情况下，我们希望仅在满足某些条件时记录我们的快照。**例如，仅当当前用户是特定用户名时。 Lightrun 快照允许我们指定条件作为设置它们的一部分。这与我们调试器中条件断点的工作方式非常相似。我们的条件被指定为一个 Java 表达式，其计算结果为 <em>true</em> 或 <em>false</em>。这可以访问在触发快照时可见的任何内容，这意味着任何局部变量、参数、类字段或其他任何内容。例如，假设我们有一个带有参数 <em>id</em> 的方法。我们希望在调用它时记录快照，但前提是提供的 ID 是特定值。我们可以根据需要设置一个完全触发的条件：[<img src="https://www.baeldung.com/wp-content/uploads/2022/09/conditional-snapshot.png" alt="">](/wp-content /uploads/2022/09/conditional-snapshot.png）这意味着快照只会在使用我们的特定测试值调用时触发，但除非它们碰巧使用相同的值，否则任何其他实时使用的服务都将被忽略。这有助于确保我们在快照窗格中看到的正是我们想要的，而没有任何额外的噪音干扰它并使我们的诊断更加困难。 ### <strong>2.3。附加表达式</strong> <strong>在某些情况下，我们可能需要将附加值记录为快照的一部分。</strong> 这些可能是其他值的计算，只是为了让生活更轻松——例如，钻入嵌套值以使它们更容易浮出水面。这些也可能是调用以获取否则不会记录的值 - 例如，来自静态变量，例如 [<em>RequestContextHolder</em>](<a href="https://docs.spring.io/spring-framework/docs/current/javadoc" target="_blank" rel="noopener">https://docs.spring.io/spring-framework/docs/current/javadoc</a> -api/org/springframework/web/context/request/RequestContextHolder.html) 或 <a href="/get-user-in-spring-security#interface"><em>SecurityContextHolder</em></a>。它们甚至可以是对我们可以看到的任何值的方法调用，并记录这些方法的结果。表达式以与条件非常相似的方式添加，通过在快照对话框中输入要记录的表达式：<a href="/wp-content/uploads/2022/09/snapshot-expressions.png">![](https://www.baeldung.com/wp-content/uploads/2022/09/snapshot- expression.png)</a> 我们可以根据需要在单个快照中添加任意数量的表达式，并且在触发快照时将计算并记录所有表达式.然后这些值作为“变量”窗格的一部分出现在录制的快照中，并带有不同的图标，表示它们是手动添加的表达式，而不是自动检测到的变量：<a href="/wp-content/uploads/2022/09/snapshot-variables.png">![](https://www.baeldung.com/ wp-content/uploads/2022/09/snapshot-variables.png)</a> ### 2.4。记录多个快照 在某些情况下，我们可能希望从同一个地方记录多个快照。例如，我们可能希望通过系统运行几个略有不同的请求，并能够比较它们的快照以识别差异。 Lightrun Snapshots 默认只记录一个快照，但我们可以通过在“快照”对话框中输入最大命中数来将其配置为记录任意数量的快照：<a href="/wp-content/uploads/2022/09/multiple-snapshot.png">![](https://www.baeldung.com/ wp-content/uploads/2022/09/multiple-snapshot.png)</a> 这样做会记录这个执行次数的快照，并制作它们在我们的编辑器中提供给我们：[<img src="https://www.baeldung.com/wp-content/uploads/2022/09/view-multiples-snapshots.png" alt="">](/wp-content/uploads/2022 /09/view-multiples-snapshots.png) 现在我们有多个快照可以使用，我们需要知道哪些是哪些。通过单击“快照”选项卡一侧的“i”图标，我们会看到有关此确切快照的信息对话框：<a href="/wp-content/uploads/2022/09/snapshot-info.png">![](https://www.baeldung.com/wp-content/uploads/2022/ 09/snapshot-info.png)</a> 在这里我们可以看到记录快照的服务器实例和记录时间。我们现在可以根据需要记录尽可能多的快照，并确定哪些是哪些，以便我们可以更好地诊断正在发生的事情。 ### <strong>2.5。自动过期快照</strong> 记录快照对我们的应用程序的性能成本确实很小。它们还会导致数据从我们的应用程序传输到 Lightrun 服务器，这可能会产生成本。这意味着虽然快照对于诊断问题非常有用，但我们希望确保它们不会停留超过所需时间。 <strong>Lightrun 通过自动过期快照为我们解决了这个问题，因此它们只会影响我们的应用程序以满足我们的确切需求，而不会影响更多。</strong> 默认情况下，快照将在 1 小时后自动禁用。如果我们想以最小的影响对自己进行一些集中测试，我们可以将其设置为非常短的时间。或者，我们可以将其设置为一个很长的时间段，例如，以捕捉在一夜之间、一个周末甚至更长时间内发生的任何特定问题的发生。我们可以从“创建快照”对话框的“高级”部分调整快照将处于活动状态的持续时间。这为我们提供了一个额外的到期时间选项，它允许我们以小时、分钟和秒为单位指定快照的活动时间：<a href="/wp-content/uploads/2022/09/snapshot-expiry.png">![](https://www.baeldung.com/wp- content/uploads/2022/09/snapshot-expiry.png)</a> <strong>在这段时间之后，快照将保持存在，以便记录的快照仍然存在可用。</strong> 但是，它会停止记录任何内容——即使我们还没有达到最大命中数。如果我们不更改此设置，则默认值为 1 小时。这段时间过去后，我们快照的相机图标变为红色，表示它不再处于活动状态：<a href="/wp-content/uploads/2022/09/stop-recording.png">![](https://www.baeldung.com/wp-content/uploads/2022/09/stop-recording .png)</a> 请注意，快照仍保留在我们的系统中，否则，记录的数据将不可用。但是，除非重新启用，否则它不会再记录任何数据。 <strong>3。日志</strong> ----------- **Lightrun 提供的另一个功能是能够将 <a href="/lightrun-logs">日志记录语句</a> 动态添加到我们的应用程序中，而无需更改或重新启动任何内容。**日志的配置方式与快照类似，但用途不同。快照通过在触发它们时记录线程的确切状态来工作。相反，日志会将所需信息写入日志流。这意味着许多日志消息——无论是内置在应用程序中还是由 Lightrun 动态添加——将在日志流中混合在一起，并给出正在发生的事情的更大图景。我们将看到来自我们应用程序的日志消息和 Lightrun 添加的任何日志合并到同一个流中，让我们全面了解正在发生的事情。 ### <strong>3.1。添加动态日志</strong> <strong>使用 Lightrun 添加动态日志的方式与添加快照非常相似。</strong> 我们右键单击之前要添加日志语句的行，然后从菜单：[<img src="https://www.baeldung.com/wp-content/uploads/2022/09/dynamic-log.png" alt="">](/wp-content/uploads/2022/09/dynamic-log. png）然后给我们一个对话框来配置动态日志语句，然后将其添加到我们正在运行的应用程序中：<a href="/wp-content/uploads/2022/09/create-log.png">![](https://www.baeldung.com/wp-content/uploads/2022/09/ create-log.png)</a> 这使我们能够指定将输出的日志消息——其中可以包括动态表达式作为信息。我们还可以指定触发日志消息所需的条件，与快照条件的工作方式完全相同。默认情况下，这些日志消息将在 1 小时后过期，但也可以通过单击“高级”按钮来更改与快照相同的设置。日志消息也有一个日志级别，默认为 INFO，但我们可以根据需要将它们更改为 DEBUG、WARN 或 ERROR。一旦我们添加了日志语句，编辑器将在代码视图中指出这一点，以显示日志语句在哪里以及它在做什么：<a href="/wp-content/uploads/2022/09/log-statement.png">![](https://www.baeldung.com/wp-content/ uploads/2022/09/log-statement.png)</a> ### <strong>3.2.查看日志</strong> **默认情况下，我们的动态日志消息是使用 Java Util Logging 写出的。**在这种情况下，我们可以看到它们与应用程序生成的任何其他日志消息交错，这可以提供更多信息： <a href="/wp-content/uploads/2022/09/view-logs.png"><img src="https://www.baeldung.com/wp-content/uploads/2022/09/view-logs.png" alt=""></a> <strong>也可以将日志消息发送到我们的编辑器以在本地查看。</strong> 这些可以在 Lightrun 控制台中查看，类似于我们查看快照的方式。如果我们想在不给输出日志文件添加额外噪音的情况下向系统添加日志记录，这将非常有用，尤其是当其他团队成员或其他系统正在使用这些日志时：<a href="/wp-content/uploads/2022/09/lightrun-console-logs.png">![](https://www. baeldung.com/wp-content/uploads/2022/09/lightrun-console-logs.png)</a> 我们可以更改日志消息的位置通过打开侧栏中的代理菜单并选择日志管道来输出：[<img src="https://www.baeldung.com/wp-content/uploads/2022/09/log-piping.png" alt="">](/wp -content/uploads/2022/09/log-piping.png) 从这里我们可以选择 App - 这意味着写入应用程序的已配置 Java Util Logging 设置，Plugin - 这意味着写入活动的 Lightrun 插件我们的编辑，或两者兼而有之。请注意，这是针对整个 Lightrun 代理而不是针对单个日志消息执行的。由于 Lightrun 代理的工作方式，Java Util Logging 配置不是应用程序的标准配置。相反，需要一些 <a href="https://docs.lightrun.com/jvm/agent-configuration/#jvm-flags" target="_blank" rel="noopener">Lightrun 代理标志</a> 来配置 Lightrun 动态记录器在写入时的目标和输出格式到 Java Util 日志记录。 ### <strong>3.3。记录表达式</strong> <strong>记录简单字符串已经很有用了。但是，记录应用程序中的值要有用得多。</strong> 就像我们的快照可以包含自定义表达式一样，我们可以为日志执行此操作。当我们对日志执行此操作时，我们将表达式直接添加到日志消息中。这是通过将表达式包裹在花括号中来完成的：<code>plaintext  搜索任务：status={status}, createdBy={createdBy} </code> 当我们这样做时，这些表达式中的任何一个都将在 log 语句时自动扩展生成：[<img src="https://www.baeldung.com/wp-content/uploads/2022/09/logging-expressions.png" alt="">](/wp-content/uploads/2022/09/logging-expressions .png) 这些表达式可以是在生成日志语句时可以确定的任何内容，其方式与快照完全相同。这些表达式有时会占用大量 CPU 时间来计算。如果发生这种情况，Lightrun 可能会自动暂停特定日志，以便它们不会干扰应用程序的运行。因此，建议保持日志表达式尽可能简单。 <strong>4。 Metrics</strong> -------------- <strong>我们可以使用 Lightrun 执行的最终操作是记录一些关于我们的应用程序的 <a href="/lightrun-metrics">metrics</a>。</strong> 这给了我们查看我们应用程序的使用细节的能力——例如，某些事情发生的频率或需要多长时间。与快照和日志一样，通过右键单击相应的代码行并选择“Lightrun &gt; Metrics”来添加指标：<a href="/wp-content/uploads/2022/09/lightrun-metrics.png">![](https://www.baeldung.com/wp-content /uploads/2022/09/lightrun-metrics.png)</a> 我们可以立即看到这略有不同——我们有不同类型的指标我们可以添加： * Counter -- 记录一行代码执行次数的简单计数。 * Time Measure - 这记录了两行代码之间的时间。* 方法持续时间——这记录了进入和退出方法之间的时间。 * 自定义指标——这使用自定义表达式根据代码中可用的值生成指标。在每种情况下，我们都会获得用于创建指标的标准 Lightrun 对话框。这让我们可以配置指标，包括为指标添加名称、触发条件以及停止工作的到期时间——与我们对快照和日志完全相同的方式。这些指标默认输出到日志记录进程，但如果需要，也可以集成到 StatsD、Prometheus 和其他工具中。 ### <strong>4.1。计数器</strong> <strong>计数器是对某些代码执行次数的简单度量。</strong> 每次到达我们的代码行时，计数器都会增加 1，然后我们可以看到这种情况发生的频率。添加计数器的方法是从 Lightrun 菜单中选择计数器，然后填写对话框：<a href="/wp-content/uploads/2022/09/lightrun-counter.png"><img src="https://www.baeldung.com/wp-content/uploads/2022/09/lightrun-counter.png" alt=""> </a> 其中大部分是相当标准的。唯一不寻常的是“名称”字段——我们需要给每个计数器一个唯一的名称，以便我们可以跟踪它们。特别是，这里的一个强大功能是我们可以设置计数器 - 就像所有指标一样 - 附加条件。这使我们能够计算仅在满足其他条件时达到某行代码的次数，例如仅针对某个用户或影响某些记录。添加计数器不会立即执行任何操作。但是，<strong>一旦第一次触发，它将开始以与日志输出方式类似的方式报告指标值</strong>——基于管道设置的日志输出。我们的编辑器每 10 秒显示一次指标的值：[<img src="https://www.baeldung.com/wp-content/uploads/2022/09/log-metrics.png" alt="">](/wp-content/ uploads/2022/09/log-metrics.png) 而日志输出每秒显示指标：<a href="/wp-content/uploads/2022/09/log-output-metrics.png">![](https://www.baeldung.com/wp-content/uploads/2022/09/log-output -metrics.png)</a> 此输出由与日志输出完全相同的设置控制，并将我们的指标与我们的日志交错以提供更好的正在发生的事情的图片。这让我们可以随着时间的推移跟踪指标是如何变化的，以查看代码被触发的速率。 ### <strong>4.2。 Time Duration</strong> <strong>计数器用于衡量一行代码的执行次数，Time Duration 用于衡量代码运行的时间。</strong> 这些也称为“TicToc”指标——Tic开始录音，Toc 停止录音，类似于时钟的噪音。创建持续时间时，我们需要准确配置我们正在测量的代码段。这是通过指定开始和停止录制的行来完成的——通过在打开对话框之前选择一个代码块或在对话框中输入行号：<a href="/wp-content/uploads/2022/09/time-duration.png">![](https://www.baeldung.com /wp-content/uploads/2022/09/time-duration.png)</a> 除此之外，创建持续时间与创建持续时间相同柜台。 <strong>一旦创建，这些指标将立即开始输出，而不是等待它们第一次被触发。</strong> 这些输出是插件和应用程序标准输出，与计数器完全相同，并会告诉我们多久代码部分已运行以及代码运行的最快、最慢和平均时间：<a href="/wp-content/uploads/2022/09/time-duration-metrics.png">![](https://www.baeldung.com/wp-content/uploads/2022/09/time- duration-metrics.png)</a> ### <strong>4.3。 Method Duration</strong> Method Duration 指标与 Time Duration 基本相同，但我们指定完整方法，而不是指定开始行和结束行：<a href="/wp-content/uploads/2022/09/method-duration.png">![](https://www.baeldung.com/wp-content/uploads/ 2022/09/method-duration.png)</a> 添加后，此功能与覆盖整个方法主体的持续时间指标完全相同。开始时间认为是进入方法的时间，结束时间是离开的时间，不管是返回还是异常：<a href="/wp-content/uploads/2022/09/method-duration-logs.png">![](https://www.baeldung.com/wp -content/uploads/2022/09/method-duration-logs.png)</a> 从这里的输出我们可以看出，这些实际上是“ TicToc Log”条目也是如此，只有 Lightrun 根据方法本身而不是基于代码行自动为我们确定了起点和终点。 ### <strong>4.4。自定义指标</strong> <strong>我们的最终指标只是一个自定义指标。这让我们可以以某种方式聚合代码中存在的数字，无论这些数字是什么。</strong> 例如，我们可能想要计算某些搜索结果中返回的记录数。在创建这种类型的指标时，我们需要指定一个表达式。此表达式返回我们的指标将聚合的数字，与其他地方一样，它可以是我们代码中此时可以计算的任何表达式：<a href="/wp-content/uploads/2022/09/custom-metrics.png">![](https://www.baeldung.com/wp-content/uploads /2022/09/custom-metrics.png)</a> 当这些指标输出时，它向我们展示了它被触发的次数和最大值、最小值，以及我们表达式的平均值：[<img src="https://www.baeldung.com/wp-content/uploads/2022/09/custom-metrics-logs.png" alt="">](/wp-content/uploads/ 2022/09/custom-metrics-logs.png) <strong>5。摘要</strong> -------------- **这里我们详细介绍了 Lightrun 可以让我们更深入地了解我们的应用程序并更好地了解它们的工作原理的主要方式。**为什么不在您的下一个应用程序中使用它，以更好地了解正在发生的事情，甚至帮助诊断可能发生的任何问题？</p>
+
+            </div>
+
+            
+    
+    
+        <ul class="post-copyright">
+            <li class="copyright-item author"><span class="copyright-item-text">作者</span>：<a href="https://www.ifb.me/" class="p-author h-card" target="_blank" rel="noopener">noone</a></li>
+            
+                
+                
+                
+                
+                <li class="copyright-item link"><span class="copyright-item-text">链接</span>：<a href="/posts/guide/diving-deeper-with-lightrun/" target="_blank" rel="noopener">https://www.ifb.me/posts/guide/diving-deeper-with-lightrun/</a></li>
+            
+            <li class="copyright-item license"><span class="copyright-item-text">许可</span>：<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a></li>
+            
+        </ul>
+    
+
+
+
+        </article>
+
+        
+
+        
+    <div class="updated-badge-container">
+        <span title="Updated @ 2023-04-22 07:47:32 UTC" style="cursor:help">
+
+<p>更多分享请扫描二维码关注微信公众号 <em><strong>NoOneNoOne</strong></em></p>
+<p><img src="https://blog.fflow.link/images/qrcode.jpeg" alt=""></p>
+
+<svg xmlns="http://www.w3.org/2000/svg" width="130" height="20" class="updated-badge"><linearGradient id="b" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="a"><rect width="130" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#a)"><path class="updated-badge-left" d="M0 0h55v20H0z"/><path class="updated-badge-right" d="M55 0h75v20H55z"/><path fill="url(#b)" d="M0 0h130v20H0z"/></g><g fill="#fff" text-anchor="middle" font-size="110"><text x="285" y="150" fill="#010101" fill-opacity=".3" textLength="450" transform="scale(.1)">updated</text><text x="285" y="140" textLength="450" transform="scale(.1)">updated</text><text x="915" y="150" fill="#010101" fill-opacity=".3" textLength="650" transform="scale(.1)">2023-04-22</text><text x="915" y="140" textLength="650" transform="scale(.1)">2023-04-22</text></g></svg>
+        </span></div>
+
+
+
+        
+
+
+        <div class="post-share">
+
+        
+
+        <div class="share-items">
+
+            
+                <div class="share-item twitter">
+                    
+                    <a href="https://twitter.com/share?url=https://www.ifb.me/posts/guide/diving-deeper-with-lightrun/&amp;text=%e4%b8%8e%20Lightrun%20%e4%b8%80%e8%b5%b7%e6%b7%b1%e5%85%a5%e6%8e%a2%e7%b4%a2&amp;hashtags=&amp;via=" title="分享到「Twitter」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item facebook">
+                    
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.ifb.me/posts/guide/diving-deeper-with-lightrun/&amp;hashtag=%23" title="分享到「Facebook」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon facebook-icon"><path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item linkedin">
+                    
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.ifb.me/posts/guide/diving-deeper-with-lightrun/&amp;title=%e4%b8%8e%20Lightrun%20%e4%b8%80%e8%b5%b7%e6%b7%b1%e5%85%a5%e6%8e%a2%e7%b4%a2&amp;summary=1%e3%80%82%e4%bb%8b%e7%bb%8d%20--------------------%20%e5%9c%a8%e6%88%91%e4%bb%ac%e7%9a%84%20%e4%b8%8a%e4%b8%80%e7%af%87%e6%96%87%e7%ab%a0%20%e4%b8%ad%ef%bc%8c%e6%88%91%e4%bb%ac%e4%bb%8b%e7%bb%8d%e4%ba%86%20Lightrun%20--%20%e4%b8%80%e4%b8%aa%e5%bc%80%e5%8f%91%e4%ba%ba%e5%91%98%e5%8f%af%e8%a7%82%e5%af%9f%e6%80%a7%e5%b9%b3%e5%8f%b0.%20%e5%9c%a8%e6%9c%ac%e6%96%87%e4%b8%ad%ef%bc%8c%e6%88%91%e2%80%a6%e2%80%a6&amp;source=NoOne%27s%20Blog" title="分享到「LinkedIn」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item telegram">
+                    
+                    <a href="https://t.me/share/url?url=https://www.ifb.me/posts/guide/diving-deeper-with-lightrun/&amp;text=%e4%b8%8e%20Lightrun%20%e4%b8%80%e8%b5%b7%e6%b7%b1%e5%85%a5%e6%8e%a2%e7%b4%a2" title="分享到「Telegram」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon telegram-icon"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm121.8 169.9l-40.7 191.8c-3 13.6-11.1 16.9-22.4 10.5l-62-45.7-29.9 28.8c-3.3 3.3-6.1 6.1-12.5 6.1l4.4-63.1 114.9-103.8c5-4.4-1.1-6.9-7.7-2.5l-142 89.4-61.2-19.1c-13.3-4.2-13.6-13.3 2.8-19.7l239.1-92.2c11.1-4 20.8 2.7 17.2 19.5z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item weibo">
+                    
+                    <a href="https://service.weibo.com/share/share.php?&amp;url=https://www.ifb.me/posts/guide/diving-deeper-with-lightrun/&amp;title=%e4%b8%8e%20Lightrun%20%e4%b8%80%e8%b5%b7%e6%b7%b1%e5%85%a5%e6%8e%a2%e7%b4%a2&amp;pic=https://www.baeldung.com/wp-content/uploads/2022/09/snapshot-added.png&amp;searchPic=false" title="分享到「新浪微博」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon weibo-icon"><path d="M407 177.6c7.6-24-13.4-46.8-37.4-41.7-22 4.8-28.8-28.1-7.1-32.8 50.1-10.9 92.3 37.1 76.5 84.8-6.8 21.2-38.8 10.8-32-10.3zM214.8 446.7C108.5 446.7 0 395.3 0 310.4c0-44.3 28-95.4 76.3-143.7C176 67 279.5 65.8 249.9 161c-4 13.1 12.3 5.7 12.3 6 79.5-33.6 140.5-16.8 114 51.4-3.7 9.4 1.1 10.9 8.3 13.1 135.7 42.3 34.8 215.2-169.7 215.2zm143.7-146.3c-5.4-55.7-78.5-94-163.4-85.7-84.8 8.6-148.8 60.3-143.4 116s78.5 94 163.4 85.7c84.8-8.6 148.8-60.3 143.4-116zM347.9 35.1c-25.9 5.6-16.8 43.7 8.3 38.3 72.3-15.2 134.8 52.8 111.7 124-7.4 24.2 29.1 37 37.4 12 31.9-99.8-55.1-195.9-157.4-174.3zm-78.5 311c-17.1 38.8-66.8 60-109.1 46.3-40.8-13.1-58-53.4-40.3-89.7 17.7-35.4 63.1-55.4 103.4-45.1 42 10.8 63.1 50.2 46 88.5zm-86.3-30c-12.9-5.4-30 .3-38 12.9-8.3 12.9-4.3 28 8.6 34 13.1 6 30.8.3 39.1-12.9 8-13.1 3.7-28.3-9.7-34zm32.6-13.4c-5.1-1.7-11.4.6-14.3 5.4-2.9 5.1-1.4 10.6 3.7 12.9 5.1 2 11.7-.3 14.6-5.4 2.8-5.2 1.1-10.9-4-12.9z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item douban">
+                    
+                    <a href="https://www.douban.com/share/service?href=https://www.ifb.me/posts/guide/diving-deeper-with-lightrun/&amp;name=%e4%b8%8e%20Lightrun%20%e4%b8%80%e8%b5%b7%e6%b7%b1%e5%85%a5%e6%8e%a2%e7%b4%a2&amp;text=1%e3%80%82%e4%bb%8b%e7%bb%8d%20--------------------%20%e5%9c%a8%e6%88%91%e4%bb%ac%e7%9a%84%20%e4%b8%8a%e4%b8%80%e7%af%87%e6%96%87%e7%ab%a0%20%e4%b8%ad%ef%bc%8c%e6%88%91%e4%bb%ac%e4%bb%8b%e7%bb%8d%e4%ba%86%20Lightrun%20--%20%e4%b8%80%e4%b8%aa%e5%bc%80%e5%8f%91%e4%ba%ba%e5%91%98%e5%8f%af%e8%a7%82%e5%af%9f%e6%80%a7%e5%b9%b3%e5%8f%b0.%20%e5%9c%a8%e6%9c%ac%e6%96%87%e4%b8%ad%ef%bc%8c%e6%88%91%e2%80%a6%e2%80%a6" title="分享到「豆瓣」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon douban-icon"><path d="M.643.92v2.412h22.714V.92H.643zm1.974 4.926v9.42h18.764v-9.42H2.617zm2.72 2.408H18.69v4.605H5.338V8.254zm1.657 7.412l-2.512.938c1.037 1.461 1.87 2.825 2.512 4.091H0v2.385h24v-2.385h-6.678c.818-1.176 1.589-2.543 2.303-4.091l-2.73-.938a29.952 29.952 0 01-2.479 5.03h-4.75c-.786-1.962-1.677-3.641-2.672-5.03Z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item qq">
+                    
+                    <a href="https://connect.qq.com/widget/shareqq/index.html?url=https://www.ifb.me/posts/guide/diving-deeper-with-lightrun/&amp;title=%e4%b8%8e%20Lightrun%20%e4%b8%80%e8%b5%b7%e6%b7%b1%e5%85%a5%e6%8e%a2%e7%b4%a2&amp;summary=1%e3%80%82%e4%bb%8b%e7%bb%8d%20--------------------%20%e5%9c%a8%e6%88%91%e4%bb%ac%e7%9a%84%20%e4%b8%8a%e4%b8%80%e7%af%87%e6%96%87%e7%ab%a0%20%e4%b8%ad%ef%bc%8c%e6%88%91%e4%bb%ac%e4%bb%8b%e7%bb%8d%e4%ba%86%20Lightrun%20--%20%e4%b8%80%e4%b8%aa%e5%bc%80%e5%8f%91%e4%ba%ba%e5%91%98%e5%8f%af%e8%a7%82%e5%af%9f%e6%80%a7%e5%b9%b3%e5%8f%b0.%20%e5%9c%a8%e6%9c%ac%e6%96%87%e4%b8%ad%ef%bc%8c%e6%88%91%e2%80%a6%e2%80%a6&amp;pics=https://www.baeldung.com/wp-content/uploads/2022/09/snapshot-added.png&amp;site=NoOne%27s%20Blog" title="分享到「QQ」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon qq-icon"><path d="M433.754 420.445c-11.526 1.393-44.86-52.741-44.86-52.741 0 31.345-16.136 72.247-51.051 101.786 16.842 5.192 54.843 19.167 45.803 34.421-7.316 12.343-125.51 7.881-159.632 4.037-34.122 3.844-152.316 8.306-159.632-4.037-9.045-15.25 28.918-29.214 45.783-34.415-34.92-29.539-51.059-70.445-51.059-101.792 0 0-33.334 54.134-44.859 52.741-5.37-.65-12.424-29.644 9.347-99.704 10.261-33.024 21.995-60.478 40.144-105.779C60.683 98.063 108.982.006 224 0c113.737.006 163.156 96.133 160.264 214.963 18.118 45.223 29.912 72.85 40.144 105.778 21.768 70.06 14.716 99.053 9.346 99.704z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item qzone">
+                    
+                    <a href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.ifb.me/posts/guide/diving-deeper-with-lightrun/&amp;title=%e4%b8%8e%20Lightrun%20%e4%b8%80%e8%b5%b7%e6%b7%b1%e5%85%a5%e6%8e%a2%e7%b4%a2&amp;summary=1%e3%80%82%e4%bb%8b%e7%bb%8d%20--------------------%20%e5%9c%a8%e6%88%91%e4%bb%ac%e7%9a%84%20%e4%b8%8a%e4%b8%80%e7%af%87%e6%96%87%e7%ab%a0%20%e4%b8%ad%ef%bc%8c%e6%88%91%e4%bb%ac%e4%bb%8b%e7%bb%8d%e4%ba%86%20Lightrun%20--%20%e4%b8%80%e4%b8%aa%e5%bc%80%e5%8f%91%e4%ba%ba%e5%91%98%e5%8f%af%e8%a7%82%e5%af%9f%e6%80%a7%e5%b9%b3%e5%8f%b0.%20%e5%9c%a8%e6%9c%ac%e6%96%87%e4%b8%ad%ef%bc%8c%e6%88%91%e2%80%a6%e2%80%a6&amp;pics=https://www.baeldung.com/wp-content/uploads/2022/09/snapshot-added.png&amp;site=NoOne%27s%20Blog" title="分享到「QQ 空间」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon qzone-icon"><path d="M23.985 9.202c-.032-.099-.127-.223-.334-.258-.207-.036-7.351-1.406-7.351-1.406s-.105-.022-.198-.07c-.092-.047-.127-.167-.127-.167S12.447.956 12.349.77C12.25.583 12.104.532 12 .532c-.104 0-.251.051-.349.238-.098.186-3.626 6.531-3.626 6.531s-.035.12-.128.167c-.092.047-.197.07-.197.07S.556 8.908.348 8.943c-.208.036-.302.16-.333.258a.477.477 0 0 0 .125.449l5.362 5.49s.072.08.119.172c.016.104.005.21.005.21s-1.189 7.242-1.22 7.45.075.369.159.43c.083.062.233.106.421.013.189-.093 6.812-3.261 6.812-3.261s.098-.044.201-.061c.103-.017.201.061.201.061s6.623 3.168 6.812 3.261c.188.094.338.049.421-.013a.463.463 0 0 0 .159-.43c-.021-.14-.93-5.677-.93-5.677.876-.54 1.425-1.039 1.849-1.747-2.594.969-6.006 1.717-9.415 1.866-.915.041-2.41.097-3.473-.015-.678-.071-1.17-.144-1.243-.438-.053-.215.054-.46.545-.831a2640.5 2640.5 0 0 1 2.861-2.155c1.285-.968 3.559-2.47 3.559-2.731 0-.285-2.144-.781-4.037-.781-1.945 0-2.275.132-2.811.168-.488.034-.769.005-.804-.138-.06-.248.183-.389.588-.568.709-.314 1.86-.594 1.984-.626.194-.052 3.082-.805 5.618-.535 1.318.14 3.244.668 3.244 1.276 0 .342-1.721 1.494-3.225 2.597-1.149.843-2.217 1.561-2.217 1.688 0 .342 3.533 1.241 6.689 1.01l.003-.022c.048-.092.119-.172.119-.172l5.362-5.49a.477.477 0 0 0 .127-.449z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item qrcode">
+                    <div class="qrcode-container" title="通过「二维码」"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon qrcode-icon"><path d="M0 224h192V32H0v192zM64 96h64v64H64V96zm192-64v192h192V32H256zm128 128h-64V96h64v64zM0 480h192V288H0v192zm64-128h64v64H64v-64zm352-64h32v128h-96v-32h-32v96h-64V288h96v32h64v-32zm0 160h32v32h-32v-32zm-64 0h32v32h-32v-32z"/></svg><div id="qrcode-img"></div>
+                    </div>
+                    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+
+<script>
+    const typeNumber = 0;
+    const errorCorrectionLevel = 'L';
+    const qr = qrcode(typeNumber, errorCorrectionLevel);
+    qr.addData('https:\/\/www.ifb.me\/posts\/guide\/diving-deeper-with-lightrun\/');
+    qr.make();
+    document.getElementById('qrcode-img').innerHTML = qr.createImgTag();
+</script>
+
+                </div>
+            
+
+        </div>
+
+    </div>
+
+
+
+
+        
+    
+    
+        <div class="related-posts">
+            <h2 class="related-title">相关文章：<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon related-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"/></svg></h2>
+            <ul class="related-list">
+                
+                    <li class="related-item">
+                        <a href="/posts/guide/introduction-to-testng/" class="related-link">TestNG 简介</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/guide/creating-a-custom-annotation-in-java/" class="related-link">在 Java 中创建自定义注解</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/guide/java-create-a-file/" class="related-link">Java - 创建文件</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/guide/spring-cloud-series-the-gateway-pattern/" class="related-link">Spring Cloud 系列——网关模式</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/guide/spring-data-repositories-compared/" class="related-link">Spring 数据存储库比较</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
+
+
+
+        
+    
+
+
+
+        
+
+
+        
+
+
+        
+    
+        
+        
+    
+    
+    
+    
+        <ul class="post-nav">
+            
+            
+                <li class="post-nav-next">
+                    <a href="/posts/guide/introduction-to-testng/" rel="next">TestNG 简介 &gt;</a>
+                </li>
+            
+        </ul>
+    
+
+
+
+        
+
+
+    </div>
+</main>
+
+
+            
+    <div id="back-to-top" class="back-to-top">
+        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon arrow-up"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg></a>
+    </div>
+
+
+            
+    <footer id="footer" class="footer">
+        <div class="footer-inner">
+            <div class="site-info">©&nbsp;2020–2023&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;noone</div><div class="site-copyright"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a></div>
+                <div class="busuanzi-site-uv-and-pv">
+                    <span id="busuanzi_container_site_uv">本站访客数&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon busuanzi-site-uv"><path d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z"/></svg>&nbsp;<span id="busuanzi_value_site_uv"></span></span>&nbsp;|&nbsp;<span id="busuanzi_container_site_pv">本站访问量&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="icon busuanzi-site-pv"><path d="M288 144a110.94 110.94 0 0 0-31.24 5 55.4 55.4 0 0 1 7.24 27 56 56 0 0 1-56 56 55.4 55.4 0 0 1-27-7.24A111.71 111.71 0 1 0 288 144zm284.52 97.4C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19zM288 400c-98.65 0-189.09-55-237.93-144C98.91 167 189.34 112 288 112s189.09 55 237.93 144C477.1 345 386.66 400 288 400z"/></svg>&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+                </div>
+
+            
+    
+        <ul class="socials"><li class="socials-item">
+                    <a href="/rss.xml" target="_blank" rel="external noopener" title="RSS"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M19.199 24C19.199 13.467 10.533 4.8 0 4.8V0c13.165 0 24 10.835 24 24h-4.801zM3.291 17.415c1.814 0 3.293 1.479 3.293 3.295 0 1.813-1.485 3.29-3.301 3.29C1.47 24 0 22.526 0 20.71s1.475-3.294 3.291-3.295zM15.909 24h-4.665c0-6.169-5.075-11.245-11.244-11.245V8.09c8.727 0 15.909 7.184 15.909 15.91z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="mailto:hunterzhang86@gmail.com" target="_blank" rel="external noopener" title="Email"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon social-icon"><path d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://github.com/hunterzhang86" target="_blank" rel="external noopener" title="GitHub"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+                </li></ul>
+    
+
+
+
+            
+        </div>
+    </footer>
+
+
+        </div>
+        
+
+        
+
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js"></script>
+
+<script>
+    let imgNodes = document.querySelectorAll('div.post-body img');
+    imgNodes = Array.from(imgNodes).filter(node => node.parentNode.tagName !== "A");
+
+    mediumZoom(imgNodes, {
+        background: 'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'
+    })
+</script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js" type="module" defer></script>
+
+
+
+    
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+
+
+
+    </body>
+</html>
