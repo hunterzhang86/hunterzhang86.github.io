@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-CN">
     <title type="text">NoOne&#39;s Blog</title>
     <subtitle type="html">NoOne 的技术分享，主要的博客内容包括云原生、微服务、低代码、Java 以及 Golang</subtitle>
-    <updated>2023-05-13T16:32:09&#43;00:00</updated>
+    <updated>2023-05-13T23:47:25&#43;00:00</updated>
     <id>https://www.ifb.me/</id>
     <link rel="alternate" type="text/html" href="https://www.ifb.me/" />
     <link rel="self" type="application/atom&#43;xml" href="https://www.ifb.me/atom.xml" />
@@ -17,10 +17,187 @@
     <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights>
     <generator uri="https://gohugo.io/" version="0.111.3">Hugo</generator>
         <entry>
+            <title type="text">Java编程指南：如何使用Cassandra进行数据处理</title>
+            <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/cassandra/" />
+            <id>https://www.ifb.me/posts/notes/cassandra/</id>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
+            <published>2023-05-14T07:18:11&#43;08:00</published>
+            <author>
+                    <name>noone</name>
+                    <uri>https://www.ifb.me/</uri>
+                    <email>hunterzhang86@gmail.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">Cassandra是一种高性能和可扩展的分布式NoSQL数据库。在处理结构化/半结构……</summary>
+            
+                <content type="html">&lt;p&gt;Cassandra是一种高性能和可扩展的分布式NoSQL数据库。在处理结构化/半结构化数据、高并发读写操作和存储海量数据时，Cassandra表现出色。而Java是一种跨平台、高效和广泛应用的编程语言。本文将介绍如何在Java中使用Cassandra数据库。&lt;/p&gt;
+&lt;h2 id=&#34;cassandra数据库的原理&#34;&gt;Cassandra数据库的原理&lt;/h2&gt;
+&lt;p&gt;Cassandra旨在处理大量数据的分布式存储和处理，具有以下特点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;分布式架构：Cassandra使用分布式架构，允许数据在多个节点之间分布处理，而不是集中在一个位置。每个节点都是同等重要的，其中任何一个节点都可以读写数据并处理查询。&lt;/li&gt;
+&lt;li&gt;数据存储模型：Cassandra使用基于列的数据存储模型，这意味着它使用长而宽的表来存储数据，而不是使用传统的表。这种方式使得不同行的数据在一个键下存储，而不是在不同行中存储。这种方式可以减少数据的重复，降低存储成本。&lt;/li&gt;
+&lt;li&gt;免费且开放源代码：Cassandra是一种开放源代码数据库，可以使用、修改和分发。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;在java中使用cassandra数据库的步骤&#34;&gt;在Java中使用Cassandra数据库的步骤&lt;/h2&gt;
+&lt;p&gt;在Java中使用Cassandra数据库，需要以下步骤：&lt;/p&gt;
+&lt;h3 id=&#34;1-下载和安装cassandra数据库&#34;&gt;1. 下载和安装Cassandra数据库&lt;/h3&gt;
+&lt;p&gt;下载并安装Cassandra数据库，可以从官方网站上获取安装包和使用文档。安装过程中需要配置Cassandra的参数和依赖库。&lt;/p&gt;
+&lt;h3 id=&#34;2-配置cassandra数据库&#34;&gt;2. 配置Cassandra数据库&lt;/h3&gt;
+&lt;p&gt;配置Cassandra数据库，包括集群大小、分区和副本策略、负载平衡和数据备份等。通常情况下，每个集群至少有两个节点，并使用简单策略来配置副本和分区。&lt;/p&gt;
+&lt;h3 id=&#34;3-安装java驱动程序&#34;&gt;3. 安装Java驱动程序&lt;/h3&gt;
+&lt;p&gt;安装Java驱动程序，可以使用DataStax Java驱动程序或Hector API。DataStax Java驱动程序提供高性能、可扩展和易于使用的API，而Hector API则是先进的API，并提供了更多的功能。&lt;/p&gt;
+&lt;h3 id=&#34;4-数据建模和查询&#34;&gt;4. 数据建模和查询&lt;/h3&gt;
+&lt;p&gt;在Java中使用Cassandra时，需要进行数据建模和查询，以便能够从数据库中检索所需的数据。可以使用CQL（Cassandra Query Language）进行数据建模和查询，也可以使用Java API或Hector API 访问数据库。&lt;/p&gt;
+&lt;h3 id=&#34;5-执行cql查询&#34;&gt;5. 执行CQL查询&lt;/h3&gt;
+&lt;p&gt;使用Java驱动程序执行CQL查询，可以使用以下代码片段访问Cassandra数据库和表，并执行插入操作：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;Cluster&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;cluster&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Cluster&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;builder&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;addContactPoint&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;127.0.0.1&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;build&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;Session&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;session&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;cluster&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;connect&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;execute&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;USE testdb;&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;execute&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;INSERT INTO mytable(key, value) VALUES (?, ?);&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;key1&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;value1&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;ResultSet&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;results&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;execute&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;SELECT * FROM mytable;&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Row&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;row&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;results&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;System&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;out&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;println&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;row&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getString&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;key&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;));&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;System&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;out&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;println&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;row&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getString&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;value&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;));&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;close&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;cluster&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;close&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;使用Java API或Hector API也可以执行CQL查询。&lt;/p&gt;
+&lt;h2 id=&#34;使用示例&#34;&gt;使用示例&lt;/h2&gt;
+&lt;p&gt;下面给出一个简单的示例，展示如何在Java中使用Cassandra：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;30
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;31
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;32
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;33
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;34
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;com.datastax.driver.core.Cluster&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;com.datastax.driver.core.ResultSet&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;com.datastax.driver.core.Row&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;com.datastax.driver.core.Session&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;CassandraExample&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;static&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;args&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;[])&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;Cluster&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;cluster&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Cluster&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;builder&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;addContactPoint&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;127.0.0.1&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;build&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;Session&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;session&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;cluster&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;connect&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;execute&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;CREATE KEYSPACE mykeyspace WITH replication &amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;= {&amp;#39;class&amp;#39;:&amp;#39;SimpleStrategy&amp;#39;, &amp;#39;replication_factor&amp;#39;:3};&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;execute&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;USE mykeyspace;&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;execute&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;CREATE TABLE mytable (key text PRIMARY KEY, value text);&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;execute&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;INSERT INTO mytable (key, value) VALUES (&amp;#39;key1&amp;#39;, &amp;#39;value1&amp;#39;);&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;execute&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;INSERT INTO mytable (key, value) VALUES (&amp;#39;key2&amp;#39;, &amp;#39;value2&amp;#39;);&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;execute&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;INSERT INTO mytable (key, value) VALUES (&amp;#39;key3&amp;#39;, &amp;#39;value3&amp;#39;);&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;ResultSet&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;results&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;execute&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;SELECT * FROM mytable;&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Row&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;row&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;results&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;n&#34;&gt;System&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;out&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;format&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Key: %s, Value: %s\n&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;row&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getString&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;key&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;),&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;row&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getString&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;value&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;));&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;close&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;cluster&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;close&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这个示例的作用是，首先创建一个名为&lt;code&gt;mykeyspace&lt;/code&gt;的新keyspace，并创建一个名为&lt;code&gt;mytable&lt;/code&gt;的表。然后通过执行INSERT语句向&lt;code&gt;mytable&lt;/code&gt;表中添加三行数据：key1-value1、key2-value2、key3-value3。最后查询并输出&lt;code&gt;mytable&lt;/code&gt;表中的所有数据。&lt;/p&gt;
+&lt;h2 id=&#34;总结&#34;&gt;总结&lt;/h2&gt;
+&lt;p&gt;Java和Cassandra的结合为数据管理提供了更快捷和可扩展的解决方案。在Java中，有多种方式可以将Java与Cassandra集成，最常用的是DataStax Java驱动程序和Hector API。使用Java和Cassandra要注意正确配置集群中的节点、分区和副本策略，并使用CQL进行数据建模和查询。此外，需要安装和配置Java和Cassandra，在使用之前要详细测试，以确保系统的稳定性和性能。&lt;/p&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://www.ifb.me/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" term="数据库" label="数据库" />
+                            
+                        
+                    
+                
+                    
+                
+            
+        </entry>
+    
+        <entry>
             <title type="text">从原理到实践，深入解析Spring Security中的CSRF保护机制</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/a-guide-to-csrf-protection-in-spring-security/" />
             <id>https://www.ifb.me/posts/notes/a-guide-to-csrf-protection-in-spring-security/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2023-05-13T07:18:11&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -143,7 +320,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             <title type="text">一文带你了解 ClickHouse 和 StarRocks 的选型要点</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/%E4%B8%80%E6%96%87%E5%B8%A6%E4%BD%A0%E4%BA%86%E8%A7%A3-clickhouse-%E5%92%8C-starrocks-%E7%9A%84%E9%80%89%E5%9E%8B%E8%A6%81%E7%82%B9/" />
             <id>https://www.ifb.me/posts/notes/%E4%B8%80%E6%96%87%E5%B8%A6%E4%BD%A0%E4%BA%86%E8%A7%A3-clickhouse-%E5%92%8C-starrocks-%E7%9A%84%E9%80%89%E5%9E%8B%E8%A6%81%E7%82%B9/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2023-05-05T07:18:11&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -222,7 +399,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             <title type="text">Dapr 和 ServiceMesh 的区别</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/dapr-%E5%92%8C-servicemesh-%E7%9A%84%E5%8C%BA%E5%88%AB/" />
             <id>https://www.ifb.me/posts/notes/dapr-%E5%92%8C-servicemesh-%E7%9A%84%E5%8C%BA%E5%88%AB/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2023-05-04T11:18:11&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -306,7 +483,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             <title type="text">Spring 中的 @Lookup 注解使用指南</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/@lookup-annotation-in-spring/" />
             <id>https://www.ifb.me/posts/notes/@lookup-annotation-in-spring/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2023-05-02T11:18:11&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -407,7 +584,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             <title type="text">云原生时代 Java 如何发展</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/%E4%BA%91%E5%8E%9F%E7%94%9F%E6%97%B6%E4%BB%A3-java-%E5%A6%82%E4%BD%95%E5%8F%91%E5%B1%95/" />
             <id>https://www.ifb.me/posts/notes/%E4%BA%91%E5%8E%9F%E7%94%9F%E6%97%B6%E4%BB%A3-java-%E5%A6%82%E4%BD%95%E5%8F%91%E5%B1%95/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2023-04-26T07:18:11&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -461,7 +638,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             <title type="text">一文带你理解 JVM 中堆空间和堆空间的区别</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/%E4%B8%80%E6%96%87%E5%B8%A6%E4%BD%A0%E7%90%86%E8%A7%A3-jvm-%E4%B8%AD%E5%A0%86%E7%A9%BA%E9%97%B4%E5%92%8C%E5%A0%86%E7%A9%BA%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB/" />
             <id>https://www.ifb.me/posts/notes/%E4%B8%80%E6%96%87%E5%B8%A6%E4%BD%A0%E7%90%86%E8%A7%A3-jvm-%E4%B8%AD%E5%A0%86%E7%A9%BA%E9%97%B4%E5%92%8C%E5%A0%86%E7%A9%BA%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-11-27T07:18:11&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -664,7 +841,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             <title type="text">一文带你了解使用 Drools 规则引擎进行反向推理</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/an-example-of-backward-chaining-in-drools/" />
             <id>https://www.ifb.me/posts/notes/an-example-of-backward-chaining-in-drools/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-11-12T07:18:11&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -899,7 +1076,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             <title type="text">Nocalhost &#43; JRebel: 打造 Kubernetes 下构建云原生 Java 应用的全新体验</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/nocalhost/" />
             <id>https://www.ifb.me/posts/notes/nocalhost/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-11-01T09:48:04&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -996,7 +1173,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             <title type="text">性能优化宝典之序列化</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%AE%9D%E5%85%B8%E4%B9%8B%E5%BA%8F%E5%88%97%E5%8C%96/" />
             <id>https://www.ifb.me/posts/notes/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%AE%9D%E5%85%B8%E4%B9%8B%E5%BA%8F%E5%88%97%E5%8C%96/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-10-29T09:48:04&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -1071,7 +1248,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             <title type="text">到底为什么我们需要 Clickhouse？</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/clickhouse/" />
             <id>https://www.ifb.me/posts/notes/clickhouse/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-10-25T09:48:04&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -1231,7 +1408,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             <title type="text">一文带你了解 PPT 里面如何使用合适的图表</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/ppt-chart/" />
             <id>https://www.ifb.me/posts/notes/ppt-chart/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-10-19T07:18:11&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -1370,7 +1547,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             <title type="text">两小时手撕一个 Java 版本的区块链应用程序</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/implementing-a-simple-blockchain-in-java/" />
             <id>https://www.ifb.me/posts/notes/implementing-a-simple-blockchain-in-java/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-10-18T07:18:11&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -1673,7 +1850,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             <title type="text">在 Thymeleaf 中使用日期的方法</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/how-to-work-with-dates-in-thymeleaf/" />
             <id>https://www.ifb.me/posts/notes/how-to-work-with-dates-in-thymeleaf/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-10-15T03:18:11&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -2030,7 +2207,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             <title type="text">一文教会你如何使用 Spring TaskScheduler 任务调度器</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/a-guide-to-the-spring-task-scheduler/" />
             <id>https://www.ifb.me/posts/notes/a-guide-to-the-spring-task-scheduler/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-10-14T11:18:11&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -2305,7 +2482,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             <title type="text">Spring Boot 配置 jar 包外面的 Spring Properties 文件</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/spring-properties-file-outside-jar/" />
             <id>https://www.ifb.me/posts/notes/spring-properties-file-outside-jar/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-10-13T11:18:11&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -2474,7 +2651,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             <title type="text">使用 SonarQube 进行代码分析</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/code-analysis-with-sonarqube/" />
             <id>https://www.ifb.me/posts/notes/code-analysis-with-sonarqube/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-10-13T07:18:11&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -2661,7 +2838,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             <title type="text">要想学会 PowerMock 看这一篇文章就够了</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/powermock/" />
             <id>https://www.ifb.me/posts/notes/powermock/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-10-09T11:18:11&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -2946,7 +3123,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             <title type="text">我们应该关闭 Java Stream 吗？</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/should-we-close-a-java-stream/" />
             <id>https://www.ifb.me/posts/notes/should-we-close-a-java-stream/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-10-07T11:18:11&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -3080,7 +3257,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             <title type="text">Arrays.asList 与 new ArrayList(Arrays.asList()) 的区别</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/arrays.aslist-vs-new-arraylistarrays.aslist/" />
             <id>https://www.ifb.me/posts/notes/arrays.aslist-vs-new-arraylistarrays.aslist/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-10-07T07:18:11&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -3210,7 +3387,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             <title type="text">从 JUnit 4 迁移到 JUnit 5</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/migrating-from-junit-4-to-junit-5/" />
             <id>https://www.ifb.me/posts/notes/migrating-from-junit-4-to-junit-5/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-10-07T03:18:11&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -3614,7 +3791,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             <title type="text">使用 Spring Security 手动验证用户</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/manually-authenticate-user-with-spring-security/" />
             <id>https://www.ifb.me/posts/notes/manually-authenticate-user-with-spring-security/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-10-06T11:18:11&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -3704,7 +3881,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             <title type="text">Spring Boot 管理员指南</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/a-guide-to-spring-boot-admin/" />
             <id>https://www.ifb.me/posts/notes/a-guide-to-spring-boot-admin/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-10-06T07:18:11&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -4196,7 +4373,7 @@ spring.boot.admin.notify.hipchat.url=https://yourcompany.hipchat.com/v2/
             <title type="text">JVM 日志伪造</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/jvm-log-forging/" />
             <id>https://www.ifb.me/posts/notes/jvm-log-forging/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-10-04T07:18:11&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -4352,7 +4529,7 @@ web - 2017-04-12 17:47:08,957 [main] INFO Amount reversed successfully
             <title type="text">AspectJ 中的 Joinpoint 与 ProceedingJoinPoint</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/joinpoint-vs.-proceedingjoinpoint-in-aspectj/" />
             <id>https://www.ifb.me/posts/notes/joinpoint-vs.-proceedingjoinpoint-in-aspectj/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-10-04T03:18:11&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -4511,7 +4688,7 @@ web - 2017-04-12 17:47:08,957 [main] INFO Amount reversed successfully
             <title type="text">Paths.get 和 Path.of 的区别</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/differences-between-paths.get-and-path.of/" />
             <id>https://www.ifb.me/posts/notes/differences-between-paths.get-and-path.of/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-10-03T11:18:11&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -4579,7 +4756,7 @@ web - 2017-04-12 17:47:08,957 [main] INFO Amount reversed successfully
             <title type="text">配置 Spring Security 登录后重定向到不同的页面</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/redirect-to-different-pages-after-login-with-spring-security/" />
             <id>https://www.ifb.me/posts/notes/redirect-to-different-pages-after-login-with-spring-security/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-10-03T07:18:11&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -4944,7 +5121,7 @@ web - 2017-04-12 17:47:08,957 [main] INFO Amount reversed successfully
             <title type="text">Jess 规则引擎和 JSR 94</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/jess-rule-engine-and-jsr-94/" />
             <id>https://www.ifb.me/posts/notes/jess-rule-engine-and-jsr-94/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-10-02T11:18:11&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -5458,7 +5635,7 @@ web - 2017-04-12 17:47:08,957 [main] INFO Amount reversed successfully
             <title type="text">Spring JPA 使用指南</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/jpa-with-spring/" />
             <id>https://www.ifb.me/posts/notes/jpa-with-spring/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-10-02T07:18:11&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -5862,7 +6039,7 @@ spring.datasource.url=
             <title type="text">Java 9 CompletableFuture API 接口的改进</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/java-9-completablefuture-api-improvements/" />
             <id>https://www.ifb.me/posts/notes/java-9-completablefuture-api-improvements/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-10-02T03:18:11&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -6086,7 +6263,7 @@ spring.datasource.url=
             <title type="text">Spring Security 配置 Remember Me</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/spring-security-remember-me/" />
             <id>https://www.ifb.me/posts/notes/spring-security-remember-me/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-10-01T11:18:11&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -6364,7 +6541,7 @@ spring.datasource.url=
             <title type="text">浅谈 Java GC</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/java-gc/" />
             <id>https://www.ifb.me/posts/notes/java-gc/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-10-01T09:48:04&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -6506,7 +6683,7 @@ spring.datasource.url=
             <title type="text">Spring Cloud Consul 入门指引</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/spring-cloud-consul/" />
             <id>https://www.ifb.me/posts/notes/spring-cloud-consul/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-09-30T09:48:04&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -6882,7 +7059,7 @@ spring.datasource.url=
             <title type="text">浅谈 Mock Server</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/%E6%B5%85%E8%B0%88-mock-server/" />
             <id>https://www.ifb.me/posts/notes/%E6%B5%85%E8%B0%88-mock-server/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-09-20T09:48:04&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -7163,7 +7340,7 @@ Maven 引入&lt;/p&gt;
             <title type="text">什么？还搞不清楚 MySQL 和 Redis 事务的区别？</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/mysql-%E5%92%8C-redis-%E4%BA%8B%E5%8A%A1%E5%AE%9E%E7%8E%B0%E5%AF%B9%E6%AF%94/" />
             <id>https://www.ifb.me/posts/notes/mysql-%E5%92%8C-redis-%E4%BA%8B%E5%8A%A1%E5%AE%9E%E7%8E%B0%E5%AF%B9%E6%AF%94/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-08-01T09:48:04&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -7271,7 +7448,7 @@ Maven 引入&lt;/p&gt;
             <title type="text">程序员知识图谱-RocketMQ</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/rocketmq/" />
             <id>https://www.ifb.me/posts/notes/rocketmq/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-07-31T09:20:04&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -7430,7 +7607,7 @@ Maven 引入&lt;/p&gt;
             <title type="text">在 Gradle 设置跳过测试</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/skipping-tests-with-gradle/" />
             <id>https://www.ifb.me/posts/notes/skipping-tests-with-gradle/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-07-31T03:18:11&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -7615,7 +7792,7 @@ Maven 引入&lt;/p&gt;
             <title type="text">浅谈 Golang 插件机制</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/%E6%B5%85%E8%B0%88-golang-%E6%8F%92%E4%BB%B6%E6%9C%BA%E5%88%B6/" />
             <id>https://www.ifb.me/posts/notes/%E6%B5%85%E8%B0%88-golang-%E6%8F%92%E4%BB%B6%E6%9C%BA%E5%88%B6/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-07-30T09:48:04&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -7744,7 +7921,7 @@ Maven 引入&lt;/p&gt;
             <title type="text">稳定性保障的方法论</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%BF%9D%E9%9A%9C%E7%9A%84%E6%96%B9%E6%B3%95%E8%AE%BA/" />
             <id>https://www.ifb.me/posts/notes/%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%BF%9D%E9%9A%9C%E7%9A%84%E6%96%B9%E6%B3%95%E8%AE%BA/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-07-29T09:48:04&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -7915,7 +8092,7 @@ Maven 引入&lt;/p&gt;
             <title type="text">Redis - 听说 Dragonfly 宣称比我快 25 倍</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/dragonfly/" />
             <id>https://www.ifb.me/posts/notes/dragonfly/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-07-28T09:48:04&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -8034,7 +8211,7 @@ Maven 引入&lt;/p&gt;
             <title type="text">程序员知识图谱-MySQL</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/mysql/" />
             <id>https://www.ifb.me/posts/notes/mysql/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-07-28T09:48:04&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -8205,7 +8382,7 @@ sync_binlog = N(N&amp;gt;1) 的时候，表示每次提交事务都 write，但�
             <title type="text">程序员知识图谱-MySQL 索引</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/mysql-%E7%B4%A2%E5%BC%95/" />
             <id>https://www.ifb.me/posts/notes/mysql-%E7%B4%A2%E5%BC%95/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-07-28T09:48:04&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -8278,7 +8455,7 @@ sync_binlog = N(N&amp;gt;1) 的时候，表示每次提交事务都 write，但�
             <title type="text">程序员知识图谱-乐观锁和悲观锁</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81/" />
             <id>https://www.ifb.me/posts/notes/%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-07-28T09:48:04&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -8404,7 +8581,7 @@ sync_binlog = N(N&amp;gt;1) 的时候，表示每次提交事务都 write，但�
             <title type="text">程序员知识图谱-网络</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/network/" />
             <id>https://www.ifb.me/posts/notes/network/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-07-28T09:48:04&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -8565,7 +8742,7 @@ net.ipv4.tcp_tw_recycle = 1
             <title type="text">架构整洁之道笔记</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/%E6%9E%B6%E6%9E%84%E6%95%B4%E6%B4%81%E4%B9%8B%E9%81%93%E7%AC%94%E8%AE%B0/" />
             <id>https://www.ifb.me/posts/notes/%E6%9E%B6%E6%9E%84%E6%95%B4%E6%B4%81%E4%B9%8B%E9%81%93%E7%AC%94%E8%AE%B0/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-07-28T09:48:04&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -8644,7 +8821,7 @@ net.ipv4.tcp_tw_recycle = 1
             <title type="text">程序员知识图谱-Redis</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/redis/" />
             <id>https://www.ifb.me/posts/notes/redis/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-07-27T09:48:04&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -9110,7 +9287,7 @@ net.ipv4.tcp_tw_recycle = 1
             <title type="text">程序员知识图谱-Java 内存溢出的排查方法</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/java-%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/" />
             <id>https://www.ifb.me/posts/notes/java-%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-07-19T15:48:04&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -9326,7 +9503,7 @@ net.ipv4.tcp_tw_recycle = 1
             <title type="text">Golang GPM 原理介绍</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/archive/golang-gpm%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/" />
             <id>https://www.ifb.me/posts/archive/golang-gpm%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-05-10T20:38:17&#43;00:00</published>
             <author>
                     <name>noone</name>
@@ -9416,7 +9593,7 @@ net.ipv4.tcp_tw_recycle = 1
             <title type="text">Spring Shell 的 CLI 使用方法</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/a-cli-with-spring-shell/" />
             <id>https://www.ifb.me/posts/notes/a-cli-with-spring-shell/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-05-10T07:18:11&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -9989,7 +10166,7 @@ net.ipv4.tcp_tw_recycle = 1
             <title type="text">一文带你了解 GraphQL 和 REST 的区别和使用场景</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/graphql-vs-rest/" />
             <id>https://www.ifb.me/posts/notes/graphql-vs-rest/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2022-04-09T11:18:11&#43;08:00</published>
             <author>
                     <name>noone</name>
@@ -10474,7 +10651,7 @@ net.ipv4.tcp_tw_recycle = 1
             <title type="text">如何实现三个线程轮流输出1-100</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/archive/multi-thread-print-100/" />
             <id>https://www.ifb.me/posts/archive/multi-thread-print-100/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2019-09-21T20:38:17&#43;00:00</published>
             <author>
                     <name>noone</name>
@@ -10681,7 +10858,7 @@ net.ipv4.tcp_tw_recycle = 1
             <title type="text">程序员知识图谱-微服务分布式事务</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/archive/java-transaction/" />
             <id>https://www.ifb.me/posts/archive/java-transaction/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2019-08-10T09:38:17&#43;00:00</published>
             <author>
                     <name>noone</name>
@@ -10743,7 +10920,7 @@ fascar&lt;/p&gt;
             <title type="text">程序员知识图谱-ElasticSearch</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/archive/java-es/" />
             <id>https://www.ifb.me/posts/archive/java-es/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2019-08-09T13:38:17&#43;00:00</published>
             <author>
                     <name>noone</name>
@@ -10807,7 +10984,7 @@ master&lt;/p&gt;
             <title type="text">程序员知识图谱-微服务注册中心</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/archive/java-registry/" />
             <id>https://www.ifb.me/posts/archive/java-registry/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2019-08-08T13:38:17&#43;00:00</published>
             <author>
                     <name>noone</name>
@@ -10866,7 +11043,7 @@ master&lt;/p&gt;
             <title type="text">程序员知识图谱-微服务配置中心</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/archive/java-config/" />
             <id>https://www.ifb.me/posts/archive/java-config/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2019-08-07T20:38:17&#43;00:00</published>
             <author>
                     <name>noone</name>
@@ -10949,7 +11126,7 @@ master&lt;/p&gt;
             <title type="text">程序员知识图谱-Dubbo</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/archive/java-dubbo/" />
             <id>https://www.ifb.me/posts/archive/java-dubbo/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2019-08-06T15:38:17&#43;00:00</published>
             <author>
                     <name>noone</name>
@@ -11032,7 +11209,7 @@ Container&lt;/p&gt;
             <title type="text">程序员知识图谱-动态代理</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/archive/java-aop/" />
             <id>https://www.ifb.me/posts/archive/java-aop/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2019-08-05T20:38:17&#43;00:00</published>
             <author>
                     <name>noone</name>
@@ -11113,7 +11290,7 @@ Dubbo使用的动态代理方法
             <title type="text">程序员知识图谱-微服务限流熔断</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/archive/java-limiter/" />
             <id>https://www.ifb.me/posts/archive/java-limiter/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2019-08-04T23:22:17&#43;00:00</published>
             <author>
                     <name>noone</name>
@@ -11189,7 +11366,7 @@ Dubbo使用的动态代理方法
             <title type="text">程序员知识图谱-JVM类加载机制</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/archive/java-classloader/" />
             <id>https://www.ifb.me/posts/archive/java-classloader/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2019-08-03T23:22:17&#43;00:00</published>
             <author>
                     <name>noone</name>
@@ -11277,7 +11454,7 @@ DriverManager
             <title type="text">程序员知识图谱-网络编程</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/archive/java-io/" />
             <id>https://www.ifb.me/posts/archive/java-io/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2019-08-02T23:22:17&#43;00:00</published>
             <author>
                     <name>noone</name>
@@ -11447,7 +11624,7 @@ Future，Future.get
             <title type="text">程序员知识图谱-并发编程</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/archive/java-concurrent/" />
             <id>https://www.ifb.me/posts/archive/java-concurrent/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2019-08-01T21:22:17&#43;00:00</published>
             <author>
                     <name>noone</name>
@@ -11640,7 +11817,7 @@ volatile变量的读和写
             <title type="text">程序员知识图谱-分布式锁</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/archive/java-lock/" />
             <id>https://www.ifb.me/posts/archive/java-lock/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2019-07-31T13:22:17&#43;00:00</published>
             <author>
                     <name>noone</name>
@@ -11706,7 +11883,7 @@ redis节点可能宕机
             <title type="text">程序员知识图谱-Linux</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/archive/java-linux/" />
             <id>https://www.ifb.me/posts/archive/java-linux/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2019-07-30T11:22:17&#43;00:00</published>
             <author>
                     <name>noone</name>
@@ -11922,7 +12099,7 @@ redis节点可能宕机
             <title type="text">五种常用消息队列对比</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/notes/java-mq/" />
             <id>https://www.ifb.me/posts/notes/java-mq/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2019-07-29T21:38:17&#43;00:00</published>
             <author>
                     <name>noone</name>
@@ -12388,7 +12565,7 @@ redis节点可能宕机
             <title type="text">程序员知识图谱-Netty</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/archive/java-netty/" />
             <id>https://www.ifb.me/posts/archive/java-netty/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2019-07-28T20:38:17&#43;00:00</published>
             <author>
                     <name>noone</name>
@@ -12486,7 +12663,7 @@ Channel的操作结果&lt;/p&gt;
             <title type="text">程序员知识图谱-内存溢出</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/archive/java-oom/" />
             <id>https://www.ifb.me/posts/archive/java-oom/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2019-07-27T10:38:17&#43;00:00</published>
             <author>
                     <name>noone</name>
@@ -12598,7 +12775,7 @@ Survivor Eden与Survivor区的大小比值
             <title type="text">常见 Java 面试题总结</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/archive/ali-interview/" />
             <id>https://www.ifb.me/posts/archive/ali-interview/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2019-07-27T08:38:17&#43;00:00</published>
             <author>
                     <name>noone</name>
@@ -12767,7 +12944,7 @@ JDK epoll的BUG，Netty是怎么解决的,如何解决TCP粘包和拆包的问�
             <title type="text">程序员知识图谱-Redis</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/archive/java-redis/" />
             <id>https://www.ifb.me/posts/archive/java-redis/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2019-07-26T12:38:17&#43;00:00</published>
             <author>
                     <name>noone</name>
@@ -13100,7 +13277,7 @@ CPU不是瓶颈点，IO是瓶颈点，单线程够用也简单&lt;/p&gt;
             <title type="text">MySQL 数据库常见面试题总结</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/archive/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93/" />
             <id>https://www.ifb.me/posts/archive/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2019-07-25T20:38:17&#43;00:00</published>
             <author>
                     <name>noone</name>
@@ -13520,7 +13697,7 @@ CPU不是瓶颈点，IO是瓶颈点，单线程够用也简单&lt;/p&gt;
             <title type="text">程序员知识图谱-垃圾回收</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/archive/java-gc/" />
             <id>https://www.ifb.me/posts/archive/java-gc/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2019-07-24T20:38:17&#43;00:00</published>
             <author>
                     <name>noone</name>
@@ -13680,7 +13857,7 @@ Parallel Scavenge收集器的老年代版本&lt;/p&gt;
             <title type="text">程序员知识图谱-计算机网络</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/archive/java-network/" />
             <id>https://www.ifb.me/posts/archive/java-network/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2019-07-23T20:38:17&#43;00:00</published>
             <author>
                     <name>noone</name>
@@ -13742,7 +13919,7 @@ Parallel Scavenge收集器的老年代版本&lt;/p&gt;
             <title type="text">通过Ngrok实现内网穿透</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/archive/install-ngrok/" />
             <id>https://www.ifb.me/posts/archive/install-ngrok/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2019-07-22T20:38:17&#43;00:00</published>
             <author>
                     <name>noone</name>
@@ -13821,7 +13998,7 @@ sudo make release-client
             <title type="text">在Debian上搭建FTP服务器</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/archive/install-ftp-indebian/" />
             <id>https://www.ifb.me/posts/archive/install-ftp-indebian/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2019-07-21T20:38:17&#43;00:00</published>
             <author>
                     <name>noone</name>
@@ -14032,7 +14209,7 @@ systemctl restart vsftpd 或 service vsftpd restart
             <title type="text">如何将一台老电脑改造为docker服务器</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/archive/install-linux-in-old-computer/" />
             <id>https://www.ifb.me/posts/archive/install-linux-in-old-computer/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2019-07-20T20:38:17&#43;00:00</published>
             <author>
                     <name>noone</name>
@@ -14096,7 +14273,7 @@ sudo systemctl restart docker
             <title type="text">Windows下配置Hexo博客的方法</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/archive/config-hexo-in-windows/" />
             <id>https://www.ifb.me/posts/archive/config-hexo-in-windows/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2018-09-23T20:38:17&#43;00:00</published>
             <author>
                     <name>noone</name>
@@ -14184,7 +14361,7 @@ hexo g
             <title type="text">使用Redis实现实时展示页面访问量排名的方法</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/archive/get_topn_count_with_redis/" />
             <id>https://www.ifb.me/posts/archive/get_topn_count_with_redis/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2018-09-23T20:38:17&#43;00:00</published>
             <author>
                     <name>noone</name>
@@ -14248,7 +14425,7 @@ ZREM title_count baidu.com bing.com
             <title type="text">HBase常用命令</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/archive/hbase-example/" />
             <id>https://www.ifb.me/posts/archive/hbase-example/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2018-07-07T20:11:17&#43;00:00</published>
             <author>
                     <name>noone</name>
@@ -14348,7 +14525,7 @@ deteteall &#39;sogou:search_detail&#39;, &#39;rowKey001&#39;&lt;/p&gt;
             <title type="text">将已存在的代码提交到Github管理的方法</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/archive/git-add-code-to-exists-repo/" />
             <id>https://www.ifb.me/posts/archive/git-add-code-to-exists-repo/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2018-01-22T14:38:17&#43;00:00</published>
             <author>
                     <name>noone</name>
@@ -14419,7 +14596,7 @@ deteteall &#39;sogou:search_detail&#39;, &#39;rowKey001&#39;&lt;/p&gt;
             <title type="text">Guava中实现线程异步回调机制探索</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/archive/guava-thread-listen/" />
             <id>https://www.ifb.me/posts/archive/guava-thread-listen/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2017-10-31T20:38:17&#43;00:00</published>
             <author>
                     <name>noone</name>
@@ -14501,7 +14678,7 @@ deteteall &#39;sogou:search_detail&#39;, &#39;rowKey001&#39;&lt;/p&gt;
             <title type="text">Java代码块的加载顺序总结</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/archive/java-class-code-block-load-order/" />
             <id>https://www.ifb.me/posts/archive/java-class-code-block-load-order/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2017-10-31T20:38:17&#43;00:00</published>
             <author>
                     <name>noone</name>
@@ -14553,7 +14730,7 @@ deteteall &#39;sogou:search_detail&#39;, &#39;rowKey001&#39;&lt;/p&gt;
             <title type="text">MAC上安装Telnet的方法</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/archive/install-brew-in-mac/" />
             <id>https://www.ifb.me/posts/archive/install-brew-in-mac/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2017-10-31T20:38:17&#43;00:00</published>
             <author>
                     <name>noone</name>
@@ -14596,7 +14773,7 @@ Press RETURN to continue or any other key to abort
             <title type="text">见贤思齐</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/archive/learn-from-others/" />
             <id>https://www.ifb.me/posts/archive/learn-from-others/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2017-10-31T20:38:17&#43;00:00</published>
             <author>
                     <name>noone</name>
@@ -14636,7 +14813,7 @@ Press RETURN to continue or any other key to abort
             <title type="text">一种显示目录结构的方法</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/archive/show-dir/" />
             <id>https://www.ifb.me/posts/archive/show-dir/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2017-10-31T20:38:17&#43;00:00</published>
             <author>
                     <name>noone</name>
@@ -14702,7 +14879,7 @@ $ find . | sed -e &amp;#39;s;[^/]*/;|___;g;s;___|; |;g&amp;#39;
             <title type="text">配置 Kafka Exactly-Once 消费的方法</title>
             <link rel="alternate" type="text/html" href="https://www.ifb.me/posts/archive/%E9%85%8D%E7%BD%AEkafka-exactly-once%E6%B6%88%E8%B4%B9%E7%9A%84%E6%96%B9%E6%B3%95/" />
             <id>https://www.ifb.me/posts/archive/%E9%85%8D%E7%BD%AEkafka-exactly-once%E6%B6%88%E8%B4%B9%E7%9A%84%E6%96%B9%E6%B3%95/</id>
-            <updated>2023-05-13T16:32:06&#43;00:00</updated>
+            <updated>2023-05-13T23:47:22&#43;00:00</updated>
             <published>2017-09-22T20:38:17&#43;00:00</published>
             <author>
                     <name>noone</name>
