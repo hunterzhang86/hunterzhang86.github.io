@@ -23,10 +23,130 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
         
-        <lastBuildDate>Sat, 13 May 2023 15:35:36 &#43;0000</lastBuildDate>
+        <lastBuildDate>Sat, 13 May 2023 15:47:28 &#43;0000</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://www.ifb.me/rss.xml" />
         
+        
+            <item>
+                <title>从原理到实践，深入解析Spring Security中的CSRF保护机制</title>
+                <link>https://www.ifb.me/posts/notes/a-guide-to-csrf-protection-in-spring-security/</link>
+                <guid isPermaLink="true">https://www.ifb.me/posts/notes/a-guide-to-csrf-protection-in-spring-security/</guid>
+                <pubDate>Sat, 13 May 2023 07:18:11 &#43;0800</pubDate>
+                
+                    <author>hunterzhang86@gmail.com (noone)</author>
+                
+                <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
+                
+                    <description>&lt;p&gt;随着Web应用程序的普及和发展，网络攻击成为了一个严重的问题。其中，CSRF（Cross-Site Request Forgery）攻击是一种非常常见的攻击方式。攻击者可以利用这种漏洞欺骗用户执行恶意操作，如恶意转账、修改用户信息等。为了提高应用程序的安全性，我们必须采取措施保护Web应用程序，其中之一就是CSRF保护机制。本文将介绍Spring Security中的CSRF保护机制，并提供一些示例和实践建议，以帮助开发人员实现更安全的Web应用程序。&lt;/p&gt;
+&lt;h2 id=&#34;csrf攻击&#34;&gt;CSRF攻击&lt;/h2&gt;
+&lt;p&gt;CSRF攻击的本质是攻击者以用户身份执行恶意操作。攻击者创建一个附带恶意代码的页面，网站用户在该页面上执行一个请求，此请求可能会修改用户账户状态，注销用户等等。当用户通过已登陆的状态访问正常网站时，此攻击的请求已被自动执行。尽管该攻击不会直接获得用户的个人信息，但数据丢失的后果也是可怕的。&lt;/p&gt;
+&lt;p&gt;假设你有一个应用程序，其中包含一个修改个人资料的页面：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-html&#34; data-lang=&#34;html&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;form&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;action&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;http://bank.com/withdraw.asp&amp;#34;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;method&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;post&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;input&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;hidden&amp;#34;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;account&amp;#34;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;value&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;myaccount&amp;#34;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;input&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;hidden&amp;#34;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;amount&amp;#34;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;value&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;1000000&amp;#34;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;input&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;submit&amp;#34;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;value&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;转账&amp;#34;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;form&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;攻击者可以创建一个带有恶意代码的邮件，当用户打开邮件时，该攻击就会自动启动。攻击代码可能如下所示：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;&amp;lt;img src=&amp;#34;http://yourbank.com/withdraw.asp?account=myaccount&amp;amp;amount=1000000&amp;#34;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这种攻击方式将使用户执行网站上的不良操作，而不是他们想要的操作。&lt;/p&gt;
+&lt;h2 id=&#34;csrf保护机制&#34;&gt;CSRF保护机制&lt;/h2&gt;
+&lt;p&gt;为了保护Web应用程序免受CSRF攻击，我们可以使用 Spring Security 提供的CSRF保护机制。其工作原理是在请求表单中添加一个CSRF token，该 token 在客户端生成，然后在服务端进行验证。Spring Security提供了以下三种方式进行CSRF保护：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Synchronizer Token Pattern&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Synchronizer Token Pattern是最常见的CSRF保护方式，工作流程如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;服务端为用户生成随机的token并添加到表单中&lt;/li&gt;
+&lt;li&gt;用户提交表单时，该随机token会被一起提交到服务器端&lt;/li&gt;
+&lt;li&gt;服务端验证该token是否与用户提交的一致&lt;/li&gt;
+&lt;li&gt;如果一致，请求会被允许，如果不一致，请求将被拒绝&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;以下是一个表单的示例，其中包含一个随机生成的token：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;&amp;lt;form method=&amp;#34;post&amp;#34;&amp;gt;
+  &amp;lt;input type=&amp;#34;hidden&amp;#34; name=&amp;#34;csrf_token&amp;#34; value=&amp;#34;mGa7b5YnWNJBK8R8WdXsjSBBH7mC4sDv&amp;#34;&amp;gt;
+  &amp;lt;input type=&amp;#34;text&amp;#34; name=&amp;#34;text_field&amp;#34;&amp;gt;
+  &amp;lt;input type=&amp;#34;submit&amp;#34; name=&amp;#34;submit&amp;#34;&amp;gt;
+&amp;lt;/form&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;Double Submit Cookie Pattern&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Double Submit Cookie Pattern是另一种常见的CSRF保护机制，工作流程如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;当用户访问Web应用程序时，服务器会创建一个随机生成的token并将其保存为cookie&lt;/li&gt;
+&lt;li&gt;当用户向服务器发送请求时，表单和一个包含 token 的cookie都会被提交到服务器&lt;/li&gt;
+&lt;li&gt;服务器验证提交的cookie和表单中的token是否一致&lt;/li&gt;
+&lt;li&gt;如果cookie和token一致，则请求将被允许，否则请求将被拒绝&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;以下是一个表单和保存在cookie中的 token 的示例：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;&amp;lt;form method=&amp;#34;post&amp;#34;&amp;gt;
+  &amp;lt;input type=&amp;#34;text&amp;#34; name=&amp;#34;text_field&amp;#34;&amp;gt;
+  &amp;lt;input type=&amp;#34;submit&amp;#34; name=&amp;#34;submit&amp;#34;&amp;gt;
+&amp;lt;/form&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;在启用Double Submit Cookie Pattern时，Spring Security将自动验证cookie和请求中的表单中的token是否一致。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Custom CSRF Filter&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Custom CSRF Filter允许我们自定义CSRF保护机制。该机制使用的是AOP（Aspect-Oriented Programming），通过处理前置和后置通知来控制CSRF攻击。我们可以编写一个自定义的过滤器，实现修改跨站脚本语言攻击的请求表单、验证CSRF token 或任何其他自定义逻辑。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;@Bean
+public CSRFFilter csrfFilter() {
+    CSRFFilter filter = new CSRFFilter();
+    return filter;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;在此示例中，我们创建了一个名为csrffilter的bean，并通过它启用我们的自定义CSRF保护机制。&lt;/p&gt;
+&lt;p&gt;以上三种方式都可以保护Web应用程序免受CSRF攻击，我们可以根据具体的应用程序需求进行选择。&lt;/p&gt;
+&lt;h2 id=&#34;csrf保护实现示例&#34;&gt;CSRF保护实现示例&lt;/h2&gt;
+&lt;p&gt;在Spring Security中实现CSRF保护非常简单，我们只需要在配置文件中启用CSRF保护，并在表单中添加CSRF token。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1.启用Spring Security中的CSRF保护&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;要启用Spring Security中的CSRF保护，我们需要在 Spring Security 配置中设置csrf()，如下所示：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;@Configuration
+@EnableWebSecurity
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+ 
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf();
+    }
+ 
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;在这个示例中，我们启用了Spring Security中的CSRF保护并将其应用到http配置中。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2.在表单中添加CSRF token&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在表单中添加CSRF token非常简单，可以使用Spring Security中的CSRF标签，如下所示：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;&amp;lt;form action=&amp;#34;/submit&amp;#34; method=&amp;#34;post&amp;#34;&amp;gt;
+    &amp;lt;!--A CSRF token to prevent CSRF attacks--&amp;gt;
+    &amp;lt;input type=&amp;#34;hidden&amp;#34; name=&amp;#34;${_csrf.parameterName}&amp;#34; value=&amp;#34;${_csrf.token}&amp;#34; /&amp;gt;
+    &amp;lt;input type=&amp;#34;text&amp;#34; name=&amp;#34;text_field&amp;#34; /&amp;gt;
+    &amp;lt;input type=&amp;#34;submit&amp;#34; name=&amp;#34;submit&amp;#34; value=&amp;#34;Submit&amp;#34; /&amp;gt;
+&amp;lt;/form&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;在此示例中，我们使用 Spring Security中的_csrf参数名称 和 _csrf的token值来添加CSRF token。当表单提交时，Spring Security会自动检查该token以确保表单的请求是有效且没有被篡改。&lt;/p&gt;
+&lt;h2 id=&#34;结论&#34;&gt;结论&lt;/h2&gt;
+&lt;p&gt;本文介绍了CSRF攻击的原理、对Web应用程序的威胁和使用Spring Security中的CSRF保护机制来保护Web应用程序的方法。我们了解了 Spring Security 中三种不同的CSRF保护机制，即同步器令牌模式、双重提交Cookie模式和自定义CSRF过滤器。对于安全性高的Web应用程序，这些机制是必不可少的，并应该恰当地应用于程序的实现中。&lt;/p&gt;
+</description>
+                
+                
+                
+                
+                
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://www.ifb.me/categories/%E5%AE%89%E5%85%A8/">安全</category>
+                                
+                            
+                        
+                    
+                        
+                    
+                
+            </item>
         
             <item>
                 <title>一文带你了解 ClickHouse 和 StarRocks 的选型要点</title>
@@ -14507,121 +14627,6 @@ $ find . | sed -e &amp;#39;s;[^/]*/;|___;g;s;___|; |;g&amp;#39;
                                     <category domain="https://www.ifb.me/tags/mq/">MQ</category>
                                 
                             
-                        
-                    
-                
-            </item>
-        
-            <item>
-                <title>从原理到实践，深入解析Spring Security中的CSRF保护机制</title>
-                <link>https://www.ifb.me/posts/notes/a-guide-to-csrf-protection-in-spring-security/</link>
-                <guid isPermaLink="true">https://www.ifb.me/posts/notes/a-guide-to-csrf-protection-in-spring-security/</guid>
-                <pubDate>Mon, 01 Jan 0001 00:00:00 &#43;0000</pubDate>
-                
-                    <author>hunterzhang86@gmail.com (noone)</author>
-                
-                <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
-                
-                    <description>&lt;p&gt;随着Web应用程序的普及和发展，网络攻击成为了一个严重的问题。其中，CSRF（Cross-Site Request Forgery）攻击是一种非常常见的攻击方式。攻击者可以利用这种漏洞欺骗用户执行恶意操作，如恶意转账、修改用户信息等。为了提高应用程序的安全性，我们必须采取措施保护Web应用程序，其中之一就是CSRF保护机制。本文将介绍Spring Security中的CSRF保护机制，并提供一些示例和实践建议，以帮助开发人员实现更安全的Web应用程序。&lt;/p&gt;
-&lt;h2 id=&#34;csrf攻击&#34;&gt;CSRF攻击&lt;/h2&gt;
-&lt;p&gt;CSRF攻击的本质是攻击者以用户身份执行恶意操作。攻击者创建一个附带恶意代码的页面，网站用户在该页面上执行一个请求，此请求可能会修改用户账户状态，注销用户等等。当用户通过已登陆的状态访问正常网站时，此攻击的请求已被自动执行。尽管该攻击不会直接获得用户的个人信息，但数据丢失的后果也是可怕的。&lt;/p&gt;
-&lt;p&gt;假设你有一个应用程序，其中包含一个修改个人资料的页面：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-html&#34; data-lang=&#34;html&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;form&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;action&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;http://bank.com/withdraw.asp&amp;#34;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;method&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;post&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;input&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;hidden&amp;#34;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;account&amp;#34;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;value&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;myaccount&amp;#34;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;input&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;hidden&amp;#34;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;amount&amp;#34;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;value&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;1000000&amp;#34;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;input&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;submit&amp;#34;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;value&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;转账&amp;#34;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;form&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;攻击者可以创建一个带有恶意代码的邮件，当用户打开邮件时，该攻击就会自动启动。攻击代码可能如下所示：&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;&amp;lt;img src=&amp;#34;http://yourbank.com/withdraw.asp?account=myaccount&amp;amp;amount=1000000&amp;#34;&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这种攻击方式将使用户执行网站上的不良操作，而不是他们想要的操作。&lt;/p&gt;
-&lt;h2 id=&#34;csrf保护机制&#34;&gt;CSRF保护机制&lt;/h2&gt;
-&lt;p&gt;为了保护Web应用程序免受CSRF攻击，我们可以使用 Spring Security 提供的CSRF保护机制。其工作原理是在请求表单中添加一个CSRF token，该 token 在客户端生成，然后在服务端进行验证。Spring Security提供了以下三种方式进行CSRF保护：&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Synchronizer Token Pattern&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;Synchronizer Token Pattern是最常见的CSRF保护方式，工作流程如下：&lt;/p&gt;
-&lt;p&gt;• 服务端为用户生成随机的token并添加到表单中
-• 用户提交表单时，该随机token会被一起提交到服务器端
-• 服务端验证该token是否与用户提交的一致
-• 如果一致，请求会被允许，如果不一致，请求将被拒绝&lt;/p&gt;
-&lt;p&gt;以下是一个表单的示例，其中包含一个随机生成的token：&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;&amp;lt;form method=&amp;#34;post&amp;#34;&amp;gt;
-  &amp;lt;input type=&amp;#34;hidden&amp;#34; name=&amp;#34;csrf_token&amp;#34; value=&amp;#34;mGa7b5YnWNJBK8R8WdXsjSBBH7mC4sDv&amp;#34;&amp;gt;
-  &amp;lt;input type=&amp;#34;text&amp;#34; name=&amp;#34;text_field&amp;#34;&amp;gt;
-  &amp;lt;input type=&amp;#34;submit&amp;#34; name=&amp;#34;submit&amp;#34;&amp;gt;
-&amp;lt;/form&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;Double Submit Cookie Pattern&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;Double Submit Cookie Pattern是另一种常见的CSRF保护机制，工作流程如下：&lt;/p&gt;
-&lt;p&gt;• 当用户访问Web应用程序时，服务器会创建一个随机生成的token并将其保存为cookie
-• 当用户向服务器发送请求时，表单和一个包含 token 的cookie都会被提交到服务器
-• 服务器验证提交的cookie和表单中的token是否一致
-• 如果cookie和token一致，则请求将被允许，否则请求将被拒绝&lt;/p&gt;
-&lt;p&gt;以下是一个表单和保存在cookie中的 token 的示例：&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;&amp;lt;form method=&amp;#34;post&amp;#34;&amp;gt;
-  &amp;lt;input type=&amp;#34;text&amp;#34; name=&amp;#34;text_field&amp;#34;&amp;gt;
-  &amp;lt;input type=&amp;#34;submit&amp;#34; name=&amp;#34;submit&amp;#34;&amp;gt;
-&amp;lt;/form&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;在启用Double Submit Cookie Pattern时，Spring Security将自动验证cookie和请求中的表单中的token是否一致。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Custom CSRF Filter&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;Custom CSRF Filter允许我们自定义CSRF保护机制。该机制使用的是AOP（Aspect-Oriented Programming），通过处理前置和后置通知来控制CSRF攻击。我们可以编写一个自定义的过滤器，实现修改跨站脚本语言攻击的请求表单、验证CSRF token 或任何其他自定义逻辑。&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;@Bean
-public CSRFFilter csrfFilter() {
-    CSRFFilter filter = new CSRFFilter();
-    return filter;
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;在此示例中，我们创建了一个名为csrffilter的bean，并通过它启用我们的自定义CSRF保护机制。&lt;/p&gt;
-&lt;p&gt;以上三种方式都可以保护Web应用程序免受CSRF攻击，我们可以根据具体的应用程序需求进行选择。&lt;/p&gt;
-&lt;h2 id=&#34;csrf保护实现示例&#34;&gt;CSRF保护实现示例&lt;/h2&gt;
-&lt;p&gt;在Spring Security中实现CSRF保护非常简单，我们只需要在配置文件中启用CSRF保护，并在表单中添加CSRF token。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;1.启用Spring Security中的CSRF保护&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;要启用Spring Security中的CSRF保护，我们需要在 Spring Security 配置中设置csrf()，如下所示：&lt;/p&gt;
-&lt;p&gt;@Configuration
-@EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;@Override
-protected void configure(HttpSecurity http) throws Exception {
-    http.csrf();
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;}&lt;/p&gt;
-&lt;p&gt;在这个示例中，我们启用了Spring Security中的CSRF保护并将其应用到http配置中。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;2.在表单中添加CSRF token&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;在表单中添加CSRF token非常简单，可以使用Spring Security中的CSRF标签，如下所示：&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;&amp;lt;form action=&amp;#34;/submit&amp;#34; method=&amp;#34;post&amp;#34;&amp;gt;
-    &amp;lt;!--A CSRF token to prevent CSRF attacks--&amp;gt;
-    &amp;lt;input type=&amp;#34;hidden&amp;#34; name=&amp;#34;${_csrf.parameterName}&amp;#34; value=&amp;#34;${_csrf.token}&amp;#34; /&amp;gt;
-    &amp;lt;input type=&amp;#34;text&amp;#34; name=&amp;#34;text_field&amp;#34; /&amp;gt;
-    &amp;lt;input type=&amp;#34;submit&amp;#34; name=&amp;#34;submit&amp;#34; value=&amp;#34;Submit&amp;#34; /&amp;gt;
-&amp;lt;/form&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;在此示例中，我们使用 Spring Security中的_csrf参数名称 和 _csrf的token值来添加CSRF token。当表单提交时，Spring Security会自动检查该token以确保表单的请求是有效且没有被篡改。&lt;/p&gt;
-&lt;h2 id=&#34;结论&#34;&gt;结论&lt;/h2&gt;
-&lt;p&gt;本文介绍了CSRF攻击的原理、对Web应用程序的威胁和使用Spring Security中的CSRF保护机制来保护Web应用程序的方法。我们了解了 Spring Security 中三种不同的CSRF保护机制，即同步器令牌模式、双重提交Cookie模式和自定义CSRF过滤器。对于安全性高的Web应用程序，这些机制是必不可少的，并应该恰当地应用于程序的实现中。&lt;/p&gt;
-</description>
-                
-                
-                
-                
-                
-                    
-                        
-                            
-                                
-                                
-                                
-                                    <category domain="https://www.ifb.me/categories/%E5%AE%89%E5%85%A8/">安全</category>
-                                
-                            
-                        
-                    
                         
                     
                 
