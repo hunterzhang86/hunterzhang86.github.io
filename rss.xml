@@ -10,7 +10,7 @@
         <title>NoOne&#39;s Blog</title>
         <link>https://www.ifb.me/</link>
         <description>NoOne 的技术分享，主要的博客内容包括云原生、微服务、低代码、Java 以及 Golang</description>
-        <generator>Hugo 0.112.6 https://gohugo.io/</generator>
+        <generator>Hugo 0.112.7 https://gohugo.io/</generator>
         
             <language>zh-CN</language>
         
@@ -23,7 +23,7 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
         
-        <lastBuildDate>Fri, 02 Jun 2023 07:47:29 &#43;0000</lastBuildDate>
+        <lastBuildDate>Fri, 02 Jun 2023 15:47:27 &#43;0000</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://www.ifb.me/rss.xml" />
         
