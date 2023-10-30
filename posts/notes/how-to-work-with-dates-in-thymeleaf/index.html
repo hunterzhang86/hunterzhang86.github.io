@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.119.0"><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.120.0"><meta name="theme-color" content="#fff" />
     <meta name="color-scheme" content="light dark">
 
     
@@ -57,7 +57,7 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2022-10-15T03:18:11+08:00",
-        "dateModified": "2023-10-30T07:47:36+00:00",
+        "dateModified": "2023-10-30T15:47:34+00:00",
         "url": "https://www.ifb.me/posts/notes/how-to-work-with-dates-in-thymeleaf/",
         "headline": "在 Thymeleaf 中使用日期的方法",
         "description": "1。介绍 Thymeleaf 是一个 Java 模板引擎，能够直接与 Spring 一起工作。有关 Thymeleaf 和 Spring 的介绍，请查看 this writ……",
@@ -108,7 +108,7 @@
 <meta property="og:locale" content="zh" /><meta property="og:image" content="https://www.baeldung.com/wp-content/uploads/2017/01/Zrzut-ekranu-2017-01-09-11.11.18-300x186.png" />
 <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2022-10-15T03:18:11&#43;08:00" />
-    <meta property="article:modified_time" content="2023-10-30T07:47:36&#43;00:00" />
+    <meta property="article:modified_time" content="2023-10-30T15:47:34&#43;00:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -225,7 +225,7 @@
     
     
         
-        <time datetime="2023-10-30T07:47:36&#43;00:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;2023.10.30</time>
+        <time datetime="2023-10-30T15:47:34&#43;00:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;2023.10.30</time>
     
     
     
@@ -321,13 +321,13 @@
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">ISpringTemplateEngine</span> <span class="nf">templateEngine</span><span class="o">(</span><span class="n">ITemplateResolver</span> <span class="n">templateResolver</span><span class="o">)</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">SpringTemplateEngine</span> <span class="n">engine</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SpringTemplateEngine</span><span class="o">();</span>
-</span></span><span class="line"><span class="cl">    <span class="n">engine</span><span class="o">.</span><span class="na">addDialect</span><span class="o">(</span><span class="k">new</span> <span class="n">Java8TimeDialect</span><span class="o">());</span>
-</span></span><span class="line"><span class="cl">    <span class="n">engine</span><span class="o">.</span><span class="na">setTemplateResolver</span><span class="o">(</span><span class="n">templateResolver</span><span class="o">);</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">engine</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span><span class="w"> </span><span class="n">ISpringTemplateEngine</span><span class="w"> </span><span class="nf">templateEngine</span><span class="p">(</span><span class="n">ITemplateResolver</span><span class="w"> </span><span class="n">templateResolver</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">SpringTemplateEngine</span><span class="w"> </span><span class="n">engine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SpringTemplateEngine</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">engine</span><span class="p">.</span><span class="na">addDialect</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Java8TimeDialect</span><span class="p">());</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">engine</span><span class="p">.</span><span class="na">setTemplateResolver</span><span class="p">(</span><span class="n">templateResolver</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">engine</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>这将添加类似于标准方言中的 #<em>temporals</em> 对象，允许从 Thymeleaf 模板格式化和创建 <em>Temporal</em> 对象。</p>
 <p>为了测试新旧类的处理，我们将创建以下变量并将它们作为模型对象添加到我们的控制器类中：</p>
@@ -339,11 +339,11 @@
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">model</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">&#34;standardDate&#34;</span><span class="o">,</span> <span class="k">new</span> <span class="n">Date</span><span class="o">());</span>
-</span></span><span class="line"><span class="cl"><span class="n">model</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">&#34;localDateTime&#34;</span><span class="o">,</span> <span class="n">LocalDateTime</span><span class="o">.</span><span class="na">now</span><span class="o">());</span>
-</span></span><span class="line"><span class="cl"><span class="n">model</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">&#34;localDate&#34;</span><span class="o">,</span> <span class="n">LocalDate</span><span class="o">.</span><span class="na">now</span><span class="o">());</span>
-</span></span><span class="line"><span class="cl"><span class="n">model</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">&#34;timestamp&#34;</span><span class="o">,</span> <span class="n">Instant</span><span class="o">.</span><span class="na">now</span><span class="o">());</span>
-</span></span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">model</span><span class="p">.</span><span class="na">addAttribute</span><span class="p">(</span><span class="s">&#34;standardDate&#34;</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Date</span><span class="p">());</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">model</span><span class="p">.</span><span class="na">addAttribute</span><span class="p">(</span><span class="s">&#34;localDateTime&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">now</span><span class="p">());</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">model</span><span class="p">.</span><span class="na">addAttribute</span><span class="p">(</span><span class="s">&#34;localDate&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">LocalDate</span><span class="p">.</span><span class="na">now</span><span class="p">());</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">model</span><span class="p">.</span><span class="na">addAttribute</span><span class="p">(</span><span class="s">&#34;timestamp&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">Instant</span><span class="p">.</span><span class="na">now</span><span class="p">());</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>现在，我们准备好使用 Thymeleaf 的 <em>Expression</em> 和 <em>Temporals</em> 实用程序对象了。</p>
 <h3 id="31格式化日期"><a href="#31格式化日期" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><strong>3.1。格式化日期</strong></h3>
@@ -501,11 +501,11 @@
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Student</span> <span class="kd">implements</span> <span class="n">Serializable</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nd">@DateTimeFormat</span><span class="o">(</span><span class="n">pattern</span> <span class="o">=</span> <span class="s">&#34;yyyy-MM-dd&#34;</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Date</span> <span class="n">birthDate</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Student</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Serializable</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@DateTimeFormat</span><span class="p">(</span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#34;yyyy-MM-dd&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Date</span><span class="w"> </span><span class="n">birthDate</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p><em>@DateTimeFormat</em> 注释声明 <em>birthDate</em> 字段应格式化为 <em>a Date</em>。</p>
 <p>接下来，我们将创建一个 Thymeleaf 表单来提交 <em>Date</em> 输入：</p>
@@ -544,12 +544,12 @@
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;/saveStudent&#34;</span><span class="o">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">RequestMethod</span><span class="o">.</span><span class="na">POST</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">saveStudent</span><span class="o">(</span><span class="n">Model</span> <span class="n">model</span><span class="o">,</span> <span class="nd">@ModelAttribute</span><span class="o">(</span><span class="s">&#34;student&#34;</span><span class="o">)</span> <span class="n">Student</span> <span class="n">student</span><span class="o">)</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">model</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">&#34;student&#34;</span><span class="o">,</span> <span class="n">student</span><span class="o">);</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;datePicker/displayDate.html&#34;</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#34;/saveStudent&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RequestMethod</span><span class="p">.</span><span class="na">POST</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">saveStudent</span><span class="p">(</span><span class="n">Model</span><span class="w"> </span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="nd">@ModelAttribute</span><span class="p">(</span><span class="s">&#34;student&#34;</span><span class="p">)</span><span class="w"> </span><span class="n">Student</span><span class="w"> </span><span class="n">student</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">model</span><span class="p">.</span><span class="na">addAttribute</span><span class="p">(</span><span class="s">&#34;student&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">student</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="s">&#34;datePicker/displayDate.html&#34;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>提交表单后，我们将在另一个页面上显示 <em>birthDate</em> 值，格式为 <em>dd/MM/yyyy</em>：</p>
 <div class="highlight"><div class="chroma">
@@ -599,7 +599,7 @@
 
         
     <div class="updated-badge-container">
-        <span title="Updated @ 2023-10-30 07:47:36 UTC" style="cursor:help">
+        <span title="Updated @ 2023-10-30 15:47:34 UTC" style="cursor:help">
 
 <p>更多分享请扫描二维码关注微信公众号 <em><strong>NoOneNoOne</strong></em></p>
 <p><img src="https://blog.fflow.link/images/qrcode.jpeg" alt=""></p>

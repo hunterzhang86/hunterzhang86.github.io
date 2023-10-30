@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.119.0"><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.120.0"><meta name="theme-color" content="#fff" />
     <meta name="color-scheme" content="light dark">
 
     
@@ -57,7 +57,7 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2022-10-01T11:18:11+08:00",
-        "dateModified": "2023-10-30T07:47:36+00:00",
+        "dateModified": "2023-10-30T15:47:34+00:00",
         "url": "https://www.ifb.me/posts/notes/spring-security-remember-me/",
         "headline": "Spring Security 配置 Remember Me",
         "description": "1。概述 本教程将展示如何使用 Spring Security 在 Web 应用程序中启用和配置 Remember Me。之前已经讨论过设置安……",
@@ -107,7 +107,7 @@
 <meta property="og:locale" content="zh" /><meta property="og:image" content="https://www.ifb.me/icons/apple-touch-icon.png" />
     <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2022-10-01T11:18:11&#43;08:00" />
-    <meta property="article:modified_time" content="2023-10-30T07:47:36&#43;00:00" />
+    <meta property="article:modified_time" content="2023-10-30T15:47:34&#43;00:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -224,7 +224,7 @@
     
     
         
-        <time datetime="2023-10-30T07:47:36&#43;00:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;2023.10.30</time>
+        <time datetime="2023-10-30T15:47:34&#43;00:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;2023.10.30</time>
     
     
     
@@ -305,46 +305,46 @@
 </span><span class="lnt">39
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
-</span></span><span class="line"><span class="cl"><span class="nd">@EnableWebSecurity</span>
-</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SecSecurityConfig</span> <span class="kd">extends</span> <span class="n">WebSecurityConfigurerAdapter</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span><span class="o">(</span><span class="s">&#34;authenticationManager&#34;</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
-</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">AuthenticationManager</span> <span class="nf">authenticationManagerBean</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="kd">super</span><span class="o">.</span><span class="na">authenticationManagerBean</span><span class="o">();</span>
-</span></span><span class="line"><span class="cl">    <span class="o">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="nd">@Autowired</span>
-</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">configureGlobal</span><span class="o">(</span><span class="n">AuthenticationManagerBuilder</span> <span class="n">auth</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">auth</span><span class="o">.</span><span class="na">inMemoryAuthentication</span><span class="o">()</span>
-</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">withUser</span><span class="o">(</span><span class="s">&#34;user1&#34;</span><span class="o">).</span><span class="na">password</span><span class="o">(</span><span class="s">&#34;{noop}user1Pass&#34;</span><span class="o">).</span><span class="na">roles</span><span class="o">(</span><span class="s">&#34;USER&#34;</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">and</span><span class="o">()</span>
-</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">withUser</span><span class="o">(</span><span class="s">&#34;admin1&#34;</span><span class="o">).</span><span class="na">password</span><span class="o">(</span><span class="s">&#34;{noop}admin1Pass&#34;</span><span class="o">).</span><span class="na">roles</span><span class="o">(</span><span class="s">&#34;ADMIN&#34;</span><span class="o">);</span>
-</span></span><span class="line"><span class="cl">    <span class="o">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
-</span></span><span class="line"><span class="cl">    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">(</span><span class="kd">final</span> <span class="n">HttpSecurity</span> <span class="n">http</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">http</span><span class="o">.</span><span class="na">authorizeRequests</span><span class="o">()</span>
-</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">antMatchers</span><span class="o">(</span><span class="s">&#34;/anonymous*&#34;</span><span class="o">).</span><span class="na">anonymous</span><span class="o">()</span>
-</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">antMatchers</span><span class="o">(</span><span class="s">&#34;/login*&#34;</span><span class="o">).</span><span class="na">permitAll</span><span class="o">()</span>
-</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">anyRequest</span><span class="o">().</span><span class="na">authenticated</span><span class="o">()</span>
-</span></span><span class="line"><span class="cl">            
-</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">and</span><span class="o">()</span>
-</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">formLogin</span><span class="o">()</span>
-</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">loginPage</span><span class="o">(</span><span class="s">&#34;/login.html&#34;</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">loginProcessingUrl</span><span class="o">(</span><span class="s">&#34;/login&#34;</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">failureUrl</span><span class="o">(</span><span class="s">&#34;/login.html?error=true&#34;</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">            
-</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">and</span><span class="o">()</span>
-</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">logout</span><span class="o">().</span><span class="na">deleteCookies</span><span class="o">(</span><span class="s">&#34;JSESSIONID&#34;</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">            
-</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">and</span><span class="o">()</span>
-</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">rememberMe</span><span class="o">().</span><span class="na">key</span><span class="o">(</span><span class="s">&#34;uniqueAndSecret&#34;</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">            <span class="o">;</span>
-</span></span><span class="line"><span class="cl">    <span class="o">}</span>
-</span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nd">@EnableWebSecurity</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">SecSecurityConfig</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">WebSecurityConfigurerAdapter</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Bean</span><span class="p">(</span><span class="s">&#34;authenticationManager&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Override</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">AuthenticationManager</span><span class="w"> </span><span class="nf">authenticationManagerBean</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="kd">super</span><span class="p">.</span><span class="na">authenticationManagerBean</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Autowired</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">configureGlobal</span><span class="p">(</span><span class="n">AuthenticationManagerBuilder</span><span class="w"> </span><span class="n">auth</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">auth</span><span class="p">.</span><span class="na">inMemoryAuthentication</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">withUser</span><span class="p">(</span><span class="s">&#34;user1&#34;</span><span class="p">).</span><span class="na">password</span><span class="p">(</span><span class="s">&#34;{noop}user1Pass&#34;</span><span class="p">).</span><span class="na">roles</span><span class="p">(</span><span class="s">&#34;USER&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">and</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">withUser</span><span class="p">(</span><span class="s">&#34;admin1&#34;</span><span class="p">).</span><span class="na">password</span><span class="p">(</span><span class="s">&#34;{noop}admin1Pass&#34;</span><span class="p">).</span><span class="na">roles</span><span class="p">(</span><span class="s">&#34;ADMIN&#34;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Override</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">configure</span><span class="p">(</span><span class="kd">final</span><span class="w"> </span><span class="n">HttpSecurity</span><span class="w"> </span><span class="n">http</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">http</span><span class="p">.</span><span class="na">authorizeRequests</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">antMatchers</span><span class="p">(</span><span class="s">&#34;/anonymous*&#34;</span><span class="p">).</span><span class="na">anonymous</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">antMatchers</span><span class="p">(</span><span class="s">&#34;/login*&#34;</span><span class="p">).</span><span class="na">permitAll</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">anyRequest</span><span class="p">().</span><span class="na">authenticated</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">and</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">formLogin</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">loginPage</span><span class="p">(</span><span class="s">&#34;/login.html&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">loginProcessingUrl</span><span class="p">(</span><span class="s">&#34;/login&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">failureUrl</span><span class="p">(</span><span class="s">&#34;/login.html?error=true&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">and</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">logout</span><span class="p">().</span><span class="na">deleteCookies</span><span class="p">(</span><span class="s">&#34;JSESSIONID&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">and</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">rememberMe</span><span class="p">().</span><span class="na">key</span><span class="p">(</span><span class="s">&#34;uniqueAndSecret&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>如您所见，<strong>使用 <em>rememberMe()</em> 的基本配置</strong>非常简单，同时通过附加选项保证可扩展性。 <em><strong>key</strong></em> 在这里很重要——它是整个应用程序的私有秘钥，将在生成令牌的内容时使用。</p>
 <p>此外，可以使用 <em>tokenValiditySeconds()</em> 将 ** 令牌有效时间从默认的 2 周配置为** - 例如 - 一天：</p>
@@ -353,8 +353,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">rememberMe</span><span class="o">().</span><span class="na">key</span><span class="o">(</span><span class="s">&#34;uniqueAndSecret&#34;</span><span class="o">).</span><span class="na">tokenValiditySeconds</span><span class="o">(</span><span class="mi">86400</span><span class="o">)</span>
-</span></span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">rememberMe</span><span class="p">().</span><span class="na">key</span><span class="p">(</span><span class="s">&#34;uniqueAndSecret&#34;</span><span class="p">).</span><span class="na">tokenValiditySeconds</span><span class="p">(</span><span class="n">86400</span><span class="p">)</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>我们还可以看看等价的 XML 配置：</p>
 <div class="highlight"><div class="chroma">
@@ -381,27 +381,27 @@
 </span><span class="lnt">20
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="o">&lt;</span><span class="n">http</span> <span class="n">use</span><span class="o">-</span><span class="n">expressions</span><span class="o">=</span><span class="s">&#34;true&#34;</span><span class="o">&gt;</span>
-</span></span><span class="line"><span class="cl">    <span class="o">&lt;</span><span class="n">intercept</span><span class="o">-</span><span class="n">url</span> <span class="n">pattern</span><span class="o">=</span><span class="s">&#34;/anonymous*&#34;</span> <span class="n">access</span><span class="o">=</span><span class="s">&#34;isAnonymous()&#34;</span> <span class="o">/&gt;</span>
-</span></span><span class="line"><span class="cl">    <span class="o">&lt;</span><span class="n">intercept</span><span class="o">-</span><span class="n">url</span> <span class="n">pattern</span><span class="o">=</span><span class="s">&#34;/login*&#34;</span> <span class="n">access</span><span class="o">=</span><span class="s">&#34;permitAll&#34;</span> <span class="o">/&gt;</span>
-</span></span><span class="line"><span class="cl">    <span class="o">&lt;</span><span class="n">intercept</span><span class="o">-</span><span class="n">url</span> <span class="n">pattern</span><span class="o">=</span><span class="s">&#34;/**&#34;</span> <span class="n">access</span><span class="o">=</span><span class="s">&#34;isAuthenticated()&#34;</span> <span class="o">/&gt;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="o">&lt;</span><span class="n">form</span><span class="o">-</span><span class="n">login</span> <span class="n">login</span><span class="o">-</span><span class="n">page</span><span class="o">=</span><span class="err">&#39;</span><span class="o">/</span><span class="n">login</span><span class="o">.</span><span class="na">html</span><span class="err">&#39;</span>
-</span></span><span class="line"><span class="cl">      <span class="n">authentication</span><span class="o">-</span><span class="n">failure</span><span class="o">-</span><span class="n">url</span><span class="o">=</span><span class="s">&#34;/login.html?error=true&#34;</span> <span class="o">/&gt;</span>
-</span></span><span class="line"><span class="cl">    <span class="o">&lt;</span><span class="n">logout</span> <span class="n">delete</span><span class="o">-</span><span class="n">cookies</span><span class="o">=</span><span class="s">&#34;JSESSIONID&#34;</span> <span class="o">/&gt;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="o">&lt;</span><span class="n">remember</span><span class="o">-</span><span class="n">me</span> <span class="n">key</span><span class="o">=</span><span class="s">&#34;uniqueAndSecret&#34;</span><span class="o">/&gt;</span>
-</span></span><span class="line"><span class="cl"><span class="o">&lt;/</span><span class="n">http</span><span class="o">&gt;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="o">&lt;</span><span class="n">authentication</span><span class="o">-</span><span class="n">manager</span> <span class="n">id</span><span class="o">=</span><span class="s">&#34;authenticationManager&#34;</span><span class="o">&gt;</span>
-</span></span><span class="line"><span class="cl">    <span class="o">&lt;</span><span class="n">authentication</span><span class="o">-</span><span class="n">provider</span><span class="o">&gt;</span>
-</span></span><span class="line"><span class="cl">        <span class="o">&lt;</span><span class="n">user</span><span class="o">-</span><span class="n">service</span><span class="o">&gt;</span>
-</span></span><span class="line"><span class="cl">            <span class="o">&lt;</span><span class="n">user</span> <span class="n">name</span><span class="o">=</span><span class="s">&#34;user1&#34;</span> <span class="n">password</span><span class="o">=</span><span class="s">&#34;{noop}user1Pass&#34;</span> <span class="n">authorities</span><span class="o">=</span><span class="s">&#34;ROLE_USER&#34;</span> <span class="o">/&gt;</span>
-</span></span><span class="line"><span class="cl">            <span class="o">&lt;</span><span class="n">user</span> <span class="n">name</span><span class="o">=</span><span class="s">&#34;admin1&#34;</span> <span class="n">password</span><span class="o">=</span><span class="s">&#34;{noop}admin1Pass&#34;</span> <span class="n">authorities</span><span class="o">=</span><span class="s">&#34;ROLE_ADMIN&#34;</span> <span class="o">/&gt;</span>
-</span></span><span class="line"><span class="cl">        <span class="o">&lt;/</span><span class="n">user</span><span class="o">-</span><span class="n">service</span><span class="o">&gt;</span>
-</span></span><span class="line"><span class="cl">    <span class="o">&lt;/</span><span class="n">authentication</span><span class="o">-</span><span class="n">provider</span><span class="o">&gt;</span>
-</span></span><span class="line"><span class="cl"><span class="o">&lt;/</span><span class="n">authentication</span><span class="o">-</span><span class="n">manager</span><span class="o">&gt;</span>
-</span></span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="o">&lt;</span><span class="n">http</span><span class="w"> </span><span class="n">use</span><span class="o">-</span><span class="n">expressions</span><span class="o">=</span><span class="s">&#34;true&#34;</span><span class="o">&gt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="o">&lt;</span><span class="n">intercept</span><span class="o">-</span><span class="n">url</span><span class="w"> </span><span class="n">pattern</span><span class="o">=</span><span class="s">&#34;/anonymous*&#34;</span><span class="w"> </span><span class="n">access</span><span class="o">=</span><span class="s">&#34;isAnonymous()&#34;</span><span class="w"> </span><span class="o">/&gt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="o">&lt;</span><span class="n">intercept</span><span class="o">-</span><span class="n">url</span><span class="w"> </span><span class="n">pattern</span><span class="o">=</span><span class="s">&#34;/login*&#34;</span><span class="w"> </span><span class="n">access</span><span class="o">=</span><span class="s">&#34;permitAll&#34;</span><span class="w"> </span><span class="o">/&gt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="o">&lt;</span><span class="n">intercept</span><span class="o">-</span><span class="n">url</span><span class="w"> </span><span class="n">pattern</span><span class="o">=</span><span class="s">&#34;/**&#34;</span><span class="w"> </span><span class="n">access</span><span class="o">=</span><span class="s">&#34;isAuthenticated()&#34;</span><span class="w"> </span><span class="o">/&gt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="o">&lt;</span><span class="n">form</span><span class="o">-</span><span class="n">login</span><span class="w"> </span><span class="n">login</span><span class="o">-</span><span class="n">page</span><span class="o">=</span><span class="err">&#39;</span><span class="o">/</span><span class="n">login</span><span class="p">.</span><span class="na">html</span><span class="err">&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="n">authentication</span><span class="o">-</span><span class="n">failure</span><span class="o">-</span><span class="n">url</span><span class="o">=</span><span class="s">&#34;/login.html?error=true&#34;</span><span class="w"> </span><span class="o">/&gt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="o">&lt;</span><span class="n">logout</span><span class="w"> </span><span class="n">delete</span><span class="o">-</span><span class="n">cookies</span><span class="o">=</span><span class="s">&#34;JSESSIONID&#34;</span><span class="w"> </span><span class="o">/&gt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="o">&lt;</span><span class="n">remember</span><span class="o">-</span><span class="n">me</span><span class="w"> </span><span class="n">key</span><span class="o">=</span><span class="s">&#34;uniqueAndSecret&#34;</span><span class="o">/&gt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">&lt;/</span><span class="n">http</span><span class="o">&gt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">&lt;</span><span class="n">authentication</span><span class="o">-</span><span class="n">manager</span><span class="w"> </span><span class="n">id</span><span class="o">=</span><span class="s">&#34;authenticationManager&#34;</span><span class="o">&gt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="o">&lt;</span><span class="n">authentication</span><span class="o">-</span><span class="n">provider</span><span class="o">&gt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="o">&lt;</span><span class="n">user</span><span class="o">-</span><span class="n">service</span><span class="o">&gt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="o">&lt;</span><span class="n">user</span><span class="w"> </span><span class="n">name</span><span class="o">=</span><span class="s">&#34;user1&#34;</span><span class="w"> </span><span class="n">password</span><span class="o">=</span><span class="s">&#34;{noop}user1Pass&#34;</span><span class="w"> </span><span class="n">authorities</span><span class="o">=</span><span class="s">&#34;ROLE_USER&#34;</span><span class="w"> </span><span class="o">/&gt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="o">&lt;</span><span class="n">user</span><span class="w"> </span><span class="n">name</span><span class="o">=</span><span class="s">&#34;admin1&#34;</span><span class="w"> </span><span class="n">password</span><span class="o">=</span><span class="s">&#34;{noop}admin1Pass&#34;</span><span class="w"> </span><span class="n">authorities</span><span class="o">=</span><span class="s">&#34;ROLE_ADMIN&#34;</span><span class="w"> </span><span class="o">/&gt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="o">&lt;/</span><span class="n">user</span><span class="o">-</span><span class="n">service</span><span class="o">&gt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="o">&lt;/</span><span class="n">authentication</span><span class="o">-</span><span class="n">provider</span><span class="o">&gt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">&lt;/</span><span class="n">authentication</span><span class="o">-</span><span class="n">manager</span><span class="o">&gt;</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="3登录表格"><a href="#3登录表格" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><strong>3。登录表格</strong></h2>
 <p>登录表单类似于<a href="https://www.baeldung.com/spring-security-login#login-form" target="_blank" rel="noopener" title="A basic Login Form">我们用于表单登录的那个</a>：</p>
@@ -474,8 +474,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="o">.</span><span class="na">rememberMe</span><span class="o">().</span><span class="na">rememberMeParameter</span><span class="o">(</span><span class="s">&#34;remember-me-new&#34;</span><span class="o">)</span>
-</span></span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="p">.</span><span class="na">rememberMe</span><span class="p">().</span><span class="na">rememberMeParameter</span><span class="p">(</span><span class="s">&#34;remember-me-new&#34;</span><span class="p">)</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="4cookie"><a href="#4cookie" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><strong>4。Cookie</strong></h2>
 <p>该机制将在用户登录时创建一个额外的 cookie——&quot;remember-me&quot; cookie。</p>
@@ -527,7 +527,7 @@
 
         
     <div class="updated-badge-container">
-        <span title="Updated @ 2023-10-30 07:47:36 UTC" style="cursor:help">
+        <span title="Updated @ 2023-10-30 15:47:34 UTC" style="cursor:help">
 
 <p>更多分享请扫描二维码关注微信公众号 <em><strong>NoOneNoOne</strong></em></p>
 <p><img src="https://blog.fflow.link/images/qrcode.jpeg" alt=""></p>

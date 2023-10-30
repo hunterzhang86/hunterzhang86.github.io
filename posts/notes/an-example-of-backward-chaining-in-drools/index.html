@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.119.0"><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.120.0"><meta name="theme-color" content="#fff" />
     <meta name="color-scheme" content="light dark">
 
     
@@ -57,7 +57,7 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2022-11-12T07:18:11+08:00",
-        "dateModified": "2023-10-30T07:47:36+00:00",
+        "dateModified": "2023-10-30T15:47:34+00:00",
         "url": "https://www.ifb.me/posts/notes/an-example-of-backward-chaining-in-drools/",
         "headline": "一文带你了解使用 Drools 规则引擎进行反向推理",
         "description": "1. 概述 规则引擎在我们进行业务开发过程中使用非常广泛，比如常见的营销活动的策略定义、金……",
@@ -107,7 +107,7 @@
 <meta property="og:locale" content="zh" /><meta property="og:image" content="https://www.ifb.me/icons/apple-touch-icon.png" />
     <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2022-11-12T07:18:11&#43;08:00" />
-    <meta property="article:modified_time" content="2023-10-30T07:47:36&#43;00:00" />
+    <meta property="article:modified_time" content="2023-10-30T15:47:34&#43;00:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -224,7 +224,7 @@
     
     
         
-        <time datetime="2023-10-30T07:47:36&#43;00:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;2023.10.30</time>
+        <time datetime="2023-10-30T15:47:34&#43;00:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;2023.10.30</time>
     
     
     
@@ -358,17 +358,17 @@
 </span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Fact</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl"> 
-</span></span><span class="line"><span class="cl">    <span class="nd">@Position</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">element</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="nd">@Position</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">place</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="c1">// ...    
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
-</span></span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Fact</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Position</span><span class="p">(</span><span class="n">0</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">element</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Position</span><span class="p">(</span><span class="n">1</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">place</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// ...    </span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>在这里，我们使用 <em>@Position</em> 注解告诉 Drools 这些属性提供值的顺序。</p>
 <p>此外，我们还将创建表示结果的类：</p>
@@ -382,13 +382,13 @@
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Result</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">value</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">facts</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="o">...</span>
-</span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Result</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">value</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">facts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">...</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>最后我们就可以运行示例：</p>
 <div class="highlight"><div class="chroma">
@@ -418,30 +418,30 @@
 </span><span class="lnt">23
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BackwardChainingTest</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="nd">@Before</span>
-</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">before</span><span class="o">()</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Result</span><span class="o">();</span>
-</span></span><span class="line"><span class="cl">        <span class="n">ksession</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DroolsBeanFactory</span><span class="o">().</span><span class="na">getKieSession</span><span class="o">();</span>
-</span></span><span class="line"><span class="cl">    <span class="o">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="nd">@Test</span>
-</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenWallOfChinaIsGiven_ThenItBelongsToPlanetEarth</span><span class="o">()</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="n">ksession</span><span class="o">.</span><span class="na">setGlobal</span><span class="o">(</span><span class="s">&#34;result&#34;</span><span class="o">,</span> <span class="n">result</span><span class="o">);</span>
-</span></span><span class="line"><span class="cl">        <span class="n">ksession</span><span class="o">.</span><span class="na">insert</span><span class="o">(</span><span class="k">new</span> <span class="n">Fact</span><span class="o">(</span><span class="s">&#34;Asia&#34;</span><span class="o">,</span> <span class="s">&#34;Planet Earth&#34;</span><span class="o">));</span>
-</span></span><span class="line"><span class="cl">        <span class="n">ksession</span><span class="o">.</span><span class="na">insert</span><span class="o">(</span><span class="k">new</span> <span class="n">Fact</span><span class="o">(</span><span class="s">&#34;China&#34;</span><span class="o">,</span> <span class="s">&#34;Asia&#34;</span><span class="o">));</span>
-</span></span><span class="line"><span class="cl">        <span class="n">ksession</span><span class="o">.</span><span class="na">insert</span><span class="o">(</span><span class="k">new</span> <span class="n">Fact</span><span class="o">(</span><span class="s">&#34;Great Wall of China&#34;</span><span class="o">,</span> <span class="s">&#34;China&#34;</span><span class="o">));</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="n">ksession</span><span class="o">.</span><span class="na">fireAllRules</span><span class="o">();</span>
-</span></span><span class="line"><span class="cl">        
-</span></span><span class="line"><span class="cl">        <span class="n">assertEquals</span><span class="o">(</span>
-</span></span><span class="line"><span class="cl">          <span class="n">result</span><span class="o">.</span><span class="na">getValue</span><span class="o">(),</span>
-</span></span><span class="line"><span class="cl">          <span class="s">&#34;Decision one taken: Great Wall of China BELONGS TO Planet Earth&#34;</span><span class="o">);</span>
-</span></span><span class="line"><span class="cl">    <span class="o">}</span>
-</span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">BackwardChainingTest</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Before</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">before</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Result</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">ksession</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">DroolsBeanFactory</span><span class="p">().</span><span class="na">getKieSession</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Test</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">whenWallOfChinaIsGiven_ThenItBelongsToPlanetEarth</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">ksession</span><span class="p">.</span><span class="na">setGlobal</span><span class="p">(</span><span class="s">&#34;result&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">result</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">ksession</span><span class="p">.</span><span class="na">insert</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Fact</span><span class="p">(</span><span class="s">&#34;Asia&#34;</span><span class="p">,</span><span class="w"> </span><span class="s">&#34;Planet Earth&#34;</span><span class="p">));</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">ksession</span><span class="p">.</span><span class="na">insert</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Fact</span><span class="p">(</span><span class="s">&#34;China&#34;</span><span class="p">,</span><span class="w"> </span><span class="s">&#34;Asia&#34;</span><span class="p">));</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">ksession</span><span class="p">.</span><span class="na">insert</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Fact</span><span class="p">(</span><span class="s">&#34;Great Wall of China&#34;</span><span class="p">,</span><span class="w"> </span><span class="s">&#34;China&#34;</span><span class="p">));</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">ksession</span><span class="p">.</span><span class="na">fireAllRules</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">assertEquals</span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="n">result</span><span class="p">.</span><span class="na">getValue</span><span class="p">(),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="s">&#34;Decision one taken: Great Wall of China BELONGS TO Planet Earth&#34;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>在执行测试用例时，首先会添加给定的事实 (<code>Asia belongs to Planet Earth</code>, <code>China belongs to Asia</code>, <code>Great Wall of China belongs to China</code>).</p>
 <p>然后会使用 <em>BackwardChaining.drl</em> 中描述的规则处理事实，提供递归查询 <em>belongsTo(String x, String y).</em></p>
@@ -476,7 +476,7 @@
 
         
     <div class="updated-badge-container">
-        <span title="Updated @ 2023-10-30 07:47:36 UTC" style="cursor:help">
+        <span title="Updated @ 2023-10-30 15:47:34 UTC" style="cursor:help">
 
 <p>更多分享请扫描二维码关注微信公众号 <em><strong>NoOneNoOne</strong></em></p>
 <p><img src="https://blog.fflow.link/images/qrcode.jpeg" alt=""></p>
